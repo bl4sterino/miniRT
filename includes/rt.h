@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:39:14 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/16 14:03:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # define Y_WIN_MAX HEIGHT_WIN + CULLING_OFFSET
 # define IMAGE_BPP 4
 
-# define MALLOC_FAILED 2
-# define OPEN_FAIL 3
 # define HIDE_CURSOR 0
 
 # define CAM_X 0.0f
@@ -35,6 +33,8 @@
 # define CAM_MOVEMENT_SPEED 4.0f
 /// pixels per degree
 # define CAM_ROTATION_SPEED 15
+
+# define SCALING_COEF 1.0f
 
 # define PI 3.14159265f
 # define DEG2RAD 0.017453293f
@@ -152,24 +152,6 @@ typedef struct s_obj_parsing_data
 	t_list			*tri_list;
 }					t_obj_parsing_data;
 
-// parsing
-
-void				ft_parse_map(char *filepath, t_data *d);
-void				ft_parse_fdf_map(char *filepath, t_data *d, t_v2i size,
-						t_v2i pos);
-void				ft_print_map(t_data *d);
-void				ft_create_edges_fdf(t_data *d, t_v3i v);
-void				ft_offset_fdf_to_center(t_data *d);
-void				ft_create_edges_obj(t_data *d, int fd);
-void				ft_parse_obj_map(char *filepath, t_data *d);
-void				ft_skip_float(char *str, int *i);
-void				ft_init_var_and_capitalize(char *str, int *i, int *x);
-void				ft_update_size_x(t_v2i *size, t_v2i pos);
-int					ft_add_triangle(char *str, t_list **triangle_list);
-void				ft_add_triangles_clean(t_data *d, t_list *triangle_list);
-void				ft_push_edges_to_array(t_data *d, t_list **edge_array,
-						int edge_count);
-
 // hooks
 
 int					ft_key_down(int keycode, t_data *d);
@@ -220,7 +202,7 @@ void				ft_controls(t_data *d);
 
 // camera
 
-void				ft_camera_init(t_data *d);
+void				ft_camera_init(t_data *d, t_v3f pos, t_v3f rot);
 void				ft_camera_move(t_data *d);
 void				ft_camera_rotate(t_data *d);
 void				ft_update_rotation_data(t_data *d);

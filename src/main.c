@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:42:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/16 14:04:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,18 +40,18 @@ void	ft_data_init(t_data *d)
 	d->map.map_rotation = (t_v3f){0.0f, 0.0f, 0.0f};
 	d->map.flag_for_rebake = 1;
 	d->fpsstr = 0;
-	ft_camera_init(d);
+	ft_camera_init(d, (t_v3f){0, 0, 0}, (t_v3f){0, 0, 0});
 }
 
 int	main(int ac, char **av)
 {
 	t_data	d;
 
+	av[0][0] = '1';
 	ft_data_init(&d);
 	ft_exit_init(&d);
 	if (ac != 2)
-		return (ft_putstr_fd_ret
-			("Invalid number of arguments:\n\t./fdf path_to_map\n", 1, 0));
+		return (ft_putstr_fd("Not enough arguments\n", 2), 0);
 	gettimeofday(&(d.last_tv), 0);
 	ft_input_init(&d);
 	d.mlx = mlx_init();

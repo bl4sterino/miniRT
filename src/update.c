@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:21:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/16 14:01:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_late_update(t_data *d)
 /// to be overwritten by mlx_put_image_to_window
 void	ft_post_render(t_data *d)
 {
-	
+	(void)d;
 }
 
 int	ft_exec_updates(t_data *d)

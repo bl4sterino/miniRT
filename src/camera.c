@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:37:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/16 14:21:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,22 @@
 void	ft_camera_init(t_data *d, t_v3f pos, t_v3f rot)
 {
 	d->cam.speed = CAM_MOVEMENT_SPEED;
-	d->cam.t.pos.x = CAM_X;
-	d->cam.t.pos.y = CAM_Y;
-	d->cam.t.pos.z = CAM_Z;
-	d->cam.t.rot.x = 0.0f;
-	d->cam.t.rot.y = 0.0f;
-	d->cam.t.rot.z = 0.0f;
-	ft_update_rotation_data(d);
+	d->cam.t.pos.x = pos.x;
+	d->cam.t.pos.y = pos.y;
+	d->cam.t.pos.z = pos.z;
+	d->cam.t.rot.x = rot.x;
+	d->cam.t.rot.y = rot.y;
+	d->cam.t.rot.z = rot.z;
 }
 
 void	ft_camera_move(t_data *d)
 {
-
+	(void)d;
 }
 
 void	ft_camera_rotate(t_data *d)
 {
-	
+	(void)d;
 }
 
 void	ft_display_camera_transform(t_data *d)

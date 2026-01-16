@@ -6,52 +6,38 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2025/12/07 17:17:31 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/16 14:29:35 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS = -O3 -g3 -Wall -Wextra -Werror
+DFLAGS = -O3 -g3 -Wall -Wextra #-Werror
 MLXFLAG = -lXext -lX11 -lm
 LIBFT = libft/libft.a
 LIBFT_DEBUG = libft/libft_DEBUG.a
 MLX = minilibx-linux/libmlx_Linux.a
 
-NAME = fdf
-D_NAME = fdf_debug
+NAME = raytracer
+D_NAME = raytracer_debug
 
 SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR = -Iincludes -Ilibft/includes -Iminilibx-linux
 
 FILES = main\
-		ft_map_parser\
-		ft_map_parser2\
-		ft_obj_parser\
-		ft_obj_parser_edges\
-		ft_obj_parser_tri_to_edge\
-		ft_obj_parser_add_triangles_clean\
-		ft_update\
-		ft_update_render\
-		ft_key_hook\
-		ft_time\
-		ft_image\
-		ft_image2\
-		ft_draw_line\
-		ft_bresenham\
-		ft_exit\
-		ft_input\
-		ft_key_controls\
-		ft_input_get\
-		ft_focus_and_cursor\
-		ft_camera\
-		ft_camera2\
-		ft_ui\
-		ft_ui_update\
-		ft_projection\
-		ft_orthographic\
-		ft_model_rotator
+		update\
+		time\
+		image\
+		image2\
+		exit\
+		input/focus_and_cursor\
+		input/input\
+		input/input_get\
+		input/key_controls\
+		input/key_hook\
+		camera\
+		ui
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
 
@@ -80,6 +66,7 @@ $(MLX):
 	make -C minilibx-linux
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | obj
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(DEPFLAGS) $(INCLUDES_DIR) -c $< -o $@
 
 $(OBJ_DIR)%_DEBUG.o: $(SRC_DIR)%.c | obj
