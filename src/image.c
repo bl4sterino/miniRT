@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_image.c                                         :+:      :+:    :+:   */
+/*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 14:00:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/19 17:25:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,6 @@ void	ft_put_pxl_d(t_image *img, t_v2i pos, int color, float depth)
 	}
 }
 
-void	ft_put_pxl(t_image *img, t_v2i pos, int color)
-{
-	char	*pixel;
-
-	if (pos.x >= 0 && pos.x < WIDTH_WIN && pos.y >= 0 && pos.y < HEIGHT_WIN)
-	{
-		pixel = img->addr + (pos.y * img->line_size + pos.x * IMAGE_BPP);
-		*(int *)pixel = color;
-	}
-}
-
 void	ft_draw_rectangle(t_image image, t_v2i pos, t_v2i size, t_rgb color)
 {
 	t_v2i	current_pos;
@@ -62,7 +51,7 @@ void	ft_draw_rectangle(t_image image, t_v2i pos, t_v2i size, t_rgb color)
 		current_pos.x = pos.x;
 		while (current_pos.x < pos.x + size.x)
 		{
-			ft_put_pxl(&image, current_pos, rbg_color);
+			ft_put_pxl(image.addr, current_pos, rbg_color);
 			current_pos.x++;
 		}
 		current_pos.y++;

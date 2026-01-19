@@ -6,16 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:03:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 14:41:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/19 17:31:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void ft_hud_display(t_data *d)
+void	ft_hud_display(t_data *d)
 {
-	ft_draw_str(d, (t_draw_arg){(t_v2i){0, 0}, (t_v2i){70, 15},
-		(t_rgb){50, 50, 50}}, d->fpsstr);
-	ft_draw_double(d, (t_draw_arg){(t_v2i){0, 15}, (t_v2i){100, 15},
-		(t_rgb){50, 50, 50}}, "loop:", ft_clock_get(1));
+	ft_draw_str(d, (t_draw_arg){(t_v2i){0, 0}, (t_v2i){70, 15}, (t_rgb){50, 50,
+		50}}, d->fpsstr);
+	ft_draw_double(d, (t_draw_arg){(t_v2i){0, 15}, (t_v2i){100, 15}, (t_rgb){50,
+		50, 50}}, "loop:", ft_clock_get(1));
 }
