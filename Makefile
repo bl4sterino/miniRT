@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/16 14:29:35 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/19 15:35:23 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ D_NAME = raytracer_debug
 
 SRC_DIR = src/
 OBJ_DIR = obj/
-INCLUDES_DIR = -Iincludes -Ilibft/includes -Iminilibx-linux
+INCLUDES_DIR = -Iincludes -Ilibft/includes -Ilibft/includes/vectors -Iminilibx-linux
 
 FILES = main\
 		update\
@@ -36,6 +36,9 @@ FILES = main\
 		input/input_get\
 		input/key_controls\
 		input/key_hook\
+		monitoring/clock\
+		monitoring/clock_2\
+		ui/hud_display\
 		camera\
 		ui
 

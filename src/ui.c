@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ui.c                                            :+:      :+:    :+:   */
+/*   ui.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:26:42 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:14:22 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/19 11:38:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+
 
 void	ft_draw_double(t_data *d, t_draw_arg arg, char *prefix_arg, double nb)
 {
 	char	*nbstr;
 	char	*fullstr;
 
-	nbstr = ft_dtoa_p(nb, 2);
+	nbstr = ft_dtoa_p(nb, 6);
 	if (!nbstr)
 	{
 		ft_exit(MALLOC_FAILED);

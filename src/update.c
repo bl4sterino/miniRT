@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_update.c                                        :+:      :+:    :+:   */
+/*   update.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 14:01:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/19 14:41:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,38 @@ void	ft_late_update(t_data *d)
 	d->input.mouse_pos_previous.y = d->input.mouse_pos.y;
 }
 
+void ft_test()
+{
+	t_v3f result;
+
+	ft_bzero(&result, sizeof(t_v3f));
+	int i = 0;
+	ft_clock_start(1);
+	while(i < 1000000)
+	{
+		result = ft_v3f_add(result, (t_v3f){1, 1, 1});
+		i++;
+	}
+	ft_clock_set(1);
+}
+
 /// used to draw things directly on screen to prevent them
 /// to be overwritten by mlx_put_image_to_window
 void	ft_post_render(t_data *d)
 {
-	(void)d;
+	ft_test();
+	ft_hud_display(d);
 }
 
 int	ft_exec_updates(t_data *d)
 {
+	ft_clock_clear();
+	ft_clock_start(clock_frame);
 	ft_early_update(d);
 	ft_update(d);
 	ft_late_update(d);
 	mlx_put_image_to_window(d->mlx, d->window, d->image.ptr, 0, 0);
+	ft_clock_set(clock_frame);
 	ft_post_render(d);
 	d->frame_count++;
 	return (0);

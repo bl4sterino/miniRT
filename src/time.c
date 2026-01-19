@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_time.c                                          :+:      :+:    :+:   */
+/*   time.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 16:36:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:13:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/19 11:34:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,12 @@ int	ft_update_time(t_data *d)
 	}
 	d->fpsstr = fpsstr;
 	return (0);
+}
+
+double	ft_get_real_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, 0);
+	return (tv.tv_sec + tv.tv_usec / 1000000.0);
 }
