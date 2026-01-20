@@ -1,0 +1,10 @@
+{
+	"files.associations": {
+		"mlx.h": "c",
+		"fdf.h": "c",
+		"limits": "c",
+		"libft.h": "c",
+		"math.h": "c",
+		"keycodes.h": "c"
+	}
+}

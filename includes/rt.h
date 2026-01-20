@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 10:33:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 15:40:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # include "keycodes.h"
 # include "libft.h"
 # include "rt_structs.h"
+# include "scene_data.h"
 # include <math.h>
 
 // mini-rt
@@ -50,6 +51,12 @@
 # include "mlx.h"
 # include "monitoring.h"
 # include <sys/time.h>
+
+typedef enum e_malloc_id
+{
+	malloc_id_default,
+	malloc_id_parsing
+}			t_malloc_id;
 
 // hooks
 

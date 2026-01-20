@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/20 11:13:02 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/20 15:50:23 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ FILES = main\
 		input/key_hook\
 		monitoring/clock\
 		monitoring/clock_2\
+		parsing/parsing_scene\
 		ui/hud_display\
 		camera\
 		ui
