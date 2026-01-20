@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/20 10:16:42 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/20 11:13:02 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,9 +14,11 @@ CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
 DFLAGS = -O3 -g3 -Wall -Wextra #-Werror
 MLXFLAG = -lXext -lX11 -lm
-LIBFT = .libft/libft.a
-LIBFT_DEBUG = .libft/libft_DEBUG.a
-MLX = minilibx-linux/libmlx_Linux.a
+LIBFT_DIR = .libft
+LIBFT = $(LIBFT_DIR)/libft.a
+LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
+MLX_DIR = .minilibx-linux
+MLX = $(MLX_DIR)/libmlx_Linux.a
 
 NAME = raytracer
 D_NAME = raytracer_debug
@@ -24,10 +26,10 @@ D_NAME = raytracer_debug
 SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR =	-Iincludes\
-				-I.libft/includes\
-				-I.libft/includes/vectors\
-				-I.libft/includes/inlines\
-				-Iminilibx-linux 
+				-I$(LIBFT_DIR)/includes\
+				-I$(LIBFT_DIR)/includes/vectors\
+				-I$(LIBFT_DIR)/includes/inlines\
+				-I$(MLX_DIR) 
 
 FILES = main\
 		update\
@@ -70,7 +72,7 @@ debug: $(D_NAME)
 
 
 $(MLX):
-	make -C minilibx-linux
+	make -C $(MLX_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | obj
 	mkdir -p $(dir $@)
@@ -84,13 +86,13 @@ $(LIBFT): libft-rebuild
 	@true
 
 libft-rebuild:
-	make -C .libft all
+	make -C $(LIBFT_DIR) all
 
 $(LIBFT_DEBUG): libft-debug-rebuild
 	@true
 
 libft-debug-rebuild:
-	make -C .libft debug
+	make -C $(LIBFT_DIR) debug
 
 
 obj:
@@ -98,13 +100,13 @@ obj:
 
 clean:
 	rm -f $(OBJ) $(D_OBJ) $(DEP) $(D_DEP)
-	make -C .libft clean
-	make -C minilibx-linux clean
+	make -C $(LIBFT_DIR) clean
+	make -C $(MLX_DIR) clean
 
 fclean: clean
 	rm -f $(NAME) $(D_NAME)
-	make -C .libft fclean
-	make -C minilibx-linux clean
+	make -C $(LIBFT_DIR) fclean
+	make -C $(MLX_DIR) clean
 
 re: fclean all
 

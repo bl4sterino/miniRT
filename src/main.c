@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 14:37:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 11:00:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,9 @@ void	ft_data_init(t_data *d)
 	d->projection = 0;
 	d->last_tv.tv_sec = 0;
 	d->last_tv.tv_usec = 0;
-	d->map.size = (t_v2i){0, 0};
-	d->map.edges = 0;
-	d->map.points = 0;
 	d->deltatime = 0;
 	d->frame_count = 0;
 	d->input.mouse_reset = 0;
-	d->map.map_rotation = (t_v3f){0.0f, 0.0f, 0.0f};
-	d->map.flag_for_rebake = 1;
 	d->fpsstr = 0;
 	ft_camera_init(d, (t_v3f){0, 0, 0}, (t_v3f){0, 0, 0});
 }

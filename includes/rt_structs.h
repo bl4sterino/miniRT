@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 10:21:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 11:06:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,8 @@ typedef struct s_screenpoint
 	t_rgb			color;
 }					t_screenpoint;
 
-typedef struct s_map_data
-{
-	t_v2i			size;
-	int				point_count;
-	t_point			*points;
-	t_point			*rotated_points;
-	t_screenpoint	*screen_points;
-	t_v3f			map_rotation;
-	int				*edges;
-	int				edge_pairs;
-	int				flag_for_rebake;
-}					t_map_data;
-
 typedef struct t_data
 {
-	t_map_data		map;
 	void			*mlx;
 	void			*window;
 	t_image			image;
