@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 15:53:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 16:28:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_parse_test(char *finename)
 			malloc_id_parsing));
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(int_node, malloc_id_parsing));
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(v3i_node, malloc_id_parsing));
+	
 	while (line)
 	{
 		ft_str_replace(line, ",\t", ' ');
@@ -45,4 +46,5 @@ void	ft_parse_test(char *finename)
 		ft_parse_data(strs, &test, lst, 0);
 		ft_free(line);
 	}
+	
 }
