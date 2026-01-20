@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 17:05:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 10:21:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define RT_STRUCTS_H
 
 # include "rt.h"
+
+typedef struct s_rgb
+{
+	char			r;
+	char			g;
+	char			b;
+}					t_rgb;
 
 typedef struct s_image
 {

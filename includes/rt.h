@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 17:33:09 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 10:26:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,16 @@
 
 # define DELTATIME_DISPLAY_DELAY 0.0f
 
-# include "image_inlined.h"
+// Libs and struct must be included first
 # include "keycodes.h"
 # include "libft.h"
-# include "mlx.h"
-# include "monitoring.h"
 # include "rt_structs.h"
 # include <math.h>
+
+// mini-rt
+# include "image_inlined.h"
+# include "mlx.h"
+# include "monitoring.h"
 # include <sys/time.h>
 
 // hooks

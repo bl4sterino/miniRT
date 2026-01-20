@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 17:31:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/20 10:21:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 # define IMAGE_INLINED_H
 
 # include "rt.h"
-
-void				ft_put_pxl_d(t_image *img, t_v2i pos, int color,
-						float depth);
 
 static inline void	ft_put_pxl(char *imageaddr, t_v2i pos, int color)
 {
@@ -52,6 +49,8 @@ static inline int	ft_color_lerp(int color1, int color2, float t)
 	return (ret.r << 16 | ret.g << 8 | ret.b);
 }
 
+void				ft_put_pxl_d(t_image *img, t_v2i pos, int color,
+						float depth);
 void				ft_create_image(t_data *d);
 void				ft_draw_rectangle(t_image image, t_v2i pos, t_v2i size,
 						t_rgb color);
