@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/19 16:21:51 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/20 10:16:42 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
 DFLAGS = -O3 -g3 -Wall -Wextra #-Werror
 MLXFLAG = -lXext -lX11 -lm
-LIBFT = libft/libft.a
-LIBFT_DEBUG = libft/libft_DEBUG.a
+LIBFT = .libft/libft.a
+LIBFT_DEBUG = .libft/libft_DEBUG.a
 MLX = minilibx-linux/libmlx_Linux.a
 
 NAME = raytracer
@@ -24,9 +24,9 @@ D_NAME = raytracer_debug
 SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR =	-Iincludes\
-				-Ilibft/includes\
-				-Ilibft/includes/vectors\
-				-Ilibft/includes/inlines\
+				-I.libft/includes\
+				-I.libft/includes/vectors\
+				-I.libft/includes/inlines\
 				-Iminilibx-linux 
 
 FILES = main\
@@ -84,13 +84,13 @@ $(LIBFT): libft-rebuild
 	@true
 
 libft-rebuild:
-	make -C libft all
+	make -C .libft all
 
 $(LIBFT_DEBUG): libft-debug-rebuild
 	@true
 
 libft-debug-rebuild:
-	make -C libft debug
+	make -C .libft debug
 
 
 obj:
@@ -98,12 +98,12 @@ obj:
 
 clean:
 	rm -f $(OBJ) $(D_OBJ) $(DEP) $(D_DEP)
-	make -C libft clean
+	make -C .libft clean
 	make -C minilibx-linux clean
 
 fclean: clean
 	rm -f $(NAME) $(D_NAME)
-	make -C libft fclean
+	make -C .libft fclean
 	make -C minilibx-linux clean
 
 re: fclean all
