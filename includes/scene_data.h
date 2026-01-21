@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 15:34:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/21 20:00:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,20 @@ typedef struct s_scene_parsing_context
 	char				**strs;
 	t_list				*object_lst;
 }						t_scene_parsing_context;
+
+typedef struct s_scene
+{
+	int					num_spheres;
+	t_sphere			*spheres;
+	int					num_planes;
+	t_plane				*planes;
+	int					num_cylinders;
+	t_cylinder			*cylinders;
+	int					num_lights;
+	t_light				*lights;
+	t_camera			camera;
+	t_ambient_light		ambient_light;
+}						t_scene;
 
 /// METHODS
 
