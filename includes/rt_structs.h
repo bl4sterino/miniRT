@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 09:11:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/21 14:03:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,6 @@ typedef struct s_rotation_data
 	float			sin_p;
 }					t_rotation_data;
 
-typedef struct s_camera
-{
-	t_transform		t;
-	float			speed;
-	float			fov;
-	float			focal;
-	float			iso_scale;
-	t_rotation_data	rot_d;
-}					t_camera;
-
 typedef struct s_point
 {
 	t_v3f			pos;
@@ -90,7 +80,6 @@ typedef struct t_data
 	double			deltatime;
 	struct timeval	last_tv;
 	char			*fpsstr;
-	t_camera		cam;
 	int				projection;
 	unsigned long	frame_count;
 }					t_data;

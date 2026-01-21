@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 16:26:38 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/21 14:45:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ void	ft_data_init(t_data *d)
 	d->frame_count = 0;
 	d->input.mouse_reset = 0;
 	d->fpsstr = 0;
-	ft_camera_init(d, (t_v3f){0, 0, 0}, (t_v3f){0, 0, 0});
 }
-void	ft_parse_test(char *finename);
 
 int	main(int ac, char **av)
 {
@@ -46,8 +44,8 @@ int	main(int ac, char **av)
 	ft_data_init(&d);
 	ft_exit_init(&d);
 	if (ac != 2)
-		return (ft_putstr_fd("Not enough arguments\n", 2), 0);
-	ft_parse_test(av[1]);
+		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
+	ft_parse_map(av[1]);
 	gettimeofday(&(d.last_tv), 0);
 	ft_input_init(&d);
 	d.mlx = mlx_init();

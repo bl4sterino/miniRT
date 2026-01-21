@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 09:11:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/21 14:04:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # include "image_inlined.h"
 # include "mlx.h"
 # include "monitoring.h"
+# include <stddef.h>
 # include <sys/time.h>
 
 typedef enum e_malloc_id
@@ -88,11 +89,8 @@ void		ft_controls(t_data *d);
 
 // camera
 
-void		ft_camera_init(t_data *d, t_v3f pos, t_v3f rot);
 void		ft_camera_move(t_data *d);
 void		ft_camera_rotate(t_data *d);
-void		ft_update_rotation_data(t_data *d);
-void		ft_display_camera_transform(t_data *d);
 
 // time
 
