@@ -6,17 +6,12 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 15:40:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/21 09:11:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
-
-# define WIDTH_WIN 1280
-# define HEIGHT_WIN 720
-
-# define LINE_SIZE WIDTH_WIN * 4
 
 # define IMAGE_BPP 4
 

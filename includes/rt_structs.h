@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 15:35:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/21 09:11:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,13 @@
 # define RT_STRUCTS_H
 
 # include "rt.h"
+
+enum e_dimensions
+{
+	WIDTH_WIN = 1280,
+	HEIGHT_WIN = 720,
+	LINE_SIZE = WIDTH_WIN * 4
+};
 
 typedef struct s_rgb
 {

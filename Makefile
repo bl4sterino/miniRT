@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/20 16:29:03 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/21 08:11:28 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
 DFLAGS = -g3 -Wall -Wextra #-Werror
 MLXFLAG = -lXext -lX11 -lm
-LIBFT_DIR = .libft
+LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
 MLX_DIR = .minilibx-linux
