@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 14:03:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 12:01:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,11 @@ typedef struct t_data
 	int				projection;
 	unsigned long	frame_count;
 }					t_data;
+
+typedef struct s_ray
+{
+	t_v3d		origin;
+	t_v3d		direction;
+}	t_ray;
 
 #endif

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/22 11:09:53 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/22 12:04:20 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,7 @@ FILES = main\
 		parsing/parsing_sp_pl_cy\
 		parsing/parsing_scene_builder_A_C_L\
 		parsing/parsing_scene_builder_sp_pl_cy\
+		parsing/parsing_normalization\
 		parsing/parsing_error\
 		ui/hud_display\
 		camera\

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 11:11:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 12:00:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	ft_extract_spheres(scene, lst);
 	ft_extract_planes(scene, lst);
 	ft_extract_cylinder(scene, lst);
+	ft_normalize_vectors(scene);
 	return (scene);
 }
 

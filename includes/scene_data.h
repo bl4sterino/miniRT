@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 11:10:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 12:02:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_ambient_light
 typedef struct s_camera
 {
 	t_v3d				position;
-	t_v3d				forward;
+	t_v3d				direction;
 	double				fov;
 }						t_camera;
 
@@ -142,5 +142,7 @@ void					ft_extract_lights(t_scene *scene, t_list *lst);
 void					ft_extract_spheres(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
 void					ft_extract_cylinder(t_scene *scene, t_list *lst);
+
+void					ft_normalize_vectors(t_scene *scene);
 
 #endif
