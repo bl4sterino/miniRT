@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 14:53:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 18:10:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ typedef struct s_image
 	int				endian;
 }					t_image;
 
-typedef struct s_transform
-{
-	t_v3f			pos;
-	t_v3f			rot;
-}					t_transform;
-
 typedef struct s_rotation_data
 {
 	float			yaw;
@@ -55,21 +49,6 @@ typedef struct s_rotation_data
 	float			sin_p;
 }					t_rotation_data;
 
-typedef struct s_point
-{
-	t_v3f			pos;
-	t_rgb			color;
-}					t_point;
-
-// Parsing
-
-typedef struct s_screenpoint
-{
-	int				x;
-	int				y;
-	float			depth;
-	t_rgb			color;
-}					t_screenpoint;
 
 typedef struct t_data
 {
@@ -80,7 +59,6 @@ typedef struct t_data
 	double			deltatime;
 	struct timeval	last_tv;
 	char			*fpsstr;
-	int				projection;
 	unsigned long	frame_count;
 	t_scene			*scene;
 }					t_data;
