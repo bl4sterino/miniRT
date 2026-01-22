@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 20:00:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 08:00:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,8 @@ typedef struct s_scene_parsing_context
 
 typedef struct s_scene
 {
+	t_ambient_light		ambient_light;
+	t_camera			camera;
 	int					num_spheres;
 	t_sphere			*spheres;
 	int					num_planes;
@@ -115,13 +117,11 @@ typedef struct s_scene
 	t_cylinder			*cylinders;
 	int					num_lights;
 	t_light				*lights;
-	t_camera			camera;
-	t_ambient_light		ambient_light;
 }						t_scene;
 
 /// METHODS
 
-t_list					*ft_parse_map(char *finename);
+t_scene					*ft_parse_map(char *finename);
 t_dict					*ft_setup_parsing_dict(t_dict *dict, int malloc_id);
 t_parsing_data			*ft_get_pdata(int malloc_id, t_parsing_data d);
 
@@ -133,5 +133,12 @@ t_struct_parser_data	*ft_get_parser_light(int id);
 t_struct_parser_data	*ft_get_parser_sphere(int id);
 t_struct_parser_data	*ft_get_parser_plane(int id);
 t_struct_parser_data	*ft_get_parser_cylinder(int id);
+
+void					ft_extract_camera(t_scene *scene, t_list *lst);
+void					ft_extract_ambient_light(t_scene *scene, t_list *lst);
+void					ft_extract_lights(t_scene *scene, t_list *lst);
+void					ft_extract_spheres(t_scene *scene, t_list *lst);
+void					ft_extract_planes(t_scene *scene, t_list *lst);
+void					ft_extract_cylinder(t_scene *scene, t_list *lst);
 
 #endif

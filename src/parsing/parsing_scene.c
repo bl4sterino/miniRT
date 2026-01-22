@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 20:23:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 08:11:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,12 @@ int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 	return (0);
 }
 
-long ft_count_matches(t_list *lst, t_object_type type)
+long	ft_count_matches(t_list *lst, t_object_type type)
 {
-	t_object_element *elem;
-	long count = 0;
+	t_object_element	*elem;
+	long				count;
 
+	count = 0;
 	while (lst)
 	{
 		elem = lst->content;
@@ -43,15 +44,27 @@ long ft_count_matches(t_list *lst, t_object_type type)
 	return (count);
 }
 
-t_scene *ft_fill_scene(t_scene *scene, t_list *lst)
+t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 {
-	
+	scene->spheres = (t_sphere *)(((char *)scene) + sizeof(t_scene));
+	scene->planes = (t_plane *)(((char *)scene->spheres) + sizeof(t_sphere)
+			* scene->num_spheres);
+	scene->cylinders = (t_cylinder *)(((char *)scene->planes) + sizeof(t_plane)
+			* scene->num_planes);
+	scene->lights = (t_light *)(((char *)scene->cylinders) + sizeof(t_cylinder)
+			* scene->num_cylinders);
+	ft_extract_camera(scene, lst);
+	ft_extract_ambient_light(scene, lst);
+	ft_extract_lights(scene, lst);
+	ft_extract_spheres(scene, lst);
+	ft_extract_planes(scene, lst);
+	ft_extract_cylinder(scene, lst);
+	return (scene);
 }
 
 t_scene	*ft_build_scene_from_elements(t_list *lst)
 {
 	t_scene	*scene;
-	void	*ptr;
 	long	scene_size;
 
 	if (ft_count_matches(lst, object_type_ambient_light) != 1)
@@ -64,9 +77,14 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 	scene_size += sizeof(t_scene);
 	scene_size += sizeof(t_sphere) * ft_count_matches(lst, object_type_sphere);
 	scene_size += sizeof(t_plane) * ft_count_matches(lst, object_type_plane);
-	scene_size += sizeof(t_cylinder) * ft_count_matches(lst, object_type_cylinder);
+	scene_size += sizeof(t_cylinder) * ft_count_matches(lst,
+			object_type_cylinder);
 	scene = ft_malloc(scene_size);
-	return (ft_fill_scene(scene, lst));	
+	scene->num_spheres = ft_count_matches(lst, object_type_sphere);
+	scene->num_planes = ft_count_matches(lst, object_type_plane);
+	scene->num_cylinders = ft_count_matches(lst, object_type_cylinder);
+	scene->num_lights = ft_count_matches(lst, object_type_light);
+	return (ft_fill_scene(scene, lst));
 }
 
 t_scene	*ft_parse_map(char *finename)

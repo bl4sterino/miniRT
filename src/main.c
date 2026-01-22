@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 14:45:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 08:06:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ void	ft_data_init(t_data *d)
 int	main(int ac, char **av)
 {
 	t_data	d;
+	t_scene *scene;
 
 	ft_data_init(&d);
 	ft_exit_init(&d);
 	if (ac != 2)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
-	ft_parse_map(av[1]);
+	scene = ft_parse_map(av[1]);
+	(void)scene;
 	gettimeofday(&(d.last_tv), 0);
 	ft_input_init(&d);
 	d.mlx = mlx_init();
