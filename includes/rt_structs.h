@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 12:01:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 14:53:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 
 # include "rt.h"
 
-enum e_dimensions
+enum				e_dimensions
 {
 	WIDTH_WIN = 1280,
 	HEIGHT_WIN = 720,
-	LINE_SIZE = WIDTH_WIN * 4
+	LINE_SIZE = WIDTH_WIN * 4,
+	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN
 };
 
 typedef struct s_rgb
@@ -33,7 +34,6 @@ typedef struct s_image
 {
 	void			*ptr;
 	char			*addr;
-	float			*depth_map;
 	int				bpp;
 	int				line_size;
 	int				endian;
@@ -82,12 +82,13 @@ typedef struct t_data
 	char			*fpsstr;
 	int				projection;
 	unsigned long	frame_count;
+	t_scene			*scene;
 }					t_data;
 
 typedef struct s_ray
 {
-	t_v3d		origin;
-	t_v3d		direction;
-}	t_ray;
+	t_v3d			origin;
+	t_v3d			direction;
+}					t_ray;
 
 #endif

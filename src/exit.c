@@ -1,56 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exit.c                                          :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:06:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:51:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 14:31:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	ft_destroy(void *param)
+int	ft_exit_hook(void *param)
 {
-	param = 0;
-	param += 1;
+	(void)param;
 	ft_exit(EXIT_SUCCESS);
 	return (0);
 }
 
-void	ft_do_exit(int flag, int exitcode, t_data *data)
+void	ft_exit_destroy_image(void *d)
 {
-	static t_data	*d = 0;
-
-	if (flag == 0)
-	{
-		d = data;
-		return ;
-	}
-	if (flag == 1)
-	{
-		ft_clear_gc();
-		get_next_line(-2);
-		if (d->mlx)
-		{
-			mlx_do_key_autorepeaton(d->mlx);
-			mlx_destroy_image(d->mlx, d->image.ptr);
-			mlx_destroy_window(d->mlx, d->window);
-			mlx_destroy_display(d->mlx);
-			free(d->mlx);
-		}
-		exit(exitcode);
-	}
+	mlx_destroy_image(((t_data *)d)->mlx, ((t_data *)d)->image.ptr);
 }
 
-void	ft_exit_init(t_data *d)
+void	ft_exit_destroy_window(void *d)
 {
-	ft_do_exit(0, 0, d);
+	mlx_destroy_window(((t_data *)d)->mlx, ((t_data *)d)->window);
 }
 
-void	ft_exit(int exitcode)
+void	ft_exit_destroy_display(void *d)
 {
-	ft_do_exit(1, exitcode, 0);
+	mlx_destroy_display(d);
+}
+
+void	ft_exit_autorepeaton(void *d)
+{
+	mlx_do_key_autorepeaton(d);
 }

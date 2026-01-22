@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/21 14:04:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 14:29:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 /// pixels per degree
 # define CAM_ROTATION_SPEED 15
 
-# define SCALING_COEF 1.0f
-
 # define PI 3.14159265f
 # define DEG2RAD 0.017453293f
 
@@ -37,14 +35,16 @@
 // Libs and struct must be included first
 # include "keycodes.h"
 # include "libft.h"
-# include "rt_structs.h"
 # include "scene_data.h"
+//
+# include "rt_structs.h"
 # include <math.h>
 
 // mini-rt
 # include "image_inlined.h"
 # include "mlx.h"
 # include "monitoring.h"
+# include "ray_utils_inlined.h"
 # include <stddef.h>
 # include <sys/time.h>
 
@@ -71,9 +71,11 @@ int			ft_update_time(t_data *d);
 
 // exit
 
-void		ft_exit(int exitcode);
-void		ft_exit_init(t_data *d);
-int			ft_destroy(void *param);
+int			ft_exit_hook(void *param);
+void		ft_exit_destroy_image(void *d);
+void		ft_exit_destroy_window(void *d);
+void		ft_exit_destroy_display(void *d);
+void		ft_exit_autorepeaton(void *d);
 
 // input
 
@@ -111,5 +113,9 @@ void		ft_hud_display(t_data *d);
 void		ft_draw_int(t_data *d, t_draw_arg arg, char *prefix, int nb);
 void		ft_draw_double(t_data *d, t_draw_arg arg, char *prefix, double nb);
 void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
+
+// rendering
+
+void		ft_render(t_data *d);
 
 #endif

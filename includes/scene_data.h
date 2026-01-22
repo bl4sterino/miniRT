@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 12:02:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 14:51:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ typedef struct s_scene_parsing_context
 	t_dict				*dict;
 	char				**strs;
 	t_list				*object_lst;
+	int					line_count;
 }						t_scene_parsing_context;
 
 typedef struct s_scene

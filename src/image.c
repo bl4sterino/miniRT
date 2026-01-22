@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 17:25:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 14:39:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,12 @@ void	ft_create_image(t_data *d)
 	t_image	image;
 
 	image.ptr = mlx_new_image(d->mlx, WIDTH_WIN, HEIGHT_WIN);
+	if (!image.ptr)
+		ft_exit(MALLOC_FAILED);
+	ft_add_exit(d, ft_exit_destroy_image);
 	image.addr = mlx_get_data_addr(image.ptr, &(image.bpp), &(image.line_size),
 			&(image.endian));
 	d->image = image;
-	d->image.depth_map = ft_malloc(sizeof(float) * WIDTH_WIN * HEIGHT_WIN);
-}
-
-void	ft_put_pxl_d(t_image *img, t_v2i pos, int color, float depth)
-{
-	char			*pixel;
-	unsigned long	depth_offset;
-
-	depth_offset = pos.y * WIDTH_WIN + pos.x;
-	if (pos.x >= 0 && pos.x < WIDTH_WIN && pos.y >= 0 && pos.y < HEIGHT_WIN
-		&& (depth == 0 || img->depth_map[depth_offset] > depth))
-	{
-		img->depth_map[depth_offset] = depth;
-		pixel = img->addr + (pos.y * img->line_size + pos.x * IMAGE_BPP);
-		*(int *)pixel = color;
-	}
 }
 
 void	ft_draw_rectangle(t_image image, t_v2i pos, t_v2i size, t_rgb color)
