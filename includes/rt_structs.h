@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 18:10:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 19:07:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ typedef struct s_rotation_data
 	float			cos_p;
 	float			sin_p;
 }					t_rotation_data;
-
 
 typedef struct t_data
 {

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 17:43:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 18:18:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void		ft_hud_display(t_data *d);
 
 void		ft_draw_int(t_data *d, t_draw_arg arg, char *prefix, int nb);
 void		ft_draw_double(t_data *d, t_draw_arg arg, char *prefix, double nb);
+void		ft_draw_double_8(t_data *d, t_draw_arg arg, char *prefix_arg,
+				double nb);
 void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 
 // rendering

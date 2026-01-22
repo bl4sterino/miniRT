@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 17:37:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 18:52:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
 	d.scene = ft_parse_map(av[1]);
+	ft_clear_gc_id(malloc_id_parsing);
 	ft_input_init(&d);
 	d.mlx = mlx_init();
 	if (!d.mlx)

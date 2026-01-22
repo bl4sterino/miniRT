@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 17:54:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 18:43:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	ft_early_update(t_data *d)
 	if (ft_get_key_down(KEY_ESCAPE, d))
 		ft_exit(EXIT_SUCCESS);
 	ft_mouse_update(d);
+	ft_clock_start(clock_clear_frame_buffer);
 	ft_memset_int(d->image.addr, ft_rgb_to_int((t_rgb){20, 20, 20}), (WIDTH_WIN
 			* HEIGHT_WIN));
+	ft_clock_set(clock_clear_frame_buffer);
 }
 
 void	ft_late_update(t_data *d)
@@ -51,8 +53,8 @@ int	ft_exec_updates(t_data *d)
 	ft_update(d);
 	ft_render(d);
 	ft_late_update(d);
-	ft_clock_set(clock_frame);
 	mlx_put_image_to_window(d->mlx, d->window, d->image.ptr, 0, 0);
+	ft_clock_set(clock_frame);
 	ft_post_render(d);
 	d->frame_count++;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 17:09:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 18:44:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 void	ft_render(t_data *d)
 {
+	ft_clock_start(clock_render);
 	(void)d;
+	ft_clock_set(clock_render);
 }

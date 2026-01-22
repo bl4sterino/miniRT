@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:49:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 11:32:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 18:43:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@
 
 typedef enum e_clock_name
 {
-	clock_frame
+	clock_frame,
+	clock_clear_frame_buffer,
+	clock_render
 }		t_clock_name;
 
 void	ft_clock_start(t_clock_name name);
