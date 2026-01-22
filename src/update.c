@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 14:32:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:54:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	ft_early_update(t_data *d)
 	ft_update_time(d);
 	if (ft_get_key_down(KEY_ESCAPE, d))
 		ft_exit(EXIT_SUCCESS);
-	if (ft_get_key_down(MOUSE_RIGHT, d))
-		d->projection = !d->projection;
 	ft_mouse_update(d);
 	ft_memset_int(d->image.addr, ft_rgb_to_int((t_rgb){20, 20, 20}), (WIDTH_WIN
 			* HEIGHT_WIN));

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/22 13:59:50 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/22 17:13:02 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,10 +52,12 @@ FILES = main\
 		parsing/parsing_scene_builder_sp_pl_cy\
 		parsing/parsing_normalization\
 		parsing/parsing_error\
+		ui/ui_elements\
 		ui/hud_display\
 		rendering/render\
-		camera\
-		ui
+		utils/camera_vectors_utils\
+		camera
+
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
 

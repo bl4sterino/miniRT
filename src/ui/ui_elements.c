@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ui.c                                               :+:      :+:    :+:   */
+/*   ui_elements.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:26:42 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/19 17:30:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:25:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void	ft_draw_double(t_data *d, t_draw_arg arg, char *prefix_arg, double nb)
 	char	*nbstr;
 	char	*fullstr;
 
-	nbstr = ft_dtoa_p(nb, 6);
+	nbstr = ft_dtoa_p(nb, 1);
 	if (!nbstr)
-	{
 		ft_exit(MALLOC_FAILED);
-	}
 	fullstr = ft_strjoin(prefix_arg, nbstr);
 	if (!fullstr)
 	{

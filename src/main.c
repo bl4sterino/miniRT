@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 14:28:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:37:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,15 @@ void	ft_setup_hooks(t_data *d)
 	mlx_loop_hook(d->mlx, &ft_exec_updates, d);
 }
 
-void	ft_data_init(t_data *d)
-{
-	d->mlx = 0;
-	d->window = 0;
-	d->image.ptr = 0;
-	d->projection = 0;
-	d->last_tv.tv_sec = 0;
-	d->last_tv.tv_usec = 0;
-	d->deltatime = 0;
-	d->frame_count = 0;
-	d->input.mouse_reset = 0;
-	d->fpsstr = 0;
-}
-
 int	main(int ac, char **av)
 {
 	t_data	d;
 
-	ft_data_init(&d);
+	ft_bzero(&d, sizeof(t_data));
+	gettimeofday(&(d.last_tv), 0);
 	if (ac != 2)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
 	d.scene = ft_parse_map(av[1]);
-	gettimeofday(&(d.last_tv), 0);
 	ft_input_init(&d);
 	d.mlx = mlx_init();
 	if (!d.mlx)

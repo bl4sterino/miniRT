@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 14:29:47 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:43:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 # define CAM_MOVEMENT_SPEED 4.0f
 
 /// pixels per degree
-# define CAM_ROTATION_SPEED 15
+# define CAM_ROTATION_SPEED 50
 
-# define PI 3.14159265f
+# define PI 3.14159265358979323846
 # define DEG2RAD 0.017453293f
 
 # define DELTATIME_DISPLAY_DELAY 0.0f
@@ -117,5 +117,10 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_render(t_data *d);
+
+// utils
+
+t_v3d		ft_cam_v3d_to_euler(t_v3d cam_direction);
+t_v3d		ft_cam_euler_to_v3d(t_v3d euler);
 
 #endif

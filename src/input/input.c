@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_input.c                                         :+:      :+:    :+:   */
+/*   input.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:01:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 10:30:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:17:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@ void	ft_input_init2(t_data *d)
 
 void	ft_input_init(t_data *d)
 {
-	d->input.focus = 0;
-	d->input.keys = 0;
-	d->input.mouse_pos.x = 0;
-	d->input.mouse_pos.y = 0;
-	d->input.mouse_pos_previous.x = 0;
-	d->input.mouse_pos_previous.y = 0;
 	ft_add_input(KEY_ESCAPE, d);
 	ft_add_input(KEY_SPACE, d);
 	ft_add_input(KEY_CTRL_L, d);

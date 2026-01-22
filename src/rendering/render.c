@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 14:53:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 17:09:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,5 @@
 
 void	ft_render(t_data *d)
 {
-	int	i;
-	int	limit;
-
-	i = 0;
-	limit = WIDTH_WIN * HEIGHT_WIN;
 	(void)d;
 }
