@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 08:00:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 11:10:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ t_dict					*ft_setup_parsing_dict(t_dict *dict, int malloc_id);
 t_parsing_data			*ft_get_pdata(int malloc_id, t_parsing_data d);
 
 // PARSERS
+
+void					ft_parsing_error_on_line(int n);
 
 t_struct_parser_data	*ft_get_parser_ambient_light(int id);
 t_struct_parser_data	*ft_get_parser_camera(int id);

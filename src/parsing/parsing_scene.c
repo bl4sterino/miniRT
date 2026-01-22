@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 08:11:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 11:11:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	return (scene);
 }
 
+// TODO : try memory allignment ?
+
 t_scene	*ft_build_scene_from_elements(t_list *lst)
 {
 	t_scene	*scene;
@@ -90,7 +92,9 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 t_scene	*ft_parse_map(char *finename)
 {
 	t_scene_parsing_context	context;
+	int						line;
 
+	line = 0;
 	ft_bzero(&context, sizeof(context));
 	context.fd = open(finename, O_RDONLY);
 	if (context.fd == -1)
@@ -105,7 +109,8 @@ t_scene	*ft_parse_map(char *finename)
 		{
 			if (!ft_parse_line(context.strs, context.dict, malloc_id_parsing,
 					&(context.object_lst)))
-				return (0);
+				ft_parsing_error_on_line(line);
+			line++;
 		}
 		ft_free(context.line);
 		context.line = get_next_line_gc(context.fd);

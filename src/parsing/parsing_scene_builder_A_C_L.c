@@ -6,17 +6,18 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 08:02:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/22 09:09:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void ft_extract_camera(t_scene *scene, t_list *lst)
+void	ft_extract_camera(t_scene *scene, t_list *lst)
 {
-	int i = 0;
-	t_object_element *element;
+	int					i;
+	t_object_element	*element;
 
+	i = 0;
 	while (lst)
 	{
 		element = lst->content;
@@ -29,11 +30,12 @@ void ft_extract_camera(t_scene *scene, t_list *lst)
 	}
 }
 
-void ft_extract_ambient_light(t_scene *scene, t_list *lst)
+void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 {
-	int i = 0;
-	t_object_element *element;
+	int					i;
+	t_object_element	*element;
 
+	i = 0;
 	while (lst)
 	{
 		element = lst->content;
@@ -46,11 +48,12 @@ void ft_extract_ambient_light(t_scene *scene, t_list *lst)
 	}
 }
 
-void ft_extract_lights(t_scene *scene, t_list *lst)
+void	ft_extract_lights(t_scene *scene, t_list *lst)
 {
-	int i = 0;
-	t_object_element *element;
+	int					i;
+	t_object_element	*element;
 
+	i = 0;
 	while (lst)
 	{
 		element = lst->content;
