@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:01:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 17:17:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 10:02:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,16 @@ void	ft_add_input(int keycode, t_data *d)
 	d->input.keys = key;
 }
 
-void	ft_input_init2(t_data *d)
+void	ft_add_key_range(int keycode_start, int keycode_end, t_data *d)
 {
-	ft_add_input(KEY_KP_0, d);
-	ft_add_input(KEY_KP_1, d);
-	ft_add_input(KEY_KP_2, d);
-	ft_add_input(KEY_KP_3, d);
-	ft_add_input(KEY_KP_4, d);
-	ft_add_input(KEY_KP_5, d);
-	ft_add_input(KEY_KP_6, d);
-	ft_add_input(KEY_KP_7, d);
-	ft_add_input(KEY_KP_8, d);
-	ft_add_input(KEY_KP_9, d);
+	int	i;
+
+	i = keycode_start;
+	while (i <= keycode_end)
+	{
+		ft_add_input(i, d);
+		i++;
+	}
 }
 
 void	ft_input_init(t_data *d)
@@ -60,7 +58,8 @@ void	ft_input_init(t_data *d)
 	ft_add_input(KEY_A, d);
 	ft_add_input(KEY_S, d);
 	ft_add_input(KEY_D, d);
-	ft_input_init2(d);
+	ft_add_key_range(KEY_KP_0, KEY_KP_9, d);
+	ft_add_key_range(KEY_F1, KEY_F12, d);
 }
 
 void	ft_input_clear_just_pressed(t_data *d)

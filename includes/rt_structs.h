@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 07:50:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 10:03:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,27 @@ typedef struct s_ray
 	t_v3d			origin;
 	t_v3d			direction;
 }					t_ray;
+
+typedef struct s_viewport
+{
+	t_v3d			x_size;
+	t_v3d			y_size;
+	t_v3d			x_delta;
+	t_v3d			y_delta;
+	t_v3d			top_left;
+	t_v3d			bottom_right;
+}					t_viewport;
+
+typedef struct s_viewport_context
+{
+	t_camera		cam;
+	double			aspect_ratio;
+	double			theta;
+	double			half_width;
+	double			half_height;
+	t_v3d			cam_right;
+	t_v3d			cam_up;
+	t_v3d			pixel_center_offset;
+}					t_viewport_context;
 
 #endif

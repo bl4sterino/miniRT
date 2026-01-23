@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 10:32:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 10:03:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@
 # define KEY_KP_7 65429
 # define KEY_KP_8 65431
 # define KEY_KP_9 65434
+
+# define KEY_F1 65470
+# define KEY_F2 65471
+# define KEY_F3 65472
+# define KEY_F4 65473
+# define KEY_F5 65474
+# define KEY_F6 65475
+# define KEY_F7 65476
+# define KEY_F8 65477
+# define KEY_F9 65478
+# define KEY_F10 65479
+# define KEY_F11 65480
+# define KEY_F12 65481
 
 # define MOUSE_LEFT 1
 # define MOUSE_MIDDLE 2

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/22 17:13:02 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/23 09:25:57 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,7 @@ FILES = main\
 		ui/ui_elements\
 		ui/hud_display\
 		rendering/render\
+		rendering/viewport\
 		utils/camera_vectors_utils\
 		camera
 
