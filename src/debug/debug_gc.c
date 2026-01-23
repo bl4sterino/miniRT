@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_controls.c                                     :+:      :+:    :+:   */
+/*   debug_gc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 13:48:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 11:10:27 by pberne           ###   ########.fr       */
+/*   Created: 2026/01/23 10:15:08 by pberne            #+#    #+#             */
+/*   Updated: 2026/01/23 11:09:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_controls(t_data *d)
+void	ft_debug_gc(t_data *d)
 {
-	if (DEBUG)
-		ft_debug_gc(d);
+	if (ft_get_key_down(KEY_F1, d))
+		ft_gc_print_count_id(1);
+	if (ft_get_key_down(KEY_F2, d))
+		ft_gc_print_count_id(2);
+	if (ft_get_key_down(KEY_F3, d))
+		ft_gc_print_count_id(3);
+	if (ft_get_key_down(KEY_F4, d))
+		ft_gc_print_count_id(4);
+	if (ft_get_key_down(KEY_F12, d))
+		ft_gc_print_count();
 }

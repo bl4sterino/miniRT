@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/23 09:25:57 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/23 11:36:49 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS = -g3 -Wall -Wextra #-Werror
+DFLAGS = -g3 -DDEBUG=1 -Wall -Wextra #-Werror
 MLXFLAG = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -37,6 +37,7 @@ FILES = main\
 		image\
 		image2\
 		exit\
+		debug/debug_gc\
 		input/focus_and_cursor\
 		input/input\
 		input/input_get\
@@ -54,8 +55,10 @@ FILES = main\
 		parsing/parsing_error\
 		ui/ui_elements\
 		ui/hud_display\
+		rendering/basic_rt\
 		rendering/render\
 		rendering/viewport\
+		collisions/sphere_collision\
 		utils/camera_vectors_utils\
 		camera
 

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/20 11:02:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 11:33:14 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ static inline int	ft_rgb_to_int(t_rgb color)
 static inline t_rgb	ft_int_to_rgb(int color)
 {
 	return ((t_rgb){(color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF});
+}
+
+static inline int	ft_v3d_to_int_color(t_v3d color)
+{
+	return ((int)(color.x * 255) << 16 | (int)(color.y
+			* 255) << 8 | (int)(color.z * 255));
 }
 
 static inline int	ft_color_lerp(int color1, int color2, float t)

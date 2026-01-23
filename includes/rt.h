@@ -6,12 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 09:31:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 12:03:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
+
+# ifndef DEBUG
+#  define DEBUG 0
+# endif
 
 # define IMAGE_BPP 4
 
@@ -25,7 +29,7 @@
 # define CAM_MOVEMENT_SPEED 4.0f
 
 /// pixels per degree
-# define CAM_ROTATION_SPEED 50
+# define CAM_ROTATION_SPEED 0.1
 
 # define PI 3.14159265358979323846
 
@@ -122,9 +126,19 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 t_viewport	ft_get_viewport(t_camera cam);
 void		ft_render(t_data *d);
 
+void		ft_basic_rt(t_viewport viewport, t_data *d);
+
+// collisions
+double		ft_sphere_collision(t_ray ray, t_sphere sphere);
+
 // utils
 
 t_v3d		ft_cam_v3d_to_euler(t_v3d cam_direction);
 t_v3d		ft_cam_euler_to_v3d(t_v3d euler);
+double		ft_get_triangle_area(t_v3d A, t_v3d B, t_v3d C);
+
+// debug
+
+void		ft_debug_gc(t_data *d);
 
 #endif
