@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 18:18:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 07:51:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 # define CAM_ROTATION_SPEED 50
 
 # define PI 3.14159265358979323846
-# define DEG2RAD 0.017453293f
+
+# define DEG2RAD 0.01745329251
 
 # define DELTATIME_DISPLAY_DELAY 0.0f
 
