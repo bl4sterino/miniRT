@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 16:57:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 18:18:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_scene	*ft_parse_map(char *finename)
 	t_scene_parsing_context	context;
 
 	ft_bzero(&context, sizeof(context));
+	context.line_count = 1;
 	context.fd = open(finename, O_RDONLY);
 	if (context.fd == -1)
 		ft_exit_str_fd(EXIT_FAILURE, "Failed to open map\n", 2);
@@ -110,8 +111,8 @@ t_scene	*ft_parse_map(char *finename)
 			if (!ft_parse_line(context.strs, context.dict, malloc_id_parsing,
 					&(context.object_lst)))
 				ft_parsing_error_on_line(context.line_count);
-			context.line_count += 1;
 		}
+		context.line_count += 1;
 		ft_free(context.line);
 		context.line = get_next_line_gc(context.fd);
 	}

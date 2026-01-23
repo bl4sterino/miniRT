@@ -1,21 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   exit_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 18:32:57 by pberne           ###   ########.fr       */
+/*   Created: 2025/12/02 11:06:28 by pberne            #+#    #+#             */
+/*   Updated: 2026/01/23 18:26:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_render(t_data *d)
+void	ft_exit_destroy_task_mutex(void *d)
 {
-	d->viewport = ft_get_viewport(d->scene->camera);
-	ft_clock_start(clock_render);
-	ft_basic_rt_tasks(d);
-	ft_clock_set(clock_render);
+	pthread_mutex_destroy(&((t_data *)d)->task_mutex);
 }

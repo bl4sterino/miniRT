@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 18:52:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 18:42:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,21 @@ void	ft_setup_hooks(t_data *d)
 	mlx_hook(d->window, 17, 0L, &ft_exit_hook, d);
 	mlx_loop_hook(d->mlx, &ft_exec_updates, d);
 }
+
+// TODO dynamic thread count
+/*void ft_init_thread_pool(t_data *d)
+{
+	pthread_mutex_init(&(d->task_mutex), NULL);
+	ft_add_exit(d, ft_exit_destroy_task_mutex);
+	d->threads_count = THREAD_COUNT;
+	d->threads = ft_malloc(sizeof(pthread_t) * d->threads_count);
+	int i = 0;
+	while (i < d->threads_count)
+	{
+		pthread_create(&(d->threads[i], NULL, ft_thread_loop, d));
+		i++;
+	}
+}*/
 
 int	main(int ac, char **av)
 {

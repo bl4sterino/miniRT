@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 12:03:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 18:25:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # ifndef DEBUG
 #  define DEBUG 0
 # endif
+
+# define THREAD_COUNT 8
 
 # define IMAGE_BPP 4
 
@@ -50,13 +52,15 @@
 # include "mlx.h"
 # include "monitoring.h"
 # include "ray_utils_inlined.h"
+# include <pthread.h>
 # include <stddef.h>
 # include <sys/time.h>
 
 typedef enum e_malloc_id
 {
 	malloc_id_default,
-	malloc_id_parsing
+	malloc_id_parsing,
+	malloc_id_frame
 }			t_malloc_id;
 
 // hooks
@@ -81,6 +85,7 @@ void		ft_exit_destroy_image(void *d);
 void		ft_exit_destroy_window(void *d);
 void		ft_exit_destroy_display(void *d);
 void		ft_exit_autorepeaton(void *d);
+void		ft_exit_destroy_task_mutex(void *d);
 
 // input
 

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 15:26:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 19:06:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,37 @@ int	ft_get_ray_color(t_ray ray, t_scene *scene)
 	return (0);
 }
 
-void	ft_basic_rt(t_viewport viewport, t_data *d)
+void	ft_basic_rt_tasks(t_data *d)
+{
+	t_v2i	pixel;
+	t_ray	ray;
+	t_v3d	target;
+	t_v3d	y_target;
+
+	while (d->run_threads)
+	{
+		ray.origin = d->scene->camera.position;
+		pixel.y = 0;
+		y_target = d->viewport.top_left;
+		while (pixel.y < HEIGHT_WIN)
+		{
+			pixel.x = 0;
+			target = y_target;
+			while (pixel.x < WIDTH_WIN)
+			{
+				ray.direction = ft_v3d_sub(target, ray.origin);
+				ft_put_pxl(d->image.addr, pixel, ft_get_ray_color(ray,
+						(d->scene)));
+				target = ft_v3d_add(target, d->viewport.x_delta);
+				pixel.x++;
+			}
+			y_target = ft_v3d_add(y_target, d->viewport.y_delta);
+			pixel.y++;
+		}
+	}
+}
+
+/*void	ft_basic_rt_tasks(t_data *d)
 {
 	t_v2i	pixel;
 	t_ray	ray;
@@ -48,7 +78,8 @@ void	ft_basic_rt(t_viewport viewport, t_data *d)
 
 	ray.origin = d->scene->camera.position;
 	pixel.y = 0;
-	y_target = viewport.top_left;
+	y_target = d->viewport.top_left;
+
 	while (pixel.y < HEIGHT_WIN)
 	{
 		pixel.x = 0;
@@ -63,4 +94,4 @@ void	ft_basic_rt(t_viewport viewport, t_data *d)
 		y_target = ft_v3d_add(y_target, viewport.y_delta);
 		pixel.y++;
 	}
-}
+} */

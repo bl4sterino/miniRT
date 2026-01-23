@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 15:16:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 19:06:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,20 @@ typedef struct t_data
 	char			*fpsstr;
 	unsigned long	frame_count;
 	t_scene			*scene;
+	t_viewport		viewport;
+	int				threads_count;
+	pthread_t		*threads;
+	int 			run_threads;
+	pthread_mutex_t	task_mutex;
 }					t_data;
+
+typedef struct s_render_task
+{
+	int				state;
+	int				line_start;
+	int				line_end;
+	int				ray_per_pixel;
+}					t_render_task;
 
 typedef struct s_ray
 {
