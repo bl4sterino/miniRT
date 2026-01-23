@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/06 19:44:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 11:32:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 15:26:14 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,3 @@ int	ft_uc_color_to_int(unsigned char r, unsigned char g, unsigned char b)
 {
 	return (r << 16 | g << 8 | b);
 }
-

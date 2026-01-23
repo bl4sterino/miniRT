@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 11:49:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 15:26:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 int	ft_get_ray_color(t_ray ray, t_scene *scene)
 {
-	(void)ray;
-	(void)scene;
-	t_sphere *spheres = scene->spheres;
-	int i = 0;
-	double bestdist = 999999999999;
-	double dist;
-	int best_i = -1;
+	t_sphere	*spheres;
+	int			i;
+	double		bestdist;
+	double		dist;
+	int			best_i;
+
+	spheres = scene->spheres;
+	i = 0;
+	bestdist = INFINITY;
+	best_i = -1;
 	while (i < scene->num_spheres)
 	{
 		dist = ft_sphere_collision(ray, spheres[i]);
@@ -40,8 +43,8 @@ void	ft_basic_rt(t_viewport viewport, t_data *d)
 {
 	t_v2i	pixel;
 	t_ray	ray;
-	t_v3d	y_target;
 	t_v3d	target;
+	t_v3d	y_target;
 
 	ray.origin = d->scene->camera.position;
 	pixel.y = 0;

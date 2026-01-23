@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 10:03:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 15:16:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,15 @@ typedef struct s_ray
 
 typedef struct s_viewport
 {
-	t_v3d			x_size;
-	t_v3d			y_size;
+	t_v3d			u;
+	t_v3d			v;
 	t_v3d			x_delta;
 	t_v3d			y_delta;
 	t_v3d			top_left;
+	t_v3d			top_right;
+	t_v3d			bottom_left;
 	t_v3d			bottom_right;
+
 }					t_viewport;
 
 typedef struct s_viewport_context

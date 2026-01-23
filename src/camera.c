@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 10:55:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/23 13:29:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_camera_rotate(t_data *d)
 	cam_rot = ft_cam_v3d_to_euler(d->scene->camera.direction);
 	rotx = d->input.mouse_delta.y * CAM_ROTATION_SPEED;
 	roty = d->input.mouse_delta.x * CAM_ROTATION_SPEED;
-	cam_rot.x = ft_clampd(cam_rot.x + rotx, -88.0, 88.0);
+	cam_rot.x = ft_clampd(cam_rot.x + rotx, -85.0, 85.0);
 	cam_rot.y = cam_rot.y + roty;
 	while (cam_rot.y < -180.0)
 		cam_rot.y += 360.0;
