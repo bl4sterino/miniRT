@@ -6,37 +6,43 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:57:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 12:11:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 16:44:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_normalize_vectors(t_scene *scene)
+void	ft_normalize_camera(t_parsed_object *elem)
 {
-	int	i;
-
-	if (ft_v3d_length(scene->camera.direction) < 0.01)
-		scene->camera.direction = (t_v3d){0, 1, 0};
+	if (ft_v3d_length(elem->object.as_camera.direction) < 0.01)
+		elem->object.as_camera.direction = (t_v3d){0, 0, 1};
 	else
-		scene->camera.direction = ft_v3d_normalize(scene->camera.direction);
-	i = 0;
-	while (i < scene->num_planes)
+		elem->object.as_camera.direction = ft_v3d_normalize(
+				elem->object.as_camera.direction);
+}
+
+/* Normalizes a vector or defaults it to 0,0,1 if it is too small */
+void	ft_normalize_vector(t_v3d *v)
+{
+	if (ft_v3d_length(*v) < 0.001)
+		*v = (t_v3d){0, 0, 1};
+	else
+		*v = ft_v3d_normalize(*v);
+}
+
+void	ft_normalize_vectors(t_list *lst)
+{
+	t_parsed_object	*elem;
+
+	while (lst)
 	{
-		if (ft_v3d_length(scene->planes[i].normal) < 0.01)
-			scene->planes[i].normal = (t_v3d){0, 1, 0};
-		else
-			scene->planes[i].normal = ft_v3d_normalize(scene->planes[i].normal);
-		i++;
-	}
-	i = 0;
-	while (i < scene->num_cylinders)
-	{
-		if (ft_v3d_length(scene->cylinders[i].normal) < 0.01)
-			scene->cylinders[i].normal = (t_v3d){0, 1, 0};
-		else
-			scene->cylinders[i].normal
-				= ft_v3d_normalize(scene->cylinders[i].normal);
-		i++;
+		elem = lst->content;
+		if (elem->type == object_type_camera)
+			ft_normalize_vector(&(elem->object.as_camera.direction));
+		else if (elem->type == object_type_plane)
+			ft_normalize_vector(&(elem->object.as_plane.normal));
+		else if (elem->type == object_type_cylinder)
+			ft_normalize_vector(&(elem->object.as_cylinder.normal));
+		lst = lst->next;
 	}
 }

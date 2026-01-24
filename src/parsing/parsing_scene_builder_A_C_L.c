@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 09:09:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 16:34:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,15 @@
 
 void	ft_extract_camera(t_scene *scene, t_list *lst)
 {
-	int					i;
-	t_object_element	*element;
+	t_parsed_object	*element;
 
-	i = 0;
 	while (lst)
 	{
 		element = lst->content;
 		if (element->type == object_type_camera)
 		{
 			scene->camera = element->object.as_camera;
-			i++;
+			return ;
 		}
 		lst = lst->next;
 	}
@@ -32,17 +30,15 @@ void	ft_extract_camera(t_scene *scene, t_list *lst)
 
 void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 {
-	int					i;
-	t_object_element	*element;
+	t_parsed_object	*element;
 
-	i = 0;
 	while (lst)
 	{
 		element = lst->content;
 		if (element->type == object_type_ambient_light)
 		{
 			scene->ambient_light = element->object.as_ambient_light;
-			i++;
+			return ;
 		}
 		lst = lst->next;
 	}
@@ -50,8 +46,8 @@ void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 
 void	ft_extract_lights(t_scene *scene, t_list *lst)
 {
-	int					i;
-	t_object_element	*element;
+	int				i;
+	t_parsed_object	*element;
 
 	i = 0;
 	while (lst)
@@ -64,4 +60,5 @@ void	ft_extract_lights(t_scene *scene, t_list *lst)
 		}
 		lst = lst->next;
 	}
+	scene->num_lights = i;
 }

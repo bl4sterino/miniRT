@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 15:05:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 16:18:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,20 @@
 
 int	ft_get_ray_color(t_ray ray, t_scene *scene)
 {
-	t_sphere	*spheres;
+	t_object	*objects;
 	int			i;
 	double		bestdist;
 	double		dist;
 	int			best_i;
 
-	spheres = scene->spheres;
+	objects = scene->objects;
 	i = 0;
 	bestdist = INFINITY;
 	best_i = -1;
-	while (i < scene->num_spheres)
+	while (i < scene->num_objects)
 	{
-		dist = ft_sphere_collision(ray, spheres[i]);
+		if (objects[i].type == object_type_sphere)
+			dist = ft_sphere_collision(ray, objects[i].object.as_sphere);
 		if (dist >= 0 && dist < bestdist)
 		{
 			bestdist = dist;
@@ -35,7 +36,7 @@ int	ft_get_ray_color(t_ray ray, t_scene *scene)
 		i++;
 	}
 	if (best_i >= 0)
-		return (ft_v3d_to_int_color(scene->spheres[best_i].color));
+		return (ft_v3d_to_int_color(objects[best_i].object.as_sphere.color));
 	return (0);
 }
 

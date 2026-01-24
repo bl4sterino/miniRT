@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 17:56:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 16:33:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,27 +74,37 @@ typedef enum e_object_type
 
 /// OBJECTS UNION
 
-typedef union u_object
-{
-	t_ambient_light		as_ambient_light;
-	t_camera			as_camera;
-	t_light				as_light;
-	t_sphere			as_sphere;
-	t_plane				as_plane;
-	t_cylinder			as_cylinder;
-}						t_object;
-
-typedef struct s_object_element
+typedef struct s_parsed_object
 {
 	t_object_type		type;
-	t_object			object;
-}						t_object_element;
+	union				u_parsed_object
+	{
+		t_ambient_light	as_ambient_light;
+		t_camera		as_camera;
+		t_light			as_light;
+		t_sphere		as_sphere;
+		t_plane			as_plane;
+		t_cylinder		as_cylinder;
+	} object;
+}						t_parsed_object;
 
 typedef struct s_bounds
 {
 	t_v3d				min;
 	t_v3d				max;
-}	t_bounds;
+}						t_bounds;
+
+/* Contains every scene object except Lights and Planes */
+typedef struct s_object
+{
+	t_object_type		type;
+	union				u_object
+	{
+		t_sphere		as_sphere;
+		t_cylinder		as_cylinder;
+	} object;
+	t_bounds			bounds;
+}						t_object;
 
 typedef struct s_struct_parser_data
 {
@@ -116,14 +126,12 @@ typedef struct s_scene
 {
 	t_ambient_light		ambient_light;
 	t_camera			camera;
-	int					num_spheres;
-	t_sphere			*spheres;
 	int					num_planes;
 	t_plane				*planes;
-	int					num_cylinders;
-	t_cylinder			*cylinders;
 	int					num_lights;
 	t_light				*lights;
+	int					num_objects;
+	t_object			*objects;
 }						t_scene;
 
 /// METHODS
@@ -146,10 +154,9 @@ t_struct_parser_data	*ft_get_parser_cylinder(int id);
 void					ft_extract_camera(t_scene *scene, t_list *lst);
 void					ft_extract_ambient_light(t_scene *scene, t_list *lst);
 void					ft_extract_lights(t_scene *scene, t_list *lst);
-void					ft_extract_spheres(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
-void					ft_extract_cylinder(t_scene *scene, t_list *lst);
+void					ft_extract_objects(t_scene *scene, t_list *lst);
 
-void					ft_normalize_vectors(t_scene *scene);
+void					ft_normalize_vectors(t_list *scene);
 
 #endif

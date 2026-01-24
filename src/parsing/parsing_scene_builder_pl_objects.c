@@ -1,39 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_scene_builder_sp_pl_cy.c                   :+:      :+:    :+:   */
+/*   parsing_scene_builder_pl_objects.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 09:09:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 16:44:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_extract_spheres(t_scene *scene, t_list *lst)
-{
-	int					i;
-	t_object_element	*element;
-
-	i = 0;
-	while (lst)
-	{
-		element = lst->content;
-		if (element->type == object_type_sphere)
-		{
-			scene->spheres[i] = element->object.as_sphere;
-			i++;
-		}
-		lst = lst->next;
-	}
-}
-
 void	ft_extract_planes(t_scene *scene, t_list *lst)
 {
-	int					i;
-	t_object_element	*element;
+	int				i;
+	t_parsed_object	*element;
 
 	i = 0;
 	while (lst)
@@ -46,12 +28,13 @@ void	ft_extract_planes(t_scene *scene, t_list *lst)
 		}
 		lst = lst->next;
 	}
+	scene->num_planes = i;
 }
 
-void	ft_extract_cylinder(t_scene *scene, t_list *lst)
+void	ft_extract_objects(t_scene *scene, t_list *lst)
 {
-	int					i;
-	t_object_element	*element;
+	int				i;
+	t_parsed_object	*element;
 
 	i = 0;
 	while (lst)
@@ -59,9 +42,17 @@ void	ft_extract_cylinder(t_scene *scene, t_list *lst)
 		element = lst->content;
 		if (element->type == object_type_cylinder)
 		{
-			scene->cylinders[i] = element->object.as_cylinder;
+			scene->objects[i].type = object_type_cylinder;
+			scene->objects[i].object.as_cylinder = element->object.as_cylinder;
+			i++;
+		}
+		if (element->type == object_type_sphere)
+		{
+			scene->objects[i].type = object_type_sphere;
+			scene->objects[i].object.as_sphere = element->object.as_sphere;
 			i++;
 		}
 		lst = lst->next;
 	}
+	scene->num_objects = i;
 }
