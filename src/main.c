@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 18:42:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 08:50:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,40 @@ void	ft_setup_hooks(t_data *d)
 }
 
 // TODO dynamic thread count
-/*void ft_init_thread_pool(t_data *d)
+void	ft_init_thread_pool(t_data *d)
 {
-	pthread_mutex_init(&(d->task_mutex), NULL);
+	int	i;
+	int	count;
+
+	if (pthread_mutex_init(&(d->threads_data.task_mutex), NULL) != 0)
+		ft_exit(1);
 	ft_add_exit(d, ft_exit_destroy_task_mutex);
-	d->threads_count = THREAD_COUNT;
-	d->threads = ft_malloc(sizeof(pthread_t) * d->threads_count);
-	int i = 0;
-	while (i < d->threads_count)
+	if (pthread_cond_init(&(d->threads_data.task_cond), NULL) != 0)
+		ft_exit(1);
+	ft_add_exit(d, ft_exit_destroy_task_cond);
+	if (pthread_cond_init(&(d->threads_data.done_cond), NULL) != 0)
+		ft_exit(1);
+	ft_add_exit(d, ft_exit_destroy_done_cond);
+	count = sysconf(_SC_NPROCESSORS_ONLN);
+	d->threads_data.tasks = ft_malloc(sizeof(t_render_task)
+			* count);
+	d->threads_data.threads = ft_malloc(sizeof(pthread_t)
+			* count);
+	i = 0;
+	while (i < count)
 	{
-		pthread_create(&(d->threads[i], NULL, ft_thread_loop, d));
+		if (pthread_create(&(d->threads_data.threads[i]), NULL, ft_thread_loop,
+				d) != 0)
+		{
+			ft_add_exit(d, ft_exit_thread_cancel);
+			ft_exit(1);
+		}
+		else
+			d->threads_data.count += 1;
 		i++;
 	}
-}*/
+	ft_add_exit(d, ft_exit_thread_cancel);
+}
 
 int	main(int ac, char **av)
 {
@@ -50,6 +71,7 @@ int	main(int ac, char **av)
 	d.scene = ft_parse_map(av[1]);
 	ft_clear_gc_id(malloc_id_parsing);
 	ft_input_init(&d);
+	ft_init_thread_pool(&d);
 	d.mlx = mlx_init();
 	if (!d.mlx)
 		ft_exit(MALLOC_FAILED);

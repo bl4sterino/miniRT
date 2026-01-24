@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 18:25:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 08:56:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #  define DEBUG 0
 # endif
 
-# define THREAD_COUNT 8
+# define THREAD_COUNT 2
 
 # define IMAGE_BPP 4
 
@@ -86,6 +86,9 @@ void		ft_exit_destroy_window(void *d);
 void		ft_exit_destroy_display(void *d);
 void		ft_exit_autorepeaton(void *d);
 void		ft_exit_destroy_task_mutex(void *d);
+void		ft_exit_destroy_task_cond(void *d);
+void		ft_exit_destroy_done_cond(void *d);
+void		ft_exit_thread_cancel(void *d);
 
 // input
 
@@ -131,7 +134,8 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 t_viewport	ft_get_viewport(t_camera cam);
 void		ft_render(t_data *d);
 
-void		ft_basic_rt(t_viewport viewport, t_data *d);
+void		ft_setup_basic_rt_tasks(t_data *d);
+void		*ft_thread_loop(void *arg);
 
 // collisions
 double		ft_sphere_collision(t_ray ray, t_sphere sphere);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 19:06:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 09:02:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,49 @@ int	ft_get_ray_color(t_ray ray, t_scene *scene)
 	return (0);
 }
 
-void	ft_basic_rt_tasks(t_data *d)
+int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 {
-	t_v2i	pixel;
-	t_ray	ray;
-	t_v3d	target;
-	t_v3d	y_target;
+	t_render_task	new_task;
 
-	while (d->run_threads)
+	pthread_mutex_lock(&d->threads_data.task_mutex);
+	while (d->threads_data.tasks_count == 0)
 	{
+		pthread_cond_wait(&d->threads_data.task_cond,
+			&d->threads_data.task_mutex);
+		if (d->threads_data.run_threads == -1)
+		{
+			pthread_mutex_unlock(&d->threads_data.task_mutex);
+			return (0);
+		}
+	}
+	new_task = d->threads_data.tasks[d->threads_data.tasks_count - 1];
+	d->threads_data.tasks_count -= 1;
+	*task = new_task;
+	pthread_mutex_unlock(&d->threads_data.task_mutex);
+	return (1);
+}
+
+void	*ft_thread_loop(void *arg)
+{
+	t_data			*d;
+	t_render_task	task;
+	t_v2i			pixel;
+	t_ray			ray;
+	t_v3d			target;
+	t_v3d			y_target;
+
+	d = (t_data *)arg;
+	while (d->threads_data.run_threads >= 0)
+	{
+		if (!ft_wait_for_task_or_die_trying(d, &task))
+			return (0);
+
+		/// refactor this as thread "routine"
 		ray.origin = d->scene->camera.position;
-		pixel.y = 0;
-		y_target = d->viewport.top_left;
-		while (pixel.y < HEIGHT_WIN)
+		pixel.y = task.line_start;
+		y_target = ft_v3d_add(d->viewport.top_left,
+				ft_v3d_scale(d->viewport.y_delta, pixel.y));
+		while (pixel.y < task.line_end)
 		{
 			pixel.x = 0;
 			target = y_target;
@@ -66,7 +96,40 @@ void	ft_basic_rt_tasks(t_data *d)
 			y_target = ft_v3d_add(y_target, d->viewport.y_delta);
 			pixel.y++;
 		}
+		/// refactor this
+
+		
+		pthread_mutex_lock(&d->threads_data.task_mutex);
+		d->threads_data.finished_tasks += 1;
+		if (d->threads_data.finished_tasks == d->threads_data.count)
+			pthread_cond_signal(&d->threads_data.done_cond);
+		pthread_mutex_unlock(&d->threads_data.task_mutex);
 	}
+	return (0);
+}
+
+void	ft_setup_basic_rt_tasks(t_data *d)
+{
+	int i = 0;
+	int interval;
+
+	pthread_mutex_lock(&d->threads_data.task_mutex);
+	d->threads_data.finished_tasks = 0;
+	interval = HEIGHT_WIN / d->threads_data.count;
+	while (i < d->threads_data.count)
+	{
+		d->threads_data.tasks[i].line_start = i * interval;
+		if (i == d->threads_data.count - 1)
+			d->threads_data.tasks[i].line_end = HEIGHT_WIN;
+		else
+			d->threads_data.tasks[i].line_end = (i + 1) * interval;
+		i++;
+	}
+	d->threads_data.tasks_count = d->threads_data.count;
+	pthread_cond_broadcast(&d->threads_data.task_cond);
+	while (d->threads_data.finished_tasks < d->threads_data.count)
+		pthread_cond_wait(&d->threads_data.done_cond, &d->threads_data.task_mutex);
+	pthread_mutex_unlock(&d->threads_data.task_mutex);
 }
 
 /*void	ft_basic_rt_tasks(t_data *d)

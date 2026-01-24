@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 19:06:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 09:01:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,24 +49,6 @@ typedef struct s_rotation_data
 	float			sin_p;
 }					t_rotation_data;
 
-typedef struct t_data
-{
-	void			*mlx;
-	void			*window;
-	t_image			image;
-	t_input			input;
-	double			deltatime;
-	struct timeval	last_tv;
-	char			*fpsstr;
-	unsigned long	frame_count;
-	t_scene			*scene;
-	t_viewport		viewport;
-	int				threads_count;
-	pthread_t		*threads;
-	int 			run_threads;
-	pthread_mutex_t	task_mutex;
-}					t_data;
-
 typedef struct s_render_task
 {
 	int				state;
@@ -75,11 +57,18 @@ typedef struct s_render_task
 	int				ray_per_pixel;
 }					t_render_task;
 
-typedef struct s_ray
+typedef struct s_threads_data
 {
-	t_v3d			origin;
-	t_v3d			direction;
-}					t_ray;
+	int				count;
+	pthread_t		*threads;
+	int				tasks_count;
+	int				finished_tasks;
+	t_render_task	*tasks;
+	pthread_mutex_t	task_mutex;
+	pthread_cond_t	task_cond;
+	pthread_cond_t	done_cond;
+	int				run_threads;
+}					t_threads_data;
 
 typedef struct s_viewport
 {
@@ -93,6 +82,28 @@ typedef struct s_viewport
 	t_v3d			bottom_right;
 
 }					t_viewport;
+
+typedef struct t_data
+{
+	void			*mlx;
+	void			*window;
+	t_image			image;
+	t_input			input;
+	double			deltatime;
+	struct timeval	last_tv;
+	char			*fpsstr;
+	unsigned long	frame_count;
+	t_scene			*scene;
+	t_viewport		viewport;
+	t_threads_data	threads_data;
+
+}					t_data;
+
+typedef struct s_ray
+{
+	t_v3d			origin;
+	t_v3d			direction;
+}					t_ray;
 
 typedef struct s_viewport_context
 {

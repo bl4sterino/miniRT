@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/23 11:36:49 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/24 07:36:04 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ FILES = main\
 		image\
 		image2\
 		exit\
+		exit_2\
 		debug/debug_gc\
 		input/focus_and_cursor\
 		input/input\
