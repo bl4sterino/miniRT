@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 14:51:22 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 17:17:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ void		ft_draw_double_8(t_data *d, t_draw_arg arg, char *prefix_arg,
 void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 
 // rendering
+
+void		ft_build_bvh(t_scene *scene);
 
 t_viewport	ft_get_viewport(t_camera cam);
 void		ft_render(t_data *d);

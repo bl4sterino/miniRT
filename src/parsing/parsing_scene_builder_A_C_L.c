@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 16:34:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 17:23:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_extract_camera(t_scene *scene, t_list *lst)
 void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 {
 	t_parsed_object	*element;
+	t_v3d			color;
 
 	while (lst)
 	{
@@ -38,6 +39,9 @@ void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 		if (element->type == object_type_ambient_light)
 		{
 			scene->ambient_light = element->object.as_ambient_light;
+			color = ft_v3d_scale(scene->ambient_light.color,
+					scene->ambient_light.intensity);
+			scene->ambient_light.rgb_int_color = ft_v3d_to_int_color(color);
 			return ;
 		}
 		lst = lst->next;

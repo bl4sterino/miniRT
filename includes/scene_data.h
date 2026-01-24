@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 16:33:11 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 18:20:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ typedef struct s_ambient_light
 {
 	double				intensity;
 	t_v3d				color;
+	int					rgb_int_color;
 }						t_ambient_light;
 
 typedef struct s_camera
@@ -122,6 +123,15 @@ typedef struct s_scene_parsing_context
 	int					line_count;
 }						t_scene_parsing_context;
 
+typedef struct s_bvh_node
+{
+	t_bounds			bounds;
+	struct s_bvh_node	*left;
+	struct s_bvh_node	*right;
+	int					num_obj;
+	t_object			*objects;
+}						t_bvh_node;
+
 typedef struct s_scene
 {
 	t_ambient_light		ambient_light;
@@ -131,7 +141,9 @@ typedef struct s_scene
 	int					num_lights;
 	t_light				*lights;
 	int					num_objects;
-	t_object			*objects;
+	t_list				*object_lst;
+	t_bvh_node			*bvh_root;
+
 }						t_scene;
 
 /// METHODS
@@ -156,6 +168,10 @@ void					ft_extract_ambient_light(t_scene *scene, t_list *lst);
 void					ft_extract_lights(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
 void					ft_extract_objects(t_scene *scene, t_list *lst);
+void					ft_build_bvh(t_scene *scene);
+
+void					ft_process_objects_bounds(t_scene *scene);
+t_bounds				ft_get_sphere_bounds(t_sphere sphere);
 
 void					ft_normalize_vectors(t_list *scene);
 

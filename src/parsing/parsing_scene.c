@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 16:34:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 18:20:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	ft_extract_planes(scene, lst);
 	ft_extract_lights(scene, lst);
 	ft_extract_objects(scene, lst);
+	ft_process_objects_bounds(scene);
+	ft_build_bvh(scene);
 	return (scene);
 }
 
@@ -66,13 +68,11 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 	if (ft_count_matches(lst, object_type_light) != 1)
 		return (0);
 	scene = ft_malloc(sizeof(t_scene));
+	ft_bzero(scene, sizeof(t_scene));
 	scene->planes = ft_malloc(sizeof(t_plane) * ft_count_matches(lst,
 				object_type_plane));
 	scene->lights = ft_malloc(sizeof(t_light) * ft_count_matches(lst,
 				object_type_light));
-	scene->objects = ft_malloc(sizeof(t_object) * (ft_count_matches(lst,
-					object_type_cylinder) + ft_count_matches(lst,
-					object_type_sphere)));
 	return (ft_fill_scene(scene, lst));
 }
 

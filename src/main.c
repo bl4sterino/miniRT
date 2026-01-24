@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 16:18:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 18:57:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_init_thread_pool(t_data *d)
 	int	count;
 
 	ft_init_therad_pool_mutex_and_cond(d);
-	count = sysconf(_SC_NPROCESSORS_ONLN);
+	count = sysconf(_SC_NPROCESSORS_ONLN) - 1;
 	d->threads_data.tasks = ft_malloc(sizeof(t_render_task) * count);
 	d->threads_data.threads = ft_malloc(sizeof(pthread_t) * count);
 	i = 0;

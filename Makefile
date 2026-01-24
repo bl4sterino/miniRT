@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/24 15:37:10 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/24 17:18:04 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,11 +54,13 @@ FILES = main\
 		parsing/parsing_scene_builder_pl_objects\
 		parsing/parsing_normalization\
 		parsing/parsing_error\
+		parsing/parsing_get_bounds\
 		ui/ui_elements\
 		ui/hud_display\
 		rendering/thread_routine\
 		rendering/render\
 		rendering/viewport\
+		rendering/bvh_builder\
 		collisions/sphere_collision\
 		utils/camera_vectors_utils\
 		camera
