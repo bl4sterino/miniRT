@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 08:50:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/24 15:05:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,8 @@ void	ft_setup_hooks(t_data *d)
 	mlx_loop_hook(d->mlx, &ft_exec_updates, d);
 }
 
-// TODO dynamic thread count
-void	ft_init_thread_pool(t_data *d)
+void	ft_init_therad_pool_mutex_and_cond(t_data *d)
 {
-	int	i;
-	int	count;
-
 	if (pthread_mutex_init(&(d->threads_data.task_mutex), NULL) != 0)
 		ft_exit(1);
 	ft_add_exit(d, ft_exit_destroy_task_mutex);
@@ -39,11 +35,18 @@ void	ft_init_thread_pool(t_data *d)
 	if (pthread_cond_init(&(d->threads_data.done_cond), NULL) != 0)
 		ft_exit(1);
 	ft_add_exit(d, ft_exit_destroy_done_cond);
+}
+
+// TODO dynamic thread count
+void	ft_init_thread_pool(t_data *d)
+{
+	int	i;
+	int	count;
+
+	ft_init_therad_pool_mutex_and_cond(d);
 	count = sysconf(_SC_NPROCESSORS_ONLN);
-	d->threads_data.tasks = ft_malloc(sizeof(t_render_task)
-			* count);
-	d->threads_data.threads = ft_malloc(sizeof(pthread_t)
-			* count);
+	d->threads_data.tasks = ft_malloc(sizeof(t_render_task) * count);
+	d->threads_data.threads = ft_malloc(sizeof(pthread_t) * count);
 	i = 0;
 	while (i < count)
 	{

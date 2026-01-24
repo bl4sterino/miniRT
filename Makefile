@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/24 07:36:04 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/24 14:51:37 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ FILES = main\
 		parsing/parsing_error\
 		ui/ui_elements\
 		ui/hud_display\
-		rendering/basic_rt\
+		rendering/thread_routine\
 		rendering/render\
 		rendering/viewport\
 		collisions/sphere_collision\
