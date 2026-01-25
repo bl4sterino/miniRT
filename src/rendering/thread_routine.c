@@ -6,44 +6,62 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 21:26:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/25 22:02:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-/* used for debugging, displays both objects and bvh hits as heatmap 
+
+/* used for debugging, displays both objects and bvh hits as heatmap
 	NO DEPTH TEST */
-t_v3d ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
+t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 {
-    t_bvh_node  *stack[64];
-    int         stack_ptr = 0;
-    int         nodes_traversed = 0;
-    t_bvh_node  *current;
-    stack[stack_ptr++] = scene->bvh_root;
-    
-    while (stack_ptr > 0)
-    {
-        current = stack[--stack_ptr];
-		double t = ft_bounds_collision(ray, current->bounds);
-        if (t != -1.0)
-        {
+	t_bvh_node	*stack[64];
+	int			stack_ptr;
+	int			nodes_traversed;
+	t_bvh_node	*current;
+	double		t;
+	t_object	obj;
+	int			i;
+	double best_dist = INFINITY;
+	int best_index = -1;
+
+	stack_ptr = 0;
+	nodes_traversed = 0;
+	stack[stack_ptr++] = scene->bvh_root;
+	while (stack_ptr > 0)
+	{
+		current = stack[--stack_ptr];
+		t = ft_bounds_collision(ray, current->bounds);
+		if (t != -1.0)
+		{
 			nodes_traversed++;
-            if (current->num_obj == 0)
-            {
-                stack[stack_ptr++] = current->right;
-                stack[stack_ptr++] = current->left;
-            }
+			if (current->num_obj == 0)
+			{
+				stack[stack_ptr++] = current->right;
+				stack[stack_ptr++] = current->left;
+			}
 			else
 			{
-				t_object obj = scene->objects[current->start];
-				if (ft_sphere_collision(ray, obj.object.as_sphere) > 0)
-					return (obj.object.as_sphere.color);
-				// Check for collisions with the leaf objects
+				i = current->start;
+				while (i < current->start + current->num_obj)
+				{
+					obj = scene->objects[i];
+					double dist = ft_sphere_collision(ray, obj.object.as_sphere);
+					if (dist > 0 && dist < best_dist)
+					{
+						best_dist = dist;
+						best_index = i;
+					}
+					i++;
+				}
 			}
-        }
-    }
-    float t = (float)nodes_traversed / (scene->bvh_nodes_count * 0.5);
-    return ((t_v3d){t, t, t});
+		}
+	}
+	if (best_dist < INFINITY)
+		return (scene->objects[best_index].object.as_sphere.color);
+	t = (float)nodes_traversed / (scene->bvh_nodes_count);
+	return ((t_v3d){t, t, t});
 }
 
 int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
