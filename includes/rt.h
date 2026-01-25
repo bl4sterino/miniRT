@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 17:17:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/25 21:18:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # endif
 
 # define THREAD_COUNT 2
+
+# define DISPLAY_BVH 1
+# define BVH_MAX_OBJ_PER_LEAF 1
 
 # define IMAGE_BPP 4
 
@@ -140,6 +143,7 @@ void		ft_setup_tasks(t_data *d);
 void		*ft_thread_loop(void *arg);
 
 // collisions
+double		ft_bounds_collision(t_ray ray, t_bounds b);
 double		ft_sphere_collision(t_ray ray, t_sphere sphere);
 
 // utils

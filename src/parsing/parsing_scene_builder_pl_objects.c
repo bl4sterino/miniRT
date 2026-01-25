@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 17:08:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/25 11:28:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,40 @@ void	ft_extract_planes(t_scene *scene, t_list *lst)
 	scene->num_planes = i;
 }
 
+t_object	*ft_copy_parsed_object_to_object(t_parsed_object *parsed_object)
+{
+	t_object	*copy;
+
+	copy = ft_malloc(sizeof(t_object));
+	copy->type = parsed_object->type;
+	if (copy->type == object_type_sphere)
+		copy->object.as_sphere = parsed_object->object.as_sphere;
+	if (copy->type == object_type_cylinder)
+		copy->object.as_cylinder = parsed_object->object.as_cylinder;
+	return (copy);
+}
+
 void	ft_extract_objects(t_scene *scene, t_list *lst)
 {
+	int				size;
+	t_parsed_object	*po;
 	int				i;
-	t_parsed_object	*element;
-	t_list			*scene_lst;
-	t_parsed_object	*copy;
 
-	scene_lst = scene->object_lst;
+	size = ft_lstsize(lst);
+	if (size == 0)
+		return ;
+	scene->objects = ft_malloc(sizeof(t_object) * size);
 	i = 0;
 	while (lst)
 	{
-		element = lst->content;
-		if (element->type == object_type_cylinder
-			|| element->type == object_type_sphere)
+		po = lst->content;
+		if (po->type == object_type_sphere || po->type == object_type_cylinder)
 		{
-			copy = ft_malloc(sizeof(t_object));
-			*copy = *element;
-			ft_lstadd_front(&scene_lst, ft_lstnew_gc(copy));
+			scene->objects[i].type = po->type;
+			if (po->type == object_type_sphere)
+				scene->objects[i].object.as_sphere = po->object.as_sphere;
+			else if (po->type == object_type_cylinder)
+				scene->objects[i].object.as_cylinder = po->object.as_cylinder;
 			i++;
 		}
 		lst = lst->next;
@@ -56,19 +72,17 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	scene->num_objects = i;
 }
 
-void ft_process_objects_bounds(t_scene *scene)
+void	ft_process_objects_bounds(t_scene *scene)
 {
-	t_list *lst;
+	int	i;
 
-	t_object *obj;
-
-	lst = scene->object_lst;
-	while (lst)
+	i = 0;
+	while (i < scene->num_objects)
 	{
-		obj = lst->content;
-		if (obj->type == object_type_sphere)
+		if (scene->objects[i].type == object_type_sphere)
 		{
-			obj->bounds = ft_get_sphere_bounds(obj->object.as_sphere);
+			scene->objects[i].bounds = ft_get_sphere_bounds(scene->objects[i].object.as_sphere);
 		}
+		i++;
 	}
 }

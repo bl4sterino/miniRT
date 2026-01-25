@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 18:20:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/25 18:49:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	ft_extract_lights(scene, lst);
 	ft_extract_objects(scene, lst);
 	ft_process_objects_bounds(scene);
-	ft_build_bvh(scene);
+	scene->bvh_root = ft_bvh_builder(scene, 0, scene->num_objects);
+	scene->bvh_nodes_count = ft_get_total_node_count(scene->bvh_root);
 	return (scene);
 }
 

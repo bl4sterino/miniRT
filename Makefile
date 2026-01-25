@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/24 17:18:04 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/25 20:05:33 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,6 +61,9 @@ FILES = main\
 		rendering/render\
 		rendering/viewport\
 		rendering/bvh_builder\
+		rendering/bvh_utils\
+		rendering/bvh_sorter\
+		collisions/bounds_collision\
 		collisions/sphere_collision\
 		utils/camera_vectors_utils\
 		camera

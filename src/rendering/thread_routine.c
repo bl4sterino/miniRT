@@ -6,60 +6,44 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 18:32:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/25 21:26:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-int	ft_ray_bounds_check(t_ray ray, t_bounds b)
+/* used for debugging, displays both objects and bvh hits as heatmap 
+	NO DEPTH TEST */
+t_v3d ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 {
-	float	t1;
-	float	t2;
-	float	tmin;
-	float	tmax;
-
-	t1 = (b.min.x - ray.origin.x) * ray.inv_dir.x;
-	t2 = (b.max.x - ray.origin.x) * ray.inv_dir.x;
-	tmin = fmin(t1, t2);
-	tmax = fmax(t1, t2);
-	t1 = (b.min.y - ray.origin.y) * ray.inv_dir.y;
-	t2 = (b.max.y - ray.origin.y) * ray.inv_dir.y;
-	tmin = fmax(tmin, fmin(t1, t2));
-	tmax = fmin(tmax, fmax(t1, t2));
-	t1 = (b.min.z - ray.origin.z) * ray.inv_dir.z;
-	t2 = (b.max.z - ray.origin.z) * ray.inv_dir.z;
-	tmin = fmax(tmin, fmin(t1, t2));
-	tmax = fmin(tmax, fmax(t1, t2));
-	return (tmax >= fmax(0.0f, tmin));
-}
-
-t_v3d	ft_shoot_ray(t_ray ray, t_scene *scene)
-{
-	t_bvh_node	*stack[64];
-	int			stack_ptr;
-	t_bvh_node	*current;
-
-	stack_ptr = 0;
-	stack[stack_ptr++] = scene->bvh_root;
-	while (stack_ptr > 0)
-	{
-		current = stack[--stack_ptr];
-		if (!ft_ray_bounds_check(ray, current->bounds))
-			continue ;
-		if (current->num_obj > 0)
-		{
-			// Final object collision check
-			return ((t_v3d){1, 1, 1});
-		}
-		else
-		{
-			// maybe push the closest one last
-			stack[stack_ptr++] = current->right;
-			stack[stack_ptr++] = current->left;
-		}
-	}
-	return (scene->ambient_light.color);
+    t_bvh_node  *stack[64];
+    int         stack_ptr = 0;
+    int         nodes_traversed = 0;
+    t_bvh_node  *current;
+    stack[stack_ptr++] = scene->bvh_root;
+    
+    while (stack_ptr > 0)
+    {
+        current = stack[--stack_ptr];
+		double t = ft_bounds_collision(ray, current->bounds);
+        if (t != -1.0)
+        {
+			nodes_traversed++;
+            if (current->num_obj == 0)
+            {
+                stack[stack_ptr++] = current->right;
+                stack[stack_ptr++] = current->left;
+            }
+			else
+			{
+				t_object obj = scene->objects[current->start];
+				if (ft_sphere_collision(ray, obj.object.as_sphere) > 0)
+					return (obj.object.as_sphere.color);
+				// Check for collisions with the leaf objects
+			}
+        }
+    }
+    float t = (float)nodes_traversed / (scene->bvh_nodes_count * 0.5);
+    return ((t_v3d){t, t, t});
 }
 
 int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
@@ -104,7 +88,10 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 		{
 			ray.direction = ft_v3d_sub(target, ray.origin);
 			ray.inv_dir = ft_v3d_div_safe((t_v3d){1, 1, 1}, ray.direction);
-			ray_result = ft_shoot_ray(ray, (d->scene));
+			if (DISPLAY_BVH)
+				ray_result = ft_shoot_ray_bvh(ray, (d->scene));
+			else
+				ray_result = (t_v3d){0.1, 0.1, 0.1}; // True ray here
 			ft_put_pxl(d->image.addr, pixel, ft_v3d_to_int_color(ray_result));
 			target = ft_v3d_add(target, d->viewport.x_delta);
 			pixel.x++;
@@ -138,31 +125,3 @@ void	*ft_thread_loop(void *arg)
 	}
 	return (0);
 }
-
-/*int	ft_get_ray_color(t_ray ray, t_scene *scene)
-{
-	t_object	*objects;
-	int			i;
-	double		bestdist;
-	double		dist;
-	int			best_i;
-
-	objects = scene->objects;
-	i = 0;
-	bestdist = INFINITY;
-	best_i = -1;
-	while (i < scene->num_objects)
-	{
-		if (objects[i].type == object_type_sphere)
-			dist = ft_sphere_collision(ray, objects[i].object.as_sphere);
-		if (dist >= 0 && dist < bestdist)
-		{
-			bestdist = dist;
-			best_i = i;
-		}
-		i++;
-	}
-	if (best_i >= 0)
-		return (ft_v3d_to_int_color(objects[best_i].object.as_sphere.color));
-	return (0);
-}*/
