@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 13:17:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 16:58:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
+# define TILE_SIZE 16
 
 # define IMAGE_BPP 4
 

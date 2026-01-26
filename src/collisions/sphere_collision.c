@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 11:20:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 15:31:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 14:48:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ double	ft_sphere_collision(t_ray ray, t_sphere sphere)
 	discriminant = (b * b) - (4 * a * (ft_v3d_dot(oc, oc) - (sphere.radius
 					* sphere.radius)));
 	if (discriminant < 0)
-		return (-1.0);
+		return (INFINITY);
 	t = (-b - sqrt(discriminant)) / (2.0 * a);
 	if (t < 0)
 		t = (-b + sqrt(discriminant)) / (2.0 * a);
 	if (t < 0)
-		return (-1.0);
+		return (INFINITY);
 	return (t);
 }

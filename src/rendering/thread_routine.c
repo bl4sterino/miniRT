@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 13:18:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 17:01:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 			}
 		}
 	}
-	if (best_dist < INFINITY)
-		return (scene->objects[best_index].object.as_sphere.color);
 	(void)best_index;
 	t = fmin((float)nodes_traversed / 64, 1.0);
 	
@@ -108,21 +106,20 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 	t_v3d	ray_result;
 
 	ray.origin = d->scene->camera.position;
-	pixel.y = task.line_start;
+	pixel.y = task.y_start;
+	pixel.x = task.x_start;
 	y_target = ft_v3d_add(d->viewport.top_left,
 			ft_v3d_scale(d->viewport.y_delta, pixel.y));
-	while (pixel.y < task.line_end)
+	y_target = ft_v3d_add(y_target, ft_v3d_scale(d->viewport.x_delta, pixel.x));
+	while (pixel.y < task.y_end)
 	{
-		pixel.x = 0;
+		pixel.x = task.x_start;
 		target = y_target;
-		while (pixel.x < WIDTH_WIN)
+		while (pixel.x < task.x_end)
 		{
 			ray.direction = ft_v3d_sub(target, ray.origin);
 			ray.inv_dir = ft_v3d_div_safe((t_v3d){{1, 1, 1}}, ray.direction);
-			if (DISPLAY_BVH)
-				ray_result = ft_shoot_ray_bvh(ray, (d->scene));
-			else
-				ray_result = (t_v3d){{0.1, 0.1, 0.1}}; // True ray here
+			ray_result = ft_shoot_ray_bvh(ray, (d->scene));
 			ft_put_pxl(d->image.addr, pixel, ft_v3d_to_int_color(ray_result));
 			target = ft_v3d_add(target, d->viewport.x_delta);
 			pixel.x++;
@@ -145,7 +142,7 @@ void	*ft_thread_loop(void *arg)
 		ft_thread_render_function(d, task);
 		pthread_mutex_lock(&d->threads_data.task_mutex);
 		d->threads_data.finished_tasks += 1;
-		if (d->threads_data.finished_tasks == d->threads_data.count)
+		if (d->threads_data.finished_tasks == d->threads_data.tasks_total_count)
 			pthread_cond_signal(&d->threads_data.done_cond);
 		if (d->threads_data.run_threads == -1)
 		{

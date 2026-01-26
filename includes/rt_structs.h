@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 17:46:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 16:41:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ typedef struct s_rotation_data
 
 typedef struct s_render_task
 {
-	int				state;
-	int				line_start;
+	int				y_start;
+	int				y_end;
+	int				x_start;
+	int				x_end;
 	int				line_end;
-	int				ray_per_pixel;
 }					t_render_task;
 
 typedef struct s_threads_data
@@ -62,6 +63,7 @@ typedef struct s_threads_data
 	int				count;
 	pthread_t		*threads;
 	int				tasks_count;
+	int				tasks_total_count;
 	int				finished_tasks;
 	t_render_task	*tasks;
 	pthread_mutex_t	task_mutex;

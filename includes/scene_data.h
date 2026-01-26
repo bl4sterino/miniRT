@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 13:10:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 17:12:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@ typedef struct s_bounds
 	t_v3d				max;
 }						t_bounds;
 
+typedef struct s_bvh_best_context
+{
+	int					axis;
+	double				surface;
+	int					left_id;
+}						t_bvh_best_context;
+
 /* Contains every scene object except Lights and Planes */
 typedef struct s_object
 {
@@ -174,9 +181,16 @@ void					ft_extract_objects(t_scene *scene, t_list *lst);
 
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
+void					ft_quicksort_objects(t_object *objs, int low, int high,
+							int axis);
+int						ft_partition(t_object *objs, int low, int high,
+							int axis);
 int						ft_get_longest_bounds_axis(t_bounds bounds);
-int						ft_sort_range_by_longest_axis(t_object *objs,
-							int object_count, t_bounds range_bounds);
+double					ft_get_bounds_surface(t_bounds bounds);
+int						ft_find_best_split(t_object *objs, int object_count,
+							t_bounds range_bounds, int *left_elements);
+t_bounds				ft_get_bounds_range(t_object *objects, int start,
+							int branch_elements);
 
 void					ft_process_objects_bounds(t_scene *scene);
 t_bounds				ft_get_sphere_bounds(t_sphere sphere);

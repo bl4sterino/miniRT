@@ -6,39 +6,49 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 14:57:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 17:13:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_build_task(t_data *d, int i, int count)
+void	ft_build_task(t_data *d, int x, int y, int i)
 {
-	int	interval;
-
-	interval = HEIGHT_WIN / d->threads_data.count;
-	d->threads_data.tasks[i].line_start = i * interval;
-	if (i == count - 1)
-		d->threads_data.tasks[i].line_end = HEIGHT_WIN;
+	d->threads_data.tasks[i].y_start = y * TILE_SIZE;
+	if (y + 1 == HEIGHT_WIN / TILE_SIZE)
+		d->threads_data.tasks[i].y_end = HEIGHT_WIN - 1;
 	else
-		d->threads_data.tasks[i].line_end = (i + 1) * interval;
+		d->threads_data.tasks[i].y_end = d->threads_data.tasks[i].y_start
+			+ TILE_SIZE;
+	d->threads_data.tasks[i].x_start = x * TILE_SIZE;
+	d->threads_data.tasks[i].x_end = d->threads_data.tasks[i].x_start
+		+ TILE_SIZE;
 }
 
 void	ft_setup_tasks(t_data *d)
 {
 	int	i;
+	int	x;
+	int	y;
 
+	x = 0;
+	y = -1;
 	i = 0;
 	pthread_mutex_lock(&d->threads_data.task_mutex);
 	d->threads_data.finished_tasks = 0;
-	while (i < d->threads_data.count)
+	while (++y < HEIGHT_WIN / TILE_SIZE)
 	{
-		ft_build_task(d, i, d->threads_data.count);
-		i++;
+		x = 0;
+		while (x < WIDTH_WIN / TILE_SIZE)
+		{
+			ft_build_task(d, x, y, i);
+			x++;
+			i++;
+		}
 	}
-	d->threads_data.tasks_count = d->threads_data.count;
+	d->threads_data.tasks_count = i;
 	pthread_cond_broadcast(&d->threads_data.task_cond);
-	while (d->threads_data.finished_tasks < d->threads_data.count)
+	while (d->threads_data.finished_tasks < d->threads_data.tasks_count)
 		pthread_cond_wait(&d->threads_data.done_cond,
 			&d->threads_data.task_mutex);
 	pthread_mutex_unlock(&d->threads_data.task_mutex);

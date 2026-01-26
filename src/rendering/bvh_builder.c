@@ -6,11 +6,62 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 13:02:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 17:12:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void	ft_find_best_surface_on_axis_split(t_object *objs, int object_count,
+		int axis, t_bvh_best_context *best)
+{
+	int			i;
+	t_bounds	left;
+	t_bounds	right;
+	double		surface;
+
+	ft_quicksort_objects(objs, 0, object_count - 1, axis);
+	i = 1;
+	while (i < object_count)
+	{
+		left = ft_get_bounds_range(objs, 0, i);
+		right = ft_get_bounds_range(objs, i, object_count - i);
+		surface = (ft_get_bounds_surface(left) * i)
+			+ (ft_get_bounds_surface(right) * (object_count - i));
+		if (surface < best->surface)
+		{
+			best->surface = surface;
+			best->left_id = i;
+			best->axis = axis;
+		}
+		i++;
+	}
+}
+
+int	ft_find_best_split(t_object *objs, int object_count, t_bounds parent_bounds,
+		int *left_elements)
+{
+	t_bvh_best_context	best;
+
+	best.axis = -1;
+	best.surface = INFINITY;
+	if (object_count < 2)
+		return (-1);
+	else if (object_count == 2)
+	{
+		best.axis = ft_get_longest_bounds_axis(parent_bounds);
+		ft_quicksort_objects(objs, 0, object_count - 1, best.axis);
+		*left_elements = 1;
+		return (best.axis);
+	}
+	ft_find_best_surface_on_axis_split(objs, object_count, 0, &best);
+	ft_find_best_surface_on_axis_split(objs, object_count, 1, &best);
+	ft_find_best_surface_on_axis_split(objs, object_count, 2, &best);
+	if (best.axis != 2)
+		ft_quicksort_objects(objs, 0, object_count - 1, best.axis);
+	*left_elements = best.left_id;
+	return (best.axis);
+}
 
 t_bounds	ft_get_bounds_range(t_object *objects, int start,
 		int branch_elements)
@@ -35,19 +86,6 @@ t_bounds	ft_get_bounds_range(t_object *objects, int start,
 	return (bounds);
 }
 
-double	ft_get_axis_pos(int axis, t_bounds bounds)
-{
-	double	ret;
-
-	if (axis == 0)
-		ret = (bounds.min.x + bounds.max.x) * 0.5;
-	else if (axis == 1)
-		ret = (bounds.min.y + bounds.max.y) * 0.5;
-	else
-		ret = (bounds.min.z + bounds.max.z) * 0.5;
-	return (ret);
-}
-
 static int	ft_bvh_new_node(t_scene *scene)
 {
 	int	id;
@@ -61,7 +99,7 @@ static int	ft_bvh_new_node(t_scene *scene)
 int	ft_bvh_builder(t_scene *scene, int start, int branch_elements)
 {
 	int			node_id;
-	int			half_elements;
+	int			left_elements;
 	t_bvh_node	*node;
 
 	node_id = ft_bvh_new_node(scene);
@@ -69,12 +107,11 @@ int	ft_bvh_builder(t_scene *scene, int start, int branch_elements)
 	node->bounds = ft_get_bounds_range(scene->objects, start, branch_elements);
 	if (branch_elements > BVH_MAX_OBJ_PER_LEAF)
 	{
-		node->split_axis = ft_sort_range_by_longest_axis(&scene->objects[start],
-				branch_elements, node->bounds);
-		half_elements = branch_elements * 0.5;
-		node->left = ft_bvh_builder(scene, start, half_elements);
-		node->right = ft_bvh_builder(scene, start + half_elements,
-				branch_elements - half_elements);
+		node->split_axis = ft_find_best_split(&scene->objects[start],
+				branch_elements, node->bounds, &left_elements);
+		node->left = ft_bvh_builder(scene, start, left_elements);
+		node->right = ft_bvh_builder(scene, start + left_elements,
+				branch_elements - left_elements);
 	}
 	else
 	{
