@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 17:01:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 18:17:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 	double		best_dist;
 	int			best_index;
 	double		dist;
-	int			current_index;
 	t_bvh_node	*current;
 
 	best_dist = INFINITY;
@@ -34,8 +33,7 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 	stack[stack_ptr++] = scene->bvh_root;
 	while (stack_ptr > 0)
 	{
-		current_index = stack[--stack_ptr];
-		current = &scene->bvh_nodes[current_index];
+		current = &scene->bvh_nodes[stack[--stack_ptr]];
 		t = ft_bounds_collision(ray, current->bounds);
 		if (t >= best_dist)
 			continue ;
@@ -60,7 +58,7 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 			{
 				obj = scene->objects[i];
 				dist = ft_sphere_collision(ray, obj.object.as_sphere);
-				if (dist > 0 && dist < best_dist)
+				if (dist < best_dist)
 				{
 					best_dist = dist;
 					best_index = i;
