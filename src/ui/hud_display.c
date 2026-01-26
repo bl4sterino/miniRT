@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:03:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 19:08:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 17:25:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,6 @@ void	ft_draw_clocks(t_data *d)
 	ft_draw_double_8(d, (t_draw_arg){(t_v2i){0, HEIGHT_WIN - 15}, (t_v2i){170,
 		15}, (t_rgb){50, 50, 50}}, "frame duration: ",
 		ft_clock_get(clock_frame));
-	clear_percent = (ft_clock_get(clock_clear_frame_buffer)
-			/ ft_clock_get(clock_frame)) * 100.0;
-	ft_draw_double(d, (t_draw_arg){(t_v2i){180, HEIGHT_WIN - 15}, (t_v2i){100,
-		15}, (t_rgb){50, 50, 50}}, "clearing %: ", clear_percent);
-	render_percent = (ft_clock_get(clock_render) / ft_clock_get(clock_frame))
-		* 100.0;
-	ft_draw_double(d, (t_draw_arg){(t_v2i){285, HEIGHT_WIN - 15}, (t_v2i){110,
-		15}, (t_rgb){50, 50, 50}}, "rendering %: ", render_percent);
 }
 
 void	ft_hud_display(t_data *d)
