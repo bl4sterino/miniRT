@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 12:01:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 13:17:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 # define CAM_Z 0.0f
 
 /// Units / second
-# define CAM_MOVEMENT_SPEED 4.0f
+# define CAM_MOVEMENT_SPEED 12.0f
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1

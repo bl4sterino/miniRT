@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:50:48 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 20:03:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 13:10:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,4 @@ int	ft_get_longest_bounds_axis(t_bounds bounds)
 	else
 		axis = 2;
 	return (axis);
-}
-
-int	ft_get_total_node_count(t_bvh_node *node)
-{
-	if (!node)
-		return (0);
-	return (1 + ft_get_total_node_count(node->left)
-		+ ft_get_total_node_count(node->right));
 }

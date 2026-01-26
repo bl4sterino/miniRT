@@ -6,18 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 12:02:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 13:18:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-/* used for debugging, displays both objects and bvh hits as heatmap
-	NO DEPTH TEST */
+/* used for debugging, renders heatmap of bounds check */
 t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 {
-	t_bvh_node	*stack[64];
-	double		dist_stack[64];
+	int			stack[64];
 	int			stack_ptr;
 	int			nodes_traversed;
 	double		t;
@@ -26,6 +24,7 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 	double		best_dist;
 	int			best_index;
 	double		dist;
+	int			current_index;
 	t_bvh_node	*current;
 
 	best_dist = INFINITY;
@@ -35,7 +34,8 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 	stack[stack_ptr++] = scene->bvh_root;
 	while (stack_ptr > 0)
 	{
-		current = stack[--stack_ptr];
+		current_index = stack[--stack_ptr];
+		current = &scene->bvh_nodes[current_index];
 		t = ft_bounds_collision(ray, current->bounds);
 		if (t >= best_dist)
 			continue ;
@@ -71,7 +71,9 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 	}
 	if (best_dist < INFINITY)
 		return (scene->objects[best_index].object.as_sphere.color);
-	t = (float)nodes_traversed / (scene->bvh_nodes_count);
+	(void)best_index;
+	t = fmin((float)nodes_traversed / 64, 1.0);
+	
 	return ((t_v3d){{t, t, t}});
 }
 

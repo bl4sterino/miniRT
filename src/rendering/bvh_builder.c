@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 11:55:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 13:02:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,29 @@ double	ft_get_axis_pos(int axis, t_bounds bounds)
 	return (ret);
 }
 
-/* Split and sort by splitting plane, or assign the elements to the leaf */
-t_bvh_node	*ft_bvh_builder(t_scene *scene, int start, int branch_elements)
+static int	ft_bvh_new_node(t_scene *scene)
 {
-	t_bvh_node	*node;
-	int			half_elements;
+	int	id;
 
-	node = ft_malloc(sizeof(t_bvh_node));
-	ft_bzero(node, sizeof(t_bvh_node));
+	id = scene->bvh_node_count++;
+	ft_bzero(&scene->bvh_nodes[id], sizeof(t_bvh_node));
+	return (id);
+}
+
+/* Split and sort by splitting plane, or assign the elements to the leaf */
+int	ft_bvh_builder(t_scene *scene, int start, int branch_elements)
+{
+	int			node_id;
+	int			half_elements;
+	t_bvh_node	*node;
+
+	node_id = ft_bvh_new_node(scene);
+	node = &scene->bvh_nodes[node_id];
 	node->bounds = ft_get_bounds_range(scene->objects, start, branch_elements);
 	if (branch_elements > BVH_MAX_OBJ_PER_LEAF)
 	{
-		node->split_axis = ft_sort_range_by_longest_axis(&scene->objects[start], branch_elements,
-			node->bounds);
+		node->split_axis = ft_sort_range_by_longest_axis(&scene->objects[start],
+				branch_elements, node->bounds);
 		half_elements = branch_elements * 0.5;
 		node->left = ft_bvh_builder(scene, start, half_elements);
 		node->right = ft_bvh_builder(scene, start + half_elements,
@@ -70,6 +80,8 @@ t_bvh_node	*ft_bvh_builder(t_scene *scene, int start, int branch_elements)
 	{
 		node->num_obj = branch_elements;
 		node->start = start;
+		node->left = -1;
+		node->right = -1;
 	}
-	return (node);
+	return (node_id);
 }

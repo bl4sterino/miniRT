@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 11:04:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 13:10:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,8 +127,8 @@ typedef struct s_bvh_node
 {
 	t_bounds			bounds;
 	int					split_axis;
-	struct s_bvh_node	*left;
-	struct s_bvh_node	*right;
+	int					left;
+	int					right;
 	int					num_obj;
 	int					start;
 }						t_bvh_node;
@@ -143,9 +143,10 @@ typedef struct s_scene
 	t_light				*lights;
 	int					num_objects;
 	t_object			*objects;
-	t_bvh_node			*bvh_root;
-	int					bvh_nodes_count;
-
+	t_bvh_node			*bvh_nodes;
+	int					bvh_node_capacity;
+	int					bvh_root;
+	int					bvh_node_count;
 }						t_scene;
 
 /// METHODS
@@ -171,9 +172,8 @@ void					ft_extract_lights(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
 void					ft_extract_objects(t_scene *scene, t_list *lst);
 
-t_bvh_node				*ft_bvh_builder(t_scene *scene, int start,
+int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
-int						ft_get_total_node_count(t_bvh_node *node);
 int						ft_get_longest_bounds_axis(t_bounds bounds);
 int						ft_sort_range_by_longest_axis(t_object *objs,
 							int object_count, t_bounds range_bounds);
