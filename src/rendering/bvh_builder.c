@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 20:01:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 11:55:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_bvh_node	*ft_bvh_builder(t_scene *scene, int start, int branch_elements)
 	node->bounds = ft_get_bounds_range(scene->objects, start, branch_elements);
 	if (branch_elements > BVH_MAX_OBJ_PER_LEAF)
 	{
-		ft_sort_range_by_longest_axis(&scene->objects[start], branch_elements,
+		node->split_axis = ft_sort_range_by_longest_axis(&scene->objects[start], branch_elements,
 			node->bounds);
 		half_elements = branch_elements * 0.5;
 		node->left = ft_bvh_builder(scene, start, half_elements);

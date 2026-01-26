@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 22:02:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 12:02:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,19 @@
 t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 {
 	t_bvh_node	*stack[64];
+	double		dist_stack[64];
 	int			stack_ptr;
 	int			nodes_traversed;
-	t_bvh_node	*current;
 	double		t;
 	t_object	obj;
 	int			i;
-	double best_dist = INFINITY;
-	int best_index = -1;
+	double		best_dist;
+	int			best_index;
+	double		dist;
+	t_bvh_node	*current;
 
+	best_dist = INFINITY;
+	best_index = -1;
 	stack_ptr = 0;
 	nodes_traversed = 0;
 	stack[stack_ptr++] = scene->bvh_root;
@@ -33,35 +37,42 @@ t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
 	{
 		current = stack[--stack_ptr];
 		t = ft_bounds_collision(ray, current->bounds);
-		if (t != -1.0)
+		if (t >= best_dist)
+			continue ;
+		nodes_traversed++;
+		if (current->num_obj == 0)
 		{
-			nodes_traversed++;
-			if (current->num_obj == 0)
+			if (ray.direction.v[current->split_axis] < 0)
+			{
+				stack[stack_ptr++] = current->left;
+				stack[stack_ptr++] = current->right;
+			}
+			else
 			{
 				stack[stack_ptr++] = current->right;
 				stack[stack_ptr++] = current->left;
 			}
-			else
+		}
+		else
+		{
+			i = current->start;
+			while (i < current->start + current->num_obj)
 			{
-				i = current->start;
-				while (i < current->start + current->num_obj)
+				obj = scene->objects[i];
+				dist = ft_sphere_collision(ray, obj.object.as_sphere);
+				if (dist > 0 && dist < best_dist)
 				{
-					obj = scene->objects[i];
-					double dist = ft_sphere_collision(ray, obj.object.as_sphere);
-					if (dist > 0 && dist < best_dist)
-					{
-						best_dist = dist;
-						best_index = i;
-					}
-					i++;
+					best_dist = dist;
+					best_index = i;
 				}
+				i++;
 			}
 		}
 	}
 	if (best_dist < INFINITY)
 		return (scene->objects[best_index].object.as_sphere.color);
 	t = (float)nodes_traversed / (scene->bvh_nodes_count);
-	return ((t_v3d){t, t, t});
+	return ((t_v3d){{t, t, t}});
 }
 
 int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
@@ -105,11 +116,11 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 		while (pixel.x < WIDTH_WIN)
 		{
 			ray.direction = ft_v3d_sub(target, ray.origin);
-			ray.inv_dir = ft_v3d_div_safe((t_v3d){1, 1, 1}, ray.direction);
+			ray.inv_dir = ft_v3d_div_safe((t_v3d){{1, 1, 1}}, ray.direction);
 			if (DISPLAY_BVH)
 				ray_result = ft_shoot_ray_bvh(ray, (d->scene));
 			else
-				ray_result = (t_v3d){0.1, 0.1, 0.1}; // True ray here
+				ray_result = (t_v3d){{0.1, 0.1, 0.1}}; // True ray here
 			ft_put_pxl(d->image.addr, pixel, ft_v3d_to_int_color(ray_result));
 			target = ft_v3d_add(target, d->viewport.x_delta);
 			pixel.x++;

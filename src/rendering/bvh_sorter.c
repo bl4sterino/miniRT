@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 19:51:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 20:02:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 11:04:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,14 @@ static void	ft_quicksort_objects(t_object *objs, int low, int high, int axis)
 	}
 }
 
-void	ft_sort_range_by_longest_axis(t_object *objs, int object_count,
+int	ft_sort_range_by_longest_axis(t_object *objs, int object_count,
 		t_bounds range_bounds)
 {
 	int	axis;
 
 	if (object_count < 2)
-		return ;
+		return -1;
 	axis = ft_get_longest_bounds_axis(range_bounds);
 	ft_quicksort_objects(objs, 0, object_count - 1, axis);
+	return (axis);
 }

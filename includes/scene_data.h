@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 20:07:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 11:04:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ typedef struct s_scene_parsing_context
 typedef struct s_bvh_node
 {
 	t_bounds			bounds;
+	int					split_axis;
 	struct s_bvh_node	*left;
 	struct s_bvh_node	*right;
 	int					num_obj;
@@ -174,7 +175,7 @@ t_bvh_node				*ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
 int						ft_get_total_node_count(t_bvh_node *node);
 int						ft_get_longest_bounds_axis(t_bounds bounds);
-void					ft_sort_range_by_longest_axis(t_object *objs,
+int						ft_sort_range_by_longest_axis(t_object *objs,
 							int object_count, t_bounds range_bounds);
 
 void					ft_process_objects_bounds(t_scene *scene);

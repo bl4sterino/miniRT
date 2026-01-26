@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 15:15:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 11:02:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	ft_setup_context(t_viewport_context *context, t_camera cam)
 	context->theta = cam.fov * DEG2RAD;
 	context->half_width = tan(context->theta / 2.0);
 	context->half_height = context->half_width * context->aspect_ratio;
-	context->cam_right = ft_v3d_normalize(ft_v3d_cross((t_v3d){0.0, 1.0, 0.0},
+	context->cam_right = ft_v3d_normalize(ft_v3d_cross((t_v3d){{0.0, 1.0, 0.0}},
 				cam.direction));
 	context->cam_up = ft_v3d_cross(cam.direction, context->cam_right);
 	context->cam_up = ft_v3d_normalize(context->cam_up);

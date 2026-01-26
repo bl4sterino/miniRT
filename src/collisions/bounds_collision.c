@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 20:03:40 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 21:08:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 11:49:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ double	ft_bounds_collision(t_ray ray, t_bounds b)
 	tmin = fmax(tmin, fmin(t1, t2));
 	tmax = fmin(tmax, fmax(t1, t2));
 	if (tmax < 0 || tmin > tmax)
-		return (-1.0);
+		return (INFINITY);
 	if (tmin < 0)
 		return (0.0);
 	return (tmin);

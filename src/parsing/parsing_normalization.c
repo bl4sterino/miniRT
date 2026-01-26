@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 11:57:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 16:44:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/26 11:02:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_normalize_camera(t_parsed_object *elem)
 {
 	if (ft_v3d_length(elem->object.as_camera.direction) < 0.01)
-		elem->object.as_camera.direction = (t_v3d){0, 0, 1};
+		elem->object.as_camera.direction = (t_v3d){{0, 0, 1}};
 	else
 		elem->object.as_camera.direction = ft_v3d_normalize(
 				elem->object.as_camera.direction);
@@ -25,7 +25,7 @@ void	ft_normalize_camera(t_parsed_object *elem)
 void	ft_normalize_vector(t_v3d *v)
 {
 	if (ft_v3d_length(*v) < 0.001)
-		*v = (t_v3d){0, 0, 1};
+		*v = (t_v3d){{0, 0, 1}};
 	else
 		*v = ft_v3d_normalize(*v);
 }
