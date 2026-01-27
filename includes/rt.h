@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 12:07:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 13:02:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # include <math.h>
 
 // mini-rt
+# include "collisions_inlined.h"
 # include "image_inlined.h"
 # include "mlx.h"
 # include "monitoring.h"
@@ -140,10 +141,6 @@ void		ft_setup_tasks(t_data *d);
 
 void		ft_setup_tasks(t_data *d);
 void		*ft_thread_loop(void *arg);
-
-// collisions
-double		ft_bounds_collision(t_ray ray, t_bounds b);
-double		ft_sphere_collision(t_ray ray, t_sphere sphere);
 
 // utils
 
