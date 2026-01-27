@@ -6,20 +6,19 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/26 11:14:38 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/27 11:17:36 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS = -g3 -DDEBUG=1 -Wall -Wextra #-Werror
+DFLAGS = -g3 -DDEBUG=1 -Wall -Wextra -O3 #-Werror
 MLXFLAG = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
 MLX_DIR = .minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a
-
 NAME = raytracer
 D_NAME = raytracer_debug
 

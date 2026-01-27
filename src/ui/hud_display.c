@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:03:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 17:25:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 10:48:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ void	ft_draw_cam_data(t_data *d)
 
 void	ft_draw_clocks(t_data *d)
 {
-	double	clear_percent;
-	double	render_percent;
-
 	ft_draw_double_8(d, (t_draw_arg){(t_v2i){0, HEIGHT_WIN - 15}, (t_v2i){170,
 		15}, (t_rgb){50, 50, 50}}, "frame duration: ",
 		ft_clock_get(clock_frame));

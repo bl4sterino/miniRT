@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 17:56:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 10:49:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_ray
 	t_v3d			origin;
 	t_v3d			direction;
 	t_v3d			inv_dir;
+	int				inv_sign[3];
 }					t_ray;
 
 typedef struct s_viewport_context

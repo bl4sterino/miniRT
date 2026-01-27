@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 20:03:40 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 11:49:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 11:23:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,29 @@
 
 double	ft_bounds_collision(t_ray ray, t_bounds b)
 {
+	t_v2d	min_max;
 	double	t1;
 	double	t2;
-	double	tmin;
-	double	tmax;
 
-	t1 = (b.min.x - ray.origin.x) * ray.inv_dir.x;
-	t2 = (b.max.x - ray.origin.x) * ray.inv_dir.x;
-	tmin = fmin(t1, t2);
-	tmax = fmax(t1, t2);
-	t1 = (b.min.y - ray.origin.y) * ray.inv_dir.y;
-	t2 = (b.max.y - ray.origin.y) * ray.inv_dir.y;
-	tmin = fmax(tmin, fmin(t1, t2));
-	tmax = fmin(tmax, fmax(t1, t2));
-	t1 = (b.min.z - ray.origin.z) * ray.inv_dir.z;
-	t2 = (b.max.z - ray.origin.z) * ray.inv_dir.z;
-	tmin = fmax(tmin, fmin(t1, t2));
-	tmax = fmin(tmax, fmax(t1, t2));
-	if (tmax < 0 || tmin > tmax)
+	min_max.x = (b.v[ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
+	min_max.y = (b.v[1 - ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
+	if (min_max.x > min_max.y)
 		return (INFINITY);
-	if (tmin < 0)
-		return (0.0);
-	return (tmin);
+	t1 = (b.v[ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
+	t2 = (b.v[1 - ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
+	if (t1 > min_max.x)
+		min_max.x = t1;
+	if (t2 < min_max.y)
+		min_max.y = t2;
+	if (min_max.x > min_max.y)
+		return (INFINITY);
+	t1 = (b.v[ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
+	t2 = (b.v[1 - ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
+	if (t1 > min_max.x)
+		min_max.x = t1;
+	if (t2 < min_max.y)
+		min_max.y = t2;
+	if (min_max.x > min_max.y || min_max.y < 0.0)
+		return (INFINITY);
+	return (tn_d(min_max.x > 0.0, min_max.x, 0.0));
 }

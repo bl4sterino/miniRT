@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 17:12:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 10:36:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,14 @@ typedef struct s_parsed_object
 	} object;
 }						t_parsed_object;
 
-typedef struct s_bounds
+typedef union u_bounds
 {
-	t_v3d				min;
-	t_v3d				max;
+	struct
+	{
+		t_v3d			min;
+		t_v3d			max;
+	};
+	t_v3d				v[2];
 }						t_bounds;
 
 typedef struct s_bvh_best_context

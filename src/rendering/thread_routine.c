@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 18:17:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 10:39:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 		{
 			ray.direction = ft_v3d_sub(target, ray.origin);
 			ray.inv_dir = ft_v3d_div_safe((t_v3d){{1, 1, 1}}, ray.direction);
+			ray.inv_sign[0] = ray.inv_dir.x < 0;
+			ray.inv_sign[1] = ray.inv_dir.y < 0;
+			ray.inv_sign[2] = ray.inv_dir.z < 0;
 			ray_result = ft_shoot_ray_bvh(ray, (d->scene));
 			ft_put_pxl(d->image.addr, pixel, ft_v3d_to_int_color(ray_result));
 			target = ft_v3d_add(target, d->viewport.x_delta);
