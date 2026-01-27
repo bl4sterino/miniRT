@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 11:15:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 12:07:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 #  define DEBUG 0
 # endif
 
-# define THREAD_COUNT 2
-
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
-# define TILE_SIZE 32
+# define TILE_SIZE 16
 
 # define IMAGE_BPP 4
 
@@ -138,7 +136,7 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 void		ft_build_bvh(t_scene *scene);
 
 t_viewport	ft_get_viewport(t_camera cam);
-void		ft_render(t_data *d);
+void		ft_setup_tasks(t_data *d);
 
 void		ft_setup_tasks(t_data *d);
 void		*ft_thread_loop(void *arg);
