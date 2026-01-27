@@ -6,20 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 13:02:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 18:13:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
 
-# ifndef DEBUG
-#  define DEBUG 0
-# endif
-
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
-# define TILE_SIZE 16
+# define TILE_SIZE 32
 
 # define IMAGE_BPP 4
 
@@ -135,6 +131,9 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
+t_v3d		ft_get_pixel_color(t_ray ray, t_scene *scene);
+double		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
+t_v3d		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
 
 t_viewport	ft_get_viewport(t_camera cam);
 void		ft_setup_tasks(t_data *d);

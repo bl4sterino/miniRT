@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 10:49:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 18:03:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ enum				e_dimensions
 	LINE_SIZE = WIDTH_WIN * 4,
 	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN
 };
+
+typedef enum e_render_mode
+{
+	DEFAULT,
+	DEBUG
+}					t_render_mode;
 
 typedef struct s_rgb
 {
@@ -98,7 +104,7 @@ typedef struct t_data
 	t_scene			*scene;
 	t_viewport		viewport;
 	t_threads_data	threads_data;
-
+	t_render_mode	render_mode;
 }					t_data;
 
 typedef struct s_ray
@@ -107,7 +113,37 @@ typedef struct s_ray
 	t_v3d			direction;
 	t_v3d			inv_dir;
 	int				inv_sign[3];
+	char			remaining_bounces;
 }					t_ray;
+
+typedef struct s_bvh_context
+{
+	int				stack[64];
+	int				stack_ptr;
+	double			t;
+	double			best_dist;
+	int				best_index;
+	t_bvh_node		*current;
+}					t_bvh_context;
+
+typedef struct s_bvh_context_debug
+{
+	int				stack[64];
+	int				stack_ptr;
+	int				nodes_traversed;
+	double			t;
+	double			best_dist;
+	int				best_index;
+	t_bvh_node		*current;
+}					t_bvh_context_debug;
+
+typedef struct s_thread_render_context
+{
+	t_v2i			pixel;
+	t_ray			ray;
+	t_v3d			target;
+	t_v3d			y_target;
+}					t_thread_render_context;
 
 typedef struct s_viewport_context
 {

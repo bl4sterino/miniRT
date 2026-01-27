@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/27 13:03:33 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/27 17:56:56 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS = -g3 -DDEBUG=1 -Wall -Wextra -O3 #-Werror
+DFLAGS = -g3 -Wall -Wextra -O3 #-Werror
 MLXFLAG = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -62,6 +62,8 @@ FILES = main\
 		rendering/bvh_builder\
 		rendering/bvh_utils\
 		rendering/bvh_sorter\
+		rendering/bvh_ray_debug\
+		rendering/bvh_ray\
 		utils/camera_vectors_utils\
 		camera
 

@@ -6,77 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 10:39:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/27 18:13:01 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-/* used for debugging, renders heatmap of bounds check */
-t_v3d	ft_shoot_ray_bvh(t_ray ray, t_scene *scene)
-{
-	int			stack[64];
-	int			stack_ptr;
-	int			nodes_traversed;
-	double		t;
-	t_object	obj;
-	int			i;
-	double		best_dist;
-	int			best_index;
-	double		dist;
-	t_bvh_node	*current;
-
-	best_dist = INFINITY;
-	best_index = -1;
-	stack_ptr = 0;
-	nodes_traversed = 0;
-	stack[stack_ptr++] = scene->bvh_root;
-	while (stack_ptr > 0)
-	{
-		current = &scene->bvh_nodes[stack[--stack_ptr]];
-		t = ft_bounds_collision(ray, current->bounds);
-		if (t >= best_dist)
-			continue ;
-		nodes_traversed++;
-		if (current->num_obj == 0)
-		{
-			if (ray.direction.v[current->split_axis] < 0)
-			{
-				stack[stack_ptr++] = current->left;
-				stack[stack_ptr++] = current->right;
-			}
-			else
-			{
-				stack[stack_ptr++] = current->right;
-				stack[stack_ptr++] = current->left;
-			}
-		}
-		else
-		{
-			i = current->start;
-			while (i < current->start + current->num_obj)
-			{
-				obj = scene->objects[i];
-				dist = ft_sphere_collision(ray, obj.object.as_sphere);
-				if (dist < best_dist)
-				{
-					best_dist = dist;
-					best_index = i;
-				}
-				i++;
-			}
-		}
-	}
-	(void)best_index;
-	t = fmin((float)nodes_traversed / 64, 1.0);
-	
-	return ((t_v3d){{t, t, t}});
-}
-
 int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 {
-	t_render_task	new_task;
-
 	pthread_mutex_lock(&d->threads_data.task_mutex);
 	while (d->threads_data.tasks_count == 0)
 	{
@@ -88,45 +25,61 @@ int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 			return (0);
 		}
 	}
-	new_task = d->threads_data.tasks[d->threads_data.tasks_count - 1];
+	*task = d->threads_data.tasks[d->threads_data.tasks_count - 1];
 	d->threads_data.tasks_count -= 1;
-	*task = new_task;
 	pthread_mutex_unlock(&d->threads_data.task_mutex);
 	return (1);
 }
 
+t_thread_render_context	ft_setup_thread_render_data(t_data *d,
+		t_render_task task)
+{
+	t_thread_render_context	context;
+
+	ft_bzero(&context, sizeof(t_thread_render_context));
+	context.ray.origin = d->scene->camera.position;
+	context.pixel.y = task.y_start - 1;
+	context.pixel.x = task.x_start - 1;
+	context.y_target = ft_v3d_add(d->viewport.top_left,
+			ft_v3d_scale(d->viewport.y_delta, context.pixel.y + 1));
+	context.y_target = ft_v3d_add(context.y_target,
+			ft_v3d_scale(d->viewport.x_delta, context.pixel.x));
+	return (context);
+}
+
+t_ray	ft_setup_ray(t_ray ray, t_v3d target)
+{
+	ray.direction = ft_v3d_sub(target, ray.origin);
+	ray.inv_dir = ft_v3d_div_safe((t_v3d){{1, 1, 1}}, ray.direction);
+	ray.inv_sign[0] = ray.inv_dir.x < 0;
+	ray.inv_sign[1] = ray.inv_dir.y < 0;
+	ray.inv_sign[2] = ray.inv_dir.z < 0;
+	return (ray);
+}
+
 void	ft_thread_render_function(t_data *d, t_render_task task)
 {
-	t_v2i	pixel;
-	t_ray	ray;
-	t_v3d	target;
-	t_v3d	y_target;
-	t_v3d	ray_result;
+	t_thread_render_context	context;
 
-	ray.origin = d->scene->camera.position;
-	pixel.y = task.y_start;
-	pixel.x = task.x_start;
-	y_target = ft_v3d_add(d->viewport.top_left,
-			ft_v3d_scale(d->viewport.y_delta, pixel.y));
-	y_target = ft_v3d_add(y_target, ft_v3d_scale(d->viewport.x_delta, pixel.x));
-	while (pixel.y < task.y_end)
+	context = ft_setup_thread_render_data(d, task);
+	while (++context.pixel.y < task.y_end)
 	{
-		pixel.x = task.x_start;
-		target = y_target;
-		while (pixel.x < task.x_end)
+		context.pixel.x = task.x_start - 1;
+		context.target = context.y_target;
+		while (++context.pixel.x < task.x_end)
 		{
-			ray.direction = ft_v3d_sub(target, ray.origin);
-			ray.inv_dir = ft_v3d_div_safe((t_v3d){{1, 1, 1}}, ray.direction);
-			ray.inv_sign[0] = ray.inv_dir.x < 0;
-			ray.inv_sign[1] = ray.inv_dir.y < 0;
-			ray.inv_sign[2] = ray.inv_dir.z < 0;
-			ray_result = ft_shoot_ray_bvh(ray, (d->scene));
-			ft_put_pxl(d->image.addr, pixel, ft_v3d_to_int_color(ray_result));
-			target = ft_v3d_add(target, d->viewport.x_delta);
-			pixel.x++;
+			context.ray = ft_setup_ray(context.ray, context.target);
+			if (d->render_mode == DEFAULT)
+				ft_put_pxl(d->image.addr, context.pixel,
+					ft_v3d_to_int_color(ft_get_pixel_color(context.ray,
+							d->scene)));
+			else
+				ft_put_pxl(d->image.addr, context.pixel,
+					ft_v3d_to_int_color(ft_shoot_ray_bvh_debug(context.ray,
+							d->scene)));
+			context.target = ft_v3d_add(context.target, d->viewport.x_delta);
 		}
-		y_target = ft_v3d_add(y_target, d->viewport.y_delta);
-		pixel.y++;
+		context.y_target = ft_v3d_add(context.y_target, d->viewport.y_delta);
 	}
 }
 
