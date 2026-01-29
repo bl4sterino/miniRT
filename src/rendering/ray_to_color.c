@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 17:06:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:25:01 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,9 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
 		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit);
 		if (c.hit < 0)
-			c.out_color = scene->planes[-c.hit].color;
+			c.out_color = scene->planes[-c.hit - 1].material.color;
 		else
-		{
-			if (scene->objects[c.hit].type == object_type_sphere)
-				c.out_color = scene->objects[c.hit].object.as_sphere.color;
-			else if (scene->objects[c.hit].type == object_type_cylinder)
-				c.out_color = scene->objects[c.hit].object.as_cylinder.color;
-		}
+			c.out_color = scene->objects[c.hit].material.color;
 		c.color = ft_get_light(c.hit_point, c.hit_normal, scene);
 		return (ft_v3d_mult(c.out_color, c.color));
 	}

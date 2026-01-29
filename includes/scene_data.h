@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 16:24:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:10:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ typedef struct s_material
 {
 	t_v3d				color;
 	double				reflection;
-	double				refraction_index;
 }						t_material;
 
 typedef struct s_ambient_light
@@ -49,16 +48,12 @@ typedef struct s_sphere
 {
 	t_v3d				position;
 	double				radius;
-	t_v3d				color;
-	double				reflection;
 }						t_sphere;
 
 typedef struct s_plane
 {
 	t_v3d				position;
 	t_v3d				normal;
-	t_v3d				color;
-	double				reflection;
 }						t_plane;
 
 typedef struct s_cylinder
@@ -67,8 +62,6 @@ typedef struct s_cylinder
 	t_v3d				normal;
 	double				diameter;
 	double				height;
-	t_v3d				color;
-	double				reflection;
 }						t_cylinder;
 
 /// OBJECTS ENUM
@@ -125,6 +118,7 @@ typedef struct s_object
 	{
 		t_sphere		as_sphere;
 		t_cylinder		as_cylinder;
+		t_plane			as_plane;
 	} object;
 	t_material			material;
 	t_bounds			bounds;
@@ -162,7 +156,7 @@ typedef struct s_scene
 	t_ambient_light		ambient_light;
 	t_camera			camera;
 	int					num_planes;
-	t_plane				*planes;
+	t_object			*planes;
 	int					num_lights;
 	t_light				*lights;
 	int					num_objects;
@@ -189,6 +183,8 @@ t_struct_parser_data	*ft_get_parser_light(int id);
 t_struct_parser_data	*ft_get_parser_sphere(int id);
 t_struct_parser_data	*ft_get_parser_plane(int id);
 t_struct_parser_data	*ft_get_parser_cylinder(int id);
+
+long					ft_count_matches(t_list *lst, t_object_type type);
 
 void					ft_extract_camera(t_scene *scene, t_list *lst);
 void					ft_extract_ambient_light(t_scene *scene, t_list *lst);

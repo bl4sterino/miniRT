@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:41:13 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 17:06:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:28:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static inline t_v3d	ft_get_hit_normal(t_v3d hit_point, t_scene *scene, int hit)
 	t_object	object;
 
 	if (hit < 0)
-		return (scene->planes[-hit].normal);
+		return (scene->planes[-hit - 1].object.as_plane.normal);
 	object = scene->objects[hit];
 	if (object.type == object_type_sphere)
 		return (ft_sphere_normal(hit_point, object.object.as_sphere));

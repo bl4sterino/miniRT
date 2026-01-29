@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 16:20:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:11:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,17 @@ int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = parser->type;
 	ft_lstadd_back(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
-	return (ft_parse_data(strs + 1, &new_object->object, parser->element_lst,
-			malloc_id));
+	int element_parsed = ft_parse_data(strs + 1, &new_object->object, parser->element_lst,
+			malloc_id);
+	if (element_parsed > 0 && parser->material_lst)
+	{
+		int result = ft_parse_data(strs + element_parsed + 1, &new_object->material, parser->material_lst,
+			malloc_id);
+		return (result);
+	}
+		
+	else
+		return (element_parsed);
 }
 
 long	ft_count_matches(t_list *lst, t_object_type type)
@@ -72,7 +81,7 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 		ft_exit_str_fd(1, "Point Light is missing\n", 2);
 	scene = ft_malloc(sizeof(t_scene));
 	ft_bzero(scene, sizeof(t_scene));
-	scene->planes = ft_malloc(sizeof(t_plane) * ft_count_matches(lst,
+	scene->planes = ft_malloc(sizeof(t_object) * ft_count_matches(lst,
 				object_type_plane));
 	scene->lights = ft_malloc(sizeof(t_light) * ft_count_matches(lst,
 				object_type_light));

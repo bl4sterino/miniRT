@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/28 10:17:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:07:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	ft_extract_planes(t_scene *scene, t_list *lst)
 		element = lst->content;
 		if (element->type == object_type_plane)
 		{
-			scene->planes[i] = element->object.as_plane;
+			scene->planes[i].object.as_plane = element->object.as_plane;
+			scene->planes[i].material = element->material;
 			i++;
 		}
 		lst = lst->next;
@@ -31,18 +32,6 @@ void	ft_extract_planes(t_scene *scene, t_list *lst)
 	scene->num_planes = i;
 }
 
-t_object	*ft_copy_parsed_object_to_object(t_parsed_object *parsed_object)
-{
-	t_object	*copy;
-
-	copy = ft_malloc(sizeof(t_object));
-	copy->type = parsed_object->type;
-	if (copy->type == object_type_sphere)
-		copy->object.as_sphere = parsed_object->object.as_sphere;
-	if (copy->type == object_type_cylinder)
-		copy->object.as_cylinder = parsed_object->object.as_cylinder;
-	return (copy);
-}
 
 void	ft_extract_objects(t_scene *scene, t_list *lst)
 {
@@ -50,7 +39,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	t_parsed_object	*po;
 	int				i;
 
-	size = ft_lstsize(lst);
+	size = ft_count_matches(lst, object_type_sphere) + ft_count_matches(lst, object_type_cylinder);
 	if (size == 0)
 		return ;
 	scene->objects = ft_malloc(sizeof(t_object) * size);
@@ -61,6 +50,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 		if (po->type == object_type_sphere || po->type == object_type_cylinder)
 		{
 			scene->objects[i].type = po->type;
+			scene->objects[i].material = po->material;
 			if (po->type == object_type_sphere)
 				scene->objects[i].object.as_sphere = po->object.as_sphere;
 			else if (po->type == object_type_cylinder)

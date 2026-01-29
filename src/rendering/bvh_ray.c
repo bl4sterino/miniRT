@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 17:07:03 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:23:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ double	ft_shoot_ray_against_planes(t_ray ray, double max_dist, t_scene *scene,
 	best_index = -1;
 	while (i < scene->num_planes)
 	{
-		dist = ft_plane_collision(ray, scene->planes[i]);
+		dist = ft_plane_collision(ray, scene->planes[i].object.as_plane);
 		if (dist < best_dist)
 		{
 			best_index = i;
@@ -100,7 +100,7 @@ double	ft_shoot_ray_against_planes(t_ray ray, double max_dist, t_scene *scene,
 		i++;
 	}
 	if (best_dist < INFINITY)
-		*hit = -best_index;
+		*hit = -(best_index + 1);
 	return (best_dist);
 }
 
