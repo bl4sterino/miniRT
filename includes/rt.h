@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 16:59:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 21:02:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 32
-# define RAY_BOUNCES 1
+# define RAY_BOUNCES 5
 
 # define IMAGE_BPP 4
 
@@ -134,7 +134,10 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 
 void		ft_build_bvh(t_scene *scene);
 t_v3d		ft_get_pixel_color(t_ray ray, t_scene *scene);
-t_ray		ft_setup_ray(t_ray ray, t_v3d target, char bounces);
+
+t_ray		ft_setup_ray_target(t_ray ray, t_v3d target, char bounces);
+t_ray		ft_setup_ray_direction(t_ray ray, t_v3d direction, char bounces);
+
 double		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
 
 t_v3d		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);

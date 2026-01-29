@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 18:07:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 18:32:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@ void	ft_extract_planes(t_scene *scene, t_list *lst)
 	scene->num_planes = i;
 }
 
+int	ft_count_objects(t_list *lst)
+{
+	int	size;
+
+	size = 0;
+	size += ft_count_matches(lst, object_type_sphere);
+	size += ft_count_matches(lst, object_type_cylinder);
+	return (size);
+}
 
 void	ft_extract_objects(t_scene *scene, t_list *lst)
 {
@@ -39,7 +48,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	t_parsed_object	*po;
 	int				i;
 
-	size = ft_count_matches(lst, object_type_sphere) + ft_count_matches(lst, object_type_cylinder);
+	size = ft_count_objects(lst);
 	if (size == 0)
 		return ;
 	scene->objects = ft_malloc(sizeof(t_object) * size);
@@ -71,13 +80,11 @@ void	ft_process_objects_bounds(t_scene *scene)
 	{
 		if (scene->objects[i].type == object_type_sphere)
 		{
-			scene->objects[i].bounds = ft_get_sphere_bounds(
-					scene->objects[i].object.as_sphere);
+			scene->objects[i].bounds = ft_get_sphere_bounds(scene->objects[i].object.as_sphere);
 		}
 		else if (scene->objects[i].type == object_type_cylinder)
 		{
-			scene->objects[i].bounds = ft_get_cylinder_bounds(
-					scene->objects[i].object.as_cylinder);
+			scene->objects[i].bounds = ft_get_cylinder_bounds(scene->objects[i].object.as_cylinder);
 		}
 		i++;
 	}
