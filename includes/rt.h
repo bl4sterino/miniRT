@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 18:13:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:59:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 32
+# define RAY_BOUNCES 1
 
 # define IMAGE_BPP 4
 
@@ -26,13 +27,13 @@
 # define CAM_Z 0.0f
 
 /// Units / second
-# define CAM_MOVEMENT_SPEED 12.0f
+# define CAM_MOVEMENT_SPEED 150
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1
 
 # define PI 3.14159265358979323846
-
+# define EPSILON 1e-6
 # define DEG2RAD 0.01745329251
 
 # define DELTATIME_DISPLAY_DELAY 0.0f
@@ -50,6 +51,7 @@
 # include "image_inlined.h"
 # include "mlx.h"
 # include "monitoring.h"
+# include "normals_inlined.h"
 # include "ray_utils_inlined.h"
 # include <pthread.h>
 # include <stddef.h>
@@ -132,8 +134,15 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 
 void		ft_build_bvh(t_scene *scene);
 t_v3d		ft_get_pixel_color(t_ray ray, t_scene *scene);
+t_ray		ft_setup_ray(t_ray ray, t_v3d target, char bounces);
 double		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
+
 t_v3d		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
+t_v3d		ft_get_light(t_v3d position, t_v3d normal, t_scene *scene);
+double		ft_shoot_ray_against_planes(t_ray ray, double max_dist,
+				t_scene *scene, int *hit);
+double		ft_shoot_ray_against_objects(t_ray ray, double max_dist,
+				t_scene *scene, int *hit);
 
 t_viewport	ft_get_viewport(t_camera cam);
 void		ft_setup_tasks(t_data *d);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 13:20:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:20:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 	if (!parser)
 		return (0);
 	new_object = ft_malloc_id(sizeof(t_parsed_object), malloc_id);
+	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = parser->type;
 	ft_lstadd_back(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
-	return (ft_parse_data(strs + 1, &new_object->object, parser->lst,
+	return (ft_parse_data(strs + 1, &new_object->object, parser->element_lst,
 			malloc_id));
-	return (0);
 }
 
 long	ft_count_matches(t_list *lst, t_object_type type)
@@ -68,7 +68,7 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 		ft_exit_str_fd(1, "Ambient Light is missing\n", 2);
 	if (ft_count_matches(lst, object_type_camera) != 1)
 		ft_exit_str_fd(1, "Camera is missing\n", 2);
-	if (ft_count_matches(lst, object_type_light) != 1)
+	if (ft_count_matches(lst, object_type_light) < 1)
 		ft_exit_str_fd(1, "Point Light is missing\n", 2);
 	scene = ft_malloc(sizeof(t_scene));
 	ft_bzero(scene, sizeof(t_scene));

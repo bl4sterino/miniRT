@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 13:37:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 17:07:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ t_struct_parser_data	*ft_get_parser_sphere(int id)
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_sphere, color.z), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	struct_parser->lst = lst;
+	d = (t_parsing_data){p_double_try_or_0, offsetof(t_sphere, reflection), 0};
+	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
+	struct_parser->element_lst = lst;
+	struct_parser->material_lst = NULL;
 	return (struct_parser);
 }
 
@@ -48,7 +51,10 @@ t_struct_parser_data	*ft_get_parser_plane2(int id, t_list *lst,
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_plane, color.z), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	struct_parser->lst = lst;
+	d = (t_parsing_data){p_double_try_or_0, offsetof(t_plane, reflection), 0};
+	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
+	struct_parser->element_lst = lst;
+	struct_parser->material_lst = NULL;
 	return (struct_parser);
 }
 
@@ -90,7 +96,11 @@ t_struct_parser_data	*ft_get_parser_cylinder2(int id, t_list *lst,
 	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_cylinder, color.z),
 		0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	struct_parser->lst = lst;
+	d = (t_parsing_data){p_double_try_or_0, offsetof(t_cylinder, reflection),
+		0};
+	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
+	struct_parser->element_lst = lst;
+	struct_parser->material_lst = NULL;
 	return (struct_parser);
 }
 

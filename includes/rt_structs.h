@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 18:03:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:40:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ typedef struct s_ray
 	char			remaining_bounces;
 }					t_ray;
 
+typedef struct s_ray_result
+{
+	int				id;
+	t_v3d			normal;
+}					t_ray_result;
+
 typedef struct s_bvh_context
 {
 	int				stack[64];
@@ -144,6 +150,28 @@ typedef struct s_thread_render_context
 	t_v3d			target;
 	t_v3d			y_target;
 }					t_thread_render_context;
+
+typedef struct s_get_light_context
+{
+	int				i;
+	t_ray			light_ray;
+	double			light_dist;
+	double			dist;
+	int				hit;
+	t_v3d			color;
+	t_v3d			new_color;
+	double			plane_dist;
+}					t_get_light_context;
+
+typedef struct s_pixel_color_context
+{
+	int				hit;
+	double			distance;
+	t_v3d			out_color;
+	t_v3d			hit_normal;
+	t_v3d			hit_point;
+	t_v3d			color;
+}					t_pixel_color_context;
 
 typedef struct s_viewport_context
 {

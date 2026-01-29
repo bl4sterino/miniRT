@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 10:36:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 16:24:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@
 # include "rt.h"
 
 /// OBJECTS STRUCTS
+
+typedef struct s_material
+{
+	t_v3d				color;
+	double				reflection;
+	double				refraction_index;
+}						t_material;
 
 typedef struct s_ambient_light
 {
@@ -43,6 +50,7 @@ typedef struct s_sphere
 	t_v3d				position;
 	double				radius;
 	t_v3d				color;
+	double				reflection;
 }						t_sphere;
 
 typedef struct s_plane
@@ -50,6 +58,7 @@ typedef struct s_plane
 	t_v3d				position;
 	t_v3d				normal;
 	t_v3d				color;
+	double				reflection;
 }						t_plane;
 
 typedef struct s_cylinder
@@ -59,6 +68,7 @@ typedef struct s_cylinder
 	double				diameter;
 	double				height;
 	t_v3d				color;
+	double				reflection;
 }						t_cylinder;
 
 /// OBJECTS ENUM
@@ -87,6 +97,7 @@ typedef struct s_parsed_object
 		t_plane			as_plane;
 		t_cylinder		as_cylinder;
 	} object;
+	t_material			material;
 }						t_parsed_object;
 
 typedef union u_bounds
@@ -115,13 +126,15 @@ typedef struct s_object
 		t_sphere		as_sphere;
 		t_cylinder		as_cylinder;
 	} object;
+	t_material			material;
 	t_bounds			bounds;
 }						t_object;
 
 typedef struct s_struct_parser_data
 {
 	t_object_type		type;
-	t_list				*lst;
+	t_list				*element_lst;
+	t_list				*material_lst;
 }						t_struct_parser_data;
 
 typedef struct s_scene_parsing_context
@@ -183,6 +196,9 @@ void					ft_extract_lights(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
 void					ft_extract_objects(t_scene *scene, t_list *lst);
 
+t_bounds				ft_get_sphere_bounds(t_sphere sphere);
+t_bounds				ft_get_cylinder_bounds(t_cylinder cyl);
+
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
 void					ft_quicksort_objects(t_object *objs, int low, int high,
@@ -197,7 +213,6 @@ t_bounds				ft_get_bounds_range(t_object *objects, int start,
 							int branch_elements);
 
 void					ft_process_objects_bounds(t_scene *scene);
-t_bounds				ft_get_sphere_bounds(t_sphere sphere);
 
 void					ft_normalize_vectors(t_list *scene);
 

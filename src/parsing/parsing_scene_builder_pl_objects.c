@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/25 21:34:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/28 10:17:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ void	ft_process_objects_bounds(t_scene *scene)
 		{
 			scene->objects[i].bounds = ft_get_sphere_bounds(
 					scene->objects[i].object.as_sphere);
+		}
+		else if (scene->objects[i].type == object_type_cylinder)
+		{
+			scene->objects[i].bounds = ft_get_cylinder_bounds(
+					scene->objects[i].object.as_cylinder);
 		}
 		i++;
 	}

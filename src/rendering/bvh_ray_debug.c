@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 17:57:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 10:39:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
 		obj = scene->objects[i];
 		if (obj.type == object_type_sphere)
 			dist = ft_sphere_collision(ray, obj.object.as_sphere);
+		else if (obj.type == object_type_cylinder)
+			dist = ft_cylinder_collision(ray, obj.object.as_cylinder);
 		if (dist < context->best_dist)
 		{
 			context->best_dist = dist;

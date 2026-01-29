@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 18:13:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/29 17:07:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
 		obj = scene->objects[i];
 		if (obj.type == object_type_sphere)
 			dist = ft_sphere_collision(ray, obj.object.as_sphere);
+		else if (obj.type == object_type_cylinder)
+			dist = ft_cylinder_collision(ray, obj.object.as_cylinder);
 		if (dist < context->best_dist)
 		{
 			context->best_dist = dist;
@@ -51,11 +53,12 @@ static inline void	ft_add_branches_to_stack(t_ray *ray, t_bvh_context *context)
 	}
 }
 
-double	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
+double	ft_shoot_ray_against_objects(t_ray ray, double max_dist, t_scene *scene,
+		int *hit)
 {
 	t_bvh_context	context;
 
-	context.best_dist = INFINITY;
+	context.best_dist = max_dist;
 	context.best_index = -1;
 	context.stack_ptr = 0;
 	context.stack[context.stack_ptr++] = scene->bvh_root;
@@ -70,21 +73,45 @@ double	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
 		else
 			ft_check_objects_collisions(ray, scene, &context);
 	}
-	if (context.best_dist < INFINITY)
+	if (context.best_dist < max_dist)
 		*hit = context.best_index;
 	return (context.best_dist);
 }
 
-/* this is where the ray bounces and split are processed
-	handle reflection / transparency here */
-t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
+double	ft_shoot_ray_against_planes(t_ray ray, double max_dist, t_scene *scene,
+		int *hit)
 {
-	int		hit;
+	double	dist;
+	int		best_index;
+	double	best_dist;
+	int		i;
+
+	best_dist = max_dist;
+	i = 0;
+	best_index = -1;
+	while (i < scene->num_planes)
+	{
+		dist = ft_plane_collision(ray, scene->planes[i]);
+		if (dist < best_dist)
+		{
+			best_index = i;
+			best_dist = dist;
+		}
+		i++;
+	}
+	if (best_dist < INFINITY)
+		*hit = -best_index;
+	return (best_dist);
+}
+
+double	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
+{
+	double	plane_dist;
 	double	distance;
 
-	distance = ft_shoot_ray(ray, (scene), &hit);
-	if (distance < INFINITY)
-		return (scene->objects[hit].object.as_sphere.color);
-	else
-		return ((t_v3d){{0.05, 0.05, 0.05}});
+	plane_dist = ft_shoot_ray_against_planes(ray, INFINITY, scene, hit);
+	distance = ft_shoot_ray_against_objects(ray, plane_dist, scene, hit);
+	if (plane_dist <= distance && plane_dist != INFINITY)
+		return (plane_dist);
+	return (distance);
 }
