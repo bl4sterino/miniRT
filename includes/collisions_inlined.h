@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:00:06 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 16:23:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/30 12:22:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,36 @@ static inline double    ft_cylinder_collision(t_ray ray, t_cylinder cyl)
             t_hit = t1;
     }
     return (t_hit);
+}
+
+static inline double    ft_quad_collision(t_ray ray, t_quad quad)
+{
+    t_v3d   oc;
+    double  denom;
+    double  t;
+    t_v3d   hit_p;
+    t_v3d   planar_pos;
+    denom = ft_v3d_dot(quad.normal, ray.direction);
+    if (fabs(denom) < 1e-6)
+        return (INFINITY);
+
+    oc = ft_v3d_sub(quad.position, ray.origin);
+    t = ft_v3d_dot(oc, quad.normal) / denom;
+
+    if (t < 0)
+        return (INFINITY);
+
+    hit_p = ft_v3d_add(ray.origin, ft_v3d_scale(ray.direction, t));
+    
+    planar_pos = ft_v3d_sub(hit_p, quad.position);
+
+    double u = ft_v3d_dot(planar_pos, quad.u_axis);
+    double v = ft_v3d_dot(planar_pos, quad.v_axis);
+
+    if (fabs(u) > quad.size.x / 2.0 || fabs(v) > quad.size.y / 2.0)
+        return (INFINITY);
+
+    return (t);
 }
 
 #endif

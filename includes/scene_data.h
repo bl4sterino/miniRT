@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 21:10:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/30 12:18:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,15 @@ typedef struct s_cylinder
 	double				height;
 }						t_cylinder;
 
+typedef struct s_quad
+{
+	t_v3d				position;
+	t_v3d				normal;
+	t_v2d				size;
+	t_v3d				u_axis;
+	t_v3d				v_axis;
+}						t_quad;
+
 /// OBJECTS ENUM
 
 typedef enum e_object_type
@@ -73,7 +82,8 @@ typedef enum e_object_type
 	object_type_light,
 	object_type_sphere,
 	object_type_plane,
-	object_type_cylinder
+	object_type_cylinder,
+	object_type_quad
 }						t_object_type;
 
 /// OBJECTS UNION
@@ -89,6 +99,7 @@ typedef struct s_parsed_object
 		t_sphere		as_sphere;
 		t_plane			as_plane;
 		t_cylinder		as_cylinder;
+		t_quad			as_quad;
 	} object;
 	t_material			material;
 }						t_parsed_object;
@@ -119,6 +130,7 @@ typedef struct s_object
 		t_sphere		as_sphere;
 		t_cylinder		as_cylinder;
 		t_plane			as_plane;
+		t_quad			as_quad;
 	} object;
 	t_material			material;
 	t_bounds			bounds;
@@ -183,6 +195,8 @@ t_struct_parser_data	*ft_get_parser_light(int id);
 t_struct_parser_data	*ft_get_parser_sphere(int id);
 t_struct_parser_data	*ft_get_parser_plane(int id);
 t_struct_parser_data	*ft_get_parser_cylinder(int id);
+t_struct_parser_data	*ft_get_parser_quad(int id);
+t_quad					ft_get_processed_quad(t_quad quad);
 
 long					ft_count_matches(t_list *lst, t_object_type type);
 
@@ -194,6 +208,7 @@ void					ft_extract_objects(t_scene *scene, t_list *lst);
 
 t_bounds				ft_get_sphere_bounds(t_sphere sphere);
 t_bounds				ft_get_cylinder_bounds(t_cylinder cyl);
+t_bounds				ft_get_quad_bounds(t_quad quad);
 
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);

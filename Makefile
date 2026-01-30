@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/29 20:51:03 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/30 12:02:34 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ FILES = main\
 		parsing/parsing_scene\
 		parsing/parsing_A_C_L\
 		parsing/parsing_sp_pl_cy\
+		parsing/parsing_q\
 		parsing/parsing_scene_builder_A_C_L\
 		parsing/parsing_scene_builder_pl_objects\
 		parsing/parsing_normalization\

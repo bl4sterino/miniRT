@@ -6,13 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 18:11:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/30 12:31:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
+int	 ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 {
 	t_parsed_object			*new_object;
 	t_struct_parser_data	*parser;
