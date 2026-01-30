@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 12:19:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/30 14:24:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 		else
 			return (c.out_color);
 	}
-	return ((t_v3d){{0.05, 0.05, 0.05}});
+	double dot = ft_v3d_dot(ray.direction, (t_v3d){{0.0, 1.0, 0.0}});
+	dot = (dot + 1) / 2;
+	dot = 0.05 + 0.1 * dot;
+	return ((t_v3d){{dot, dot, dot}});
 }
  
