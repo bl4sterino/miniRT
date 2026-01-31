@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 14:51:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 13:04:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,19 @@ void	ft_init_thread_pool(t_data *d)
 	ft_add_exit(d, ft_exit_thread_cancel);
 }
 
+void	ft_init_data(t_data *d)
+{
+	ft_bzero(d, sizeof(t_data));
+	srand(42);
+	d->dirty_frame = 1;
+	gettimeofday(&(d->last_tv), 0);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	d;
 
-	ft_bzero(&d, sizeof(t_data));
-	gettimeofday(&(d.last_tv), 0);
+	ft_init_data(&d);
 	if (ac != 2)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
 	d.scene = ft_parse_map(av[1]);

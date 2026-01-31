@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 14:57:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 12:57:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
-# define TILE_SIZE 32
-# define RAY_BOUNCES 3
+# define TILE_SIZE 16
+# define RAY_BOUNCES 1
 
 # define IMAGE_BPP 4
 
@@ -27,7 +27,7 @@
 # define CAM_Z 0.0f
 
 /// Units / second
-# define CAM_MOVEMENT_SPEED 150
+# define CAM_MOVEMENT_SPEED 5
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1
@@ -41,9 +41,11 @@
 //
 # include "rt_structs.h"
 # include <math.h>
+# include <stdlib.h>
 
 // mini-rt
 # include "collisions_inlined.h"
+# include "image_accumulated_inlined.h"
 # include "image_inlined.h"
 # include "mlx.h"
 # include "monitoring.h"
@@ -148,6 +150,8 @@ void		ft_setup_tasks(t_data *d);
 
 void		ft_setup_tasks(t_data *d);
 void		*ft_thread_loop(void *arg);
+
+void		ft_push_accumulated_data_to_image(t_data *d);
 
 // utils
 

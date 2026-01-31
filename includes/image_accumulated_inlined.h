@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   key_controls.c                                     :+:      :+:    :+:   */
+/*   image_accumulated_inlined.h                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/04 13:48:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 12:59:53 by pberne           ###   ########.fr       */
+/*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
+/*   Updated: 2026/01/31 12:56:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef IMAGE_ACCUMULATED_INLINED_H
+# define IMAGE_ACCUMULATED_INLINED_H
 
-void	ft_controls(t_data *d)
+# include "rt.h"
+
+static inline void	ft_add_pixel_to_accumulated_image(t_data *d, t_v2i pos,
+		t_v3d color)
 {
-	ft_debug_gc(d);
-	if (ft_get_key_down(KEY_E, d))
-		d->render_mode = !d->render_mode;
-	if (ft_get_key_down(MOUSE_SCROLL_DOWN, d))
-	{
-		d->scene->camera.fov *= 1.05;
-		d->dirty_frame = 1;
-	}
-	if (ft_get_key_down(MOUSE_SCROLL_UP, d))
-	{
-		d->scene->camera.fov *= 0.95;
-		d->dirty_frame = 1;
-	}
+	int	index;
+
+	index = (pos.y * WIDTH_WIN + pos.x) * 3;
+	d->image.accumulated_addr[index] += color.x;
+	d->image.accumulated_addr[index + 1] += color.y;
+	d->image.accumulated_addr[index + 2] += color.z;
 }
+
+#endif

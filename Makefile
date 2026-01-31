@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/01/30 14:49:44 by pberne           ###   ########.fr        #
+#    Updated: 2026/01/31 13:11:54 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,8 @@ FILES = main\
 		parsing/parsing_data_dict\
 		parsing/parsing_scene\
 		parsing/parsing_A_C_L\
-		parsing/parsing_sp_pl_cy\
+		parsing/parsing_sp\
+		parsing/parsing_pl_cy\
 		parsing/parsing_q\
 		parsing/parsing_scene_builder_A_C_L\
 		parsing/parsing_scene_builder_pl_objects\

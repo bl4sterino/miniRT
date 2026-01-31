@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 20:12:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 12:24:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 enum				e_dimensions
 {
-	WIDTH_WIN = 1280,
-	HEIGHT_WIN = 720,
+	WIDTH_WIN = 960,
+	HEIGHT_WIN = 540,
 	LINE_SIZE = WIDTH_WIN * 4,
 	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN
 };
@@ -40,6 +40,7 @@ typedef struct s_image
 {
 	void			*ptr;
 	char			*addr;
+	double			*accumulated_addr;
 	int				bpp;
 	int				line_size;
 	int				endian;
@@ -100,7 +101,9 @@ typedef struct t_data
 	double			deltatime;
 	struct timeval	last_tv;
 	char			*fpsstr;
-	unsigned long	frame_count;
+	double			frame_count;
+	int				dirty_frame;
+	int				dirty_bvh;
 	t_scene			*scene;
 	t_viewport		viewport;
 	t_threads_data	threads_data;

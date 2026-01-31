@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 12:38:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 13:29:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,19 @@ int	ft_count_objects(t_list *lst)
 	return (size);
 }
 
+void	ft_push_object_to_scene(t_scene *scene, t_parsed_object *po, int i)
+{
+	scene->objects[i].type = po->type;
+	scene->objects[i].material = po->material;
+	if (po->type == object_type_sphere)
+		scene->objects[i].object.as_sphere = po->object.as_sphere;
+	else if (po->type == object_type_cylinder)
+		scene->objects[i].object.as_cylinder = po->object.as_cylinder;
+	else if (po->type == object_type_quad)
+		scene->objects[i].object.as_quad = ft_get_processed_quad(
+				po->object.as_quad);
+}
+
 void	ft_extract_objects(t_scene *scene, t_list *lst)
 {
 	int				size;
@@ -57,17 +70,9 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	while (lst)
 	{
 		po = lst->content;
-		if (po->type == object_type_sphere || po->type == object_type_cylinder
-			|| po->type == object_type_quad)
+		if (po->type >= object_type_sphere)
 		{
-			scene->objects[i].type = po->type;
-			scene->objects[i].material = po->material;
-			if (po->type == object_type_sphere)
-				scene->objects[i].object.as_sphere = po->object.as_sphere;
-			else if (po->type == object_type_cylinder)
-				scene->objects[i].object.as_cylinder = po->object.as_cylinder;
-			else if (po->type == object_type_quad)
-				scene->objects[i].object.as_quad = ft_get_processed_quad(po->object.as_quad);
+			ft_push_object_to_scene(scene, po, i);
 			i++;
 		}
 		lst = lst->next;
@@ -83,13 +88,17 @@ void	ft_process_objects_bounds(t_scene *scene)
 	while (i < scene->num_objects)
 	{
 		if (scene->objects[i].type == object_type_sphere)
-			scene->objects[i].bounds = ft_get_sphere_bounds(scene->objects[i].object.as_sphere);
+			scene->objects[i].bounds = ft_get_sphere_bounds(
+					scene->objects[i].object.as_sphere);
 		else if (scene->objects[i].type == object_type_cylinder)
-			scene->objects[i].bounds = ft_get_cylinder_bounds(scene->objects[i].object.as_cylinder);
+			scene->objects[i].bounds = ft_get_cylinder_bounds(
+					scene->objects[i].object.as_cylinder);
 		else if (scene->objects[i].type == object_type_cylinder)
-			scene->objects[i].bounds = ft_get_cylinder_bounds(scene->objects[i].object.as_cylinder);
+			scene->objects[i].bounds = ft_get_cylinder_bounds
+				(scene->objects[i].object.as_cylinder);
 		else if (scene->objects[i].type == object_type_quad)
-			scene->objects[i].bounds = ft_get_quad_bounds(scene->objects[i].object.as_quad);
+			scene->objects[i].bounds = ft_get_quad_bounds(
+					scene->objects[i].object.as_quad);
 		i++;
 	}
 }

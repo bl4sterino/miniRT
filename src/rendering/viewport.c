@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 11:02:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 13:39:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,28 @@ static void	ft_setup_context(t_viewport_context *context, t_camera cam)
 
 t_viewport	ft_get_viewport(t_camera cam)
 {
-	t_viewport			viewport;
+	t_viewport		vp;
 	t_viewport_context	context;
+	double			rx;
+	double			ry;
 
 	cam.direction = ft_v3d_normalize(cam.direction);
 	ft_setup_context(&context, cam);
-	viewport.u = ft_v3d_scale(context.cam_right, 2.0 * context.half_width);
-	viewport.v = ft_v3d_scale(context.cam_up, -2.0 * context.half_height);
-	viewport.x_delta = ft_v3d_div(viewport.u, (double)WIDTH_WIN);
-	viewport.y_delta = ft_v3d_div(viewport.v, (double)HEIGHT_WIN);
-	viewport.top_left = ft_v3d_add(cam.position, cam.direction);
-	viewport.top_left = ft_v3d_sub(viewport.top_left, ft_v3d_scale(viewport.u,
-				0.5));
-	viewport.top_left = ft_v3d_sub(viewport.top_left, ft_v3d_scale(viewport.v,
-				0.5));
-	context.pixel_center_offset = ft_v3d_add(viewport.x_delta,
-			viewport.y_delta);
-	context.pixel_center_offset = ft_v3d_scale(context.pixel_center_offset,
-			0.5);
-	viewport.top_left = ft_v3d_add(viewport.top_left,
-			context.pixel_center_offset);
-	viewport.bottom_right = ft_v3d_add(viewport.top_left, viewport.u);
-	viewport.bottom_right = ft_v3d_add(viewport.bottom_right, viewport.v);
-	viewport.top_right = ft_v3d_add(viewport.top_left, viewport.u);
-	viewport.bottom_left = ft_v3d_add(viewport.top_left, viewport.v);
-	return (viewport);
+	vp.u = ft_v3d_scale(context.cam_right, 2.0 * context.half_width);
+	vp.v = ft_v3d_scale(context.cam_up, -2.0 * context.half_height);
+	vp.x_delta = ft_v3d_div(vp.u, (double)WIDTH_WIN);
+	vp.y_delta = ft_v3d_div(vp.v, (double)HEIGHT_WIN);
+	vp.top_left = ft_v3d_add(cam.position, cam.direction);
+	vp.top_left = ft_v3d_sub(vp.top_left, ft_v3d_scale(vp.u, 0.5));
+	vp.top_left = ft_v3d_sub(vp.top_left, ft_v3d_scale(vp.v, 0.5));
+	rx = (double)(rand() % 1000) / 1000.0;
+	ry = (double)(rand() % 1000) / 1000.0;
+	context.pixel_center_offset = ft_v3d_add(ft_v3d_scale(vp.x_delta, rx),
+			ft_v3d_scale(vp.y_delta, ry));
+	vp.top_left = ft_v3d_add(vp.top_left, context.pixel_center_offset);
+	vp.bottom_right = ft_v3d_add(vp.top_left, vp.u);
+	vp.bottom_right = ft_v3d_add(vp.bottom_right, vp.v);
+	vp.top_right = ft_v3d_add(vp.top_left, vp.u);
+	vp.bottom_left = ft_v3d_add(vp.top_left, vp.v);
+	return (vp);
 }

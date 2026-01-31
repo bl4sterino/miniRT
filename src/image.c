@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 14:39:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 12:37:14 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_create_image(t_data *d)
 	image.ptr = mlx_new_image(d->mlx, WIDTH_WIN, HEIGHT_WIN);
 	if (!image.ptr)
 		ft_exit(MALLOC_FAILED);
+	image.accumulated_addr = ft_malloc(sizeof(double) * WIDTH_WIN * HEIGHT_WIN
+			* 3);
 	ft_add_exit(d, ft_exit_destroy_image);
 	image.addr = mlx_get_data_addr(image.ptr, &(image.bpp), &(image.line_size),
 			&(image.endian));

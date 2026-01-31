@@ -6,16 +6,18 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 12:31:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 13:19:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	 ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
+int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 {
 	t_parsed_object			*new_object;
 	t_struct_parser_data	*parser;
+	int						element_parsed;
+	int						result;
 
 	parser = ft_dict_get(dict, strs[0]);
 	if (!parser)
@@ -24,15 +26,14 @@ int	 ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst
 	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = parser->type;
 	ft_lstadd_back(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
-	int element_parsed = ft_parse_data(strs + 1, &new_object->object, parser->element_lst,
-			malloc_id);
+	element_parsed = ft_parse_data(strs + 1, &new_object->object,
+			parser->element_lst, malloc_id);
 	if (element_parsed > 0 && parser->material_lst)
 	{
-		int result = ft_parse_data(strs + element_parsed + 1, &new_object->material, parser->material_lst,
-			malloc_id);
+		result = ft_parse_data(strs + element_parsed + 1, &new_object->material,
+				parser->material_lst, malloc_id);
 		return (result);
 	}
-		
 	else
 		return (element_parsed);
 }

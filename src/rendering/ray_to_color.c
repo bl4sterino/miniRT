@@ -6,11 +6,21 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 14:24:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 13:37:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+static inline t_v3d	ft_get_sky_color(t_ray ray)
+{
+	double	dot;
+
+	dot = ft_v3d_dot(ray.direction, (t_v3d){{0.0, 1.0, 0.0}});
+	dot = (dot + 1) * 0.5;
+	dot = 0.05 + 0.1 * dot;
+	return ((t_v3d){{dot, dot, dot}});
+}
 
 /*
 	this is where the ray bounces and split are processed
@@ -21,8 +31,10 @@
 */
 t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 {
+	/* Maybe have some sort of array to store the ray hit
+	between bounces to avoid recursivity */
 	t_pixel_color_context	c;
-	t_material mat;
+	t_material				mat;
 
 	c.out_color = (t_v3d){{0, 0, 0}};
 	c.distance = ft_shoot_ray(ray, scene, &c.hit);
@@ -30,7 +42,6 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 	{
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
 		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit);
-
 		if (c.hit < 0)
 			mat = scene->planes[-c.hit - 1].material;
 		else
@@ -41,15 +52,13 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 		if (mat.reflection > 0.0 && ray.remaining_bounces > 0)
 		{
 			ray.origin = c.hit_point;
-			ray = ft_setup_ray_direction(ray, ft_v3d_reflect(ray.direction, c.hit_normal), ray.remaining_bounces - 1);
-			return (ft_v3d_lerp(c.out_color, ft_get_pixel_color(ray, scene), mat.reflection));
+			ray = ft_setup_ray_direction(ray, ft_v3d_reflect(ray.direction,
+						c.hit_normal), ray.remaining_bounces - 1);
+			return (ft_v3d_lerp(c.out_color, ft_get_pixel_color(ray, scene),
+					mat.reflection));
 		}
 		else
 			return (c.out_color);
 	}
-	double dot = ft_v3d_dot(ray.direction, (t_v3d){{0.0, 1.0, 0.0}});
-	dot = (dot + 1) / 2;
-	dot = 0.05 + 0.1 * dot;
-	return ((t_v3d){{dot, dot, dot}});
+	return (ft_get_sky_color(ray));
 }
- 
