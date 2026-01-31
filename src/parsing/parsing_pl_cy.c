@@ -6,15 +6,18 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 13:11:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 17:42:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_struct_parser_data	*ft_get_parser_plane2(int id, t_list *lst,
-		t_parsing_data d, t_struct_parser_data *struct_parser)
+t_struct_parser_data	*ft_get_parser_plane2(int id,
+		t_struct_parser_data *struct_parser)
 {
+	t_list			*lst;
+	t_parsing_data	d;
+
 	lst = 0;
 	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.x),
 		0};
@@ -54,7 +57,7 @@ t_struct_parser_data	*ft_get_parser_plane(int id)
 	d = (t_parsing_data){p_double, offsetof(t_plane, normal.z), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	struct_parser->element_lst = lst;
-	return (ft_get_parser_plane2(id, lst, d, struct_parser));
+	return (ft_get_parser_plane2(id, struct_parser));
 }
 
 t_struct_parser_data	*ft_get_parser_cylinder2(int id, t_list *lst,

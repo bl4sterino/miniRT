@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 12:57:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 18:10:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define CAM_Z 0.0f
 
 /// Units / second
-# define CAM_MOVEMENT_SPEED 5
+# define CAM_MOVEMENT_SPEED 150
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1
@@ -59,6 +59,7 @@ typedef enum e_malloc_id
 {
 	malloc_id_default,
 	malloc_id_parsing,
+	malloc_id_scene,
 	malloc_id_frame
 }			t_malloc_id;
 

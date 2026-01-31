@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 14:58:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 17:13:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ typedef struct s_scene
 
 /// METHODS
 
-t_scene					*ft_parse_map(char *finename);
+t_scene					*ft_parse_map(char *filename);
 t_dict					*ft_setup_parsing_dict(t_dict *dict, int malloc_id);
 t_parsing_data			*ft_get_pdata(int malloc_id, t_parsing_data d);
 

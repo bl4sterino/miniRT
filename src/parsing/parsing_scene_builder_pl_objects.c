@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 13:29:38 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 17:25:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	size = ft_count_objects(lst);
 	if (size == 0)
 		return ;
-	scene->objects = ft_malloc(sizeof(t_object) * size);
+	scene->objects = ft_malloc_id(sizeof(t_object) * size, malloc_id_scene);
 	i = 0;
 	while (lst)
 	{

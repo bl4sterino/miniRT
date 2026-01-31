@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 13:19:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/01/31 17:56:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	ft_extract_objects(scene, lst);
 	ft_process_objects_bounds(scene);
 	scene->bvh_node_capacity = scene->num_objects * 2;
-	scene->bvh_nodes = ft_malloc(sizeof(t_bvh_node) * scene->bvh_node_capacity);
+	scene->bvh_nodes = ft_malloc_id(sizeof(t_bvh_node) * scene->bvh_node_capacity, malloc_id_scene);
 	scene->bvh_node_count = 0;
 	scene->bvh_root = ft_bvh_builder(scene, 0, scene->num_objects);
 	return (scene);
@@ -80,22 +80,22 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 		ft_exit_str_fd(1, "Camera is missing\n", 2);
 	if (ft_count_matches(lst, object_type_light) < 1)
 		ft_exit_str_fd(1, "Point Light is missing\n", 2);
-	scene = ft_malloc(sizeof(t_scene));
+	scene = ft_malloc_id(sizeof(t_scene), malloc_id_scene);
 	ft_bzero(scene, sizeof(t_scene));
-	scene->planes = ft_malloc(sizeof(t_object) * ft_count_matches(lst,
-				object_type_plane));
-	scene->lights = ft_malloc(sizeof(t_light) * ft_count_matches(lst,
-				object_type_light));
+	scene->planes = ft_malloc_id(sizeof(t_object) * ft_count_matches(lst,
+				object_type_plane), malloc_id_scene);
+	scene->lights = ft_malloc_id(sizeof(t_light) * ft_count_matches(lst,
+				object_type_light), malloc_id_scene);
 	return (ft_fill_scene(scene, lst));
 }
 
-t_scene	*ft_parse_map(char *finename)
+t_scene	*ft_parse_map(char *filename)
 {
 	t_scene_parsing_context	context;
 
 	ft_bzero(&context, sizeof(context));
 	context.line_count = 1;
-	context.fd = open(finename, O_RDONLY);
+	context.fd = open(filename, O_RDONLY);
 	if (context.fd == -1)
 		ft_exit_str_fd(EXIT_FAILURE, "Failed to open map\n", 2);
 	ft_add_exit(ft_malloc_int(context.fd), ft_exit_close_fd);
