@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 18:10:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/06 10:10:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
-# define RAY_BOUNCES 1
+# define RAY_BOUNCES 0
 
 # define IMAGE_BPP 4
 
@@ -27,7 +27,7 @@
 # define CAM_Z 0.0f
 
 /// Units / second
-# define CAM_MOVEMENT_SPEED 150
+# define CAM_MOVEMENT_SPEED 5
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 17:13:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/06 11:01:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,8 @@ typedef enum e_object_type
 	object_type_ambient_light,
 	object_type_camera,
 	object_type_light,
-	object_type_sphere,
 	object_type_plane,
+	object_type_sphere,
 	object_type_cylinder,
 	object_type_quad
 }						t_object_type;

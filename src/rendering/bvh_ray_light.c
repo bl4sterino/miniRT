@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 13:38:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/06 10:14:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_v3d	ft_get_light(t_v3d position, t_v3d normal, t_scene *scene)
 			continue ;
 		c.dist = ft_shoot_ray_against_objects(c.light_ray, c.light_dist, scene,
 				&c.hit);
-		if (c.dist >= c.light_dist)
+		if (c.dist >= c.light_dist - EPSILON)
 		{
 			c.new_color = ft_v3d_scale(scene->lights[c.i].color,
 					fabs(ft_v3d_dot(c.light_ray.direction, normal)));
