@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 12:24:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/14 13:28:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct t_data
 	t_viewport		viewport;
 	t_threads_data	threads_data;
 	t_render_mode	render_mode;
+	int				selected_object;
 }					t_data;
 
 typedef struct s_ray

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/06 10:10:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/14 14:44:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
 # define RAY_BOUNCES 0
-
+# define SELECTED_NONE 2147483647
+# define OBJ_MOVEMENT_SPEED 1.0
 # define IMAGE_BPP 4
 
 # define HIDE_CURSOR 0
@@ -27,7 +28,7 @@
 # define CAM_Z 0.0f
 
 /// Units / second
-# define CAM_MOVEMENT_SPEED 5
+# define CAM_MOVEMENT_SPEED 100
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1

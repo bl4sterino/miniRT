@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/06 10:05:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/14 13:47:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	ft_init_thread_pool(t_data *d)
 void	ft_init_data(t_data *d)
 {
 	ft_bzero(d, sizeof(t_data));
+	d->selected_object = SELECTED_NONE;
 	srand(42);
 	d->dirty_frame = 1;
 	gettimeofday(&(d->last_tv), 0);

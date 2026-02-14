@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 13:39:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/11 10:10:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 
 void	ft_setup_tasks(t_data *d)
 {
-	d->viewport = ft_get_viewport(d->scene->camera);
 	ft_clock_start(clock_render);
 	if (d->dirty_frame)
 	{
