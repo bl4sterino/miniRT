@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/06 11:04:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 17:32:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static inline t_v3d	ft_get_sky_color(t_ray ray)
 */
 t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 {
-	/* Maybe have some sort of array to store the ray hit
-	between bounces to avoid recursivity */
 	t_pixel_color_context	c;
 	t_material				mat;
 
+	/* Maybe have some sort of array to store the ray hit
+	between bounces to avoid recursivity */
 	c.out_color = (t_v3d){{0, 0, 0}};
 	c.distance = ft_shoot_ray(ray, scene, &c.hit);
 	if (c.distance < INFINITY)

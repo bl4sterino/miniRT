@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 10:03:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 15:01:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@
 # define KEY_KP_7 65429
 # define KEY_KP_8 65431
 # define KEY_KP_9 65434
+
+# define KEY_UP 65362
+# define KEY_DOWN 65364
+# define KEY_LEFT 65361
+# define KEY_RIGHT 65363
 
 # define KEY_F1 65470
 # define KEY_F2 65471

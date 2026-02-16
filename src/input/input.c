@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:01:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/23 10:02:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 16:06:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	ft_input_init(t_data *d)
 	ft_add_input(KEY_D, d);
 	ft_add_key_range(KEY_KP_0, KEY_KP_9, d);
 	ft_add_key_range(KEY_F1, KEY_F12, d);
+	ft_add_key_range(KEY_LEFT, KEY_DOWN, d);
 }
 
 void	ft_input_clear_just_pressed(t_data *d)

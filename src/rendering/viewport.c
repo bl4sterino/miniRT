@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 13:39:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 18:44:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ static void	ft_setup_context(t_viewport_context *context, t_camera cam)
 	context->cam_up = ft_v3d_normalize(context->cam_up);
 }
 
-t_viewport	ft_get_viewport(t_camera cam)
+t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 {
-	t_viewport		vp;
+	t_viewport			vp;
 	t_viewport_context	context;
-	double			rx;
-	double			ry;
+	double				rx;
+	double				ry;
 
 	cam.direction = ft_v3d_normalize(cam.direction);
 	ft_setup_context(&context, cam);
@@ -40,8 +40,8 @@ t_viewport	ft_get_viewport(t_camera cam)
 	vp.top_left = ft_v3d_add(cam.position, cam.direction);
 	vp.top_left = ft_v3d_sub(vp.top_left, ft_v3d_scale(vp.u, 0.5));
 	vp.top_left = ft_v3d_sub(vp.top_left, ft_v3d_scale(vp.v, 0.5));
-	rx = (double)(rand() % 1000) / 1000.0;
-	ry = (double)(rand() % 1000) / 1000.0;
+	rx = tn_d(d->dirty_frame == 0, (double)(rand() % 1000) / 1000.0, 0.5);
+	ry = tn_d(d->dirty_frame == 0, (double)(rand() % 1000) / 1000.0, 0.5);
 	context.pixel_center_offset = ft_v3d_add(ft_v3d_scale(vp.x_delta, rx),
 			ft_v3d_scale(vp.y_delta, ry));
 	vp.top_left = ft_v3d_add(vp.top_left, context.pixel_center_offset);

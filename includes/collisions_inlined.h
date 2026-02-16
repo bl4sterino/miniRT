@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:00:06 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 14:29:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 12:24:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ static inline double    ft_cylinder_collision(t_ray ray, t_cylinder cyl)
         if (h >= -half_h && h <= half_h)
             t_hit = t1;
     }
+
+	
     return (t_hit);
 }
 

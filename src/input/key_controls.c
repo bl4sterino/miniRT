@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 13:48:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/14 14:43:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 17:36:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void	ft_get_object_at(t_data *d, t_v2i screenpos)
 	ray = ft_setup_ray_direction(ray, ft_v3d_sub(target, ray.origin), 0);
 	hit = SELECTED_NONE;
 	ft_shoot_ray(ray, d->scene, &hit);
+	if (hit >= 0 && hit != SELECTED_NONE)
+		hit = d->scene->objects[hit].raw_id;
 	d->selected_object = hit;
+	ft_printf("selected: %d\n", hit);
 }
 
 void	ft_controls(t_data *d)
@@ -54,7 +57,8 @@ void	ft_controls(t_data *d)
 		d->dirty_frame = 1;
 	}
 	if (ft_get_key_down(MOUSE_LEFT, d))
-	{
 		ft_get_object_at(d, d->input.mouse_pos);
-	}
+	if (d->selected_object != SELECTED_NONE)
+		ft_move_selected_object(d);
+		
 }

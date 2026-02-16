@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/14 14:44:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 17:23:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
-# define RAY_BOUNCES 0
+# define RAY_BOUNCES 5
 # define SELECTED_NONE 2147483647
-# define OBJ_MOVEMENT_SPEED 1.0
+# define OBJ_MOVEMENT_SPEED 20.0
 # define IMAGE_BPP 4
 
 # define HIDE_CURSOR 0
@@ -33,7 +33,7 @@
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1
 
-# define DELTATIME_DISPLAY_DELAY 0.0f
+# define DELTATIME_DISPLAY_DELAY 0.2f
 
 // Libs and struct must be included first
 # include "keycodes.h"
@@ -103,6 +103,8 @@ void		ft_toggle_focus(t_data *d);
 void		ft_mouse_update(t_data *d);
 void		ft_controls(t_data *d);
 
+void		ft_move_selected_object(t_data *d);
+
 // camera
 
 void		ft_camera_move(t_data *d);
@@ -147,7 +149,7 @@ double		ft_shoot_ray_against_planes(t_ray ray, double max_dist,
 double		ft_shoot_ray_against_objects(t_ray ray, double max_dist,
 				t_scene *scene, int *hit);
 
-t_viewport	ft_get_viewport(t_camera cam);
+t_viewport	ft_get_viewport(t_camera cam, t_data *d);
 void		ft_setup_tasks(t_data *d);
 
 void		ft_setup_tasks(t_data *d);

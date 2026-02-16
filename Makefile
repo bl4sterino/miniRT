@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/14 14:43:01 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/16 18:44:58 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ FILES = main\
 		input/input_get\
 		input/key_controls\
 		input/key_hook\
+		input/move_selected_object\
 		monitoring/clock\
 		monitoring/clock_2\
 		parsing/parsing_data_dict\

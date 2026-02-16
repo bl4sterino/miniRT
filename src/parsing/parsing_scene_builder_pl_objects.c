@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/31 17:25:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 16:48:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,16 @@ int	ft_count_objects(t_list *lst)
 
 void	ft_push_object_to_scene(t_scene *scene, t_parsed_object *po, int i)
 {
-	scene->objects[i].type = po->type;
-	scene->objects[i].material = po->material;
+	scene->raw_objects[i].type = po->type;
+	scene->raw_objects[i].material = po->material;
 	if (po->type == object_type_sphere)
-		scene->objects[i].object.as_sphere = po->object.as_sphere;
+		scene->raw_objects[i].object.as_sphere = po->object.as_sphere;
 	else if (po->type == object_type_cylinder)
-		scene->objects[i].object.as_cylinder = po->object.as_cylinder;
+		scene->raw_objects[i].object.as_cylinder = po->object.as_cylinder;
 	else if (po->type == object_type_quad)
-		scene->objects[i].object.as_quad = ft_get_processed_quad(
+		scene->raw_objects[i].object.as_quad = ft_get_processed_quad(
 				po->object.as_quad);
+	scene->raw_objects[i].raw_id = i;
 }
 
 void	ft_extract_objects(t_scene *scene, t_list *lst)
@@ -66,6 +67,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	if (size == 0)
 		return ;
 	scene->objects = ft_malloc_id(sizeof(t_object) * size, malloc_id_scene);
+	scene->raw_objects = ft_malloc_id(sizeof(t_object) * size, malloc_id_scene);
 	i = 0;
 	while (lst)
 	{
@@ -78,6 +80,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 		lst = lst->next;
 	}
 	scene->num_objects = i;
+	ft_process_objects_bounds(scene);
 }
 
 void	ft_process_objects_bounds(t_scene *scene)
@@ -87,18 +90,15 @@ void	ft_process_objects_bounds(t_scene *scene)
 	i = 0;
 	while (i < scene->num_objects)
 	{
-		if (scene->objects[i].type == object_type_sphere)
-			scene->objects[i].bounds = ft_get_sphere_bounds(
-					scene->objects[i].object.as_sphere);
-		else if (scene->objects[i].type == object_type_cylinder)
-			scene->objects[i].bounds = ft_get_cylinder_bounds(
-					scene->objects[i].object.as_cylinder);
-		else if (scene->objects[i].type == object_type_cylinder)
-			scene->objects[i].bounds = ft_get_cylinder_bounds
-				(scene->objects[i].object.as_cylinder);
-		else if (scene->objects[i].type == object_type_quad)
-			scene->objects[i].bounds = ft_get_quad_bounds(
-					scene->objects[i].object.as_quad);
+		if (scene->raw_objects[i].type == object_type_sphere)
+			scene->raw_objects[i].bounds = ft_get_sphere_bounds(
+					scene->raw_objects[i].object.as_sphere);
+		else if (scene->raw_objects[i].type == object_type_cylinder)
+			scene->raw_objects[i].bounds = ft_get_cylinder_bounds
+				(scene->raw_objects[i].object.as_cylinder);
+		else if (scene->raw_objects[i].type == object_type_quad)
+			scene->raw_objects[i].bounds = ft_get_quad_bounds(
+					scene->raw_objects[i].object.as_quad);
 		i++;
 	}
 }

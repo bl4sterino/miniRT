@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:26:42 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/22 18:18:03 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 17:19:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	ft_draw_int(t_data *d, t_draw_arg arg, char *prefix_arg, int nb)
 
 void	ft_draw_str(t_data *d, t_draw_arg arg, char *str)
 {
+	if(!d->fpsstr)
+		return;
 	ft_draw_rectangle(d->image, arg.pos, arg.size, arg.background_color);
 	mlx_string_put(d->mlx, d->window, arg.pos.x + 3, arg.pos.y + arg.size.y - 3,
 		ft_rgb_to_int((t_rgb){255, 255, 255}), str);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/14 13:28:47 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/16 10:29:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 enum				e_dimensions
 {
-	WIDTH_WIN = 960,
-	HEIGHT_WIN = 540,
+	WIDTH_WIN = 1280,
+	HEIGHT_WIN = 720,
 	LINE_SIZE = WIDTH_WIN * 4,
 	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN
 };
@@ -109,6 +109,7 @@ typedef struct t_data
 	t_threads_data	threads_data;
 	t_render_mode	render_mode;
 	int				selected_object;
+	
 }					t_data;
 
 typedef struct s_ray
