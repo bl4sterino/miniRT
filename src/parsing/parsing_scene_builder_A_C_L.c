@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/24 17:23:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 16:19:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	ft_extract_lights(t_scene *scene, t_list *lst)
 		if (element->type == object_type_light)
 		{
 			scene->lights[i] = element->object.as_light;
+			scene->lights[i].color = ft_v3d_scale(scene->lights[i].color,
+					scene->lights[i].intensity);
 			i++;
 		}
 		lst = lst->next;
