@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/16 10:29:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 11:57:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,12 @@ typedef struct t_data
 	char			*fpsstr;
 	double			frame_count;
 	int				dirty_frame;
-	int				dirty_bvh;
 	t_scene			*scene;
 	t_viewport		viewport;
 	t_threads_data	threads_data;
 	t_render_mode	render_mode;
 	int				selected_object;
+	int				selected_light;
 	
 }					t_data;
 

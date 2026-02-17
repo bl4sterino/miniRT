@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/11 10:10:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 15:09:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	ft_setup_tasks(t_data *d)
 	ft_clock_start(clock_render);
 	if (d->dirty_frame)
 	{
-		ft_bzero(d->image.accumulated_addr, sizeof(double) * WIDTH_WIN
-			* HEIGHT_WIN * 3);
+		ft_memset_int(d->image.accumulated_addr, 0, (sizeof(double)
+				/ sizeof(int)) * WIDTH_WIN * HEIGHT_WIN * 3);
 		d->frame_count = 0;
 		d->dirty_frame = 0;
 	}

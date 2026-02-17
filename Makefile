@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/16 18:44:58 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/17 16:01:28 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ INCLUDES_DIR =	-Iincludes\
 				-I$(LIBFT_DIR)/includes\
 				-I$(LIBFT_DIR)/includes/vectors\
 				-I$(LIBFT_DIR)/includes/inlines\
-				-I$(MLX_DIR) 
+				-I$(MLX_DIR)
 
 FILES = main\
 		update\
@@ -43,7 +43,12 @@ FILES = main\
 		input/input_get\
 		input/key_controls\
 		input/key_hook\
-		input/move_selected_object\
+		input/object_controls\
+		input/object_extra\
+		input/object_input\
+		input/object_movement\
+		input/object_rotation\
+		input/object_selection\
 		monitoring/clock\
 		monitoring/clock_2\
 		parsing/parsing_data_dict\
@@ -104,6 +109,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c | obj
 	$(CC) $(CFLAGS) $(DEPFLAGS) $(INCLUDES_DIR) -c $< -o $@
 
 $(OBJ_DIR)%_DEBUG.o: $(SRC_DIR)%.c | obj
+	mkdir -p $(dir $@)
 	$(CC) $(DFLAGS) $(DEPFLAGS) $(INCLUDES_DIR) -c $< -o $@
 
 

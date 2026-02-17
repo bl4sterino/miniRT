@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/16 15:01:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 14:44:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,21 @@
 # define KEY_ALT 65513
 # define KEY_KP_PLUS 65451
 # define KEY_KP_MINUS 65453
+# define KEY_KP_DIV 65455
+# define KEY_KP_MULT 65450
 
-# define KEY_KP_0 65438
-# define KEY_KP_1 65436
-# define KEY_KP_2 65433
-# define KEY_KP_3 65435
-# define KEY_KP_4 65430
-# define KEY_KP_5 65437
-# define KEY_KP_6 65432
 # define KEY_KP_7 65429
+# define KEY_KP_4 65430
 # define KEY_KP_8 65431
+# define KEY_KP_6 65432
+# define KEY_KP_2 65433
 # define KEY_KP_9 65434
+# define KEY_KP_3 65435
+# define KEY_KP_1 65436
+# define KEY_KP_5 65437
+# define KEY_KP_0 65438
+
+# define KEY_KP_DOT 65439
 
 # define KEY_UP 65362
 # define KEY_DOWN 65364
@@ -54,6 +58,9 @@
 # define KEY_F10 65479
 # define KEY_F11 65480
 # define KEY_F12 65481
+
+# define KEY_PGUP 65365
+# define KEY_PGDN 65366
 
 # define MOUSE_LEFT 1
 # define MOUSE_MIDDLE 2

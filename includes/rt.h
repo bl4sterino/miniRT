@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/16 17:23:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 15:28:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define RAY_BOUNCES 5
 # define SELECTED_NONE 2147483647
 # define OBJ_MOVEMENT_SPEED 20.0
+# define OBJ_ROTATION_SPEED 100.0
+# define OBJ_EXTRA_SPEED 5.0
 # define IMAGE_BPP 4
 
 # define HIDE_CURSOR 0
@@ -103,7 +105,18 @@ void		ft_toggle_focus(t_data *d);
 void		ft_mouse_update(t_data *d);
 void		ft_controls(t_data *d);
 
-void		ft_move_selected_object(t_data *d);
+void		ft_select_objects(t_data *d);
+void		ft_selected_object_controls(t_data *d);
+t_v3d		ft_get_object_movement(t_data *d);
+t_v3d		ft_get_object_rotation(t_data *d);
+t_v3d		ft_get_object_extra(t_data *d);
+
+void		ft_move_object(t_v3d movement, t_object *object, t_data *d,
+				int *dirty_bvh);
+void		ft_rotate_object(t_v3d rotation, t_object *object, t_data *d,
+				int *dirty_bvh);
+void		ft_extra_controls(t_v3d extra, t_object *object, t_data *d,
+				int *dirty_bvh);
 
 // camera
 

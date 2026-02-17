@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/16 16:46:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 10:33:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ typedef struct s_object
 		t_cylinder		as_cylinder;
 		t_plane			as_plane;
 		t_quad			as_quad;
+		t_light			as_light;
 	} object;
 	t_material			material;
 	t_bounds			bounds;
