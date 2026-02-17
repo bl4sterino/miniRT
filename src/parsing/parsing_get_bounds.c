@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:09:03 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 12:38:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 18:52:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,22 @@ t_bounds    ft_get_quad_bounds(t_quad quad)
         bounds.max.z += EPSILON;
     }
 
+    return (bounds);
+}
+
+t_bounds    ft_get_triangle_bounds(t_triangle tri)
+{
+    t_bounds bounds;
+
+    bounds.min = tri.points.a;
+    bounds.max = tri.points.a;
+    int i = 1;
+    while (i < 3)
+    {
+        bounds.min = ft_v3d_min(bounds.min, tri.points.p[i]);
+        bounds.max = ft_v3d_max(bounds.max, tri.points.p[i]);
+        i++;
+    }
     return (bounds);
 }
 

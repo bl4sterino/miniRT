@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 15:28:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/17 17:48:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
-# define RAY_BOUNCES 5
+# define RAY_BOUNCES 2
 # define SELECTED_NONE 2147483647
 # define OBJ_MOVEMENT_SPEED 20.0
 # define OBJ_ROTATION_SPEED 100.0
