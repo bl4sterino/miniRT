@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/29 17:36:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/18 17:15:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ t_struct_parser_data	*ft_get_parser_camera(int id)
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	d = (t_parsing_data){p_double, offsetof(t_camera, position.z), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double, offsetof(t_camera, direction.x), 0};
+	d = (t_parsing_data){p_double_0_1, offsetof(t_camera, direction.x), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double, offsetof(t_camera, direction.y), 0};
+	d = (t_parsing_data){p_double_0_1, offsetof(t_camera, direction.y), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double, offsetof(t_camera, direction.z), 0};
+	d = (t_parsing_data){p_double_0_1, offsetof(t_camera, direction.z), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	d = (t_parsing_data){p_double, offsetof(t_camera, fov), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:00:06 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/16 12:24:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/18 15:02:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,50 @@ static inline double    ft_quad_collision(t_ray ray, t_quad quad)
         return (INFINITY);
 
     return (t);
+}
+
+static inline double    ft_triangle_collision(t_ray ray, t_triangle tri)
+{
+    t_v3d   edge1;
+    t_v3d   edge2;
+    t_v3d   h;
+    t_v3d   s;
+    t_v3d   q;
+    double  det;
+    double  inv_det;
+    double  u;
+    double  v;
+    double  t;
+
+    edge1 = ft_v3d_sub(tri.points.b, tri.points.a);
+    edge2 = ft_v3d_sub(tri.points.c, tri.points.a);
+    h = ft_v3d_cross(ray.direction, edge2);
+    det = ft_v3d_dot(edge1, h);
+
+    // If determinant is near zero, ray is parallel to the triangle
+    if (det > -EPSILON && det < EPSILON)
+        return (INFINITY);
+
+    inv_det = 1.0 / det;
+    s = ft_v3d_sub(ray.origin, tri.points.a);
+    u = inv_det * ft_v3d_dot(s, h);
+
+    // Check if intersection lies outside the triangle
+    if (u < 0.0 || u > 1.0)
+        return (INFINITY);
+
+    q = ft_v3d_cross(s, edge1);
+    v = inv_det * ft_v3d_dot(ray.direction, q);
+
+    if (v < 0.0 || u + v > 1.0)
+        return (INFINITY);
+
+    // Calculate t to see where the intersection point is on the line
+    t = inv_det * ft_v3d_dot(edge2, q);
+
+    if (t >= EPSILON)
+        return (t);
+    return (INFINITY);
 }
 
 #endif

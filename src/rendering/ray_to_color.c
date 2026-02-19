@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/16 17:32:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 10:09:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 	if (c.distance < INFINITY)
 	{
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
-		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit);
+		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit, ray.direction);
 		if (c.hit < 0)
 			mat = scene->planes[-c.hit - 1].material;
 		else

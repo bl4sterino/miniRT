@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 18:53:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 10:11:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ typedef struct s_material
 {
 	t_v3d				color;
 	double				reflection;
-	double				refraction_index;
+	//double				refraction_index;
 }						t_material;
 
 typedef struct s_ambient_light

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:33:23 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 18:41:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/18 10:12:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_triangle	ft_get_processed_triangle(t_triangle tri)
 	tri.position = ft_v3d_scale(center, 1.0 / 3.0);
 	t_v3d ab = ft_v3d_sub(tri.points.b, tri.points.a);
 	t_v3d ac = ft_v3d_sub(tri.points.c, tri.points.a);
-	tri.normal = ft_v3d_cross(ac, ab);
+	tri.normal = ft_v3d_normalize(ft_v3d_cross(ac, ab));
 	return (tri);
 }
 

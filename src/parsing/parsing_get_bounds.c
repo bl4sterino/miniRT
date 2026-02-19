@@ -6,11 +6,31 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:09:03 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 18:52:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 10:11:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+t_bounds ft_get_minimum_bounds(t_bounds bounds)
+{
+    if (fabs(bounds.max.x - bounds.min.x) < EPSILON)
+    {
+        bounds.min.x -= EPSILON;
+        bounds.max.x += EPSILON;
+    }
+    if (fabs(bounds.max.y - bounds.min.y) < EPSILON)
+    {
+        bounds.min.y -= EPSILON;
+        bounds.max.y += EPSILON;
+    }
+    if (fabs(bounds.max.z - bounds.min.z) < EPSILON)
+    {
+        bounds.min.z -= EPSILON;
+        bounds.max.z += EPSILON;
+    }
+    return (bounds);
+}
 
 t_bounds	ft_get_sphere_bounds(t_sphere sphere)
 {
@@ -80,24 +100,7 @@ t_bounds    ft_get_quad_bounds(t_quad quad)
         bounds.max.z = fmax(bounds.max.z, corners[i].z);
         i++;
     }
-
-    if (fabs(bounds.max.x - bounds.min.x) < EPSILON)
-    {
-        bounds.min.x -= EPSILON;
-        bounds.max.x += EPSILON;
-    }
-    if (fabs(bounds.max.y - bounds.min.y) < EPSILON)
-    {
-        bounds.min.y -= EPSILON;
-        bounds.max.y += EPSILON;
-    }
-    if (fabs(bounds.max.z - bounds.min.z) < EPSILON)
-    {
-        bounds.min.z -= EPSILON;
-        bounds.max.z += EPSILON;
-    }
-
-    return (bounds);
+    return (ft_get_minimum_bounds(bounds));
 }
 
 t_bounds    ft_get_triangle_bounds(t_triangle tri)
@@ -113,6 +116,6 @@ t_bounds    ft_get_triangle_bounds(t_triangle tri)
         bounds.max = ft_v3d_max(bounds.max, tri.points.p[i]);
         i++;
     }
-    return (bounds);
+    return (ft_get_minimum_bounds(bounds));
 }
 

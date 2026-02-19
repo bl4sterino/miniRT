@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/30 12:19:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:45:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
 			dist = ft_cylinder_collision(ray, obj.object.as_cylinder);
 		else if (obj.type == object_type_quad)
 			dist = ft_quad_collision(ray, obj.object.as_quad);
+		else if (obj.type == object_type_triangle)
+			dist = ft_triangle_collision(ray, obj.object.as_triangle);
 		if (dist < context->best_dist)
 		{
 			context->best_dist = dist;

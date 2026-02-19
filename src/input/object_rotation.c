@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:15:27 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 15:56:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/18 15:58:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,28 @@ void	ft_rotate_quad(t_v3d rotation, t_object *object)
 	object->bounds = ft_get_quad_bounds(object->object.as_quad);
 }
 
+void	ft_rotate_triangle(t_v3d rotation, t_object *object)
+{
+	t_v3d a;
+	t_v3d b;
+	t_v3d c;
+
+	a = ft_v3d_sub(object->object.as_triangle.points.a, object->object.as_triangle.position);
+	b = ft_v3d_sub(object->object.as_triangle.points.b, object->object.as_triangle.position);
+	c = ft_v3d_sub(object->object.as_triangle.points.c, object->object.as_triangle.position);
+
+	a = ft_v3d_rotate_worldspace(a, rotation);
+	b = ft_v3d_rotate_worldspace(b, rotation);
+	c = ft_v3d_rotate_worldspace(c, rotation);
+
+	object->object.as_triangle.points.a = ft_v3d_add(a, object->object.as_triangle.position);
+	object->object.as_triangle.points.b = ft_v3d_add(b, object->object.as_triangle.position);
+	object->object.as_triangle.points.c = ft_v3d_add(c, object->object.as_triangle.position);
+	
+	object->object.as_triangle = ft_get_processed_triangle(object->object.as_triangle);
+	object->bounds = ft_get_triangle_bounds(object->object.as_triangle);	
+}
+
 void	ft_rotate_object(t_v3d rotation, t_object *object, t_data *d,
 		int *dirty_bvh)
 {
@@ -34,6 +56,8 @@ void	ft_rotate_object(t_v3d rotation, t_object *object, t_data *d,
 		ft_rotate_cylinder(rotation, object);
 	else if (object->type == object_type_quad)
 		ft_rotate_quad(rotation, object);
+	else if (object->type == object_type_triangle)
+		ft_rotate_triangle(rotation, object);
 	else if (d->selected_object < 0)
 		object->object.as_plane.normal
 			= ft_v3d_rotate_worldspace(object->object.as_plane.normal, rotation);
