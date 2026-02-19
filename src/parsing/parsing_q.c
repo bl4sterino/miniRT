@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 15:53:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 14:59:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,7 @@
 t_struct_parser_data	*ft_get_parser_quad_2(int id,
 		t_struct_parser_data *struct_parser)
 {
-	t_parsing_data	d;
-	t_list			*lst;
-
-	lst = 0;
-	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.x),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.y),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.z),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double_try_or_0, offsetof(t_material, reflection),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	struct_parser->material_lst = lst;
+	struct_parser->material_lst = ft_get_parser_material(id);
 	return (struct_parser);
 }
 

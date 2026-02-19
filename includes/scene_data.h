@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 10:11:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 17:32:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 typedef struct s_material
 {
 	t_v3d				color;
-	double				reflection;
-	//double				refraction_index;
+	double				diffusion;
+	double				reflectiveness;
+	//double				emission;
 }						t_material;
 
 typedef struct s_ambient_light
@@ -217,6 +218,7 @@ void					ft_parsing_error_on_line(int n);
 t_struct_parser_data	*ft_get_parser_ambient_light(int id);
 t_struct_parser_data	*ft_get_parser_camera(int id);
 t_struct_parser_data	*ft_get_parser_light(int id);
+t_list					*ft_get_parser_material(int id);
 t_struct_parser_data	*ft_get_parser_sphere(int id);
 t_struct_parser_data	*ft_get_parser_plane(int id);
 t_struct_parser_data	*ft_get_parser_cylinder(int id);

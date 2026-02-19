@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:33:23 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/18 10:12:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 15:05:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 t_triangle	ft_get_processed_triangle(t_triangle tri)
 {
-	t_v3d center;
+	t_v3d	center;
+	t_v3d	ab;
+	t_v3d	ac;
 
 	center = ft_v3d_add(tri.points.a, tri.points.b);
 	center = ft_v3d_add(center, tri.points.c);
 	tri.position = ft_v3d_scale(center, 1.0 / 3.0);
-	t_v3d ab = ft_v3d_sub(tri.points.b, tri.points.a);
-	t_v3d ac = ft_v3d_sub(tri.points.c, tri.points.a);
+	ab = ft_v3d_sub(tri.points.b, tri.points.a);
+	ac = ft_v3d_sub(tri.points.c, tri.points.a);
 	tri.normal = ft_v3d_normalize(ft_v3d_cross(ac, ab));
 	return (tri);
 }
@@ -28,23 +30,7 @@ t_triangle	ft_get_processed_triangle(t_triangle tri)
 t_struct_parser_data	*ft_get_parser_triangle_2(int id,
 		t_struct_parser_data *struct_parser)
 {
-	t_parsing_data	d;
-	t_list			*lst;
-
-	lst = 0;
-	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.x),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.y),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double_0_255_to_0_1, offsetof(t_material, color.z),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_double_try_or_0, offsetof(t_material, reflection),
-		0};
-	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	struct_parser->material_lst = lst;
+	struct_parser->material_lst = ft_get_parser_material(id);
 	return (struct_parser);
 }
 

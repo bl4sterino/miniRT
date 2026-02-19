@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/18 15:08:21 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/19 15:01:07 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ FILES = main\
 		monitoring/clock_2\
 		parsing/parsing_data_dict\
 		parsing/parsing_scene\
+		parsing/parsing_material\
 		parsing/parsing_A_C_L\
 		parsing/parsing_sp\
 		parsing/parsing_pl_cy\

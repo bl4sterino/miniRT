@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 10:09:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 18:08:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,21 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 			mat = scene->planes[-c.hit - 1].material;
 		else
 			mat = scene->objects[c.hit].material;
+
+		
 		c.out_color = mat.color;
 		c.light_color = ft_get_light(c.hit_point, c.hit_normal, scene);
 		c.out_color = ft_v3d_mult(c.out_color, c.light_color);
-		if (mat.reflection > 0.0 && ray.remaining_bounces > 0)
+		if (ray.remaining_bounces > 0 && mat.reflectiveness > 0)
 		{
 			ray.origin = c.hit_point;
-			ray = ft_setup_ray_direction(ray, ft_v3d_reflect(ray.direction,
-						c.hit_normal), ray.remaining_bounces - 1);
-			return (ft_v3d_lerp(c.out_color, ft_get_pixel_color(ray, scene),
-					mat.reflection));
+			ray = ft_setup_ray_direction(ray, ft_v3d_reflect_diffuse(ray.direction,
+						c.hit_normal, mat.diffusion), ray.remaining_bounces - 1);
+			c.out_color = ft_v3d_lerp(c.out_color, ft_get_pixel_color(ray, scene), mat.reflectiveness);
+			//c.out_color = ft_v3d_min((t_v3d){{1.0, 1.0, 1.0}}, c.out_color);
 		}
-		else
-			return (c.out_color);
+		return (c.out_color);
 	}
 	return (ft_get_sky_color(ray));
 }
+

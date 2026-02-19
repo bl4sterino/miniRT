@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:08:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/18 16:34:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/19 16:49:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 void ft_move_triangle(t_object *object, t_v3d movement)
 {
-	int i;
-
-	i = 0;
 	object->object.as_triangle.points.a = ft_v3d_add(object->object.as_triangle.points.a, movement);
 	object->object.as_triangle.points.b = ft_v3d_add(object->object.as_triangle.points.b, movement);
 	object->object.as_triangle.points.c = ft_v3d_add(object->object.as_triangle.points.c, movement);
