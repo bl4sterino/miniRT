@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/19 15:01:07 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/20 11:12:07 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,10 @@ FILES = main\
 		exit\
 		exit_2\
 		debug/debug_gc\
+		input/camera\
 		input/focus_and_cursor\
 		input/input\
+		input/input_listeners\
 		input/input_get\
 		input/key_controls\
 		input/key_hook\
@@ -49,6 +51,7 @@ FILES = main\
 		input/object_movement\
 		input/object_rotation\
 		input/object_selection\
+		input/render_settings\
 		monitoring/clock\
 		monitoring/clock_2\
 		parsing/parsing_data_dict\
@@ -76,8 +79,7 @@ FILES = main\
 		rendering/bvh_ray\
 		rendering/bvh_ray_light\
 		rendering/ray_to_color\
-		utils/camera_vectors_utils\
-		camera
+		utils/camera_vectors_utils
 
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))

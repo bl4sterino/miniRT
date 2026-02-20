@@ -6,13 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 15:05:09 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 11:22:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_struct_parser_data	*ft_get_parser_sphere_2(int id, t_parsing_data d,
+t_struct_parser_data	*ft_get_parser_sphere_2(int id,
 		t_struct_parser_data *struct_parser)
 {
 	struct_parser->material_lst = ft_get_parser_material(id);
@@ -37,5 +37,5 @@ t_struct_parser_data	*ft_get_parser_sphere(int id)
 	d = (t_parsing_data){p_double, offsetof(t_sphere, radius), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	struct_parser->element_lst = lst;
-	return (ft_get_parser_sphere_2(id, d, struct_parser));
+	return (ft_get_parser_sphere_2(id, struct_parser));
 }

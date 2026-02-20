@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 17:32:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 11:51:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_material
 	t_v3d				color;
 	double				diffusion;
 	double				reflectiveness;
+	//double				specularity;
 	//double				emission;
 }						t_material;
 

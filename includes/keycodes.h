@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 14:44:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 11:06:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # define KEY_D 100
 # define KEY_Q 113
 # define KEY_E 101
+# define KEY_F 102
+# define KEY_G 103
 # define KEY_SPACE 32
 # define KEY_CTRL_L 65507
 # define KEY_ALT 65513

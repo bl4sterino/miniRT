@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/14 13:47:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 10:48:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	ft_init_data(t_data *d)
 	d->selected_object = SELECTED_NONE;
 	srand(42);
 	d->dirty_frame = 1;
+	d->target_ray_bounces = 1;
 	gettimeofday(&(d->last_tv), 0);
 }
 

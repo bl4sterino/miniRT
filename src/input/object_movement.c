@@ -6,11 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:08:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 16:49:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 11:22:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void	ft_move_light(t_light *light, t_v3d movement)
+{
+	light->position = ft_v3d_add(light->position, movement);
+}
 
 void ft_move_triangle(t_object *object, t_v3d movement)
 {
@@ -21,7 +26,7 @@ void ft_move_triangle(t_object *object, t_v3d movement)
 	object->bounds = ft_get_triangle_bounds(object->object.as_triangle);
 }
 
-int	ft_move_object_2(t_v3d movement, t_object *object, t_data *d,
+void	ft_move_object_2(t_v3d movement, t_object *object, t_data *d,
 		int *dirty_bvh)
 {
 	if (object->type == object_type_triangle)
@@ -32,20 +37,14 @@ int	ft_move_object_2(t_v3d movement, t_object *object, t_data *d,
 	else
 	{
 		ft_move_light((t_light *)object, movement);
-		return (0);
+		return ;
 	}
-	return (1);
-}
-
-void	ft_move_light(t_light *light, t_v3d movement)
-{
-	light->position = ft_v3d_add(light->position, movement);
+	*dirty_bvh = 1;
 }
 
 void	ft_move_object(t_v3d movement, t_object *object, t_data *d,
 		int *dirty_bvh)
 {
-	int moved = 0;
 	if (object->type == object_type_sphere)
 	{
 		object->object.as_sphere.position
@@ -66,7 +65,7 @@ void	ft_move_object(t_v3d movement, t_object *object, t_data *d,
 	}
 	else
 	{
-		*dirty_bvh = ft_move_object_2(movement, object, d, dirty_bvh);
+		ft_move_object_2(movement, object, d, dirty_bvh);
 		d->dirty_frame = 1;
 		return;
 	}

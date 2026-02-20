@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 16:47:09 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 11:15:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
-# define RAY_BOUNCES 2
 # define SELECTED_NONE 2147483647
 # define OBJ_MOVEMENT_SPEED 20.0
 # define OBJ_ROTATION_SPEED 100.0
@@ -95,6 +94,8 @@ void		ft_exit_thread_cancel(void *d);
 
 // input
 
+void		ft_add_input(int keycode, t_data *d);
+void		ft_add_key_range(int keycode_start, int keycode_end, t_data *d);
 void		ft_input_init(t_data *d);
 void		ft_update_key_state(int keycode, int newstate, t_data *d);
 void		ft_input_clear_just_pressed(t_data *d);
@@ -122,6 +123,8 @@ void		ft_extra_controls(t_v3d extra, t_object *object, t_data *d,
 
 void		ft_camera_move(t_data *d);
 void		ft_camera_rotate(t_data *d);
+void		ft_camera_zoom(t_data *d);
+void		ft_render_settings(t_data *d);
 
 // time
 
