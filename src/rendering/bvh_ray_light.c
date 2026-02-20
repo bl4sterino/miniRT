@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/18 15:09:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 14:16:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ t_v3d	ft_get_light(t_v3d position, t_v3d normal, t_scene *scene)
 			c.new_color = ft_v3d_scale(scene->lights[c.i].color,
 					fabs(ft_v3d_dot(c.light_ray.direction, normal)));
 			c.color = ft_v3d_add(c.color, c.new_color);
-			c.color = ft_v3d_min(c.color, (t_v3d){{1.0, 1.0, 1.0}});
 		}
 	}
 	return (c.color);

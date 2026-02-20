@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 18:11:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/20 13:50:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,9 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 	t_scene	*scene;
 
 	if (ft_count_matches(lst, object_type_ambient_light) != 1)
-		ft_exit_str_fd(1, "Ambient Light is missing\n", 2);
+		ft_exit_str_fd(1, "Wrong number of Ambient Light\n", 2);
 	if (ft_count_matches(lst, object_type_camera) != 1)
-		ft_exit_str_fd(1, "Camera is missing\n", 2);
-	if (ft_count_matches(lst, object_type_light) < 1)
-		ft_exit_str_fd(1, "Point Light is missing\n", 2);
+		ft_exit_str_fd(1, "Wrong number of Cameras\n", 2);
 	scene = ft_malloc_id(sizeof(t_scene), malloc_id_scene);
 	ft_bzero(scene, sizeof(t_scene));
 	scene->planes = ft_malloc_id(sizeof(t_object) * ft_count_matches(lst,
