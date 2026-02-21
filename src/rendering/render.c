@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 10:51:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/21 16:23:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	ft_push_accumulated_data_to_image(t_data *d)
 			color.y = d->image.accumulated_addr[i + 1];
 			color.z = d->image.accumulated_addr[i + 2];
 			color = ft_v3d_div(color, d->frame_count);
+			color = ft_v3d_min(color, (t_v3d){{1.0, 1.0, 1.0}});
 			ft_put_pxl(d->image.addr, pos, ft_v3d_to_int_color(color));
 			pos.x++;
 			i += 3;

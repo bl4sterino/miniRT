@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 15:09:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/21 18:02:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ static inline t_v3d	ft_get_sky_color(t_ray ray)
 	from the bvh, so we check them first and use a negative hit index
 	offset by one to avoid zero to represent them
 */
-t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
+t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene, char *parent_emissive)
 {
 	t_pixel_color_context	c;
 	t_material				mat;
+	char hit_emissive = 0;
 
 	/* Maybe have some sort of array to store the ray hit
 	between bounces to avoid recursivity */
@@ -47,17 +48,28 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 		else
 			mat = scene->objects[c.hit].material;
 
-		
+		if (mat.emission > 0.0)
+		{
+			if (parent_emissive)
+				*parent_emissive = 1;
+			return (ft_v3d_scale(mat.color, mat.emission));
+		}
 		c.out_color = mat.color;
 		c.light_color = ft_get_light(c.hit_point, c.hit_normal, scene);
-		c.out_color = ft_v3d_mult(c.out_color, c.light_color);
-		if (ray.remaining_bounces > 0 && mat.reflectiveness > 0)
+		if (ray.remaining_bounces > 0)
 		{
 			ray.origin = c.hit_point;
 			ray = ft_setup_ray_direction(ray, ft_v3d_reflect_diffuse(ray.direction,
 						c.hit_normal, mat.diffusion), ray.remaining_bounces - 1);
-			c.out_color = ft_v3d_lerp(c.out_color, ft_get_pixel_color(ray, scene), mat.reflectiveness);
-			//c.out_color = ft_v3d_min((t_v3d){{1.0, 1.0, 1.0}}, c.out_color);
+			t_v3d indirect_color =  ft_get_pixel_color(ray, scene, &hit_emissive);
+			if (hit_emissive)
+				c.light_color = ft_v3d_add(c.light_color, indirect_color);
+
+			c.out_color = ft_v3d_mult(c.out_color, c.light_color);
+			c.out_color = ft_v3d_lerp(c.out_color, indirect_color, mat.reflectiveness);
+		}
+		else {
+			c.out_color = ft_v3d_mult(c.out_color, c.light_color);
 		}
 		return (c.out_color);
 	}

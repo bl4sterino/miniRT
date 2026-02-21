@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 15:10:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/21 16:09:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ typedef struct t_data
 	struct timeval	last_tv;
 	char			*fpsstr;
 	double			frame_count;
-	int				dirty_frame;
-	int				ray_bounces;
+	char			dirty_frame;
+	char			ray_bounces;
 	int				target_ray_bounces;
 	t_scene			*scene;
 	t_viewport		viewport;

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/04 13:48:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 11:07:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/21 16:02:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ void	ft_controls(t_data *d)
 	ft_select_objects(d);
 	if (d->selected_object != SELECTED_NONE || d->selected_light != -1)
 		ft_selected_object_controls(d);
-		
 }
