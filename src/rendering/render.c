@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/22 16:41:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/22 19:03:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 	pthread_mutex_unlock(&d->threads_data.task_mutex);
 }
 
-void	ft_setup_tasks(t_data *d)
+void	ft_render(t_data *d)
 {
 	ft_clock_start(clock_render);
 	if (d->dirty_frame)
@@ -88,29 +88,3 @@ void	ft_setup_tasks(t_data *d)
 	ft_clock_set(clock_render);
 }
 
-void	ft_push_accumulated_data_to_image(t_data *d)
-{
-	t_v2i	pos;
-	t_v3d	color;
-	int		i;
-
-	i = 0;
-	d->frame_count += 1.0;
-	pos.y = 0;
-	while (pos.y < HEIGHT_WIN)
-	{
-		pos.x = 0;
-		while (pos.x < WIDTH_WIN)
-		{
-			color.x = d->image.accumulated_addr[i];
-			color.y = d->image.accumulated_addr[i + 1];
-			color.z = d->image.accumulated_addr[i + 2];
-			color = ft_v3d_div(color, d->frame_count);
-			color = ft_v3d_min(color, (t_v3d){{1.0, 1.0, 1.0}});
-			ft_put_pxl(d->image.addr, pos, ft_v3d_to_int_color(color));
-			pos.x++;
-			i += 3;
-		}
-		pos.y++;
-	}
-}

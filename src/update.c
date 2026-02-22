@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/21 16:12:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/22 19:05:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int	ft_exec_updates(t_data *d)
 	ft_early_update(d);
 	ft_update(d);
 	ft_late_update(d);
-	ft_setup_tasks(d);
-	ft_push_accumulated_data_to_image(d);
+	ft_render(d);
+	ft_post_process(d);
 	mlx_put_image_to_window(d->mlx, d->window, d->image.ptr, 0, 0);
 	ft_clock_set(clock_frame);
 	ft_post_render(d);

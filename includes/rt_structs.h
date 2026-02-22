@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/21 16:09:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/22 18:58:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_image
 	void			*ptr;
 	char			*addr;
 	double			*accumulated_addr;
+	float			*averaged_colors;
+	float			*temp_colors;
 	int				bpp;
 	int				line_size;
 	int				endian;
@@ -179,6 +181,11 @@ typedef struct s_pixel_color_context
 	t_v3d			hit_point;
 	t_v3d			light_color;
 	t_v3d			reflection_color;
+	t_material		mat;
+	double			do_reflect;
+	t_v3d			reflected;
+	t_v3d			new_dir;
+
 }					t_pixel_color_context;
 
 typedef struct s_viewport_context

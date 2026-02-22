@@ -6,14 +6,14 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/20 11:12:07 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/22 22:11:10 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS =  -O3 -g3 -Wall -Wextra #-Werror
-MLXFLAG = -lXext -lX11 -lm
+DFLAGS =  -g3 -Wall -Wextra #-Werror
+RTFLAGS = -lXext -lX11 -lm -lOpenCL
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
@@ -37,6 +37,7 @@ FILES = main\
 		image2\
 		exit\
 		exit_2\
+		opencl\
 		debug/debug_gc\
 		input/camera\
 		input/focus_and_cursor\
@@ -79,6 +80,7 @@ FILES = main\
 		rendering/bvh_ray\
 		rendering/bvh_ray_light\
 		rendering/ray_to_color\
+		rendering/post_process\
 		utils/camera_vectors_utils
 
 
@@ -97,10 +99,10 @@ DEPFLAGS = -MMD
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(MLXFLAG)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(RTFLAGS)
 
 $(D_NAME): $(LIBFT_DEBUG) $(MLX) $(D_OBJ)
-	$(CC) $(DFLAGS) $(D_OBJ) $(LIBFT_DEBUG) $(MLX) -o $(D_NAME) $(MLXFLAG)
+	$(CC) $(DFLAGS) $(D_OBJ) $(LIBFT_DEBUG) $(MLX) -o $(D_NAME) $(RTFLAGS)
 
 debug: $(D_NAME)
 
