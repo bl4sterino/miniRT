@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/21 12:45:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/22 16:15:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 					d->ray_bounces);
 			if (d->render_mode == DEFAULT)
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_get_pixel_color(context.ray, d->scene, 0));
+					ft_get_pixel_color(context.ray, d->scene));
 			else
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
 					ft_shoot_ray_bvh_debug(context.ray, d->scene));

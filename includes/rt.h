@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/21 12:44:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/22 16:05:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
-t_v3d		ft_get_pixel_color(t_ray ray, t_scene *scene, char *parent_emissive);
+t_v3d		ft_get_pixel_color(t_ray ray, t_scene *scene);
 
 t_ray		ft_setup_ray_target(t_ray ray, t_v3d target, char bounces);
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3d direction, char bounces);
