@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/23 12:00:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/23 15:57:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_post_process(t_data *d)
 	clEnqueueNDRangeKernel(d->opencl.command_queue, d->opencl.kernel_average, 1, 0, &size, 0, 0, 0, 0);
 	err = clEnqueueReadBuffer(
 	d->opencl.command_queue,
-	d->opencl.averaged_buff,
+	d->opencl.a,
 	CL_TRUE,
 	0,
 	HEIGHT_WIN * WIDTH_WIN * 3 * sizeof(double),

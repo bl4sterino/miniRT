@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/23 11:51:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/23 15:56:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ typedef struct s_threads_data
 
 typedef struct s_opencl_data
 {
-	cl_platform_id 		platform;
+	cl_platform_id		platform;
 	cl_device_id		device;
 	cl_context			context;
+	cl_program			program;
 	cl_kernel			kernel_average;
 	cl_command_queue	command_queue;
 
 	cl_mem				accumulated_buff;
-	cl_mem				averaged_buff;
-	cl_mem				ping;
-	cl_mem				pong;
+	cl_mem				a;
+	cl_mem				b;
 }						t_opencl_data;
 
 typedef struct s_viewport
