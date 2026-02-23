@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/22 19:29:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/23 11:42:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static inline int	ft_v3d_to_int_color(t_v3d color)
 			* 255) << 8 | (int)(color.z * 255));
 }
 
-static inline int	ft_floats_to_int_color(float r, float g, float b)
+static inline int	ft_doubles_to_int_color(double r, double g, double b)
 {
 	return ((int)(r * 255) << 16 | (int)(g * 255) << 8 | (int)(b * 255));
 }

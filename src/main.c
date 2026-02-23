@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/22 22:06:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/23 11:03:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	ft_init_data(t_data *d)
 	d->dirty_frame = 1;
 	d->target_ray_bounces = 1;
 	gettimeofday(&(d->last_tv), 0);
-	ft_init_opencl(d);
 }
 
 int	main(int ac, char **av)
@@ -98,6 +97,7 @@ int	main(int ac, char **av)
 		ft_exit(MALLOC_FAILED);
 	ft_add_exit((void *)&d, ft_exit_destroy_window);
 	ft_create_image(&d);
+	ft_init_opencl(&d);
 	ft_setup_hooks(&d);
 	mlx_loop(d.mlx);
 	return (0);

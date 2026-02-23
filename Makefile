@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/22 22:11:10 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/23 10:27:55 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS =  -g3 -Wall -Wextra #-Werror
+DFLAGS =  -O3 -g3 -Wall -Wextra #-Werror
 RTFLAGS = -lXext -lX11 -lm -lOpenCL
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
