@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:05:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/24 10:10:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/24 12:16:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,18 @@ void	ft_init_blur_kernel(t_data *d)
 {
 	cl_int	err;
 
-	d->opencl.kernel_blur = clCreateKernel(d->opencl.program,
-			"ft_blur", &err);
+	d->opencl.kernel_blur_h = clCreateKernel(d->opencl.program,
+			"ft_blur_horizontal", &err);
 	if (err != CL_SUCCESS)
 	{
-		ft_printf("Error Creating blur kernel: %s\n", get_cl_error(err));
+		ft_printf("Error Creating H_blur kernel: %s\n", get_cl_error(err));
+		ft_exit(1);
+	}
+	d->opencl.kernel_blur_v = clCreateKernel(d->opencl.program,
+			"ft_blur_vertical", &err);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Creating V_blur kernel: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
 }

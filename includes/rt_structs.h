@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/24 10:10:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/24 11:54:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,14 @@ typedef struct s_opencl_data
 	cl_context			context;
 	cl_program			program;
 	cl_kernel			kernel_average;
-	cl_kernel			kernel_blur;
+	cl_kernel			kernel_blur_h;
+	cl_kernel			kernel_blur_v;
 	cl_command_queue	command_queue;
 
 	cl_mem				accumulated_buff;
 	cl_mem				a;
 	cl_mem				b;
+	cl_mem				gaussian_mat;
 }						t_opencl_data;
 
 typedef struct s_viewport
@@ -125,6 +127,8 @@ typedef struct t_data
 	t_viewport			viewport;
 	t_threads_data		threads_data;
 	t_render_mode		render_mode;
+	int					denoise;
+	int					blur_radius;
 	int					selected_object;
 	int					selected_light;
 	t_opencl_data		opencl;
