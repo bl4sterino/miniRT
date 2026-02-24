@@ -6,12 +6,15 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/22 16:05:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/23 09:23:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
+
+# define CL_TARGET_OPENCL_VERSION 220
+# include <CL/cl.h>
 
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
@@ -166,12 +169,10 @@ double		ft_shoot_ray_against_objects(t_ray ray, double max_dist,
 				t_scene *scene, int *hit);
 
 t_viewport	ft_get_viewport(t_camera cam, t_data *d);
-void		ft_setup_tasks(t_data *d);
-
-void		ft_setup_tasks(t_data *d);
+void		ft_render(t_data *d);
 void		*ft_thread_loop(void *arg);
 
-void		ft_push_accumulated_data_to_image(t_data *d);
+void		ft_post_process(t_data *d);
 
 // utils
 
@@ -182,5 +183,9 @@ double		ft_get_triangle_area(t_v3d A, t_v3d B, t_v3d C);
 // debug
 
 void		ft_debug_gc(t_data *d);
+
+// init
+
+void ft_init_opencl(t_data *d);
 
 #endif

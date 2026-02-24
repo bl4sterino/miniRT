@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/21 16:01:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/23 11:03:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	main(int ac, char **av)
 		ft_exit(MALLOC_FAILED);
 	ft_add_exit((void *)&d, ft_exit_destroy_window);
 	ft_create_image(&d);
+	ft_init_opencl(&d);
 	ft_setup_hooks(&d);
 	mlx_loop(d.mlx);
 	return (0);

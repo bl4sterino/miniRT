@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/22 16:43:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/22 17:11:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ static inline t_v3d	ft_get_sky_color(t_ray ray)
 t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 {
 	t_pixel_color_context	c;
-	t_material				mat;
-	char hit_emissive = 0;
 
 	c.out_color = (t_v3d){{0, 0, 0}};
 	c.distance = ft_shoot_ray(ray, scene, &c.hit);
@@ -41,27 +39,26 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 	{
 		
 		if (c.hit < 0)
-			mat = scene->planes[-c.hit - 1].material;
+			c.mat = scene->planes[-c.hit - 1].material;
 		else
-			mat = scene->objects[c.hit].material;
+			c.mat = scene->objects[c.hit].material;
 
-		if (mat.emission > 0.0)
-			return (ft_v3d_scale(mat.color, mat.emission));
+		if (c.mat.emission > 0.0)
+			return (ft_v3d_scale(c.mat.color, c.mat.emission));
 
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
 		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit, ray.direction);
 
-		c.out_color = mat.color;
+		c.out_color = c.mat.color;
 		if (ray.remaining_bounces > 0)
 		{
 			ray.origin = c.hit_point;
 			double do_reflect = fast_rand();
-			if(do_reflect < mat.reflectiveness)
+			if(do_reflect < c.mat.reflectiveness)
 			{
-				t_v3d reflected = ft_v3d_reflect(ray.direction, c.hit_normal);
-				t_v3d random_dir = ft_v3d_random_hemisphere(c.hit_normal);
-				t_v3d new_dir = ft_v3d_normalize(ft_v3d_lerp(reflected, random_dir, mat.diffusion));
-				ray = ft_setup_ray_direction(ray, new_dir, ray.remaining_bounces - 1);
+				c.reflected = ft_v3d_reflect(ray.direction, c.hit_normal);
+				c.new_dir = ft_v3d_normalize(ft_v3d_lerp(c.reflected, ft_v3d_random_hemisphere(c.hit_normal), c.mat.diffusion));
+				ray = ft_setup_ray_direction(ray, c.new_dir, ray.remaining_bounces - 1);
 				return (ft_get_pixel_color(ray, scene));
 			}
 			else
@@ -71,7 +68,7 @@ t_v3d	ft_get_pixel_color(t_ray ray, t_scene *scene)
 				return (ft_v3d_mult(c.out_color, c.light_color));
 			}
 		}
-		else // last bounce, just return the color
+		else
 			c.out_color = ft_v3d_mult(c.out_color, ft_get_light(c.hit_point, c.hit_normal, scene));
 		return (c.out_color);
 	}
