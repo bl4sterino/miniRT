@@ -6,13 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 14:16:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 14:19:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_v3d	ft_get_light(t_v3d position, t_v3d normal, t_scene *scene)
+t_v3f	ft_get_light(t_v3d position, t_v3d normal, t_scene *scene)
 {
 	t_get_light_context	c;
 
@@ -35,9 +35,9 @@ t_v3d	ft_get_light(t_v3d position, t_v3d normal, t_scene *scene)
 				&c.hit);
 		if (c.dist >= c.light_dist - EPSILON)
 		{
-			c.new_color = ft_v3d_scale(scene->lights[c.i].color,
+			c.new_color = ft_v3f_scale(scene->lights[c.i].color,
 					fabs(ft_v3d_dot(c.light_ray.direction, normal)));
-			c.color = ft_v3d_add(c.color, c.new_color);
+			c.color = ft_v3f_add(c.color, c.new_color);
 		}
 	}
 	return (c.color);

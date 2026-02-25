@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/23 09:23:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 14:19:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,15 +154,15 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
-t_v3d		ft_get_pixel_color(t_ray ray, t_scene *scene);
+t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3d *hit_normal);
 
 t_ray		ft_setup_ray_target(t_ray ray, t_v3d target, char bounces);
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3d direction, char bounces);
 
 double		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
 
-t_v3d		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
-t_v3d		ft_get_light(t_v3d position, t_v3d normal, t_scene *scene);
+t_v3f		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
+t_v3f		ft_get_light(t_v3d position, t_v3d normal, t_scene *scene);
 double		ft_shoot_ray_against_planes(t_ray ray, double max_dist,
 				t_scene *scene, int *hit);
 double		ft_shoot_ray_against_objects(t_ray ray, double max_dist,

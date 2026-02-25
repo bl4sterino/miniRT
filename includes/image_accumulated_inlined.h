@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/21 13:54:11 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 17:08:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,13 @@
 # include "rt.h"
 
 static inline void	ft_add_pixel_to_accumulated_image(t_data *d, t_v2i pos,
-		t_v3d color)
+		t_v3f color, t_v3d normal)
 {
 	int	index;
 
-	index = (pos.y * WIDTH_WIN + pos.x) * 3;
-	d->image.accumulated_addr[index] += color.x;
-	d->image.accumulated_addr[index + 1] += color.y;
-	d->image.accumulated_addr[index + 2] += color.z;
+	index = pos.y * WIDTH_WIN + pos.x;
+	d->image.current_frame[index] = color;
+	d->image.normals[index] = (t_v3f){{(float)normal.x, (float)normal.y, (float)normal.z}};
 }
 
 #endif

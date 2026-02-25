@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:03:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/27 10:48:09 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 11:32:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ void	ft_draw_clocks(t_data *d)
 	ft_draw_double_8(d, (t_draw_arg){(t_v2i){0, HEIGHT_WIN - 15}, (t_v2i){170,
 		15}, (t_rgb){50, 50, 50}}, "frame duration: ",
 		ft_clock_get(clock_frame));
+	ft_draw_double_8(d, (t_draw_arg){(t_v2i){170, HEIGHT_WIN - 15}, (t_v2i){170,
+		15}, (t_rgb){50, 50, 50}}, "Denoiser: ",
+		ft_clock_get(clock_blur));
 }
 
 void	ft_hud_display(t_data *d)

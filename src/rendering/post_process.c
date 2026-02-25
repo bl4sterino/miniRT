@@ -6,56 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/24 16:28:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 17:12:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_get_averaged_frame(t_data *d)
-{
-	int		i;
-	double	coef;
-
-	d->frame_count += 1.0;
-	coef = 1.0 / d->frame_count;
-	i = 0;
-	while (i < WIDTH_WIN * HEIGHT_WIN * 3)
-	{
-		d->image.averaged_colors[i] = fminf(1.0,
-				(float)(d->image.accumulated_addr[i] * coef));
-		i++;
-	}
-}
-
-void	ft_average(t_data *d)
-{
-	cl_int	err;
-	double	coef;
-	size_t	size;
-
-	err = clEnqueueWriteBuffer(d->opencl.command_queue,
-			d->opencl.accumulated_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 3
-			* sizeof(double), d->image.accumulated_addr, 0, 0, 0);
-	if (err != CL_SUCCESS)
-	{
-		ft_printf("Error updating the buffer\n");
-		ft_exit(1);
-	}
-	d->frame_count += 1.0;
-	coef = 1.0 / d->frame_count;
-	clSetKernelArg(d->opencl.kernel_average, 1, sizeof(cl_mem), &d->opencl.a);
-	clSetKernelArg(d->opencl.kernel_average, 2, sizeof(double), &coef);
-	size = (HEIGHT_WIN * WIDTH_WIN * 3);
-	clEnqueueNDRangeKernel(d->opencl.command_queue, d->opencl.kernel_average, 1,
-		0, &size, 0, 0, 0, 0);
-	clFinish(d->opencl.command_queue);
-}
-
 void	ft_blur_kernel(t_data *d, cl_kernel blur_kernel, int radius, int spacing)
 {
 	int		err;
-	size_t	size[2] = {WIDTH_WIN * 3, HEIGHT_WIN};
+	size_t	size[2] = {WIDTH_WIN, HEIGHT_WIN};
 	cl_mem	temp;
 
 	err = clSetKernelArg(blur_kernel, 0, sizeof(cl_mem), &d->opencl.a);
@@ -97,21 +57,21 @@ void	ft_update_gaussian_mat(t_data *d, int radius)
 {
 	int		size;
 	int		i;
-	double	sum;
-	double	sigma;
-	double * gaussian_mat;
+	float	sum;
+	float	sigma;
+	float *gaussian_mat;
 	int err;
 
 	size = radius * 2 + 1;
-	gaussian_mat = malloc(sizeof(double) * size);
+	gaussian_mat = malloc(sizeof(float) * size);
 	if (!gaussian_mat)
 		ft_exit(MALLOC_FAILED);
 	i = 0;
-	sum = 0.0;
-	sigma = (double)radius / 2.0;
+	sum = 0.0f;
+	sigma = (double)radius / 2.0f;
 	while (i < size)
 	{
-		gaussian_mat[i] = exp(-(double)((i - radius) * (i - radius)) / (2.0
+		gaussian_mat[i] = expf(-(float)((i - radius) * (i - radius)) / (2.0f
 					* sigma * sigma));
 		sum += gaussian_mat[i];
 		i++;
@@ -129,7 +89,7 @@ void	ft_update_gaussian_mat(t_data *d, int radius)
 		d->opencl.gaussian_mat = 0;
 	}
 
-	d->opencl.gaussian_mat = clCreateBuffer(d->opencl.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size * sizeof(double), gaussian_mat, &err);
+	d->opencl.gaussian_mat = clCreateBuffer(d->opencl.context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, size * sizeof(float), gaussian_mat, &err);
 	if (err != CL_SUCCESS)
 	{
 		free(gaussian_mat);
@@ -144,24 +104,21 @@ void	ft_blur(t_data *d)
 	int space;
 	int err;
 
-	//ft_clock_start(clock_blur);
+	ft_clock_start(clock_blur);
 	if (d->denoise)
 	{
+		err = clEnqueueWriteBuffer(d->opencl.command_queue,
+			d->opencl.normals_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
+			* sizeof(double), d->image.normals, 0, 0, 0);
+
 		radius = 4;
 		space = 1;
 		
 		ft_update_gaussian_mat(d, radius);
 		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
 		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
-
-		space = 2;
-		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
-		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
-
-		space = 3;
-		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
-		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
 	}
+	ft_clock_set(clock_blur);
 }
 
 void	ft_post_process(t_data *d)
@@ -170,15 +127,26 @@ void	ft_post_process(t_data *d)
 	t_v2i	pos;
 	int		err;
 
-	ft_average(d);
+	err = clEnqueueWriteBuffer(d->opencl.command_queue,
+			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
+			* sizeof(float), d->image.current_frame, 0, 0, 0);
+
 	ft_blur(d);
 
 	err = clEnqueueReadBuffer(d->opencl.command_queue, d->opencl.a, CL_TRUE, 0,
-			HEIGHT_WIN * WIDTH_WIN * 3 * sizeof(double),
-			d->image.averaged_colors, 0, 0, 0);
+			HEIGHT_WIN * WIDTH_WIN * 4 * sizeof(float),
+			d->image.current_frame, 0, 0, 0);
+
 	clFinish(d->opencl.command_queue);
 	i = 0;
-	pos.y = 0;
+	t_v3f max = (t_v3f){{1.0f, 1.0f, 1.0f}};
+	while (i < WIDTH_WIN * HEIGHT_WIN)
+	{
+		ft_put_pxl_addr(d->image.addr, i * 4,
+				ft_v3f_to_int_color(ft_v3f_min(d->image.current_frame[i], max)));
+		i++;
+	}
+	/*pos.y = 0;
 	while (pos.y < HEIGHT_WIN)
 	{
 		pos.x = 0;
@@ -192,5 +160,5 @@ void	ft_post_process(t_data *d)
 			pos.x++;
 		}
 		pos.y++;
-	}
+	}*/
 }

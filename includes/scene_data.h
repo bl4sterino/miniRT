@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 13:55:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 14:16:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,16 @@
 
 typedef struct s_material
 {
-	t_v3d				color;
-	double				diffusion;
-	double				reflectiveness;
-	//double				specularity;
-	double 				emission;
+	t_v3f				color;
+	float				diffusion;
+	float				reflectiveness;
+	float 				emission;
 }						t_material;
 
 typedef struct s_ambient_light
 {
-	double				intensity;
-	t_v3d				color;
+	float				intensity;
+	t_v3f				color;
 	int					rgb_int_color;
 }						t_ambient_light;
 
@@ -43,8 +42,8 @@ typedef struct s_camera
 typedef struct s_light
 {
 	t_v3d				position;
-	double				intensity;
-	t_v3d				color;
+	float				intensity;
+	t_v3f				color;
 }						t_light;
 
 typedef struct s_sphere

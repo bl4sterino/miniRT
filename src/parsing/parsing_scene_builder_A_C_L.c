@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 14:43:14 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 14:19:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_extract_camera(t_scene *scene, t_list *lst)
 void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 {
 	t_parsed_object	*element;
-	t_v3d			color;
+	t_v3f			color;
 
 	while (lst)
 	{
@@ -39,9 +39,9 @@ void	ft_extract_ambient_light(t_scene *scene, t_list *lst)
 		if (element->type == object_type_ambient_light)
 		{
 			scene->ambient_light = element->object.as_ambient_light;
-			color = ft_v3d_scale(scene->ambient_light.color,
+			color = ft_v3f_scale(scene->ambient_light.color,
 					scene->ambient_light.intensity);
-			scene->ambient_light.rgb_int_color = ft_v3d_to_int_color(color);
+			scene->ambient_light.rgb_int_color = ft_v3f_to_int_color(color);
 			return ;
 		}
 		lst = lst->next;
@@ -60,7 +60,7 @@ void	ft_extract_lights(t_scene *scene, t_list *lst)
 		if (element->type == object_type_light)
 		{
 			scene->lights[i] = element->object.as_light;
-			scene->lights[i].color = ft_v3d_scale(scene->lights[i].color,
+			scene->lights[i].color = ft_v3f_scale(scene->lights[i].color,
 					scene->lights[i].intensity);
 			i++;
 		}

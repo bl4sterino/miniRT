@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/23 11:42:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 17:05:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,15 @@ static inline void	ft_put_pxl(char *imageaddr, t_v2i pos, int color)
 	}
 }
 
+/* Doesnt check for bounds, use with caution */
+static inline void	ft_put_pxl_addr(char *imageaddr, int index, int color)
+{
+	char	*pixel;
+
+	pixel = imageaddr + index;
+	*(int *)pixel = color;
+}
+
 static inline int	ft_rgb_to_int(t_rgb color)
 {
 	return (color.r << 16 | color.g << 8 | color.b);
@@ -37,6 +46,12 @@ static inline t_rgb	ft_int_to_rgb(int color)
 }
 
 static inline int	ft_v3d_to_int_color(t_v3d color)
+{
+	return ((int)(color.x * 255) << 16 | (int)(color.y
+			* 255) << 8 | (int)(color.z * 255));
+}
+
+static inline int	ft_v3f_to_int_color(t_v3f color)
 {
 	return ((int)(color.x * 255) << 16 | (int)(color.y
 			* 255) << 8 | (int)(color.z * 255));

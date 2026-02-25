@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/18 15:10:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 14:21:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static inline void	ft_add_branches_to_stack(t_ray *ray,
 	}
 }
 
-t_v3d	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
+t_v3f	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 {
 	t_bvh_context_debug	context;
 
@@ -77,5 +77,5 @@ t_v3d	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 	}
 	(void)context.best_index;
 	context.t = fmin((float)context.nodes_traversed / 64, 1.0);
-	return ((t_v3d){{context.t, context.t, context.t}});
+	return ((t_v3f){{(float)context.t, (float)context.t, (float)context.t}});
 }

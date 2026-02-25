@@ -1,12 +1,14 @@
-__kernel void ft_average_data(__global const double *accumulated, __global double *averaged, double coef)
+
+__kernel void ft_accumulate(__global float4 *frame, __global float4 *accumulated_frames, __private const float coef)
 {
 	int i = get_global_id(0);
-	averaged[i] = min(accumulated[i] * coef, 1.0);
+ 
+	accumulated_frames[i] += frame[i];
+	frame[i] =  accumulated_frames[i] * coef;
 }
 
-
-__kernel void ft_blur_horizontal(__global double *src, __global double *dest, int radius, int spacing,
-	__global const double *gaussian_mat)
+__kernel void ft_blur_horizontal(__global float4 *src, __global float4 *dest, const int radius, const int spacing,
+	__global const float *gaussian_mat, __global const float4 *normals)
 {
 	int i = get_global_id(0);
 	int j = get_global_id(1);
@@ -16,20 +18,18 @@ __kernel void ft_blur_horizontal(__global double *src, __global double *dest, in
 	int x;
 	int index;
 
-	double color = 0;
+	float4 color = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 	for (int k = -radius; k <= radius; k++)
 	{
-		x = max(i + (k * spacing) * 3, 0);
-		if (x >= width)
-			x -= 3;
+		x = clamp(i + (k * spacing), 0, width - 1);
 		index = width * j + x;
 		color += src[index] * gaussian_mat[k + radius];
 	}
 	dest[width * j + i] = color;
 }
 
-__kernel void ft_blur_vertical(__global double *src, __global double *dest, int radius, int spacing,
-	__global const double *gaussian_mat)
+__kernel void ft_blur_vertical(__global float4 *src, __global float4 *dest, const int radius, const int spacing,
+	__global const float *gaussian_mat, __global const float4 *normals)
 {
 	int i = get_global_id(0);
 	int j = get_global_id(1);
@@ -39,7 +39,7 @@ __kernel void ft_blur_vertical(__global double *src, __global double *dest, int 
 	int y;
 	int index;
 
-	double color = 0;
+	float4 color = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 	for (int k = -radius; k <= radius; k++)
 	{
 		y = clamp(j + (k * spacing), 0, height - 1);

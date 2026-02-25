@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/24 11:54:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 17:06:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ typedef struct s_image
 {
 	void				*ptr;
 	char				*addr;
-	double				*accumulated_addr;
-	double				*averaged_colors;
+	t_v3f				*current_frame;
+	t_v3f				*averaged_colors;
+	t_v3f				*normals;
 	int					bpp;
 	int					line_size;
 	int					endian;
@@ -92,6 +93,7 @@ typedef struct s_opencl_data
 	cl_command_queue	command_queue;
 
 	cl_mem				accumulated_buff;
+	cl_mem				normals_buff;
 	cl_mem				a;
 	cl_mem				b;
 	cl_mem				gaussian_mat;
@@ -185,8 +187,8 @@ typedef struct s_get_light_context
 	double				light_dist;
 	double				dist;
 	int					hit;
-	t_v3d				color;
-	t_v3d				new_color;
+	t_v3f				color;
+	t_v3f				new_color;
 	double				plane_dist;
 }						t_get_light_context;
 
@@ -194,11 +196,10 @@ typedef struct s_pixel_color_context
 {
 	int					hit;
 	double				distance;
-	t_v3d				out_color;
+	t_v3f				out_color;
 	t_v3d				hit_normal;
 	t_v3d				hit_point;
-	t_v3d				light_color;
-	t_v3d				reflection_color;
+	t_v3f				light_color;
 	t_material			mat;
 	double				do_reflect;
 	t_v3d				reflected;

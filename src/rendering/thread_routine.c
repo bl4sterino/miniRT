@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/22 16:15:47 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 17:08:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 void	ft_thread_render_function(t_data *d, t_render_task task)
 {
 	t_thread_render_context	context;
+	t_v3d hit_normal;
 
 	context = ft_setup_thread_render_data(d, task);
 	while (++context.pixel.y < task.y_end)
@@ -61,11 +62,13 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 			context.ray = ft_setup_ray_target(context.ray, context.target,
 					d->ray_bounces);
 			if (d->render_mode == DEFAULT)
+			{
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_get_pixel_color(context.ray, d->scene));
+					ft_get_pixel_color(context.ray, d->scene, &hit_normal), hit_normal);
+			}
 			else
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_shoot_ray_bvh_debug(context.ray, d->scene));
+					ft_shoot_ray_bvh_debug(context.ray, d->scene), hit_normal);
 			context.target = ft_v3d_add(context.target, d->viewport.x_delta);
 		}
 		context.y_target = ft_v3d_add(context.y_target, d->viewport.y_delta);

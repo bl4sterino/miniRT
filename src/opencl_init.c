@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:05:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/24 12:16:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 16:45:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,33 +56,6 @@ const char	*get_cl_error(cl_int error)
 	}
 }
 
-void	ft_init_average_kernel(t_data *d)
-{
-	cl_int	err;
-
-	d->opencl.kernel_average = clCreateKernel(d->opencl.program,
-			"ft_average_data", &err);
-	if (err != CL_SUCCESS)
-	{
-		ft_printf("Error Creating kernel arg 0: %s\n", get_cl_error(err));
-		ft_exit(1);
-	}
-	err = clSetKernelArg(d->opencl.kernel_average, 0, sizeof(cl_mem),
-			&d->opencl.accumulated_buff);
-	if (err != CL_SUCCESS)
-	{
-		ft_printf("Error Setting kernel arg 0: %s\n", get_cl_error(err));
-		ft_exit(1);
-	}
-	err = clSetKernelArg(d->opencl.kernel_average, 1, sizeof(cl_mem),
-			&d->opencl.a);
-	if (err != CL_SUCCESS)
-	{
-		ft_printf("Error Setting kernel arg 1: %s\n", get_cl_error(err));
-		ft_exit(1);
-	}
-}
-
 void	ft_init_blur_kernel(t_data *d)
 {
 	cl_int	err;
@@ -94,11 +67,27 @@ void	ft_init_blur_kernel(t_data *d)
 		ft_printf("Error Creating H_blur kernel: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
+	err = clSetKernelArg(d->opencl.kernel_blur_h, 5, sizeof(cl_mem),
+			&d->opencl.normals_buff);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Setting kernel arg 1: %s\n", get_cl_error(err));
+		ft_exit(1);
+	}
+
+
 	d->opencl.kernel_blur_v = clCreateKernel(d->opencl.program,
 			"ft_blur_vertical", &err);
 	if (err != CL_SUCCESS)
 	{
 		ft_printf("Error Creating V_blur kernel: %s\n", get_cl_error(err));
+		ft_exit(1);
+	}
+	err = clSetKernelArg(d->opencl.kernel_blur_v, 5, sizeof(cl_mem),
+			&d->opencl.normals_buff);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Setting kernel arg 1: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
 }
@@ -109,26 +98,25 @@ void	ft_init_opencl_data(t_data *d)
 {
 	cl_int	err;
 
-	d->opencl.accumulated_buff = clCreateBuffer(d->opencl.context,
-			CL_MEM_READ_WRITE, HEIGHT_WIN * WIDTH_WIN * 3 * sizeof(double), 0,
-			&err);
-	if (err != CL_SUCCESS)
-	{
-		ft_printf("Error Creating buffer accumulated: %s\n", get_cl_error(err));
-		ft_exit(1);
-	}
 	d->opencl.a = clCreateBuffer(d->opencl.context, CL_MEM_READ_WRITE,
-			HEIGHT_WIN * WIDTH_WIN * 3 * sizeof(double), 0, &err);
+			HEIGHT_WIN * WIDTH_WIN * 4 * sizeof(float), 0, &err);
 	if (err != CL_SUCCESS)
 	{
 		ft_printf("Error Creating buffer a: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
 	d->opencl.b = clCreateBuffer(d->opencl.context, CL_MEM_READ_WRITE,
-			HEIGHT_WIN * WIDTH_WIN * 3 * sizeof(double), 0, &err);
+			HEIGHT_WIN * WIDTH_WIN * 4 * sizeof(float), 0, &err);
 	if (err != CL_SUCCESS)
 	{
 		ft_printf("Error Creating buffer b: %s\n", get_cl_error(err));
+		ft_exit(1);
+	}
+	d->opencl.normals_buff = clCreateBuffer(d->opencl.context, CL_MEM_READ_WRITE,
+			HEIGHT_WIN * WIDTH_WIN * 4 * sizeof(float), 0, &err);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Creating buffer normals: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
 }
@@ -198,6 +186,5 @@ void	ft_init_opencl(t_data *d)
 	ft_get_opencl_device(d);
 	ft_build_opencl_program(d, 0, 0);
 	ft_init_opencl_data(d);
-	ft_init_average_kernel(d);
 	ft_init_blur_kernel(d);
 }
