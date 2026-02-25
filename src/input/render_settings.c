@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/24 11:12:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 22:24:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	ft_render_settings(t_data *d)
 {
 	if (ft_get_key_down(KEY_E, d))
 	{
-		d->render_mode = !d->render_mode;
+		if(d->render_mode == RENDER_BVH)
+			d->render_mode = RENDER_DEFAULT;
+		else
+			d->render_mode = RENDER_BVH;
 		d->dirty_frame = 1;
 	}
 	if (ft_get_key_down(KEY_F, d))

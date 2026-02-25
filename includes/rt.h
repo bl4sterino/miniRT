@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 14:19:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/25 22:12:05 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,8 +184,11 @@ double		ft_get_triangle_area(t_v3d A, t_v3d B, t_v3d C);
 
 void		ft_debug_gc(t_data *d);
 
-// init
+// OpenCl
 
-void ft_init_opencl(t_data *d);
+const char	*get_cl_error(cl_int error);
+void		ft_init_opencl(t_data *d);
+void		ft_init_opencl_data(t_data *d);
+void		ft_create_kernels(t_data *d);
 
 #endif

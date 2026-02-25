@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/25 14:29:48 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/25 22:07:12 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ FILES = main\
 		image2\
 		exit\
 		exit_2\
-		opencl_init\
 		debug/debug_gc\
 		input/camera\
 		input/focus_and_cursor\
@@ -55,6 +54,10 @@ FILES = main\
 		input/render_settings\
 		monitoring/clock\
 		monitoring/clock_2\
+		opencl/opencl_errors\
+		opencl/opencl_init\
+		opencl/opencl_data\
+		opencl/opencl_kernels\
 		parsing/parsing_data_dict\
 		parsing/parsing_scene\
 		parsing/parsing_material\
