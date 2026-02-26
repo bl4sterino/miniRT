@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 14:26:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 10:16:05 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,9 @@ void	ft_render(t_data *d)
 {
 	ft_clock_start(clock_render);
 	if (d->dirty_frame)
-	{
-		// CLEAR GPU BUFFERS HERE
-		d->frame_count = 0;
-		d->dirty_frame = 0;
 		d->ray_bounces = ft_min(1, d->target_ray_bounces);
-	}
 	else if (d->ray_bounces != d->target_ray_bounces)
-	{
-		// CLEAR GPU BUFFERS HERE
 		d->ray_bounces = d->target_ray_bounces;
-	}
 	ft_create_tasks_and_wait_for_completion(d);
 	ft_clock_set(clock_render);
 }

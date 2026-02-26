@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:03:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 23:09:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 10:12:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,56 @@ void ft_create_blur_kernels(t_data *d)
 			&d->opencl.normals_buff);
 	if (err != CL_SUCCESS)
 	{
-		ft_printf("Error Setting blur kernel arg: %s\n", get_cl_error(err));
+		ft_printf("Error Setting blur kernel arg\n");
 		ft_exit(1);
 	}
 }
 
-void ft_create_render_and_pack_kernel(t_data *d)
+void ft_create_accumulate_and_pack_kernel(t_data *d)
 {
 	cl_int err;
-	d->opencl.kernel_render_and_pack = clCreateKernel(d->opencl.program,
-			"ft_render_and_pack", &err);
+	d->opencl.kernel_accumulate_and_pack = clCreateKernel(d->opencl.program,
+			"ft_accumulate_and_pack", &err);
 	if (err != CL_SUCCESS)
 	{
-		ft_printf("Error Creating H_blur kernel: %s\n", get_cl_error(err));
+		ft_printf("Error Creating acc kernel: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
-	err += clSetKernelArg(d->opencl.kernel_render_and_pack, 0, sizeof(cl_mem),
-			&d->opencl.frame_buff);
-	err += clSetKernelArg(d->opencl.kernel_render_and_pack, 1, sizeof(cl_mem),
+	err += clSetKernelArg(d->opencl.kernel_accumulate_and_pack, 1, sizeof(cl_mem),
 			&d->opencl.accumulated_buff);
-	err += clSetKernelArg(d->opencl.kernel_render_and_pack, 2, sizeof(cl_mem),
+	err += clSetKernelArg(d->opencl.kernel_accumulate_and_pack, 2, sizeof(cl_mem),
 			&d->opencl.out_packed_buff);
-	
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Setting acc kernel arg\n");
+		ft_exit(1);
+	}
+}
+
+void ft_create_set_and_pack_kernel(t_data *d)
+{
+	cl_int err;
+	d->opencl.kernel_set_and_pack = clCreateKernel(d->opencl.program,
+			"ft_set_and_pack", &err);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Creating set kernel: %s\n", get_cl_error(err));
+		ft_exit(1);
+	}
+	err += clSetKernelArg(d->opencl.kernel_set_and_pack, 1, sizeof(cl_mem),
+			&d->opencl.accumulated_buff);
+	err += clSetKernelArg(d->opencl.kernel_set_and_pack, 2, sizeof(cl_mem),
+			&d->opencl.out_packed_buff);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Setting set kernel arg\n");
+		ft_exit(1);
+	}
 }
 
 void	ft_create_kernels(t_data *d)
 {
 	ft_create_blur_kernels(d);
-	ft_create_render_and_pack_kernel(d);
+	ft_create_set_and_pack_kernel(d);
+	ft_create_accumulate_and_pack_kernel(d);
 }

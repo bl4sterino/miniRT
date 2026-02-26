@@ -2,9 +2,20 @@
 
 
 
+__kernel void ft_set_and_pack(__global float4 * restrict frame_buff,
+	__global float4 * restrict accumulated_buff,
+	__global uint * restrict out_packed_buff)
+{
+	int i = get_global_id(0);
+	float4 current = frame_buff[i];
+
+	accumulated_buff[i] = current;
+	uchar4 p = convert_uchar4_sat(current * 255.0f);
+	out_packed_buff[i] = (p.x << 16) | (p.y << 8) | p.z;
+}
 
 
-__kernel void ft_render_and_pack(__global float4 * restrict frame_buff,
+__kernel void ft_accumulate_and_pack(__global float4 * restrict frame_buff,
 	__global float4 * restrict accumulated_buff,
 	__global uint * restrict out_packed_buff,
 	const float coef)

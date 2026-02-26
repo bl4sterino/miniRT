@@ -6,11 +6,52 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 21:22:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 10:39:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void ft_set_and_pack(t_data *d)
+{
+	cl_int err;
+	size_t size;
+	
+	err = clSetKernelArg(d->opencl.kernel_set_and_pack, 0, sizeof(cl_mem), &d->opencl.a);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Setting set arg\n");
+		ft_exit(1);
+	}
+
+	size = WIDTH_WIN * HEIGHT_WIN;
+	err = clEnqueueNDRangeKernel(d->opencl.command_queue, d->opencl.kernel_set_and_pack, 1,
+		0, &size, 0, 0, 0, 0);
+	clFinish(d->opencl.command_queue);
+}
+
+void ft_accumulate_and_pack(t_data *d)
+{
+	cl_int err;
+	size_t size;
+	
+	err = clSetKernelArg(d->opencl.kernel_accumulate_and_pack, 0, sizeof(cl_mem), &d->opencl.a);
+
+	d->frame_count += 1.0;
+	float coef = (float)(1.0 / d->frame_count);
+	err += clSetKernelArg(d->opencl.kernel_accumulate_and_pack, 3, sizeof(float), &coef);
+
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Setting acc arg\n");
+		ft_exit(1);
+	}
+
+	size = WIDTH_WIN * HEIGHT_WIN;
+	err = clEnqueueNDRangeKernel(d->opencl.command_queue, d->opencl.kernel_accumulate_and_pack, 1,
+		0, &size, 0, 0, 0, 0);
+	clFinish(d->opencl.command_queue);
+}
 
 void	ft_blur_kernel(t_data *d, cl_kernel blur_kernel, int radius, int spacing)
 {
@@ -127,25 +168,39 @@ void	ft_post_process(t_data *d)
 	t_v2i	pos;
 	int		err;
 
-	err = clEnqueueWriteBuffer(d->opencl.command_queue,
+	if (d->render_mode == RENDER_NORMALS)
+		err = clEnqueueWriteBuffer(d->opencl.command_queue,
+			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
+			* sizeof(float), d->image.normals, 0, 0, 0);
+	else
+		err = clEnqueueWriteBuffer(d->opencl.command_queue,
 			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
 			* sizeof(float), d->image.current_frame, 0, 0, 0);
 
 	ft_blur(d);
+	
+	if(d->dirty_frame)
+	{
+		ft_set_and_pack(d);
+		d->dirty_frame = 0;
+		d->frame_count = 1.0;
+	}
+	else
+		ft_accumulate_and_pack(d);
 
-	err = clEnqueueReadBuffer(d->opencl.command_queue, d->opencl.a, CL_TRUE, 0,
-			HEIGHT_WIN * WIDTH_WIN * 4 * sizeof(float),
-			d->image.current_frame, 0, 0, 0);
+	err = clEnqueueReadBuffer(d->opencl.command_queue, d->opencl.out_packed_buff, CL_TRUE, 0,
+			HEIGHT_WIN * WIDTH_WIN * sizeof(int),
+			d->image.addr, 0, 0, 0);
 
 	clFinish(d->opencl.command_queue);
-	i = 0;
+	/*i = 0;
 	t_v3f max = (t_v3f){{1.0f, 1.0f, 1.0f}};
 	while (i < WIDTH_WIN * HEIGHT_WIN)
 	{
 		ft_put_pxl_addr(d->image.addr, i * 4,
 				ft_v3f_to_int_color(ft_v3f_min(d->image.current_frame[i], max)));
 		i++;
-	}
+	}*/
 	/*pos.y = 0;
 	while (pos.y < HEIGHT_WIN)
 	{

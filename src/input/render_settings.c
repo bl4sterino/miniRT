@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 22:24:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 10:39:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,14 @@ void	ft_render_settings(t_data *d)
 	if (ft_get_key_down(KEY_B, d))
 	{
 		d->denoise = !d->denoise;
+		d->dirty_frame = 1;
+	}
+	if (ft_get_key_down(KEY_N, d))
+	{
+		if(d->render_mode == RENDER_NORMALS)
+			d->render_mode = RENDER_DEFAULT;
+		else
+			d->render_mode = RENDER_NORMALS;
+		d->dirty_frame = 1;
 	}
 }
