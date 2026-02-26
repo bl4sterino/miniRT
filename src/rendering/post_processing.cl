@@ -42,7 +42,8 @@ __kernel void ft_blur_horizontal(__global float4 * restrict src,
 	__global float4 * restrict dest,
 	const int radius, const int spacing,
 	__global const float * restrict gaussian_mat,
-	__global const float4 * restrict normal_buff)
+	__global const float4 * restrict normal_buff,
+	__global const float4 *restrict position_buff)
 {
 	int i = get_global_id(0);
 	int j = get_global_id(1);
@@ -50,19 +51,25 @@ __kernel void ft_blur_horizontal(__global float4 * restrict src,
 	int height = get_global_size(1);
 
 	int x;
-	int index;
-
+	int index = width * j + i;
+	float4	normal = normal_buff[index];
+	int index_dynamic;
 	float4 color = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
+	float coef;
+	float total_coef = 0;
+	float normal_dot;
 	for (int k = -radius; k <= radius; k++)
 	{
 		x = clamp(i + (k * spacing), 0, width - 1);
-		index = width * j + x;
-		color += src[index] * gaussian_mat[k + radius];
+		index_dynamic = width * j + x;
+		coef = gaussian_mat[k + radius];
+		normal_dot = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
+		coef *= normal_dot;
+		total_coef += coef;
+		color += src[index_dynamic] * coef;
 	}
-	dest[width * j + i] = color;
+	dest[index] = color / total_coef;
 }
-
-
 
 
 
@@ -71,7 +78,8 @@ __kernel void ft_blur_vertical(__global float4 * restrict src,
 	const int radius,
 	const int spacing,
 	__global const float * restrict gaussian_mat,
-	__global const float4 * restrict normal_buff)
+	__global const float4 * restrict normal_buff,
+	__global const float4 * restrict position_buff)
 {
 	int i = get_global_id(0);
 	int j = get_global_id(1);
@@ -79,14 +87,31 @@ __kernel void ft_blur_vertical(__global float4 * restrict src,
 	int height = get_global_size(1);
 
 	int y;
-	int index;
 
+	int index = width * j + i;
+	float4 normal = normal_buff[index];
+	int index_dynamic;
 	float4 color = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
+	float coef;
+	float total_coef = 0;
+	float normal_dot;
 	for (int k = -radius; k <= radius; k++)
 	{
 		y = clamp(j + (k * spacing), 0, height - 1);
-		index = width * y + i;
-		color += src[index] * gaussian_mat[k + radius];
+		index_dynamic = width * y + i;
+		coef = gaussian_mat[k + radius];
+		normal_dot = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
+		coef *= normal_dot;
+		total_coef += coef;
+		color += src[index_dynamic] * coef;
 	}
-	dest[width * j + i] = color;
+	dest[index] = color / total_coef;
+}
+
+
+__kernel void ft_process_normals(__global float4 *normals)
+{
+	int i = get_global_id(0);
+
+	normals[i] = normals[i] * 0.5f + 0.5f;
 }

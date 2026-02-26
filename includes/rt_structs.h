@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 10:11:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 14:22:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_opencl_data
 	cl_program			program;
 	cl_kernel			kernel_blur_h;
 	cl_kernel			kernel_blur_v;
+	cl_kernel			kernel_process_normals;
 	cl_kernel			kernel_accumulate_and_pack;
 	cl_kernel			kernel_set_and_pack;
 	cl_command_queue	command_queue;
@@ -98,7 +99,7 @@ typedef struct s_opencl_data
 	cl_mem				accumulated_buff;
 	cl_mem				out_packed_buff;
 	cl_mem				normals_buff;
-	cl_mem				depth_buff;
+	cl_mem				positions_buff;
 	cl_mem				a;
 	cl_mem				b;
 	cl_mem				gaussian_mat;

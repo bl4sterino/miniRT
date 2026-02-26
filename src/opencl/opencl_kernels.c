@@ -6,11 +6,23 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:03:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 10:12:22 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 14:24:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void ft_create_normal_kernel(t_data *d)
+{
+	cl_int err;
+	d->opencl.kernel_process_normals = clCreateKernel(d->opencl.program,
+			"ft_process_normals", &err);
+	if (err != CL_SUCCESS)
+	{
+		ft_printf("Error Creating normals kernel: %s\n", get_cl_error(err));
+		ft_exit(1);
+	}
+}
 
 void ft_create_blur_kernels(t_data *d)
 {
@@ -32,8 +44,12 @@ void ft_create_blur_kernels(t_data *d)
 	}
 	err += clSetKernelArg(d->opencl.kernel_blur_h, 5, sizeof(cl_mem),
 			&d->opencl.normals_buff);
+	err += clSetKernelArg(d->opencl.kernel_blur_h, 6, sizeof(cl_mem),
+			&d->opencl.positions_buff);
 	err += clSetKernelArg(d->opencl.kernel_blur_v, 5, sizeof(cl_mem),
 			&d->opencl.normals_buff);
+	err += clSetKernelArg(d->opencl.kernel_blur_v, 6, sizeof(cl_mem),
+			&d->opencl.positions_buff);
 	if (err != CL_SUCCESS)
 	{
 		ft_printf("Error Setting blur kernel arg\n");
@@ -85,6 +101,7 @@ void ft_create_set_and_pack_kernel(t_data *d)
 
 void	ft_create_kernels(t_data *d)
 {
+	ft_create_normal_kernel(d);
 	ft_create_blur_kernels(d);
 	ft_create_set_and_pack_kernel(d);
 	ft_create_accumulate_and_pack_kernel(d);

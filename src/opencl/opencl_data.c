@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 21:49:01 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 22:32:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 14:23:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	ft_init_opencl_data_3(t_data *d)
 		ft_printf("Error, normals_buff: %s\n", get_cl_error(err));
 		ft_exit(1);
 	}
-	d->opencl.depth_buff = clCreateBuffer(d->opencl.context, CL_MEM_READ_WRITE,
-			HEIGHT_WIN * WIDTH_WIN * sizeof(double), 0, &err);
+	d->opencl.positions_buff = clCreateBuffer(d->opencl.context, CL_MEM_READ_WRITE,
+			HEIGHT_WIN * WIDTH_WIN * sizeof(t_v3f), 0, &err);
 	if (err != CL_SUCCESS)
 	{
 		ft_printf("Error, depth_buff: %s\n", get_cl_error(err));

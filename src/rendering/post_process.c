@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 10:39:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 14:20:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,14 +152,27 @@ void	ft_blur(t_data *d)
 			d->opencl.normals_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
 			* sizeof(double), d->image.normals, 0, 0, 0);
 
-		radius = 4;
+		radius = 3;
 		space = 1;
-		
 		ft_update_gaussian_mat(d, radius);
 		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
 		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
 	}
 	ft_clock_set(clock_blur);
+}
+
+void ft_process_normals(t_data *d)
+{
+	cl_int err;
+	size_t size;
+
+	clSetKernelArg(d->opencl.kernel_process_normals, 0, sizeof(cl_mem),
+			&d->opencl.a);
+	size = WIDTH_WIN * HEIGHT_WIN;
+	err = clEnqueueNDRangeKernel(d->opencl.command_queue, d->opencl.kernel_process_normals, 1,
+		0, &size, 0, 0, 0, 0);
+	clFinish(d->opencl.command_queue);
+
 }
 
 void	ft_post_process(t_data *d)
@@ -169,17 +182,22 @@ void	ft_post_process(t_data *d)
 	int		err;
 
 	if (d->render_mode == RENDER_NORMALS)
+	{
 		err = clEnqueueWriteBuffer(d->opencl.command_queue,
 			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
 			* sizeof(float), d->image.normals, 0, 0, 0);
+		ft_process_normals(d);
+	}
+		
 	else
 		err = clEnqueueWriteBuffer(d->opencl.command_queue,
 			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
 			* sizeof(float), d->image.current_frame, 0, 0, 0);
 
 	ft_blur(d);
-	
-	if(d->dirty_frame)
+
+
+	if (d->dirty_frame)
 	{
 		ft_set_and_pack(d);
 		d->dirty_frame = 0;
@@ -193,27 +211,4 @@ void	ft_post_process(t_data *d)
 			d->image.addr, 0, 0, 0);
 
 	clFinish(d->opencl.command_queue);
-	/*i = 0;
-	t_v3f max = (t_v3f){{1.0f, 1.0f, 1.0f}};
-	while (i < WIDTH_WIN * HEIGHT_WIN)
-	{
-		ft_put_pxl_addr(d->image.addr, i * 4,
-				ft_v3f_to_int_color(ft_v3f_min(d->image.current_frame[i], max)));
-		i++;
-	}*/
-	/*pos.y = 0;
-	while (pos.y < HEIGHT_WIN)
-	{
-		pos.x = 0;
-		while (pos.x < WIDTH_WIN)
-		{
-			ft_put_pxl(d->image.addr, pos,
-				ft_doubles_to_int_color(d->image.averaged_colors[i],
-					d->image.averaged_colors[i + 1], d->image.averaged_colors[i
-					+ 2]));
-			i += 3;
-			pos.x++;
-		}
-		pos.y++;
-	}*/
 }
