@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:46:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:44:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static inline t_v3f	ft_get_sky_color(t_ray ray)
 	from the bvh, so we check them first and use a negative hit index
 	offset by one to avoid zero to represent them
 */
-t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal)
+t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hit_pos)
 {
 	t_pixel_color_context	c;
 
@@ -46,7 +46,11 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal)
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
 		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit, ray.direction);
 		if(hit_normal)
+		{
 			*hit_normal = c.hit_normal;
+			*hit_pos = c.hit_point;
+		}
+
 
 		if (c.mat.emission > 0.0f)
 			return (ft_v3f_scale(c.mat.color, c.mat.emission));
@@ -63,12 +67,12 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal)
 				c.reflected = ft_v3f_reflect(ray.direction, c.hit_normal);
 				c.new_dir = ft_v3f_normalize(ft_v3f_lerp(c.reflected, ft_v3f_random_hemisphere(c.hit_normal), c.mat.diffusion));
 				ray = ft_setup_ray_direction(ray, c.new_dir, ray.remaining_bounces - 1);
-				return (ft_get_pixel_color(ray, scene, hit_normal));
+				return (ft_get_pixel_color(ray, scene, hit_normal, hit_pos));
 			}
 			else
 			{
 				ray = ft_setup_ray_direction(ray, ft_v3f_random_hemisphere(c.hit_normal), ray.remaining_bounces - 1);
-				c.light_color = ft_v3f_add(ft_get_light(c.hit_point, c.hit_normal, scene), ft_get_pixel_color(ray, scene, 0));
+				c.light_color = ft_v3f_add(ft_get_light(c.hit_point, c.hit_normal, scene), ft_get_pixel_color(ray, scene, 0, 0));
 				return (ft_v3f_mult(c.out_color, c.light_color));
 			}
 		}
@@ -77,7 +81,10 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal)
 		return (c.out_color);
 	}
 	if(hit_normal)
+	{
 		*hit_normal = ray.direction;
+		*hit_pos = (t_v3f){{15000.0f, 15000.0f, 15000.0f}};
+	}
 	return (ft_get_sky_color(ray));
 }
 

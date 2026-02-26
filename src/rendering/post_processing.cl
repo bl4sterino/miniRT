@@ -43,7 +43,8 @@ __kernel void ft_blur_horizontal(__global float4 * restrict src,
 	const int radius, const int spacing,
 	__global const float * restrict gaussian_mat,
 	__global const float4 * restrict normal_buff,
-	__global const float4 *restrict position_buff)
+	__global const float4 *restrict position_buff,
+	const float blur_distance_fallof)
 {
 	int i = get_global_id(0);
 	int j = get_global_id(1);
@@ -58,13 +59,23 @@ __kernel void ft_blur_horizontal(__global float4 * restrict src,
 	float coef;
 	float total_coef = 0;
 	float normal_dot;
+
+	float4	center_pos = position_buff[index];
+	float4	current_pos;
+	float4 	diff;
 	for (int k = -radius; k <= radius; k++)
 	{
 		x = clamp(i + (k * spacing), 0, width - 1);
 		index_dynamic = width * j + x;
 		coef = gaussian_mat[k + radius];
-		normal_dot = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
-		coef *= normal_dot;
+		float w_n = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
+
+		current_pos = position_buff[index_dynamic];
+		diff = center_pos - current_pos;
+        float dist_sq = dot(diff, diff);
+        float w_p = native_exp(-dist_sq * blur_distance_fallof);
+
+		coef = w_n * w_p;
 		total_coef += coef;
 		color += src[index_dynamic] * coef;
 	}
@@ -79,7 +90,8 @@ __kernel void ft_blur_vertical(__global float4 * restrict src,
 	const int spacing,
 	__global const float * restrict gaussian_mat,
 	__global const float4 * restrict normal_buff,
-	__global const float4 * restrict position_buff)
+	__global const float4 * restrict position_buff,
+	const float blur_distance_fallof)
 {
 	int i = get_global_id(0);
 	int j = get_global_id(1);
@@ -94,14 +106,22 @@ __kernel void ft_blur_vertical(__global float4 * restrict src,
 	float4 color = (float4)(0.0f, 0.0f, 0.0f, 0.0f);
 	float coef;
 	float total_coef = 0;
-	float normal_dot;
+
+	float4	center_pos = position_buff[index];
+	float4	current_pos;
+	float4 	diff;
 	for (int k = -radius; k <= radius; k++)
 	{
 		y = clamp(j + (k * spacing), 0, height - 1);
 		index_dynamic = width * y + i;
 		coef = gaussian_mat[k + radius];
-		normal_dot = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
-		coef *= normal_dot;
+		float w_n = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
+		current_pos = position_buff[index_dynamic];
+		diff = center_pos - current_pos;
+        float dist_sq = dot(diff, diff);
+        float w_p = native_exp(-dist_sq * blur_distance_fallof);
+
+		coef = w_n * w_p;
 		total_coef += coef;
 		color += src[index_dynamic] * coef;
 	}

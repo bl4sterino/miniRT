@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:45:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:52:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 {
 	t_thread_render_context	context;
 	t_v3f hit_normal;
+	t_v3f hit_pos;
 
 	context = ft_setup_thread_render_data(d, task);
 	while (++context.pixel.y < task.y_end)
@@ -64,11 +65,11 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 			if (d->render_mode != RENDER_BVH)
 			{
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_get_pixel_color(context.ray, d->scene, &hit_normal), hit_normal);
+					ft_get_pixel_color(context.ray, d->scene, &hit_normal, &hit_pos), hit_normal, hit_pos);
 			}
 			else
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_shoot_ray_bvh_debug(context.ray, d->scene), hit_normal);
+					ft_shoot_ray_bvh_debug(context.ray, d->scene), hit_normal, hit_pos);
 			context.target = ft_v3f_add(context.target, d->viewport.x_delta);
 		}
 		context.y_target = ft_v3f_add(context.y_target, d->viewport.y_delta);

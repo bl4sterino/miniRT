@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:07:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:48:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_image
 	t_v3f				*current_frame;
 	t_v3f				*averaged_colors;
 	t_v3f				*normals;
+	t_v3f				*positions;
 	int					bpp;
 	int					line_size;
 	int					endian;

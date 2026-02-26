@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 15:18:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:50:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ void	ft_create_image(t_data *d)
 	if (!image.ptr)
 		ft_exit(MALLOC_FAILED);
 	ft_add_exit(d, ft_exit_destroy_image);
-	image.current_frame = ft_malloc(sizeof(t_v3f) * WIDTH_WIN * HEIGHT_WIN
-			* 4);
-	image.averaged_colors = ft_malloc(sizeof(float) * WIDTH_WIN * HEIGHT_WIN
-			* 4);
-	image.normals = ft_malloc(sizeof(float) * WIDTH_WIN * HEIGHT_WIN
-			* 4);
-	ft_bzero(image.normals, sizeof(float) * WIDTH_WIN * HEIGHT_WIN
-			* 4);
+	image.current_frame = ft_malloc(sizeof(t_v3f) * SCREEN_SIZE);
+	image.normals = ft_malloc(sizeof(t_v3f) * SCREEN_SIZE);
+	ft_bzero(image.normals, sizeof(t_v3f) * SCREEN_SIZE);
+	image.positions = ft_malloc(sizeof(t_v3f) * SCREEN_SIZE);
+	ft_bzero(image.positions, sizeof(t_v3f) * SCREEN_SIZE);
 	image.addr = mlx_get_data_addr(image.ptr, &(image.bpp), &(image.line_size),
 			&(image.endian));
 

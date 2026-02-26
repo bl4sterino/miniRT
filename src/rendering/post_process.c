@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 16:27:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 17:56:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,14 +149,30 @@ void	ft_blur(t_data *d)
 	ft_clock_start(clock_blur);
 	if (d->denoise)
 	{
-		err = clEnqueueWriteBuffer(d->opencl.command_queue,
+		err += clEnqueueWriteBuffer(d->opencl.command_queue,
 			d->opencl.normals_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
 			* sizeof(double), d->image.normals, 0, 0, 0);
+		err += clEnqueueWriteBuffer(d->opencl.command_queue,
+			d->opencl.positions_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
+			* sizeof(double), d->image.positions, 0, 0, 0);
 		if (err != CL_SUCCESS)
 			ft_printf("Error write normals top gpu\n");
-		radius = 3;
+		float blur_distance_fallof = 1.0;
+		float inv_sigma_sq = 1.0f / (2.0f * blur_distance_fallof * blur_distance_fallof);
+		
+		err = clSetKernelArg(d->opencl.kernel_blur_h, 7, sizeof(float), &blur_distance_fallof);
+		if(err != CL_SUCCESS)
+			ft_printf("Err blur exec; %s\n", get_cl_error(err));
+		err = clSetKernelArg(d->opencl.kernel_blur_v, 7, sizeof(float), &blur_distance_fallof);
+		if(err != CL_SUCCESS)
+			ft_printf("Err blur exec; %s\n", get_cl_error(err));
+		radius = 2;
 		space = 1;
 		ft_update_gaussian_mat(d, radius);
+		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
+		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
+
+		space = 2;
 		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
 		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
 	}
@@ -188,15 +204,20 @@ void	ft_post_process(t_data *d)
 	if (d->render_mode == RENDER_NORMALS)
 	{
 		err = clEnqueueWriteBuffer(d->opencl.command_queue,
-			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
-			* sizeof(float), d->image.normals, 0, 0, 0);
+			d->opencl.a, CL_TRUE, 0, sizeof(t_v3f) * SCREEN_SIZE,
+			d->image.normals, 0, 0, 0);
+		if (err != CL_SUCCESS)
+			ft_printf("Error writing normals to gpu\n");
 		ft_process_normals(d);
 	}
-		
 	else
+	{
 		err = clEnqueueWriteBuffer(d->opencl.command_queue,
-			d->opencl.a, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
-			* sizeof(float), d->image.current_frame, 0, 0, 0);
+			d->opencl.a, CL_TRUE, 0, sizeof(t_v3f) * SCREEN_SIZE,
+			d->image.current_frame, 0, 0, 0);
+		if (err != CL_SUCCESS)
+			ft_printf("Error writing frame to gpu\n");
+	}
 
 	ft_blur(d);
 
