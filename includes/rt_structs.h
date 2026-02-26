@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 14:22:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:07:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,14 @@ typedef struct s_opencl_data
 
 typedef struct s_viewport
 {
-	t_v3d				u;
-	t_v3d				v;
-	t_v3d				x_delta;
-	t_v3d				y_delta;
-	t_v3d				top_left;
-	t_v3d				top_right;
-	t_v3d				bottom_left;
-	t_v3d				bottom_right;
+	t_v3f				u;
+	t_v3f				v;
+	t_v3f				x_delta;
+	t_v3f				y_delta;
+	t_v3f				top_left;
+	t_v3f				top_right;
+	t_v3f				bottom_left;
+	t_v3f				bottom_right;
 
 }						t_viewport;
 
@@ -127,7 +127,7 @@ typedef struct t_data
 	double				deltatime;
 	struct timeval		last_tv;
 	char				*fpsstr;
-	double				frame_count;
+	float				frame_count;
 	char				dirty_frame;
 	char				ray_bounces;
 	int					target_ray_bounces;
@@ -144,9 +144,9 @@ typedef struct t_data
 
 typedef struct s_ray
 {
-	t_v3d				origin;
-	t_v3d				direction;
-	t_v3d				inv_dir;
+	t_v3f				origin;
+	t_v3f				direction;
+	t_v3f				inv_dir;
 	int					inv_sign[3];
 	char				remaining_bounces;
 }						t_ray;
@@ -154,7 +154,7 @@ typedef struct s_ray
 typedef struct s_ray_result
 {
 	int					id;
-	t_v3d				normal;
+	t_v3f				normal;
 }						t_ray_result;
 
 typedef struct s_bvh_context
@@ -182,8 +182,8 @@ typedef struct s_thread_render_context
 {
 	t_v2i				pixel;
 	t_ray				ray;
-	t_v3d				target;
-	t_v3d				y_target;
+	t_v3f				target;
+	t_v3f				y_target;
 }						t_thread_render_context;
 
 typedef struct s_get_light_context
@@ -203,13 +203,13 @@ typedef struct s_pixel_color_context
 	int					hit;
 	double				distance;
 	t_v3f				out_color;
-	t_v3d				hit_normal;
-	t_v3d				hit_point;
+	t_v3f				hit_normal;
+	t_v3f				hit_point;
 	t_v3f				light_color;
 	t_material			mat;
 	double				do_reflect;
-	t_v3d				reflected;
-	t_v3d				new_dir;
+	t_v3f				reflected;
+	t_v3f				new_dir;
 
 }						t_pixel_color_context;
 
@@ -220,9 +220,9 @@ typedef struct s_viewport_context
 	double				theta;
 	double				half_width;
 	double				half_height;
-	t_v3d				cam_right;
-	t_v3d				cam_up;
-	t_v3d				pixel_center_offset;
+	t_v3f				cam_right;
+	t_v3f				cam_up;
+	t_v3f				pixel_center_offset;
 }						t_viewport_context;
 
 #endif

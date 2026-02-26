@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/18 11:45:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:45:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
 	int			i;
 	int			end;
 	t_object	obj;
-	double		dist;
+	float		dist;
 
 	dist = INFINITY;
 	i = context->current->start;
@@ -57,7 +57,7 @@ static inline void	ft_add_branches_to_stack(t_ray *ray, t_bvh_context *context)
 	}
 }
 
-double	ft_shoot_ray_against_objects(t_ray ray, double max_dist, t_scene *scene,
+float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 		int *hit)
 {
 	t_bvh_context	context;
@@ -82,12 +82,12 @@ double	ft_shoot_ray_against_objects(t_ray ray, double max_dist, t_scene *scene,
 	return (context.best_dist);
 }
 
-double	ft_shoot_ray_against_planes(t_ray ray, double max_dist, t_scene *scene,
+float	ft_shoot_ray_against_planes(t_ray ray, float max_dist, t_scene *scene,
 		int *hit)
 {
-	double	dist;
+	float	dist;
 	int		best_index;
-	double	best_dist;
+	float	best_dist;
 	int		i;
 
 	best_dist = max_dist;
@@ -108,10 +108,10 @@ double	ft_shoot_ray_against_planes(t_ray ray, double max_dist, t_scene *scene,
 	return (best_dist);
 }
 
-double	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
+float	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
 {
-	double	plane_dist;
-	double	distance;
+	float	plane_dist;
+	float	distance;
 
 	plane_dist = ft_shoot_ray_against_planes(ray, INFINITY, scene, hit);
 	distance = ft_shoot_ray_against_objects(ray, plane_dist, scene, hit);

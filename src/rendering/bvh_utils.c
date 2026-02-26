@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 18:50:48 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 17:02:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:05:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ int	ft_get_longest_bounds_axis(t_bounds bounds)
 	return (axis);
 }
 
-double	ft_get_bounds_surface(t_bounds bounds)
+float	ft_get_bounds_surface(t_bounds bounds)
 {
-	t_v3d	side_length;
-	t_v3d	axis_area;
+	t_v3f	side_length;
+	t_v3f	axis_area;
 	int		i;
 
 	i = 0;
@@ -44,5 +44,5 @@ double	ft_get_bounds_surface(t_bounds bounds)
 	axis_area.x = side_length.y * side_length.z;
 	axis_area.y = side_length.x * side_length.z;
 	axis_area.z = side_length.x * side_length.y;
-	return ((axis_area.x + axis_area.y + axis_area.z) * 2);
+	return ((axis_area.x + axis_area.y + axis_area.z) * 2.0f);
 }

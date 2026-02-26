@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 13:00:06 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/18 15:02:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:11:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 # include "rt.h"
 
-static inline double	ft_bounds_collision(t_ray ray, t_bounds b)
+static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 {
-	t_v2d	min_max;
-	double	t1;
-	double	t2;
+	t_v2f	min_max;
+	float	t1;
+	float	t2;
 
 	min_max.x = (b.v[ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
 	min_max.y = (b.v[1 - ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
@@ -39,87 +39,87 @@ static inline double	ft_bounds_collision(t_ray ray, t_bounds b)
 		min_max.x = t1;
 	if (t2 < min_max.y)
 		min_max.y = t2;
-	if (min_max.x > min_max.y || min_max.y < 0.0)
+	if (min_max.x > min_max.y || min_max.y < 0.0f)
 		return (INFINITY);
-	return (tn_d(min_max.x > 0.0, min_max.x, 0.0));
+	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
-static inline double	ft_sphere_collision(t_ray ray, t_sphere sphere)
+static inline float	ft_sphere_collision(t_ray ray, t_sphere sphere)
 {
-	t_v3d	oc;
-	double	a;
-	double	b;
-	double	discriminant;
-	double	t;
+	t_v3f	oc;
+	float	a;
+	float	b;
+	float	discriminant;
+	float	t;
 
-	oc = ft_v3d_sub(ray.origin, sphere.position);
-	a = ft_v3d_dot(ray.direction, ray.direction);
-	b = 2.0 * ft_v3d_dot(ray.direction, oc);
-	discriminant = (b * b) - (4 * a * (ft_v3d_dot(oc, oc) - (sphere.radius
+	oc = ft_v3f_sub(ray.origin, sphere.position);
+	a = ft_v3f_dot(ray.direction, ray.direction);
+	b = 2.0f * ft_v3f_dot(ray.direction, oc);
+	discriminant = (b * b) - (4.0f * a * (ft_v3f_dot(oc, oc) - (sphere.radius
 					* sphere.radius)));
-	if (discriminant < 0)
+	if (discriminant < 0.0f)
 		return (INFINITY);
-	t = (-b - sqrt(discriminant)) / (2.0 * a);
-	if (t < 0)
-		t = (-b + sqrt(discriminant)) / (2.0 * a);
-	if (t < 0)
+	t = (-b - sqrtf(discriminant)) / (2.0f * a);
+	if (t < 0.0f)
+		t = (-b + sqrtf(discriminant)) / (2.0f * a);
+	if (t < 0.0f)
 		return (INFINITY);
 	return (t);
 }
 
-static inline double	ft_plane_collision(t_ray ray, t_plane plane)
+static inline float	ft_plane_collision(t_ray ray, t_plane plane)
 {
-	double	denom;
-	double	t;
-	t_v3d	oc;
+	float	denom;
+	float	t;
+	t_v3f	oc;
 
-	denom = ft_v3d_dot(plane.normal, ray.direction);
-	if (fabs(denom) < EPSILON)
+	denom = ft_v3f_dot(plane.normal, ray.direction);
+	if (fabsf(denom) < EPSILON)
 		return (INFINITY);
-	oc = ft_v3d_sub(plane.position, ray.origin);
-	t = ft_v3d_dot(oc, plane.normal) / denom;
-	if (t < 0)
+	oc = ft_v3f_sub(plane.position, ray.origin);
+	t = ft_v3f_dot(oc, plane.normal) / denom;
+	if (t < 0.0f)
 		return (INFINITY);
 	return (t);
 }
 
 /* This one is Gemini's, didin't look into it but it just works™  */
-static inline double    ft_cylinder_collision(t_ray ray, t_cylinder cyl)
+static inline float    ft_cylinder_collision(t_ray ray, t_cylinder cyl)
 {
-    t_v3d   oc;
-    double  a, b, c, disc, t0, t1, h, r;
-    t_v3d   q;
-    r = cyl.diameter / 2.0;
+    t_v3f   oc;
+    float  a, b, c, disc, t0, t1, h, r;
+    t_v3f   q;
+    r = cyl.diameter * 0.5f;
 
-    oc = ft_v3d_sub(ray.origin, cyl.position);
+    oc = ft_v3f_sub(ray.origin, cyl.position);
     
-    a = 1.0 - 
-        pow(ft_v3d_dot(ray.direction, cyl.normal), 2);
-    b = 2 * (ft_v3d_dot(ray.direction, oc) - 
-        (ft_v3d_dot(ray.direction, cyl.normal) * ft_v3d_dot(oc, cyl.normal)));
-    c = ft_v3d_dot(oc, oc) - 
-        pow(ft_v3d_dot(oc, cyl.normal), 2) - (r * r);
+    a = 1.0f - 
+        powf(ft_v3f_dot(ray.direction, cyl.normal), 2.0f);
+    b = 2.0f * (ft_v3f_dot(ray.direction, oc) - 
+        (ft_v3f_dot(ray.direction, cyl.normal) * ft_v3f_dot(oc, cyl.normal)));
+    c = ft_v3f_dot(oc, oc) - 
+        powf(ft_v3f_dot(oc, cyl.normal), 2.0f) - (r * r);
 
     disc = (b * b) - (4 * a * c);
     if (disc < 0)
         return (INFINITY);
 
-    t0 = (-b - sqrt(disc)) / (2.0 * a);
-    t1 = (-b + sqrt(disc)) / (2.0 * a);
+    t0 = (-b - sqrtf(disc)) / (2.0f * a);
+    t1 = (-b + sqrtf(disc)) / (2.0f * a);
 
-    double t_hit = INFINITY;
-    double half_h = cyl.height / 2.0;
-    if (t0 > 0)
+    float t_hit = INFINITY;
+    float half_h = cyl.height * 0.5f;
+    if (t0 > 0.0f)
     {
-        q = ft_v3d_add(ray.origin, ft_v3d_scale(ray.direction, t0));
-        h = ft_v3d_dot(ft_v3d_sub(q, cyl.position), cyl.normal);
+        q = ft_v3f_add(ray.origin, ft_v3f_scale(ray.direction, t0));
+        h = ft_v3f_dot(ft_v3f_sub(q, cyl.position), cyl.normal);
         if (h >= -half_h && h <= half_h)
             t_hit = t0;
     }
-    if (t_hit == INFINITY && t1 > 0)
+    if (t_hit == INFINITY && t1 > 0.0f)
     {
-        q = ft_v3d_add(ray.origin, ft_v3d_scale(ray.direction, t1));
-        h = ft_v3d_dot(ft_v3d_sub(q, cyl.position), cyl.normal);
+        q = ft_v3f_add(ray.origin, ft_v3f_scale(ray.direction, t1));
+        h = ft_v3f_dot(ft_v3f_sub(q, cyl.position), cyl.normal);
         if (h >= -half_h && h <= half_h)
             t_hit = t1;
     }
@@ -128,74 +128,74 @@ static inline double    ft_cylinder_collision(t_ray ray, t_cylinder cyl)
     return (t_hit);
 }
 
-static inline double    ft_quad_collision(t_ray ray, t_quad quad)
+static inline float    ft_quad_collision(t_ray ray, t_quad quad)
 {
-    t_v3d   oc;
-    double  denom;
-    double  t;
-    t_v3d   hit_p;
-    t_v3d   planar_pos;
-    denom = ft_v3d_dot(quad.normal, ray.direction);
-    if (fabs(denom) < 1e-6)
+    t_v3f   oc;
+    float  denom;
+    float  t;
+    t_v3f   hit_p;
+    t_v3f   planar_pos;
+    denom = ft_v3f_dot(quad.normal, ray.direction);
+    if (fabsf(denom) < EPSILON)
         return (INFINITY);
 
-    oc = ft_v3d_sub(quad.position, ray.origin);
-    t = ft_v3d_dot(oc, quad.normal) / denom;
+    oc = ft_v3f_sub(quad.position, ray.origin);
+    t = ft_v3f_dot(oc, quad.normal) / denom;
 
-    if (t < 0)
+    if (t < 0.0f)
         return (INFINITY);
 
-    hit_p = ft_v3d_add(ray.origin, ft_v3d_scale(ray.direction, t));
+    hit_p = ft_v3f_add(ray.origin, ft_v3f_scale(ray.direction, t));
     
-    planar_pos = ft_v3d_sub(hit_p, quad.position);
+    planar_pos = ft_v3f_sub(hit_p, quad.position);
 
-    double u = ft_v3d_dot(planar_pos, quad.u_axis);
-    double v = ft_v3d_dot(planar_pos, quad.v_axis);
+    float u = ft_v3f_dot(planar_pos, quad.u_axis);
+    float v = ft_v3f_dot(planar_pos, quad.v_axis);
 
-    if (fabs(u) > quad.size.x / 2.0 || fabs(v) > quad.size.y / 2.0)
+    if (fabsf(u) > quad.size.x * 0.5f || fabsf(v) > quad.size.y * 0.5f)
         return (INFINITY);
 
     return (t);
 }
 
-static inline double    ft_triangle_collision(t_ray ray, t_triangle tri)
+static inline float    ft_triangle_collision(t_ray ray, t_triangle tri)
 {
-    t_v3d   edge1;
-    t_v3d   edge2;
-    t_v3d   h;
-    t_v3d   s;
-    t_v3d   q;
-    double  det;
-    double  inv_det;
-    double  u;
-    double  v;
-    double  t;
+    t_v3f   edge1;
+    t_v3f   edge2;
+    t_v3f   h;
+    t_v3f   s;
+    t_v3f   q;
+    float  det;
+    float  inv_det;
+    float  u;
+    float  v;
+    float  t;
 
-    edge1 = ft_v3d_sub(tri.points.b, tri.points.a);
-    edge2 = ft_v3d_sub(tri.points.c, tri.points.a);
-    h = ft_v3d_cross(ray.direction, edge2);
-    det = ft_v3d_dot(edge1, h);
+    edge1 = ft_v3f_sub(tri.points.b, tri.points.a);
+    edge2 = ft_v3f_sub(tri.points.c, tri.points.a);
+    h = ft_v3f_cross(ray.direction, edge2);
+    det = ft_v3f_dot(edge1, h);
 
     // If determinant is near zero, ray is parallel to the triangle
     if (det > -EPSILON && det < EPSILON)
         return (INFINITY);
 
-    inv_det = 1.0 / det;
-    s = ft_v3d_sub(ray.origin, tri.points.a);
-    u = inv_det * ft_v3d_dot(s, h);
+    inv_det = 1.0f / det;
+    s = ft_v3f_sub(ray.origin, tri.points.a);
+    u = inv_det * ft_v3f_dot(s, h);
 
     // Check if intersection lies outside the triangle
-    if (u < 0.0 || u > 1.0)
+    if (u < 0.0f || u > 1.0f)
         return (INFINITY);
 
-    q = ft_v3d_cross(s, edge1);
-    v = inv_det * ft_v3d_dot(ray.direction, q);
+    q = ft_v3f_cross(s, edge1);
+    v = inv_det * ft_v3f_dot(ray.direction, q);
 
-    if (v < 0.0 || u + v > 1.0)
+    if (v < 0.0f || u + v > 1.0f)
         return (INFINITY);
 
     // Calculate t to see where the intersection point is on the line
-    t = inv_det * ft_v3d_dot(edge2, q);
+    t = inv_det * ft_v3f_dot(edge2, q);
 
     if (t >= EPSILON)
         return (t);

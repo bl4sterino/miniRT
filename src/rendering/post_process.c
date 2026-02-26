@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 14:20:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:27:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,19 +74,19 @@ void	ft_blur_kernel(t_data *d, cl_kernel blur_kernel, int radius, int spacing)
 
 	err = clSetKernelArg(blur_kernel, 2, sizeof(int), &radius);
 	if(err != CL_SUCCESS)
-		printf("Err blur exec; %s\n", get_cl_error(err));
+		ft_printf("Err blur exec; %s\n", get_cl_error(err));
 	err = clSetKernelArg(blur_kernel, 3, sizeof(int), &spacing);
 	if(err != CL_SUCCESS)
-		printf("Err blur exec; %s\n", get_cl_error(err));
+		ft_printf("Err blur exec; %s\n", get_cl_error(err));
 
 	err = clSetKernelArg(blur_kernel, 4, sizeof(cl_mem), &d->opencl.gaussian_mat);
 	if(err != CL_SUCCESS)
-		printf("Err blur exec; %s\n", get_cl_error(err));
+		ft_printf("Err blur exec; %s\n", get_cl_error(err));
 
 	err = clEnqueueNDRangeKernel(d->opencl.command_queue, blur_kernel, 2,
-		0, &size, 0, 0, 0, 0);
+		0, (void *)(&size), 0, 0, 0, 0);
 	if(err != CL_SUCCESS)
-		printf("Err blur exec; %s\n", get_cl_error(err));
+		ft_printf("Err blur exec; %s\n", get_cl_error(err));
 	clFinish(d->opencl.command_queue);
 	
 	temp = d->opencl.a;
@@ -134,7 +134,7 @@ void	ft_update_gaussian_mat(t_data *d, int radius)
 	if (err != CL_SUCCESS)
 	{
 		free(gaussian_mat);
-		printf("Failed to create gaussiant_mat buffer: %s\n", get_cl_error(err));
+		ft_printf("Failed to create gaussiant_mat buffer: %s\n", get_cl_error(err));
 	}
 	free(gaussian_mat);
 }
@@ -143,15 +143,17 @@ void	ft_blur(t_data *d)
 {
 	int radius;
 	int space;
-	int err;
+	cl_int err;
 
+	err = 0;
 	ft_clock_start(clock_blur);
 	if (d->denoise)
 	{
 		err = clEnqueueWriteBuffer(d->opencl.command_queue,
 			d->opencl.normals_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
 			* sizeof(double), d->image.normals, 0, 0, 0);
-
+		if (err != CL_SUCCESS)
+			ft_printf("Error write normals top gpu\n");
 		radius = 3;
 		space = 1;
 		ft_update_gaussian_mat(d, radius);
@@ -171,6 +173,8 @@ void ft_process_normals(t_data *d)
 	size = WIDTH_WIN * HEIGHT_WIN;
 	err = clEnqueueNDRangeKernel(d->opencl.command_queue, d->opencl.kernel_process_normals, 1,
 		0, &size, 0, 0, 0, 0);
+	if (err != CL_SUCCESS)
+			ft_printf("Error processing normals\n");
 	clFinish(d->opencl.command_queue);
 
 }

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 14:16:38 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:05:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,62 +34,62 @@ typedef struct s_ambient_light
 
 typedef struct s_camera
 {
-	t_v3d				position;
-	t_v3d				direction;
-	double				fov;
+	t_v3f				position;
+	t_v3f				direction;
+	float				fov;
 }						t_camera;
 
 typedef struct s_light
 {
-	t_v3d				position;
+	t_v3f				position;
 	float				intensity;
 	t_v3f				color;
 }						t_light;
 
 typedef struct s_sphere
 {
-	t_v3d				position;
-	double				radius;
+	t_v3f				position;
+	float				radius;
 }						t_sphere;
 
 typedef struct s_plane
 {
-	t_v3d				position;
-	t_v3d				normal;
+	t_v3f				position;
+	t_v3f				normal;
 }						t_plane;
 
 typedef struct s_cylinder
 {
-	t_v3d				position;
-	t_v3d				normal;
-	double				diameter;
-	double				height;
+	t_v3f				position;
+	t_v3f				normal;
+	float				diameter;
+	float				height;
 }						t_cylinder;
 
 typedef struct s_quad
 {
-	t_v3d				position;
-	t_v3d				normal;
-	t_v2d				size;
-	t_v3d				u_axis;
-	t_v3d				v_axis;
+	t_v3f				position;
+	t_v3f				normal;
+	t_v2f				size;
+	t_v3f				u_axis;
+	t_v3f				v_axis;
 }						t_quad;
 
 typedef union u_tri_points
 {
 	struct
 	{
-		t_v3d			a;
-		t_v3d			b;
-		t_v3d			c;
+		t_v3f			a;
+		t_v3f			b;
+		t_v3f			c;
 	};
-	t_v3d				p[3];
+	t_v3f				p[3];
 }						t_tri_points;
 
 typedef struct s_triangle
 {
-	t_v3d				position;
-	t_v3d				normal;
+	t_v3f				position;
+	t_v3f				normal;
 	t_tri_points		points;
 }						t_triangle;
 
@@ -130,16 +130,16 @@ typedef union u_bounds
 {
 	struct
 	{
-		t_v3d			min;
-		t_v3d			max;
+		t_v3f			min;
+		t_v3f			max;
 	};
-	t_v3d				v[2];
+	t_v3f				v[2];
 }						t_bounds;
 
 typedef struct s_bvh_best_context
 {
 	int					axis;
-	double				surface;
+	float				surface;
 	int					left_id;
 }						t_bvh_best_context;
 
@@ -249,7 +249,7 @@ void					ft_quicksort_objects(t_object *objs, int low, int high,
 int						ft_partition(t_object *objs, int low, int high,
 							int axis);
 int						ft_get_longest_bounds_axis(t_bounds bounds);
-double					ft_get_bounds_surface(t_bounds bounds);
+float					ft_get_bounds_surface(t_bounds bounds);
 int						ft_find_best_split(t_object *objs, int object_count,
 							t_bounds range_bounds, int *left_elements);
 t_bounds				ft_get_bounds_range(t_object *objects, int start,

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:33:23 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/19 15:05:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 16:17:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 t_triangle	ft_get_processed_triangle(t_triangle tri)
 {
-	t_v3d	center;
-	t_v3d	ab;
-	t_v3d	ac;
+	t_v3f	center;
+	t_v3f	ab;
+	t_v3f	ac;
 
-	center = ft_v3d_add(tri.points.a, tri.points.b);
-	center = ft_v3d_add(center, tri.points.c);
-	tri.position = ft_v3d_scale(center, 1.0 / 3.0);
-	ab = ft_v3d_sub(tri.points.b, tri.points.a);
-	ac = ft_v3d_sub(tri.points.c, tri.points.a);
-	tri.normal = ft_v3d_normalize(ft_v3d_cross(ac, ab));
+	center = ft_v3f_add(tri.points.a, tri.points.b);
+	center = ft_v3f_add(center, tri.points.c);
+	tri.position = ft_v3f_scale(center, 1.0f / 3.0f);
+	ab = ft_v3f_sub(tri.points.b, tri.points.a);
+	ac = ft_v3f_sub(tri.points.c, tri.points.a);
+	tri.normal = ft_v3f_normalize(ft_v3f_cross(ac, ab));
 	return (tri);
 }
 
@@ -47,11 +47,11 @@ t_struct_parser_data	*ft_get_parser_triangle(int id)
 	i = 0;
 	while (i < 3)
 	{
-		d = (t_parsing_data){p_double, offsetof(t_triangle, points.p[i].x), 0};
+		d = (t_parsing_data){p_float, offsetof(t_triangle, points.p[i].x), 0};
 		ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-		d = (t_parsing_data){p_double, offsetof(t_triangle, points.p[i].y), 0};
+		d = (t_parsing_data){p_float, offsetof(t_triangle, points.p[i].y), 0};
 		ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-		d = (t_parsing_data){p_double, offsetof(t_triangle, points.p[i].z), 0};
+		d = (t_parsing_data){p_float, offsetof(t_triangle, points.p[i].z), 0};
 		ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 		i++;
 	}

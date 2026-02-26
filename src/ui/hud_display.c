@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:03:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 11:32:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:49:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 void	ft_draw_cam_data(t_data *d)
 {
-	t_v3d	rot;
-	t_v3d	pos;
+	t_v3f	rot;
+	t_v3f	pos;
 
 	pos = d->scene->camera.position;
-	rot = ft_cam_v3d_to_euler(d->scene->camera.direction);
+	rot = ft_cam_v3f_to_euler(d->scene->camera.direction);
 	ft_draw_double(d, (t_draw_arg){(t_v2i){100, 0}, (t_v2i){80, 15}, (t_rgb){50,
 		50, 50}}, "pos X: ", pos.x);
 	ft_draw_double(d, (t_draw_arg){(t_v2i){180, 0}, (t_v2i){80, 15}, (t_rgb){50,

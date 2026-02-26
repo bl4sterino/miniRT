@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 22:12:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 15:58:05 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
 # define SELECTED_NONE 2147483647
-# define OBJ_MOVEMENT_SPEED 20.0
-# define OBJ_ROTATION_SPEED 100.0
-# define OBJ_EXTRA_SPEED 5.0
+# define OBJ_MOVEMENT_SPEED 20.0f
+# define OBJ_ROTATION_SPEED 100.0f
+# define OBJ_EXTRA_SPEED 5.0f
 # define IMAGE_BPP 4
 
 # define HIDE_CURSOR 0
@@ -35,7 +35,7 @@
 # define CAM_MOVEMENT_SPEED 100
 
 /// pixels per degree
-# define CAM_ROTATION_SPEED 0.1
+# define CAM_ROTATION_SPEED 0.1f
 
 # define DELTATIME_DISPLAY_DELAY 0.2f
 
@@ -111,15 +111,15 @@ void		ft_controls(t_data *d);
 
 void		ft_select_objects(t_data *d);
 void		ft_selected_object_controls(t_data *d);
-t_v3d		ft_get_object_movement(t_data *d);
-t_v3d		ft_get_object_rotation(t_data *d);
-t_v3d		ft_get_object_extra(t_data *d);
+t_v3f		ft_get_object_movement(t_data *d);
+t_v3f		ft_get_object_rotation(t_data *d);
+t_v3f		ft_get_object_extra(t_data *d);
 
-void		ft_move_object(t_v3d movement, t_object *object, t_data *d,
+void		ft_move_object(t_v3f movement, t_object *object, t_data *d,
 				int *dirty_bvh);
-void		ft_rotate_object(t_v3d rotation, t_object *object, t_data *d,
+void		ft_rotate_object(t_v3f rotation, t_object *object, t_data *d,
 				int *dirty_bvh);
-void		ft_extra_controls(t_v3d extra, t_object *object, t_data *d,
+void		ft_extra_controls(t_v3f extra, t_object *object, t_data *d,
 				int *dirty_bvh);
 
 // camera
@@ -149,23 +149,26 @@ void		ft_draw_int(t_data *d, t_draw_arg arg, char *prefix, int nb);
 void		ft_draw_double(t_data *d, t_draw_arg arg, char *prefix, double nb);
 void		ft_draw_double_8(t_data *d, t_draw_arg arg, char *prefix_arg,
 				double nb);
+void		ft_draw_float(t_data *d, t_draw_arg arg, char *prefix, float nb);
+void		ft_draw_float_8(t_data *d, t_draw_arg arg, char *prefix_arg,
+				float nb);
 void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
-t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3d *hit_normal);
+t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal);
 
-t_ray		ft_setup_ray_target(t_ray ray, t_v3d target, char bounces);
-t_ray		ft_setup_ray_direction(t_ray ray, t_v3d direction, char bounces);
+t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces);
+t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces);
 
-double		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
+float		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
 
 t_v3f		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
-t_v3f		ft_get_light(t_v3d position, t_v3d normal, t_scene *scene);
-double		ft_shoot_ray_against_planes(t_ray ray, double max_dist,
+t_v3f		ft_get_light(t_v3f position, t_v3f normal, t_scene *scene);
+float		ft_shoot_ray_against_planes(t_ray ray, float max_dist,
 				t_scene *scene, int *hit);
-double		ft_shoot_ray_against_objects(t_ray ray, double max_dist,
+float		ft_shoot_ray_against_objects(t_ray ray, float max_dist,
 				t_scene *scene, int *hit);
 
 t_viewport	ft_get_viewport(t_camera cam, t_data *d);
@@ -176,9 +179,9 @@ void		ft_post_process(t_data *d);
 
 // utils
 
-t_v3d		ft_cam_v3d_to_euler(t_v3d cam_direction);
-t_v3d		ft_cam_euler_to_v3d(t_v3d euler);
-double		ft_get_triangle_area(t_v3d A, t_v3d B, t_v3d C);
+t_v3f		ft_cam_v3f_to_euler(t_v3f cam_direction);
+t_v3f		ft_cam_euler_to_v3f(t_v3f euler);
+float		ft_get_triangle_area(t_v3f A, t_v3f B, t_v3f C);
 
 // debug
 
