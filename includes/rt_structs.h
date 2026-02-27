@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 12:26:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 15:04:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ typedef struct s_pixel_color_context
 	double				do_reflect;
 	t_v3f				reflected;
 	t_v3f				new_dir;
+	char				hit_side;
 
 }						t_pixel_color_context;
 

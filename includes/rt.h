@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 16:46:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 15:19:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 
 // mini-rt
 # include "collisions_inlined.h"
+# include "hit_side_inlined.h"
 # include "image_accumulated_inlined.h"
 # include "image_inlined.h"
 # include "mlx.h"
@@ -157,7 +158,8 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
-t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hit_pos);
+t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal,
+				t_v3f *hit_pos);
 
 t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces);
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces);
