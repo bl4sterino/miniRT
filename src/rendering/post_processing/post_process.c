@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 10:23:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 11:54:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,10 @@ void	ft_blur(t_data *d)
 
 	err = 0;
 	
+	ft_clock_start(clock_blur);
 	if (d->denoise)
 	{
+
 		err += clEnqueueWriteBuffer(d->opencl.command_queue,
 			d->opencl.normals_buff, CL_TRUE, 0, sizeof(t_v3f) * SCREEN_SIZE,
 			d->image.normals, 0, 0, 0);
@@ -166,20 +168,11 @@ void	ft_blur(t_data *d)
 		err = clSetKernelArg(d->opencl.kernel_blur_v, 7, sizeof(float), &inv_sigma_sq);
 		if(err != CL_SUCCESS)
 			ft_printf("Err blur exec; %s\n", get_cl_error(err));
-		radius = 20;
+		radius = 10;
 		space = 1;
 		ft_update_gaussian_mat(d, radius);
-
-		ft_clock_start(clock_blur);
 		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
-		ft_printf("1: %f\n", ft_clock_set_and_get(clock_blur));
-
-		ft_clock_clear();
-		ft_clock_start(clock_blur);
 		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
-		ft_printf("2: %f\n", ft_clock_set_and_get(clock_blur));
-
-
 	}
 	ft_clock_set(clock_blur);
 }

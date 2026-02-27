@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 10:16:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 11:28:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 	pthread_mutex_unlock(&d->threads_data.task_mutex);
 }
 
+void ft_render_preprocess(t_data *d)
+{
+	
+}
+
 void	ft_render(t_data *d)
 {
 	ft_clock_start(clock_render);
@@ -74,6 +79,7 @@ void	ft_render(t_data *d)
 		d->ray_bounces = ft_min(1, d->target_ray_bounces);
 	else if (d->ray_bounces != d->target_ray_bounces)
 		d->ray_bounces = d->target_ray_bounces;
+	ft_render_preprocess(d);
 	ft_create_tasks_and_wait_for_completion(d);
 	ft_clock_set(clock_render);
 }

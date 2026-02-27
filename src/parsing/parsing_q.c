@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:42:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 11:52:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,11 @@ t_quad	ft_get_processed_quad(t_quad quad)
 {
 	t_v3f	helper;
 
-	if (fabs(quad.normal.x) > 0.9f)
+	if (fabs(quad.normal.x) > 0.999f)
 		helper = (t_v3f){{0.0f, 1.0f, 0.0f}};
 	else
 		helper = (t_v3f){{1.0f, 0.0f, 0.0f}};
 	quad.u_axis = ft_v3f_normalize(ft_v3f_cross(quad.normal, helper));
-	quad.v_axis = ft_v3f_cross(quad.normal, quad.u_axis);
+	quad.v_axis = ft_v3f_normalize(ft_v3f_cross(quad.normal, quad.u_axis));
 	return (quad);
 }
