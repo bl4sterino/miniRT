@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 17:56:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 10:23:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,35 +146,40 @@ void	ft_blur(t_data *d)
 	cl_int err;
 
 	err = 0;
-	ft_clock_start(clock_blur);
+	
 	if (d->denoise)
 	{
 		err += clEnqueueWriteBuffer(d->opencl.command_queue,
-			d->opencl.normals_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
-			* sizeof(double), d->image.normals, 0, 0, 0);
+			d->opencl.normals_buff, CL_TRUE, 0, sizeof(t_v3f) * SCREEN_SIZE,
+			d->image.normals, 0, 0, 0);
 		err += clEnqueueWriteBuffer(d->opencl.command_queue,
-			d->opencl.positions_buff, CL_TRUE, 0, HEIGHT_WIN * WIDTH_WIN * 4
-			* sizeof(double), d->image.positions, 0, 0, 0);
+			d->opencl.positions_buff, CL_TRUE, 0, sizeof(t_v3f) * SCREEN_SIZE,
+			d->image.positions, 0, 0, 0);
 		if (err != CL_SUCCESS)
-			ft_printf("Error write normals top gpu\n");
-		float blur_distance_fallof = 1.0;
+			ft_printf("Error write normals to gpu\n");
+		float blur_distance_fallof = 5.0 / 3.0f;
 		float inv_sigma_sq = 1.0f / (2.0f * blur_distance_fallof * blur_distance_fallof);
 		
-		err = clSetKernelArg(d->opencl.kernel_blur_h, 7, sizeof(float), &blur_distance_fallof);
+		err = clSetKernelArg(d->opencl.kernel_blur_h, 7, sizeof(float), &inv_sigma_sq);
 		if(err != CL_SUCCESS)
 			ft_printf("Err blur exec; %s\n", get_cl_error(err));
-		err = clSetKernelArg(d->opencl.kernel_blur_v, 7, sizeof(float), &blur_distance_fallof);
+		err = clSetKernelArg(d->opencl.kernel_blur_v, 7, sizeof(float), &inv_sigma_sq);
 		if(err != CL_SUCCESS)
 			ft_printf("Err blur exec; %s\n", get_cl_error(err));
-		radius = 2;
+		radius = 20;
 		space = 1;
 		ft_update_gaussian_mat(d, radius);
-		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
-		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
 
-		space = 2;
+		ft_clock_start(clock_blur);
 		ft_blur_kernel(d, d->opencl.kernel_blur_h, radius, space);
+		ft_printf("1: %f\n", ft_clock_set_and_get(clock_blur));
+
+		ft_clock_clear();
+		ft_clock_start(clock_blur);
 		ft_blur_kernel(d, d->opencl.kernel_blur_v, radius, space);
+		ft_printf("2: %f\n", ft_clock_set_and_get(clock_blur));
+
+
 	}
 	ft_clock_set(clock_blur);
 }

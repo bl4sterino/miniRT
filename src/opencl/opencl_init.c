@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:05:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 14:21:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 10:17:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_build_opencl_program_2(t_data *d)
 
 void	ft_build_opencl_program(t_data *d, char *prg_str, int err)
 {
-	prg_str = ft_read_file_gc_id("src/rendering/post_processing.cl", 0);
+	prg_str = ft_read_file_gc_id("src/rendering/post_processing/post_processing.cl", 0);
 	if (!prg_str)
 		ft_exit_str_fd(1, "Failed to load OpenCl kernel source\n", 2);
 	d->opencl.context = clCreateContext(0, 1, &d->opencl.device, 0, 0, &err);

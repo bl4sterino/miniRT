@@ -67,7 +67,6 @@ __kernel void ft_blur_horizontal(__global float4 * restrict src,
 	{
 		x = clamp(i + (k * spacing), 0, width - 1);
 		index_dynamic = width * j + x;
-		coef = gaussian_mat[k + radius];
 		float w_n = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
 
 		current_pos = position_buff[index_dynamic];
@@ -75,7 +74,7 @@ __kernel void ft_blur_horizontal(__global float4 * restrict src,
         float dist_sq = dot(diff, diff);
         float w_p = native_exp(-dist_sq * blur_distance_fallof);
 
-		coef = w_n * w_p;
+		coef = gaussian_mat[k + radius] * w_n * w_p;
 		total_coef += coef;
 		color += src[index_dynamic] * coef;
 	}
@@ -114,14 +113,13 @@ __kernel void ft_blur_vertical(__global float4 * restrict src,
 	{
 		y = clamp(j + (k * spacing), 0, height - 1);
 		index_dynamic = width * y + i;
-		coef = gaussian_mat[k + radius];
 		float w_n = clamp(dot(normal, normal_buff[index_dynamic]), 0.0f, 1.0f);
 		current_pos = position_buff[index_dynamic];
 		diff = center_pos - current_pos;
         float dist_sq = dot(diff, diff);
         float w_p = native_exp(-dist_sq * blur_distance_fallof);
 
-		coef = w_n * w_p;
+		coef = gaussian_mat[k + radius] * w_n * w_p;
 		total_coef += coef;
 		color += src[index_dynamic] * coef;
 	}

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/26 16:18:02 by pberne           ###   ########.fr        #
+#    Updated: 2026/02/27 10:17:00 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,7 @@ FILES = main\
 		rendering/bvh_ray\
 		rendering/bvh_ray_light\
 		rendering/ray_to_color\
-		rendering/post_process\
+		rendering/post_processing/post_process\
 		utils/camera_vectors_utils
 
 

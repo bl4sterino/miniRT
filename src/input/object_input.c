@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 11:41:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:20:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/26 20:08:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 t_v3f	ft_get_object_movement(t_data *d)
 {
 	t_v3f	movement;
+	float	boost;
 
+	boost = tn_f(ft_get_key(MOUSE_RIGHT, d), 5.0f, 1.0f);
 	movement.x = ft_get_key(KEY_RIGHT, d) - ft_get_key(KEY_LEFT, d);
 	movement.y = ft_get_key(KEY_KP_PLUS, d) - ft_get_key(KEY_KP_MINUS, d);
 	movement.z = ft_get_key(KEY_UP, d) - ft_get_key(KEY_DOWN, d);
 	if (ft_v3f_length_squared(movement) > EPSILON)
 	{
 		movement = ft_v3f_normalize(movement);
-		movement = ft_v3f_scale(movement, OBJ_MOVEMENT_SPEED * d->deltatime);
+		movement = ft_v3f_scale(movement, OBJ_MOVEMENT_SPEED * boost
+				* d->deltatime);
 	}
 	return (movement);
 }
@@ -32,8 +35,6 @@ t_v3f	ft_get_object_rotation(t_data *d)
 {
 	t_v3f	rotation;
 
-	//ft_printf("%d %d %d %d %d %d\n", ft_get_key(KEY_KP_DOT, d), ft_get_key(KEY_KP_0, d), ft_get_key(KEY_KP_3, d),
-		 //ft_get_key(KEY_KP_2, d), ft_get_key(KEY_KP_6, d) , ft_get_key(KEY_KP_5, d));
 	rotation.x = ft_get_key(KEY_KP_DOT, d) - ft_get_key(KEY_KP_0, d);
 	rotation.y = ft_get_key(KEY_KP_3, d) - ft_get_key(KEY_KP_2, d);
 	rotation.z = ft_get_key(KEY_KP_6, d) - ft_get_key(KEY_KP_5, d);
