@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 11:28:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/27 17:31:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,22 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 	pthread_mutex_unlock(&d->threads_data.task_mutex);
 }
 
+/* this sucks for big scene but we need it for current frame blur consistency
+the object is either reflecting or not  during the current frame, not per pixel */
 void ft_render_preprocess(t_data *d)
 {
-	
+	int i = 0;
+	while (i < d->scene->num_objects)
+	{
+		d->scene->objects[i].material.reflectiveness_rand = fast_rand();
+		i++;
+	}
+	i = 0;
+	while (i < d->scene->num_planes)
+	{
+		d->scene->planes[i].material.reflectiveness_rand = fast_rand();
+		i++;
+	}
 }
 
 void	ft_render(t_data *d)
