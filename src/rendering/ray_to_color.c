@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/28 12:08:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 17:45:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,17 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 	c.distance = ft_shoot_ray(ray, scene, &c.hit);
 	if (c.distance < INFINITY)
 	{
-		
 		if (c.hit < 0)
 			c.mat = scene->planes[-c.hit - 1].material;
 		else
 			c.mat = scene->objects[c.hit].material;
 
+		
+		// Replace that with proper hit detection outputtin both point and normal
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
 		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit, ray.direction);
+		c.hit_point = ft_v3f_add(ft_ray_at(ray, c.distance), ft_v3f_scale(c.hit_normal, 0.01f));
+		
 		if(hit_normal)
 		{
 			*hit_normal = c.hit_normal;
@@ -59,7 +62,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 		if (ray.remaining_bounces > 0)
 		{
 
-			if (c.mat.refraction > 0)
+			if (c.mat.refraction > 0.0f)
 			{
 				char side = ft_get_hit_side(scene, c.hit_point, c.hit);
 			
@@ -75,7 +78,8 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 				if (c.new_dir.x != 0.0f || c.new_dir.y != 0.0f || c.new_dir.z != 0.0f)
 				{
 					ray.origin = ft_v3f_add(ft_ray_at(ray, c.distance), ft_v3f_scale(c.new_dir, EPSILON));
-					ray = ft_setup_ray_direction(ray, c.new_dir, ray.remaining_bounces - 1);
+					 // VERY DANGEROUS to not decreace teh bounce count, maybe have some kind of credit for refraction
+					ray = ft_setup_ray_direction(ray, c.new_dir, ray.remaining_bounces);
 					return (ft_v3f_mult(c.mat.color, ft_get_pixel_color(ray, scene, hit_normal, hit_pos)));
 				}
 
@@ -93,7 +97,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 			else
 			{
 				ray = ft_setup_ray_direction(ray, ft_v3f_random_hemisphere(c.hit_normal), ray.remaining_bounces - 1);
-				c.light_color = ft_v3f_add(ft_get_light(c.hit_point, c.hit_normal, scene), ft_get_pixel_color(ray, scene, 0, 0));
+				c.light_color = ft_v3f_max(ft_get_light(c.hit_point, c.hit_normal, scene), ft_get_pixel_color(ray, scene, 0, 0));
 				return (ft_v3f_mult(c.out_color, c.light_color));
 			}
 		}

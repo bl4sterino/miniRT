@@ -36,8 +36,6 @@ __kernel void ft_accumulate_and_pack(__global float4 * restrict frame_buff,
 
 
 
-
-
 __kernel void ft_blur_horizontal(__global float4 * restrict src,
 	__global float4 * restrict dest,
 	const int radius, const int spacing,
