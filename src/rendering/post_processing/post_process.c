@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 11:54:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 08:32:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,8 +195,6 @@ void ft_process_normals(t_data *d)
 
 void	ft_post_process(t_data *d)
 {
-	int		i;
-	t_v2i	pos;
 	int		err;
 
 	if (d->render_mode == RENDER_NORMALS)
