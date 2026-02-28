@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 17:17:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 12:08:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,22 +64,19 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 				char side = ft_get_hit_side(scene, c.hit_point, c.hit);
 			
 				float ref_from = tn_f(side > 0, 1.0f, c.mat.refraction);
-				float ref_to = tn_f(side > 0, c.mat.refraction, 1.0f);
-
-				// IDK WHY SOMETIMES ITS POINTING THE SAME DIRRECTION
-				t_v3f n = c.hit_normal;
-				float dot = ft_v3f_dot(ray.direction, n);
-				if (dot > 0.0f)
-					n = (t_v3f){{-n.x, -n.y, -n.z}};
+ 				float ref_to = tn_f(side > 0, c.mat.refraction, 1.0f);
 
 
-				c.reflected = ft_v3f_refract(ray.direction, n, ref_from, ref_to);
-				if (c.reflected.x != 0.0f || c.reflected.y != 0.0f || c.reflected.z != 0.0f)
+				if (c.mat.diffusion > 0.0f)
+					c.reflected = ft_v3f_normalize(ft_v3f_lerp(c.hit_normal, ft_v3f_random_hemisphere(c.hit_normal), c.mat.diffusion));
+				else
+					c.reflected = c.hit_normal;
+				c.new_dir = ft_v3f_refract(ray.direction, c.reflected, ref_from, ref_to);
+				if (c.new_dir.x != 0.0f || c.new_dir.y != 0.0f || c.new_dir.z != 0.0f)
 				{
-
-					ray.origin = ft_v3f_add(ft_ray_at(ray, c.distance), ft_v3f_scale(c.reflected, EPSILON));
-					ray = ft_setup_ray_direction(ray, c.reflected, ray.remaining_bounces - 1);
-					return (ft_get_pixel_color(ray, scene, hit_normal, hit_pos));
+					ray.origin = ft_v3f_add(ft_ray_at(ray, c.distance), ft_v3f_scale(c.new_dir, EPSILON));
+					ray = ft_setup_ray_direction(ray, c.new_dir, ray.remaining_bounces - 1);
+					return (ft_v3f_mult(c.mat.color, ft_get_pixel_color(ray, scene, hit_normal, hit_pos)));
 				}
 
 				c.mat.reflectiveness_rand = -1.0f;
@@ -89,7 +86,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 			if(c.mat.reflectiveness_rand < c.mat.reflectiveness)
 			{
 				c.reflected = ft_v3f_reflect(ray.direction, c.hit_normal);
-				c.new_dir = ft_v3f_normalize(ft_v3f_lerp(c.reflected, ft_v3f_random_hemisphere(c.hit_normal), c.mat.diffusion));
+				c.new_dir = ft_v3f_lerp(c.reflected, ft_v3f_random_hemisphere(c.hit_normal), c.mat.diffusion);
 				ray = ft_setup_ray_direction(ray, c.new_dir, ray.remaining_bounces - 1);
 				return (ft_get_pixel_color(ray, scene, hit_normal, hit_pos));
 			}

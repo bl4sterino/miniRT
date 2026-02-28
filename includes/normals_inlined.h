@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:41:13 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 17:25:03 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 11:32:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static inline t_v3f	ft_sphere_normal(t_v3f hit_point, t_sphere sphere)
 	t_v3f	normal;
 
 	normal = ft_v3f_sub(hit_point, sphere.position);
-	if (ft_v3f_length_squared(normal) > sphere.radius * sphere.radius)
-		normal = ft_v3f_scale(normal, -1.0f);
 	return (ft_v3f_normalize(normal));
 }
 
@@ -61,7 +59,7 @@ static inline t_v3f	ft_get_hit_normal(t_v3f hit_point, t_scene *scene, int hit,
 				- 1].object.as_plane.normal, ray_dir));
 	object = scene->objects[hit];
 	if (object.type == object_type_sphere)
-		return (ft_sphere_normal(hit_point, object.object.as_sphere));
+		return (ft_get_sided_normal(ft_sphere_normal(hit_point, object.object.as_sphere), ray_dir));
 	else if (object.type == object_type_cylinder)
 		return (ft_cylinder_normal(hit_point, object.object.as_cylinder,
 				ray_dir));
