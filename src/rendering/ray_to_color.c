@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/28 17:45:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 20:07:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 		// Replace that with proper hit detection outputtin both point and normal
 		c.hit_point = ft_ray_at(ray, c.distance - EPSILON);
 		c.hit_normal = ft_get_hit_normal(c.hit_point, scene, c.hit, ray.direction);
-		c.hit_point = ft_v3f_add(ft_ray_at(ray, c.distance), ft_v3f_scale(c.hit_normal, 0.01f));
+		c.hit_point = ft_v3f_add(ft_ray_at(ray, c.distance), ft_v3f_scale(c.hit_normal, EPSILON));
 		
 		if(hit_normal)
 		{
