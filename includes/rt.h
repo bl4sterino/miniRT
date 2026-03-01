@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 12:48:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 18:12:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 # define RT_H
 
 # define CL_TARGET_OPENCL_VERSION 220
-# include <CL/cl.h>
+
+# ifndef OPENCL_BONK
+#  include <CL/cl.h>
+# endif
 
 # define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
@@ -192,9 +195,13 @@ void		ft_debug_gc(t_data *d);
 
 // OpenCl
 
+# ifndef OPENCL_BONK
+
 const char	*get_cl_error(cl_int error);
 void		ft_init_opencl(t_data *d);
 void		ft_init_opencl_data(t_data *d);
 void		ft_create_kernels(t_data *d);
+
+# endif
 
 #endif

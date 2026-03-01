@@ -6,11 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 22:03:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 14:24:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 17:36:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+#ifndef OPENCL_BONK
 
 void ft_create_normal_kernel(t_data *d)
 {
@@ -106,3 +108,5 @@ void	ft_create_kernels(t_data *d)
 	ft_create_set_and_pack_kernel(d);
 	ft_create_accumulate_and_pack_kernel(d);
 }
+
+#endif

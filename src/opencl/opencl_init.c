@@ -6,11 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 22:05:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 10:17:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 17:35:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+#ifndef OPENCL_BONK
 
 void	ft_get_opencl_device(t_data *d)
 {
@@ -81,3 +83,5 @@ void	ft_init_opencl(t_data *d)
 	ft_init_opencl_data(d);
 	ft_create_kernels(d);
 }
+
+#endif

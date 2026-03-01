@@ -6,11 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 21:49:01 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 14:23:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 17:35:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+
+#ifndef OPENCL_BONK
 
 void	ft_init_opencl_data_3(t_data *d)
 {
@@ -82,3 +85,5 @@ void	ft_init_opencl_data(t_data *d)
 	}
 	ft_init_opencl_data_2(d);
 }
+
+#endif

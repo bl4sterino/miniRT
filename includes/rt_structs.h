@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 15:04:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 17:13:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,20 @@ typedef struct s_threads_data
 	int					run_threads;
 }						t_threads_data;
 
+typedef struct s_viewport
+{
+	t_v3f				u;
+	t_v3f				v;
+	t_v3f				x_delta;
+	t_v3f				y_delta;
+	t_v3f				top_left;
+	t_v3f				top_right;
+	t_v3f				bottom_left;
+	t_v3f				bottom_right;
+
+}						t_viewport;
+
+# ifndef OPENCL_BONK
 typedef struct s_opencl_data
 {
 	cl_platform_id		platform;
@@ -105,19 +119,6 @@ typedef struct s_opencl_data
 	cl_mem				b;
 	cl_mem				gaussian_mat;
 }						t_opencl_data;
-
-typedef struct s_viewport
-{
-	t_v3f				u;
-	t_v3f				v;
-	t_v3f				x_delta;
-	t_v3f				y_delta;
-	t_v3f				top_left;
-	t_v3f				top_right;
-	t_v3f				bottom_left;
-	t_v3f				bottom_right;
-
-}						t_viewport;
 
 typedef struct t_data
 {
@@ -142,6 +143,31 @@ typedef struct t_data
 	int					selected_light;
 	t_opencl_data		opencl;
 }						t_data;
+# else
+
+typedef struct t_data
+{
+	void				*mlx;
+	void				*window;
+	t_image				image;
+	t_input				input;
+	double				deltatime;
+	struct timeval		last_tv;
+	char				*fpsstr;
+	float				frame_count;
+	char				dirty_frame;
+	char				ray_bounces;
+	int					target_ray_bounces;
+	t_scene				*scene;
+	t_viewport			viewport;
+	t_threads_data		threads_data;
+	t_render_mode		render_mode;
+	int					denoise;
+	int					blur_radius;
+	int					selected_object;
+	int					selected_light;
+}						t_data;
+# endif
 
 typedef struct s_ray
 {

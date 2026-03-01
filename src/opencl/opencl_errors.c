@@ -6,11 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 21:57:10 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 21:59:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 17:35:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+#ifndef OPENCL_BONK
 
 const char	*get_cl_error_3(cl_int error)
 {
@@ -92,3 +94,5 @@ const char	*get_cl_error(cl_int error)
 		return ("CL_COMPILE_PROGRAM_FAILURE");
 	return (get_cl_error_2(error));
 }
+
+#endif

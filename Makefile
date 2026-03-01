@@ -6,14 +6,15 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/02/28 14:34:45 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/01 18:11:57 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS =  -O3 -g3 -Wall -Wextra #-Werror
-RTFLAGS = -lXext -lX11 -lm -lOpenCL
+CFLAGS = -O3 -D OPENCL_BONK -Wall -Wextra -Werror
+DFLAGS =  -O3 -g3 -D OPENCL_BONK -Wall -Wextra #-Werror
+RTFLAGS = -lXext -lX11 -lm
+OCL_LFLAGS = -lOpenCL
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
@@ -97,18 +98,28 @@ D_DEP = $(addprefix $(OBJ_DIR), $(addsuffix _DEBUG.d, $(FILES)))
 
 DEPFLAGS = -MMD
 
-.PHONY: clean fclean all libft re debug libft-rebuild libft-debug-rebuild
+.PHONY: clean fclean all libft re debug libft-rebuild libft-debug-rebuild opencl opencl_debug
 
 all: $(NAME)
+
+debug: $(D_NAME)
+
+
+opencl: CFLAGS := $(filter-out -D OPENCL_BONK, $(CFLAGS))
+opencl: RTFLAGS += $(OCL_LFLAGS)
+opencl: $(NAME)
+
+opencl_debug: DFLAGS := $(filter-out -D OPENCL_BONK, $(DFLAGS))
+opencl_debug: RTFLAGS += $(OCL_LFLAGS)
+opencl_debug: $(D_NAME)
+
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(RTFLAGS)
 
 $(D_NAME): $(LIBFT_DEBUG) $(MLX) $(D_OBJ)
 	$(CC) $(DFLAGS) $(D_OBJ) $(LIBFT_DEBUG) $(MLX) -o $(D_NAME) $(RTFLAGS)
-
-debug: $(D_NAME)
-
+	
 
 $(MLX):
 	make -C $(MLX_DIR)
