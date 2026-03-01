@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 17:13:03 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 19:03:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,6 @@ typedef struct s_thread_render_context
 
 typedef struct s_get_light_context
 {
-	int					i;
 	t_ray				light_ray;
 	double				light_dist;
 	double				dist;

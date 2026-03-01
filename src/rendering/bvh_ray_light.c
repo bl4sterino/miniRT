@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 11:10:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 19:09:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,34 +49,40 @@ float	ft_get_object_area(t_object object)
 	return (1.0f);
 }
 
+t_v3f ft_get_light_color(t_v3f position, t_v3f normal, t_scene *scene, t_get_light_context c)
+{
+	int rand_light = (int)(fast_rand() * (float)scene->num_lights) % scene->num_lights;
+
+	t_light light = scene->lights[rand_light];
+	c.light_ray = ft_setup_ray_target(c.light_ray,
+				light.position, 0);
+	if (ft_v3f_dot(normal, c.light_ray.direction) < 0.0f)
+		return ((t_v3f){{0.0f, 0.0f, 0.0f}});
+	c.light_dist = ft_v3f_length(ft_v3f_sub(light.position,
+				c.light_ray.origin));
+	c.plane_dist = ft_shoot_ray_against_planes(c.light_ray, c.light_dist,
+			scene, &c.hit);
+	if (c.plane_dist < c.light_dist)
+		return ((t_v3f){{0.0f, 0.0f, 0.0f}});
+	c.dist = ft_shoot_ray_against_objects(c.light_ray, c.light_dist, scene,
+			&c.hit);
+	if (c.dist >= c.light_dist)
+	{
+		c.new_color = ft_v3f_scale(light.color,
+				ft_v3f_dot(c.light_ray.direction, normal) * (float)scene->num_lights);
+		return (c.new_color);
+	}
+	return ((t_v3f){{0.0f, 0.0f, 0.0f}});
+}
+
 t_v3f	ft_get_light(t_v3f position, t_v3f normal, t_scene *scene)
 {
 	t_get_light_context	c;
 
-	c.i = -1;
 	c.color = scene->ambient_light.color;
 	c.light_ray.origin = position;
-	while (++c.i < scene->num_lights)
-	{
-		c.light_ray = ft_setup_ray_target(c.light_ray,
-				scene->lights[c.i].position, 0);
-		if (ft_v3f_dot(normal, c.light_ray.direction) < 0.0f)
-			continue ;
-		c.light_dist = ft_v3f_length(ft_v3f_sub(scene->lights[c.i].position,
-					c.light_ray.origin));
-		c.plane_dist = ft_shoot_ray_against_planes(c.light_ray, c.light_dist,
-				scene, &c.hit);
-		if (c.plane_dist < c.light_dist)
-			continue ;
-		c.dist = ft_shoot_ray_against_objects(c.light_ray, c.light_dist, scene,
-				&c.hit);
-		if (c.dist >= c.light_dist)
-		{
-			c.new_color = ft_v3f_scale(scene->lights[c.i].color,
-					ft_v3f_dot(c.light_ray.direction, normal));
-			c.color = ft_v3f_add(c.color, c.new_color);
-		}
-	}
+	if (scene->num_lights > 0)
+		c.color = ft_v3f_add(c.color, ft_get_light_color(position, normal, scene, c));
 	
 	if (scene->emissive_objects > 0)
 	{

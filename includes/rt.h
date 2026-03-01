@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 18:12:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 18:38:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 #  include <CL/cl.h>
 # endif
 
-# define DISPLAY_BVH 1
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TILE_SIZE 16
 # define SELECTED_NONE 2147483647
