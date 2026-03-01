@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 20:18:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/28 20:18:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 11:08:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ static inline float	ft_quad_collision(t_ray ray, t_quad quad)
 		return (INFINITY);
 	oc = ft_v3f_sub(quad.position, ray.origin);
 	t = ft_v3f_dot(oc, quad.normal) / denom;
-	if (t < 0.0f)
+	if (t < EPSILON)
 		return (INFINITY);
 	hit_p = ft_v3f_add(ray.origin, ft_v3f_scale(ray.direction, t));
 	planar_pos = ft_v3f_sub(hit_p, quad.position);

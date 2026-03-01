@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/28 15:58:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 13:06:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ void	ft_blur(t_data *d)
 			d->image.positions, 0, 0, 0);
 		if (err != CL_SUCCESS)
 			ft_printf("Error write normals to gpu\n");
-		float blur_distance_fallof = 8.0 / 3.0f;
+		float blur_distance_fallof = 3.0f / 3.0f;
 		float inv_sigma_sq = 1.0f / (2.0f * blur_distance_fallof * blur_distance_fallof);
 		
 		err = clSetKernelArg(d->opencl.kernel_blur_h, 7, sizeof(float), &inv_sigma_sq);

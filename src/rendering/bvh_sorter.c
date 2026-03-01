@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 19:51:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/26 17:13:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 20:48:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static double	ft_get_axis_center(t_object *obj, int axis)
 	return ((min_val + max_val) * 0.5);
 }
 
-static void	ft_swap_objects(t_object *a, t_object *b)
+void	ft_swap_objects(t_object *a, t_object *b)
 {
 	t_object	temp;
 

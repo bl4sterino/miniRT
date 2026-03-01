@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 15:19:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/01 12:48:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 # include <stdlib.h>
 
 // mini-rt
+# include "areas_inlined.h"
 # include "collisions_inlined.h"
 # include "hit_side_inlined.h"
 # include "image_accumulated_inlined.h"

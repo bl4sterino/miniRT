@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/27 15:15:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/02/28 23:32:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_material
 	float				diffusion;
 	float				reflectiveness;
 	float				reflectiveness_rand;
-	float 				emission;
+	float				emission;
 	float				refraction;
 }						t_material;
 
@@ -199,6 +199,8 @@ typedef struct s_scene
 	int					num_lights;
 	t_light				*lights;
 	int					num_objects;
+	int					emissive_objects;
+	int					total_emissive_count;
 	t_object			*objects;
 	t_object			*raw_objects;
 	t_bvh_node			*bvh_nodes;
@@ -246,6 +248,7 @@ int						ft_update_bvh(t_scene *scene, int start,
 							int branch_elements);
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
+void					ft_swap_objects(t_object *a, t_object *b);
 void					ft_quicksort_objects(t_object *objs, int low, int high,
 							int axis);
 int						ft_partition(t_object *objs, int low, int high,
