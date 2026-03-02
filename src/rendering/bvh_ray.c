@@ -6,11 +6,12 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:45:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 21:40:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
 
 static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
 		t_bvh_context *context)
@@ -57,7 +58,7 @@ static inline void	ft_add_branches_to_stack(t_ray *ray, t_bvh_context *context)
 	}
 }
 
-float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
+/*float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 		int *hit)
 {
 	t_bvh_context	context;
@@ -80,6 +81,81 @@ float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 	if (context.best_dist < max_dist)
 		*hit = context.best_index;
 	return (context.best_dist);
+}*/
+
+/* wtf .. */
+float ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene, int *hit)
+{
+    t_bvh_context c;
+    __m128 r_org[3], r_inv[3];
+
+    // Splat Ray for SIMD
+    r_org[0] = _mm_set1_ps(ray.origin.x); r_org[1] = _mm_set1_ps(ray.origin.y); r_org[2] = _mm_set1_ps(ray.origin.z);
+    r_inv[0] = _mm_set1_ps(ray.inv_dir.x); r_inv[1] = _mm_set1_ps(ray.inv_dir.y); r_inv[2] = _mm_set1_ps(ray.inv_dir.z);
+
+    c.best_dist = max_dist;
+    c.best_index = -1;
+    c.stack_ptr = 0;
+    
+    int node_idx = scene->bvh_root;
+
+    while (1) {
+        t_bvh_node *node = &scene->bvh_nodes[node_idx];
+
+        // Leaf Check: If left is -1, it's a leaf
+        if (node->left == -1) {
+            t_object *obj = &scene->objects[node->start];
+            float d = INFINITY;
+            
+            // Inline Switch: Best balance of speed and stability
+            switch(obj->type) {
+                case object_type_sphere:   d = ft_sphere_collision(ray, obj->object.as_sphere); break;
+                case object_type_triangle: d = ft_triangle_collision(ray, obj->object.as_triangle); break;
+                case object_type_quad:     d = ft_quad_collision(ray, obj->object.as_quad); break;
+                case object_type_cylinder: d = ft_cylinder_collision(ray, obj->object.as_cylinder); break;
+                default: break;
+            }
+
+            if (d < c.best_dist) {
+                c.best_dist = d;
+                c.best_index = node->start;
+            }
+            if (c.stack_ptr == 0) break;
+            node_idx = c.stack[--c.stack_ptr];
+            continue;
+        }
+
+        // Parent node logic
+        int l_idx = node->left;
+        int r_idx = node->right;
+
+        float d1, d2;
+        ft_intersect_aabb_x2_fast(r_org, r_inv, 
+                                  &scene->bvh_nodes[l_idx].bounds, 
+                                  &scene->bvh_nodes[r_idx].bounds, 
+                                  &d1, &d2);
+
+        // Sorting logic to shrink best_dist as fast as possible
+        if (d1 < c.best_dist && d2 < c.best_dist) {
+            if (d1 < d2) {
+                c.stack[c.stack_ptr++] = r_idx;
+                node_idx = l_idx;
+            } else {
+                c.stack[c.stack_ptr++] = l_idx;
+                node_idx = r_idx;
+            }
+        } else if (d1 < c.best_dist) {
+            node_idx = l_idx;
+        } else if (d2 < c.best_dist) {
+            node_idx = r_idx;
+        } else {
+            if (c.stack_ptr == 0) break;
+            node_idx = c.stack[--c.stack_ptr];
+        }
+    }
+
+    if (c.best_dist < max_dist) *hit = c.best_index;
+    return (c.best_dist);
 }
 
 float	ft_shoot_ray_against_planes(t_ray ray, float max_dist, t_scene *scene,

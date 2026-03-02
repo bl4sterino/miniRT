@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 19:18:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 21:37:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,9 @@ t_v3f ft_get_emissive_light_color(t_v3f position, t_v3f normal, t_scene *scene)
 	if (emission_dot < 0.0f)
 		return ((t_v3f){{0.0f, 0.0f, 0.0f}});
 	
-	t_v3f filtered_light;
-	float dist = ft_shoot_light_ray(light_ray, scene, &hit, &filtered_light);
+	//float dist = ft_shoot_light_ray(light_ray, scene, &hit);
+
+	float dist = ft_shoot_ray(light_ray, scene, &hit);
 	if (dist < INFINITY && hit >= 0)
 	{
 		int raw_hit = scene->objects[hit].raw_id;
@@ -176,7 +177,7 @@ t_v3f ft_get_emissive_light_color(t_v3f position, t_v3f normal, t_scene *scene)
 			targeted_light.x = fminf(targeted_light.x, max.x);
 			targeted_light.y = fminf(targeted_light.y, max.y);
 			targeted_light.z = fminf(targeted_light.z, max.z);
-			return (ft_v3f_mult(targeted_light, filtered_light));
+			return (targeted_light);
 		}
 	}
 	return ((t_v3f){{0.0f, 0.0f, 0.0f}});

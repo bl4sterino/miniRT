@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 14:21:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 21:46:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,3 +79,5 @@ t_v3f	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 	context.t = fmin((float)context.nodes_traversed / 64, 1.0);
 	return ((t_v3f){{(float)context.t, (float)context.t, (float)context.t}});
 }
+
+

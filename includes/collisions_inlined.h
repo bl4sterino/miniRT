@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 20:18:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 20:00:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 21:42:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,47 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	if (min_max.x > min_max.y || min_max.y < 0.0f)
 		return (INFINITY);
 	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
+}
+
+#include <immintrin.h>
+static inline void ft_intersect_aabb_x2_fast(
+    __m128 r_org[3], __m128 r_inv[3], 
+    const t_bounds *b1, const t_bounds *b2, 
+    float *dist1, float *dist2)
+{
+    // Use _mm_setr_ps to load min/max for both boxes into one register
+    __m128 b_min_x = _mm_setr_ps(b1->min.x, b2->min.x, 0, 0);
+    __m128 b_max_x = _mm_setr_ps(b1->max.x, b2->max.x, 0, 0);
+    __m128 b_min_y = _mm_setr_ps(b1->min.y, b2->min.y, 0, 0);
+    __m128 b_max_y = _mm_setr_ps(b1->max.y, b2->max.y, 0, 0);
+    __m128 b_min_z = _mm_setr_ps(b1->min.z, b2->min.z, 0, 0);
+    __m128 b_max_z = _mm_setr_ps(b1->max.z, b2->max.z, 0, 0);
+
+    // Slab algorithm
+    __m128 t1 = _mm_mul_ps(_mm_sub_ps(b_min_x, r_org[0]), r_inv[0]);
+    __m128 t2 = _mm_mul_ps(_mm_sub_ps(b_max_x, r_org[0]), r_inv[0]);
+    __m128 tmin = _mm_min_ps(t1, t2);
+    __m128 tmax = _mm_max_ps(t1, t2);
+
+    t1 = _mm_mul_ps(_mm_sub_ps(b_min_y, r_org[1]), r_inv[1]);
+    t2 = _mm_mul_ps(_mm_sub_ps(b_max_y, r_org[1]), r_inv[1]);
+    tmin = _mm_max_ps(tmin, _mm_min_ps(t1, t2));
+    tmax = _mm_min_ps(tmax, _mm_max_ps(t1, t2));
+
+    t1 = _mm_mul_ps(_mm_sub_ps(b_min_z, r_org[2]), r_inv[2]);
+    t2 = _mm_mul_ps(_mm_sub_ps(b_max_z, r_org[2]), r_inv[2]);
+    tmin = _mm_max_ps(tmin, _mm_min_ps(t1, t2));
+    tmax = _mm_min_ps(tmax, _mm_max_ps(t1, t2));
+
+    // Extraction (Aligning to 16-byte boundary for safety)
+    float res_min[4] __attribute__((aligned(16)));
+    float res_max[4] __attribute__((aligned(16)));
+    _mm_store_ps(res_min, tmin);
+    _mm_store_ps(res_max, tmax);
+
+    // Results with validity check
+    *dist1 = (res_min[0] <= res_max[0] && res_max[0] > 0.0f) ? res_min[0] : INFINITY;
+    *dist2 = (res_min[1] <= res_max[1] && res_max[1] > 0.0f) ? res_min[1] : INFINITY;
 }
 
 static inline float	ft_sphere_collision(t_ray ray, t_sphere sphere)
