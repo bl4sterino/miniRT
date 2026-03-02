@@ -5,3 +5,5 @@ raytracer_debug
 *data
 *data.old
 gmon.out
+tests/benchmark
+tests/bounds_test.c

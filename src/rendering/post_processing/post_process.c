@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 17:52:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 16:49:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ void	ft_process_normals(t_data *d)
 		ft_printf("Error processing normals\n");
 	clFinish(d->opencl.command_queue);
 }
-
+ 
 void	ft_post_process(t_data *d)
 {
 	int	err;
@@ -236,16 +236,14 @@ void	ft_post_process(t_data *d)
 void	ft_post_process(t_data *d)
 {
 	int i = 0;
-	int index = 0;
-
 	d->frame_count += 1.0f;
 	float coef = 1.0f / d->frame_count;
 	t_v3f max = (t_v3f){{1.0, 1.0, 1.0}};
-	while (index < SCREEN_SIZE * 4)
+	while (i < SCREEN_SIZE)
 	{
-		ft_put_pxl_addr(d->image.addr, index, ft_v3f_to_int_color(ft_v3f_min(ft_v3f_scale(d->image.current_frame[i], coef), max)));
+		ft_put_pxl_addr((int *)d->image.addr, i, ft_v3f_to_int_color(ft_v3f_min(ft_v3f_scale(d->image.current_frame[i], coef), max)));
 		i++;
-		index += 4;
 	}
 }
 #endif
+

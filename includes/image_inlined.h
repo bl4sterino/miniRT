@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:51:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 15:16:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,9 @@ static inline void	ft_put_pxl(char *imageaddr, t_v2i pos, int color)
 }
 
 /* Doesnt check for bounds, use with caution */
-static inline void	ft_put_pxl_addr(char *imageaddr, int index, int color)
+static inline void	ft_put_pxl_addr(int *imageaddr, int index, int color)
 {
-	char	*pixel;
-
-	pixel = imageaddr + index;
-	*(int *)pixel = color;
+	imageaddr[index] = color;
 }
 
 static inline int	ft_rgb_to_int(t_rgb color)

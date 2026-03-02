@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/01 18:11:57 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/02 19:40:15 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -O3 -D OPENCL_BONK -Wall -Wextra -Werror
-DFLAGS =  -O3 -g3 -D OPENCL_BONK -Wall -Wextra #-Werror
+CFLAGS = -O3 -march=native -D OPENCL_BONK -Wall -Wextra -Werror
+DFLAGS =  -O3 -march=native -g3 -D OPENCL_BONK -Wall -Wextra #-Werror
 RTFLAGS = -lXext -lX11 -lm
 OCL_LFLAGS = -lOpenCL
 LIBFT_DIR = _libft
@@ -122,7 +122,7 @@ $(D_NAME): $(LIBFT_DEBUG) $(MLX) $(D_OBJ)
 	
 
 $(MLX):
-	make -C $(MLX_DIR)
+	$(MAKE) -C $(MLX_DIR)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c | obj
 	mkdir -p $(dir $@)
@@ -137,13 +137,13 @@ $(LIBFT): libft-rebuild
 	@true
 
 libft-rebuild:
-	make -C $(LIBFT_DIR) all
+	$(MAKE) -C $(LIBFT_DIR) all
 
 $(LIBFT_DEBUG): libft-debug-rebuild
 	@true
 
 libft-debug-rebuild:
-	make -C $(LIBFT_DIR) debug
+	$(MAKE) -C $(LIBFT_DIR) debug
 
 
 obj:
@@ -151,13 +151,13 @@ obj:
 
 clean:
 	rm -f $(OBJ) $(D_OBJ) $(DEP) $(D_DEP)
-	make -C $(LIBFT_DIR) clean
-	make -C $(MLX_DIR) clean
+	$(MAKE) -C $(LIBFT_DIR) clean
+	$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
 	rm -f $(NAME) $(D_NAME)
-	make -C $(LIBFT_DIR) fclean
-	make -C $(MLX_DIR) clean
+	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(MLX_DIR) clean
 
 re: fclean all
 
