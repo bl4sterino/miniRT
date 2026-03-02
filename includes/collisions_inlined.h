@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 20:18:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 19:41:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/02 20:00:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,33 @@
 
 # include "rt.h"
 
-#include <immintrin.h>
-
-static inline float ft_bounds_collision(t_ray ray, t_bounds b)
+static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 {
-    // Load ray data into registers
-    __m128 ray_orig = _mm_set_ps(0, ray.origin.z, ray.origin.y, ray.origin.x);
-    __m128 ray_inv  = _mm_set_ps(0, ray.inv_dir.z, ray.inv_dir.y, ray.inv_dir.x);
-    
-    // Load box min/max
-    __m128 b_min = _mm_set_ps(0, b.min.z, b.min.y, b.min.x);
-    __m128 b_max = _mm_set_ps(0, b.max.z, b.max.y, b.max.x);
+	t_v2f	min_max;
+	float	t1;
+	float	t2;
 
-    // Calculate t-values for all 3 axes at once
-    // t = (boundary - origin) * inv_dir
-    __m128 t0 = _mm_mul_ps(_mm_sub_ps(b_min, ray_orig), ray_inv);
-    __m128 t1 = _mm_mul_ps(_mm_sub_ps(b_max, ray_orig), ray_inv);
-
-    // Sort t0 and t1 so t_min is always the smaller value
-    __m128 t_min = _mm_min_ps(t0, t1);
-    __m128 t_max = _mm_max_ps(t0, t1);
-
-    // Horizontal max for t_min and horizontal min for t_max
-    // We want the largest of the minimums and the smallest of the maximums
-    float tnear = fmaxf(fmaxf( ((float*)&t_min)[0], ((float*)&t_min)[1] ), ((float*)&t_min)[2]);
-    float tfar  = fminf(fminf( ((float*)&t_max)[0], ((float*)&t_max)[1] ), ((float*)&t_max)[2]);
-
-    // Check if we hit the box
-    if (tnear > tfar || tfar < 0.0f)
-        return INFINITY;
-
-    return (tnear > 0.0f) ? tnear : 0.0f;
+	min_max.x = (b.v[ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
+	min_max.y = (b.v[1 - ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
+	if (min_max.x > min_max.y)
+		return (INFINITY);
+	t1 = (b.v[ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
+	t2 = (b.v[1 - ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
+	if (t1 > min_max.x)
+		min_max.x = t1;
+	if (t2 < min_max.y)
+		min_max.y = t2;
+	if (min_max.x > min_max.y)
+		return (INFINITY);
+	t1 = (b.v[ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
+	t2 = (b.v[1 - ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
+	if (t1 > min_max.x)
+		min_max.x = t1;
+	if (t2 < min_max.y)
+		min_max.y = t2;
+	if (min_max.x > min_max.y || min_max.y < 0.0f)
+		return (INFINITY);
+	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
 static inline float	ft_sphere_collision(t_ray ray, t_sphere sphere)
