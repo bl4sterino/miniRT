@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 20:18:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 21:42:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 15:36:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
-#include <immintrin.h>
 static inline void ft_intersect_aabb_x2_fast(
     __m128 r_org[3], __m128 r_inv[3], 
     const t_bounds *b1, const t_bounds *b2, 
@@ -144,8 +143,9 @@ static inline float	ft_cylinder_collision(t_ray ray, t_cylinder cyl)
 	disc = (b * b) - (4 * a * c);
 	if (disc < 0)
 		return (INFINITY);
-	t0 = (-b - sqrtf(disc)) / (2.0f * a);
-	t1 = (-b + sqrtf(disc)) / (2.0f * a);
+	float sqrt_d = sqrtf(disc);
+	t0 = (-b - sqrt_d) / (2.0f * a);
+	t1 = (-b + sqrt_d) / (2.0f * a);
 	t_hit = INFINITY;
 	half_h = cyl.height * 0.5f;
 	if (t0 > 0.0f)

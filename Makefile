@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/02 19:40:15 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/03 14:56:04 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -O3 -march=native -D OPENCL_BONK -Wall -Wextra -Werror
-DFLAGS =  -O3 -march=native -g3 -D OPENCL_BONK -Wall -Wextra #-Werror
+CFLAGS = -Ofast -D OPENCL_BONK -Wall -Wextra -Werror
+DFLAGS =  -Ofast -march=native -g3 -D OPENCL_BONK -Wall -Wextra #-Werror
 RTFLAGS = -lXext -lX11 -lm
 OCL_LFLAGS = -lOpenCL
 LIBFT_DIR = _libft
@@ -83,6 +83,7 @@ FILES = main\
 		rendering/bvh_ray_debug\
 		rendering/bvh_ray\
 		rendering/bvh_ray_light\
+		rendering/task_builder\
 		rendering/ray_to_color\
 		rendering/post_processing/post_process\
 		utils/camera_vectors_utils
@@ -105,13 +106,7 @@ all: $(NAME)
 debug: $(D_NAME)
 
 
-opencl: CFLAGS := $(filter-out -D OPENCL_BONK, $(CFLAGS))
-opencl: RTFLAGS += $(OCL_LFLAGS)
-opencl: $(NAME)
 
-opencl_debug: DFLAGS := $(filter-out -D OPENCL_BONK, $(DFLAGS))
-opencl_debug: RTFLAGS += $(OCL_LFLAGS)
-opencl_debug: $(D_NAME)
 
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)

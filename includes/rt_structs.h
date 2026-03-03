@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 21:15:07 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 14:47:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,15 @@ enum					e_dimensions
 	WIDTH_WIN = 1280,
 	HEIGHT_WIN = 720,
 	LINE_SIZE = WIDTH_WIN * 4,
-	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN
+	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN,
+	WINDOW_SIZE = SCREEN_SIZE
+};
+
+enum e_task_mode
+{
+	TASK_MODE_UNSET,
+	TASK_MODE_TILE,
+	TASK_MODE_LINE
 };
 
 typedef enum e_render_mode
@@ -73,6 +81,7 @@ typedef struct s_render_task
 typedef struct s_threads_data
 {
 	int					count;
+	int					task_mode;
 	pthread_t			*threads;
 	int					tasks_count;
 	int					tasks_total_count;
@@ -127,6 +136,8 @@ typedef struct t_data
 	t_image				image;
 	t_input				input;
 	double				deltatime;
+	double				total_time;
+	double				total_frames;
 	struct timeval		last_tv;
 	char				*fpsstr;
 	float				frame_count;
@@ -152,6 +163,8 @@ typedef struct t_data
 	t_image				image;
 	t_input				input;
 	double				deltatime;
+	double				total_time;
+	double				total_frames;
 	struct timeval		last_tv;
 	char				*fpsstr;
 	float				frame_count;

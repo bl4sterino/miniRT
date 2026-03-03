@@ -6,41 +6,31 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 21:40:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 15:24:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
 
-static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
-		t_bvh_context *context)
+static inline void	ft_check_objects_collisions(t_ray ray, int object_index,
+		t_bvh_context *context, t_object *obj)
 {
-	int			i;
-	int			end;
-	t_object	obj;
 	float		dist;
 
 	dist = INFINITY;
-	i = context->current->start;
-	end = i + context->current->num_obj;
-	while (i < end)
+	if (obj->type == object_type_quad)
+		dist = ft_quad_collision(ray, obj->object.as_quad);
+	else if (obj->type == object_type_sphere)
+		dist = ft_sphere_collision(ray, obj->object.as_sphere);
+	else if (obj->type == object_type_cylinder)
+		dist = ft_cylinder_collision(ray, obj->object.as_cylinder);
+	else if (obj->type == object_type_triangle)
+		dist = ft_triangle_collision(ray, obj->object.as_triangle);
+	if (dist < context->best_dist)
 	{
-		obj = scene->objects[i];
-		if (obj.type == object_type_sphere)
-			dist = ft_sphere_collision(ray, obj.object.as_sphere);
-		else if (obj.type == object_type_cylinder)
-			dist = ft_cylinder_collision(ray, obj.object.as_cylinder);
-		else if (obj.type == object_type_quad)
-			dist = ft_quad_collision(ray, obj.object.as_quad);
-		else if (obj.type == object_type_triangle)
-			dist = ft_triangle_collision(ray, obj.object.as_triangle);
-		if (dist < context->best_dist)
-		{
-			context->best_dist = dist;
-			context->best_index = i;
-		}
-		i++;
+		context->best_dist = dist;
+		context->best_index = object_index;
 	}
 }
 
@@ -104,22 +94,7 @@ float ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene, in
 
         // Leaf Check: If left is -1, it's a leaf
         if (node->left == -1) {
-            t_object *obj = &scene->objects[node->start];
-            float d = INFINITY;
-            
-            // Inline Switch: Best balance of speed and stability
-            switch(obj->type) {
-                case object_type_sphere:   d = ft_sphere_collision(ray, obj->object.as_sphere); break;
-                case object_type_triangle: d = ft_triangle_collision(ray, obj->object.as_triangle); break;
-                case object_type_quad:     d = ft_quad_collision(ray, obj->object.as_quad); break;
-                case object_type_cylinder: d = ft_cylinder_collision(ray, obj->object.as_cylinder); break;
-                default: break;
-            }
-
-            if (d < c.best_dist) {
-                c.best_dist = d;
-                c.best_index = node->start;
-            }
+            ft_check_objects_collisions(ray, node->start, &c, &scene->objects[node->start]);
             if (c.stack_ptr == 0) break;
             node_idx = c.stack[--c.stack_ptr];
             continue;

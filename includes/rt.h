@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 21:37:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 14:34:01 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 # endif
 
 # define BVH_MAX_OBJ_PER_LEAF 1
-# define TILE_SIZE 16
+# define TASK_TILE_SIZE 16
+# define TASK_LINE_SIZE 256
 # define SELECTED_NONE 2147483647
 # define OBJ_MOVEMENT_SPEED 20.0f
 # define OBJ_ROTATION_SPEED 100.0f
@@ -47,6 +48,7 @@
 # include "scene_data.h"
 //
 # include "rt_structs.h"
+# include <immintrin.h>
 # include <math.h>
 # include <stdlib.h>
 
@@ -179,6 +181,7 @@ float		ft_shoot_ray_against_objects(t_ray ray, float max_dist,
 t_viewport	ft_get_viewport(t_camera cam, t_data *d);
 void		ft_render(t_data *d);
 void		*ft_thread_loop(void *arg);
+void		ft_task_builder(t_data *d);
 
 void		ft_post_process(t_data *d);
 
