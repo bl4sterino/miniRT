@@ -6,14 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 17:10:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 17:11:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
 
-
+// TODO proper random points
 t_v3f	ft_get_random_point_on_object(t_object object)
 {
 	if (object.type == object_type_sphere)
@@ -155,6 +155,7 @@ t_v3f ft_get_emissive_light_color(t_v3f position, t_v3f normal, t_scene *scene)
 				emission_surface_coef = 1.0f;
 			else
 				emission_surface_coef = fabsf(ft_v3f_dot(ft_v3f_scale(light_ray.direction, -1.0f), obj.object.as_quad.normal));
+			// TOTO, other shapes
 			float geom_term = (emission_dot * emission_surface_coef) / dist;
 			float weigh = geom_term / obj.pdf;
 			t_v3f max = ft_v3f_scale(obj.material.color, obj.material.emission);
