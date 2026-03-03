@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 19:52:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 10:13:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 				ray = ft_setup_ray_direction(ray, ft_v3f_random_hemisphere(c.hit_normal), ray.remaining_bounces - 1);
 				t_v3f indirect_light = ft_get_pixel_color(ray, scene, 0, 0);
 				float bounce_weight = ft_v3f_dot(c.hit_normal, ray.direction);
-				//indirect_light = ft_v3f_scale(indirect_light, bounce_weight);
+				indirect_light = ft_v3f_scale(indirect_light, bounce_weight);
 				
 				c.light_color = ft_v3f_add(direct_light, indirect_light);
 				return (ft_v3f_mult(c.out_color, c.light_color));
