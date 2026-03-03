@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 22:54:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 10:58:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 16:28:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,19 @@ static inline float	ft_triangle_area(t_triangle tri)
 	cross.z = ab.x * ac.y - ab.y * ac.x;
 	mag_sq = (cross.x * cross.x) + (cross.y * cross.y) + (cross.z * cross.z);
 	return (0.5f * sqrtf(mag_sq));
+}
+
+static inline float	ft_get_object_area(t_object object)
+{
+	if (object.type == object_type_sphere)
+		return (ft_sphere_area(object.object.as_sphere));
+	else if (object.type == object_type_cylinder)
+		return (ft_cylinder_area(object.object.as_cylinder));
+	else if (object.type == object_type_quad)
+		return (ft_quad_area(object.object.as_quad));
+	else if (object.type == object_type_triangle)
+		return (ft_triangle_area(object.object.as_triangle));
+	return (1.0f);
 }
 
 #endif

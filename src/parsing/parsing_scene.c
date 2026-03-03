@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/02 21:21:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 16:25:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,22 @@ long	ft_count_matches(t_list *lst, t_object_type type)
 	return (count);
 }
 
+void	ft_preprocess_pdfs(t_scene *scene)
+{
+	int		i;
+	float	area;
+	float	pdf;
+
+	i = 0;
+	while (i < scene->emissive_objects)
+	{
+		area = ft_get_object_area(scene->raw_objects[i]);
+		pdf = 1.0f / (area * (float)scene->emissive_objects);
+		scene->raw_objects[i].pdf = pdf * PI;
+		i++;
+	}
+}
+
 void ft_setup_emissive_objects(t_scene *scene)
 {
 	int emissive_count = 0;
@@ -71,6 +87,7 @@ void ft_setup_emissive_objects(t_scene *scene)
 		i++;
 	}
 	scene->emissive_objects = emissive_count;
+	ft_preprocess_pdfs(scene);
 }
 
 t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)

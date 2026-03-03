@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/16 14:49:42 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:19:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 16:26:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,8 @@ void	ft_selected_object_controls(t_data *d)
 	if (ft_v3f_length_squared(extra) > EPSILON)
 		ft_extra_controls(extra, object, d, &dirty_bvh);
 	if (dirty_bvh > 0)
+	{
+		ft_preprocess_pdfs(d->scene);
 		d->scene->bvh_root = ft_update_bvh(d->scene, 0, d->scene->num_objects);
+	}
 }

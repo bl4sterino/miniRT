@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:03:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 17:08:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ t_struct_parser_data	*ft_get_parser_ambient_light(int id)
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	d = (t_parsing_data){p_float_0_255_to_0_1, offsetof(t_ambient_light,
 			color.z), 0};
+	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
+	d = (t_parsing_data){p_float_try_or_0, offsetof(t_ambient_light,
+			fog_density), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	struct_parser->element_lst = lst;
 	struct_parser->material_lst = NULL;

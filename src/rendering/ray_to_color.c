@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 15:01:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 17:07:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 	c.distance = ft_shoot_ray(ray, scene, &c.hit);
 
 	// fog
-	/*if(ray.remaining_bounces > 0)
+	if(ray.remaining_bounces > 0 && scene->ambient_light.fog_density > 0.0f)
 	{
-		float scatter_dist = -log((double)fmaxf(fast_rand(), EPSILON)) / 0.001;
+		float scatter_dist = -log((double)fmaxf(fast_rand(), EPSILON)) / scene->ambient_light.fog_density;
 		if (scatter_dist < c.distance)
 		{
 			ray.origin = ft_ray_at(ray, scatter_dist);
@@ -50,7 +50,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal, t_v3f *hi
 			c.out_color = ft_v3f_add(c.out_color, ft_get_pixel_color(ray, scene, hit_normal, hit_pos));
 			return (c.out_color);
 		}
-	}*/
+	}
 
 	if (c.distance < INFINITY)
 	{

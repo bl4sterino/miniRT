@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 15:40:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/03 17:10:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,6 @@ t_v3f	ft_get_random_point_on_object(t_object object)
 	else if (object.type == object_type_triangle)
 		return (object.object.as_triangle.position);
 	return ((t_v3f){{0.0f, 0.0f, 0.0f}});
-}
-
-float	ft_get_object_area(t_object object)
-{
-	if (object.type == object_type_sphere)
-		return (ft_sphere_area(object.object.as_sphere));
-	else if (object.type == object_type_cylinder)
-		return (ft_cylinder_area(object.object.as_cylinder));
-	else if (object.type == object_type_quad)
-		return (ft_quad_area(object.object.as_quad));
-	else if (object.type == object_type_triangle)
-		return (ft_triangle_area(object.object.as_triangle));
-	return (1.0f);
 }
 
 /* Gets direct light from spot lights */
@@ -169,9 +156,7 @@ t_v3f ft_get_emissive_light_color(t_v3f position, t_v3f normal, t_scene *scene)
 			else
 				emission_surface_coef = fabsf(ft_v3f_dot(ft_v3f_scale(light_ray.direction, -1.0f), obj.object.as_quad.normal));
 			float geom_term = (emission_dot * emission_surface_coef) / dist;
-			float area = ft_get_object_area(obj);
-			float pdf = 1.0f / (area * (float)scene->emissive_objects);
-			float weigh = (geom_term / (pdf * PI));
+			float weigh = geom_term / obj.pdf;
 			t_v3f max = ft_v3f_scale(obj.material.color, obj.material.emission);
 			t_v3f targeted_light = ft_v3f_scale(obj.material.color, weigh * obj.material.emission);
 			targeted_light.x = fminf(targeted_light.x, max.x);
