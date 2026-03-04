@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:09:03 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 16:28:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 14:19:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,28 +43,36 @@ t_bounds	ft_get_sphere_bounds(t_sphere sphere)
 	return (bounds);
 }
 
-t_bounds	ft_get_cylinder_bounds(t_cylinder cyl)
+t_bounds ft_get_cylinder_bounds(t_cylinder cyl)
 {
-	t_bounds	bounds;
-	t_v3f		p1;
-	t_v3f		p2;
-	t_v3f		extent;
-	t_v2f		r_hh;
+    t_bounds    bounds;
+    t_v3f       p1;
+    t_v3f       p2;
+    t_v3f       extents;
+    float       r;
 
-	r_hh.y = cyl.height / 2.0f;
-	r_hh.x = cyl.diameter / 2.0f;
-	p1 = ft_v3f_add(cyl.position, ft_v3f_scale(cyl.normal, r_hh.y));
-	p2 = ft_v3f_sub(cyl.position, ft_v3f_scale(cyl.normal, r_hh.y));
-	extent.x = r_hh.x * sqrtf(1.0f - (cyl.normal.x * cyl.normal.x));
-	extent.y = r_hh.x * sqrtf(1.0f - (cyl.normal.y * cyl.normal.y));
-	extent.z = r_hh.x * sqrtf(1.0f - (cyl.normal.z * cyl.normal.z));
-	bounds.min.x = fminf(p1.x, p2.x) - extent.x;
-	bounds.min.y = fminf(p1.y, p2.y) - extent.y;
-	bounds.min.z = fminf(p1.z, p2.z) - extent.z;
-	bounds.max.x = fmaxf(p1.x, p2.x) + extent.x;
-	bounds.max.y = fmaxf(p1.y, p2.y) + extent.y;
-	bounds.max.z = fmaxf(p1.z, p2.z) + extent.z;
-	return (bounds);
+    r = cyl.diameter / 2.0f;
+    // Cap 1 (Base)
+    p1 = cyl.position;
+    // Cap 2 (Top)
+    p2 = ft_v3f_add(cyl.position, ft_v3f_scale(cyl.normal, cyl.height));
+
+    // The "extent" is how much the radius stretches the box in each axis.
+    // We use: radius * sqrt(1 - normal_component^2)
+    extents.x = r * sqrtf(1.0f - cyl.normal.x * cyl.normal.x);
+    extents.y = r * sqrtf(1.0f - cyl.normal.y * cyl.normal.y);
+    extents.z = r * sqrtf(1.0f - cyl.normal.z * cyl.normal.z);
+
+    // Find the min/max of the two caps, then expand by the calculated radial extent
+    bounds.min.x = fminf(p1.x, p2.x) - extents.x;
+    bounds.min.y = fminf(p1.y, p2.y) - extents.y;
+    bounds.min.z = fminf(p1.z, p2.z) - extents.z;
+
+    bounds.max.x = fmaxf(p1.x, p2.x) + extents.x;
+    bounds.max.y = fmaxf(p1.y, p2.y) + extents.y;
+    bounds.max.z = fmaxf(p1.z, p2.z) + extents.z;
+
+    return (bounds);
 }
 
 t_bounds    ft_get_quad_bounds(t_quad quad)

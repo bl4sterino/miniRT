@@ -6,22 +6,16 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 16:41:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 17:30:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
 
-# define CL_TARGET_OPENCL_VERSION 220
-
-# ifndef OPENCL_BONK
-#  include <CL/cl.h>
-# endif
-
 # define BVH_MAX_OBJ_PER_LEAF 1
 # define TASK_TILE_SIZE 16
-# define TASK_LINE_SIZE 256
+# define TASK_LINE_SIZE 128
 # define SELECTED_NONE 2147483647
 # define OBJ_MOVEMENT_SPEED 20.0f
 # define OBJ_ROTATION_SPEED 100.0f
@@ -48,13 +42,13 @@
 # include "scene_data.h"
 //
 # include "rt_structs.h"
-# include <immintrin.h>
 # include <math.h>
 # include <stdlib.h>
 
 // mini-rt
 # include "areas_inlined.h"
-# include "collisions_inlined.h"
+# include "collisions.h"
+# include "colors_conversions_inlined.h"
 # include "hit_side_inlined.h"
 # include "image_accumulated_inlined.h"
 # include "image_inlined.h"
@@ -194,16 +188,5 @@ float		ft_get_triangle_area(t_v3f A, t_v3f B, t_v3f C);
 // debug
 
 void		ft_debug_gc(t_data *d);
-
-// OpenCl
-
-# ifndef OPENCL_BONK
-
-const char	*get_cl_error(cl_int error);
-void		ft_init_opencl(t_data *d);
-void		ft_init_opencl_data(t_data *d);
-void		ft_create_kernels(t_data *d);
-
-# endif
 
 #endif

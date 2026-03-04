@@ -6,15 +6,14 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/03 14:56:04 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/04 14:09:28 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Ofast -D OPENCL_BONK -Wall -Wextra -Werror
-DFLAGS =  -Ofast -march=native -g3 -D OPENCL_BONK -Wall -Wextra #-Werror
+CFLAGS = -O3 -Wall -Wextra -Werror
+DFLAGS = -O3 -march=native -g3 -Wall -Wextra #-Werror
 RTFLAGS = -lXext -lX11 -lm
-OCL_LFLAGS = -lOpenCL
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
@@ -26,6 +25,7 @@ D_NAME = raytracer_debug
 SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR =	-Iincludes\
+				-Iincludes/collisions\
 				-I$(LIBFT_DIR)/includes\
 				-I$(LIBFT_DIR)/includes/vectors\
 				-I$(LIBFT_DIR)/includes/inlines\
@@ -55,10 +55,6 @@ FILES = main\
 		input/render_settings\
 		monitoring/clock\
 		monitoring/clock_2\
-		opencl/opencl_errors\
-		opencl/opencl_init\
-		opencl/opencl_data\
-		opencl/opencl_kernels\
 		parsing/parsing_data_dict\
 		parsing/parsing_scene\
 		parsing/parsing_material\
@@ -104,9 +100,6 @@ DEPFLAGS = -MMD
 all: $(NAME)
 
 debug: $(D_NAME)
-
-
-
 
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)

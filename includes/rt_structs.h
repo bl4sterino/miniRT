@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 14:47:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 13:39:46 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 # define RT_STRUCTS_H
 
 # include "rt.h"
+# include <immintrin.h>
 
-enum					e_dimensions
+enum				e_dimensions
 {
 	WIDTH_WIN = 1280,
 	HEIGHT_WIN = 720,
@@ -24,7 +25,7 @@ enum					e_dimensions
 	WINDOW_SIZE = SCREEN_SIZE
 };
 
-enum e_task_mode
+enum				e_task_mode
 {
 	TASK_MODE_UNSET,
 	TASK_MODE_TILE,
@@ -37,232 +38,201 @@ typedef enum e_render_mode
 	RENDER_BVH,
 	RENDER_NORMALS,
 	RENDER_DEPTH
-}						t_render_mode;
+}					t_render_mode;
 
 typedef struct s_rgb
 {
-	char				r;
-	char				g;
-	char				b;
-}						t_rgb;
+	char			r;
+	char			g;
+	char			b;
+}					t_rgb;
 
 typedef struct s_image
 {
-	void				*ptr;
-	char				*addr;
-	t_v3f				*current_frame;
-	t_v3f				*averaged_colors;
-	t_v3f				*normals;
-	t_v3f				*positions;
-	int					bpp;
-	int					line_size;
-	int					endian;
-}						t_image;
+	void			*ptr;
+	char			*addr;
+	t_v3f			*current_frame;
+	t_v3f			*averaged_colors;
+	t_v3f			*normals;
+	t_v3f			*positions;
+	int				bpp;
+	int				line_size;
+	int				endian;
+}					t_image;
 
 typedef struct s_rotation_data
 {
-	float				yaw;
-	float				pitch;
-	float				cos_y;
-	float				sin_y;
-	float				cos_p;
-	float				sin_p;
-}						t_rotation_data;
+	float			yaw;
+	float			pitch;
+	float			cos_y;
+	float			sin_y;
+	float			cos_p;
+	float			sin_p;
+}					t_rotation_data;
 
 typedef struct s_render_task
 {
-	int					y_start;
-	int					y_end;
-	int					x_start;
-	int					x_end;
-	int					line_end;
-}						t_render_task;
+	int				y_start;
+	int				y_end;
+	int				x_start;
+	int				x_end;
+	int				line_end;
+}					t_render_task;
 
 typedef struct s_threads_data
 {
-	int					count;
-	int					task_mode;
-	pthread_t			*threads;
-	int					tasks_count;
-	int					tasks_total_count;
-	int					finished_tasks;
-	t_render_task		*tasks;
-	pthread_mutex_t		task_mutex;
-	pthread_cond_t		task_cond;
-	pthread_cond_t		done_cond;
-	int					run_threads;
-}						t_threads_data;
+	int				count;
+	int				task_mode;
+	pthread_t		*threads;
+	int				tasks_count;
+	int				tasks_total_count;
+	int				finished_tasks;
+	t_render_task	*tasks;
+	pthread_mutex_t	task_mutex;
+	pthread_cond_t	task_cond;
+	pthread_cond_t	done_cond;
+	int				run_threads;
+}					t_threads_data;
 
 typedef struct s_viewport
 {
-	t_v3f				u;
-	t_v3f				v;
-	t_v3f				x_delta;
-	t_v3f				y_delta;
-	t_v3f				top_left;
-	t_v3f				top_right;
-	t_v3f				bottom_left;
-	t_v3f				bottom_right;
+	t_v3f			u;
+	t_v3f			v;
+	t_v3f			x_delta;
+	t_v3f			y_delta;
+	t_v3f			top_left;
+	t_v3f			top_right;
+	t_v3f			bottom_left;
+	t_v3f			bottom_right;
 
-}						t_viewport;
-
-# ifndef OPENCL_BONK
-typedef struct s_opencl_data
-{
-	cl_platform_id		platform;
-	cl_device_id		device;
-	cl_context			context;
-	cl_program			program;
-	cl_kernel			kernel_blur_h;
-	cl_kernel			kernel_blur_v;
-	cl_kernel			kernel_process_normals;
-	cl_kernel			kernel_accumulate_and_pack;
-	cl_kernel			kernel_set_and_pack;
-	cl_command_queue	command_queue;
-	cl_mem				frame_buff;
-	cl_mem				accumulated_buff;
-	cl_mem				out_packed_buff;
-	cl_mem				normals_buff;
-	cl_mem				positions_buff;
-	cl_mem				a;
-	cl_mem				b;
-	cl_mem				gaussian_mat;
-}						t_opencl_data;
+}					t_viewport;
 
 typedef struct t_data
 {
-	void				*mlx;
-	void				*window;
-	t_image				image;
-	t_input				input;
-	double				deltatime;
-	double				total_time;
-	double				total_frames;
-	struct timeval		last_tv;
-	char				*fpsstr;
-	float				frame_count;
-	char				dirty_frame;
-	char				ray_bounces;
-	int					target_ray_bounces;
-	t_scene				*scene;
-	t_viewport			viewport;
-	t_threads_data		threads_data;
-	t_render_mode		render_mode;
-	int					denoise;
-	int					blur_radius;
-	int					selected_object;
-	int					selected_light;
-	t_opencl_data		opencl;
-}						t_data;
-# else
-
-typedef struct t_data
-{
-	void				*mlx;
-	void				*window;
-	t_image				image;
-	t_input				input;
-	double				deltatime;
-	double				total_time;
-	double				total_frames;
-	struct timeval		last_tv;
-	char				*fpsstr;
-	float				frame_count;
-	char				dirty_frame;
-	char				ray_bounces;
-	int					target_ray_bounces;
-	t_scene				*scene;
-	t_viewport			viewport;
-	t_threads_data		threads_data;
-	t_render_mode		render_mode;
-	int					denoise;
-	int					blur_radius;
-	int					selected_object;
-	int					selected_light;
-}						t_data;
-# endif
+	void			*mlx;
+	void			*window;
+	t_image			image;
+	t_input			input;
+	double			deltatime;
+	double			total_time;
+	double			total_frames;
+	struct timeval	last_tv;
+	char			*fpsstr;
+	float			frame_count;
+	char			dirty_frame;
+	char			ray_bounces;
+	int				target_ray_bounces;
+	t_scene			*scene;
+	t_viewport		viewport;
+	t_threads_data	threads_data;
+	t_render_mode	render_mode;
+	int				denoise;
+	int				blur_radius;
+	int				selected_object;
+	int				selected_light;
+}					t_data;
 
 typedef struct s_ray
 {
-	t_v3f				origin;
-	t_v3f				direction;
-	t_v3f				inv_dir;
-	int					inv_sign[3];
-	char				remaining_bounces;
-}						t_ray;
+	t_v3f			origin;
+	t_v3f			direction;
+	t_v3f			inv_dir;
+	int				inv_sign[3];
+	char			remaining_bounces;
+}					t_ray;
 
 typedef struct s_ray_result
 {
-	int					id;
-	t_v3f				normal;
-}						t_ray_result;
+	int				id;
+	t_v3f			normal;
+}					t_ray_result;
+
+typedef struct s_aabb_x2
+{
+	__m128			r_org[3];
+	__m128			r_inv[3];
+	__m128			b_min_x;
+	__m128			b_max_x;
+	__m128			b_min_y;
+	__m128			b_max_y;
+	__m128			b_min_z;
+	__m128			b_max_z;
+	__m128			t1;
+	__m128			t2;
+	__m128			tmin;
+	__m128			tmax;
+}					t_aabb_x2;
 
 typedef struct s_bvh_context
 {
-	int					stack[64];
-	int					stack_ptr;
-	double				t;
-	double				best_dist;
-	int					best_index;
-	t_bvh_node			*current;
-}						t_bvh_context;
+	int				stack[64];
+	int				stack_ptr;
+	double			t;
+	double			best_dist;
+	int				best_index;
+	int				node_idx;
+	t_bvh_node		*node;
+	int				l_idx;
+	int				r_idx;
+	float			dist[2];
+	t_aabb_x2		aabb_c;
+}					t_bvh_context;
 
 typedef struct s_bvh_context_debug
 {
-	int					stack[64];
-	int					stack_ptr;
-	int					nodes_traversed;
-	double				t;
-	double				best_dist;
-	int					best_index;
-	t_bvh_node			*current;
-}						t_bvh_context_debug;
+	int				stack[64];
+	int				stack_ptr;
+	int				nodes_traversed;
+	double			t;
+	double			best_dist;
+	int				best_index;
+	t_bvh_node		*current;
+}					t_bvh_context_debug;
 
 typedef struct s_thread_render_context
 {
-	t_v2i				pixel;
-	t_ray				ray;
-	t_v3f				target;
-	t_v3f				y_target;
-}						t_thread_render_context;
+	t_v2i			pixel;
+	t_ray			ray;
+	t_v3f			target;
+}					t_thread_render_context;
 
 typedef struct s_get_light_context
 {
-	t_ray				light_ray;
-	double				light_dist;
-	double				dist;
-	int					hit;
-	t_v3f				color;
-	t_v3f				new_color;
-	double				plane_dist;
-}						t_get_light_context;
+	t_ray			light_ray;
+	double			light_dist;
+	double			dist;
+	int				hit;
+	t_v3f			color;
+	t_v3f			new_color;
+	double			plane_dist;
+}					t_get_light_context;
 
 typedef struct s_pixel_color_context
 {
-	int					hit;
-	double				distance;
-	t_v3f				out_color;
-	t_v3f				hit_normal;
-	t_v3f				hit_point;
-	t_v3f				light_color;
-	t_material			mat;
-	double				do_reflect;
-	t_v3f				reflected;
-	t_v3f				new_dir;
-	char				hit_side;
+	int				hit;
+	double			distance;
+	t_v3f			out_color;
+	t_v3f			hit_normal;
+	t_v3f			hit_point;
+	t_v3f			light_color;
+	t_material		mat;
+	double			do_reflect;
+	t_v3f			reflected;
+	t_v3f			new_dir;
+	char			hit_side;
 
-}						t_pixel_color_context;
+}					t_pixel_color_context;
 
 typedef struct s_viewport_context
 {
-	t_camera			cam;
-	double				aspect_ratio;
-	double				theta;
-	double				half_width;
-	double				half_height;
-	t_v3f				cam_right;
-	t_v3f				cam_up;
-	t_v3f				pixel_center_offset;
-}						t_viewport_context;
+	t_camera		cam;
+	double			aspect_ratio;
+	double			theta;
+	double			half_width;
+	double			half_height;
+	t_v3f			cam_right;
+	t_v3f			cam_up;
+	t_v3f			pixel_center_offset;
+}					t_viewport_context;
 
 #endif

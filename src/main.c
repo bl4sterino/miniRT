@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 10:56:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 10:35:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,36 +73,6 @@ void	ft_init_data(t_data *d)
 	gettimeofday(&(d->last_tv), 0);
 }
 
-# ifndef OPENCL_BONK
-
-int	main(int ac, char **av)
-{
-	t_data	d;
-
-	ft_init_data(&d);
-	if (ac != 2)
-		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
-	d.scene = ft_parse_map(av[1]);
-	ft_clear_gc_id(malloc_id_parsing);
-	ft_input_init(&d);
-	ft_init_thread_pool(&d);
-	d.mlx = mlx_init();
-	if (!d.mlx)
-		ft_exit(MALLOC_FAILED);
-	ft_add_exit(d.mlx, free);
-	ft_add_exit(d.mlx, ft_exit_destroy_display);
-	d.window = mlx_new_window(d.mlx, WIDTH_WIN, HEIGHT_WIN, "mini-rt");
-	if (!d.window)
-		ft_exit(MALLOC_FAILED);
-	ft_add_exit((void *)&d, ft_exit_destroy_window);
-	ft_create_image(&d);
-	ft_init_opencl(&d);
-	ft_setup_hooks(&d);
-	mlx_loop(d.mlx);
-	return (0);
-}
-#else
-
 int	main(int ac, char **av)
 {
 	t_data	d;
@@ -128,4 +98,3 @@ int	main(int ac, char **av)
 	mlx_loop(d.mlx);
 	return (0);
 }
-#endif

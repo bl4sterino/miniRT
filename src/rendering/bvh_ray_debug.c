@@ -6,13 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 15:25:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 13:43:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
+void	ft_check_objects_collisions_debug(t_ray ray, t_scene *scene,
 		t_bvh_context_debug *context)
 {
 	int			i;
@@ -39,7 +39,7 @@ static inline void	ft_check_objects_collisions(t_ray ray, t_scene *scene,
 	}
 }
 
-static inline void	ft_add_branches_to_stack(t_ray *ray,
+void	ft_add_branches_to_stack(t_ray *ray,
 		t_bvh_context_debug *context)
 {
 	if (ray->direction.v[context->current->split_axis] < 0)
@@ -73,7 +73,7 @@ t_v3f	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 		if (context.current->num_obj == 0)
 			ft_add_branches_to_stack(&ray, &context);
 		else
-			ft_check_objects_collisions(ray, scene, &context);
+			ft_check_objects_collisions_debug(ray, scene, &context);
 	}
 	(void)context.best_index;
 	context.t = fmin((float)context.nodes_traversed / 64, 1.0);

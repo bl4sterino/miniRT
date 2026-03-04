@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 17:05:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 15:58:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_cylinder
 {
 	t_v3f				position;
 	t_v3f				normal;
+	t_v3f				top_center;
 	float				diameter;
 	float				height;
 }						t_cylinder;
@@ -229,6 +230,7 @@ t_struct_parser_data	*ft_get_parser_sphere(int id);
 t_struct_parser_data	*ft_get_parser_plane(int id);
 t_struct_parser_data	*ft_get_parser_cylinder(int id);
 t_struct_parser_data	*ft_get_parser_quad(int id);
+t_cylinder				ft_get_processed_cylinder(t_cylinder cyl);
 t_quad					ft_get_processed_quad(t_quad quad);
 t_struct_parser_data	*ft_get_parser_triangle(int id);
 t_triangle				ft_get_processed_triangle(t_triangle tri);

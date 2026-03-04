@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/01 17:54:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 15:09:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,76 +40,54 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 	context.ray.origin = d->scene->camera.position;
 	context.pixel.y = task.y_start - 1;
 	context.pixel.x = task.x_start - 1;
-	context.y_target = ft_v3f_add(d->viewport.top_left,
-			ft_v3f_scale(d->viewport.y_delta, context.pixel.y + 1));
-	context.y_target = ft_v3f_add(context.y_target,
-			ft_v3f_scale(d->viewport.x_delta, context.pixel.x));
 	return (context);
 }
 
-#ifndef OPENCL_BONK
-
-void	ft_thread_render_function(t_data *d, t_render_task task)
+t_v3f	ft_get_viewport_target(t_data *d, t_thread_render_context c)
 {
-	t_thread_render_context	context;
-	t_v3f hit_normal;
-	t_v3f hit_pos;
-
-	context = ft_setup_thread_render_data(d, task);
-	while (++context.pixel.y < task.y_end)
-	{
-		context.pixel.x = task.x_start - 1;
-		context.target = context.y_target;
-		while (++context.pixel.x < task.x_end)
-		{
-			context.ray = ft_setup_ray_target(context.ray, context.target,
-					d->ray_bounces);
-			if (d->render_mode != RENDER_BVH)
-			{
-				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_get_pixel_color(context.ray, d->scene, &hit_normal, &hit_pos), hit_normal, hit_pos);
-			}
-			else
-				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_shoot_ray_bvh_debug(context.ray, d->scene), hit_normal, hit_pos);
-			context.target = ft_v3f_add(context.target, d->viewport.x_delta);
-		}
-		context.y_target = ft_v3f_add(context.y_target, d->viewport.y_delta);
-	}
+	return (ft_v3f_add(d->viewport.top_left,
+			ft_v3f_add(ft_v3f_scale(d->viewport.x_delta, (float)c.pixel.x),
+				ft_v3f_scale(d->viewport.y_delta, (float)c.pixel.y))));
 }
 
-#else
-
 void	ft_thread_render_function(t_data *d, t_render_task task)
 {
 	t_thread_render_context	context;
-	t_v3f hit_normal;
-	t_v3f hit_pos;
+	t_v3f					hit_normal;
+	t_v3f					hit_pos;
+	t_v3f					hit_color;
 
 	context = ft_setup_thread_render_data(d, task);
 	while (++context.pixel.y < task.y_end)
 	{
 		context.pixel.x = task.x_start - 1;
-		context.target = context.y_target;
 		while (++context.pixel.x < task.x_end)
 		{
+			context.target = ft_get_viewport_target(d, context);
 			context.ray = ft_setup_ray_target(context.ray, context.target,
 					d->ray_bounces);
 			if (d->render_mode != RENDER_BVH)
 			{
-				ft_add_pixel_to_accumulated_image(d, context.pixel,
-					ft_get_pixel_color(context.ray, d->scene, &hit_normal, &hit_pos));
+				hit_color = ft_get_pixel_color(context.ray, d->scene,
+						&hit_normal, &hit_pos);
+				if (d->render_mode == RENDER_DEFAULT)
+					ft_add_pixel_to_accumulated_image(d, context.pixel,
+						hit_color);
+				else if (d->render_mode == RENDER_NORMALS)
+				{
+					hit_normal = ft_v3f_add(ft_v3f_scale(hit_normal, 0.5f),
+							(t_v3f){{0.5f, 0.5f, 0.5f}});
+					ft_add_pixel_to_accumulated_image(d, context.pixel,
+						hit_normal);
+				}
 			}
 			else
 				ft_add_pixel_to_accumulated_image(d, context.pixel,
 					ft_shoot_ray_bvh_debug(context.ray, d->scene));
 			context.target = ft_v3f_add(context.target, d->viewport.x_delta);
 		}
-		context.y_target = ft_v3f_add(context.y_target, d->viewport.y_delta);
 	}
 }
-
-#endif
 
 void	*ft_thread_loop(void *arg)
 {

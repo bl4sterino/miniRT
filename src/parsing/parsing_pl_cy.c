@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 16:30:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 15:59:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,13 @@ t_struct_parser_data	*ft_get_parser_cylinder(int id)
 	d = (t_parsing_data){p_float, offsetof(t_cylinder, diameter), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	return (ft_get_parser_cylinder2(id, lst, d, struct_parser));
+}
+
+t_cylinder	ft_get_processed_cylinder(t_cylinder cyl)
+{
+	t_v3f	offset;
+
+	offset = ft_v3f_scale(cyl.normal, cyl.height * -0.5f);
+	cyl.position = ft_v3f_add(cyl.position, offset);
+	return (cyl);
 }

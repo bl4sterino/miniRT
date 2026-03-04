@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   image_accumulated_inlined.h                        :+:      :+:    :+:   */
+/*   collision_plane.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 10:37:32 by pberne           ###   ########.fr       */
+/*   Created: 2026/03/04 13:34:53 by pberne            #+#    #+#             */
+/*   Updated: 2026/03/04 13:56:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IMAGE_ACCUMULATED_INLINED_H
-# define IMAGE_ACCUMULATED_INLINED_H
+#include "rt.h"
 
-# include "rt.h"
-
-static inline void	ft_add_pixel_to_accumulated_image(t_data *d, t_v2i pos,
-		t_v3f color)
+static inline float	ft_plane_collision(t_ray ray, t_plane plane)
 {
-	int	index;
+	float	denom;
+	float	t;
+	t_v3f	oc;
 
-	index = pos.y * WIDTH_WIN + pos.x;
-	d->image.current_frame[index] = ft_v3f_add(d->image.current_frame[index],
-			color);
+	denom = ft_v3f_dot(plane.normal, ray.direction);
+	if (fabsf(denom) < EPSILON)
+		return (INFINITY);
+	oc = ft_v3f_sub(plane.position, ray.origin);
+	t = ft_v3f_dot(oc, plane.normal) / denom;
+	if (t < 0.0f)
+		return (INFINITY);
+	return (t);
 }
-
-#endif

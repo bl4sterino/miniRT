@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/17 18:48:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 15:18:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_push_object_to_scene(t_scene *scene, t_parsed_object *po, int i)
 	if (po->type == object_type_sphere)
 		scene->raw_objects[i].object.as_sphere = po->object.as_sphere;
 	else if (po->type == object_type_cylinder)
-		scene->raw_objects[i].object.as_cylinder = po->object.as_cylinder;
+		scene->raw_objects[i].object.as_cylinder = ft_get_processed_cylinder(po->object.as_cylinder);
 	else if (po->type == object_type_quad)
 		scene->raw_objects[i].object.as_quad = ft_get_processed_quad(
 				po->object.as_quad);
