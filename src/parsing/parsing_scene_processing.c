@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 18:18:10 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 18:18:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 15:35:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	ft_setup_emissive_objects(t_scene *scene)
 	{
 		if (scene->raw_objects[i].material.emission > 0.0f)
 		{
+			scene->raw_objects[i].material.color = ft_v3f_scale(
+					scene->raw_objects[i].material.color,
+					scene->raw_objects[i].material.emission);
 			ft_swap_objects(&scene->raw_objects[i],
 				&scene->raw_objects[emissive_count]);
 			scene->raw_objects[i].raw_id = i;

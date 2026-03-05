@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 14:55:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 15:57:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static inline float	ft_get_emission_coef(t_object obj, t_ray light_ray)
 {
 	if (obj.type == object_type_sphere)
 		return (1.0f);
-	else if (obj.type == object_type_sphere)
+	else if (obj.type == object_type_quad)
 		return (fabsf(ft_v3f_dot(ft_v3f_scale(light_ray.direction, -1.0f),
 					obj.object.as_quad.normal)));
 	else if (obj.type == object_type_triangle)
@@ -64,10 +64,8 @@ static inline t_v3f	ft_get_emissive_light(t_get_emissive_light_context *c)
 	c->emission_surface_coef = ft_get_emission_coef(c->obj, c->light_ray);
 	c->geom_term = (c->emission_dot * c->emission_surface_coef) / c->dist;
 	c->weigh = c->geom_term / c->obj.pdf;
-	c->max = ft_v3f_scale(c->obj.material.color, c->obj.material.emission);
-	c->targeted_light = ft_v3f_scale(c->obj.material.color, c->weigh
-			* c->obj.material.emission);
-	c->targeted_light = ft_v3f_min(c->targeted_light, c->max);
+	c->targeted_light = ft_v3f_scale(c->obj.material.color, c->weigh);
+	c->targeted_light = ft_v3f_min(c->targeted_light, c->obj.material.color);
 	return (c->targeted_light);
 }
 

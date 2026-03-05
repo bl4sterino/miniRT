@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/04 18:19:03 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/05 16:46:48 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -O3 -Wall -Wextra -Werror
-DFLAGS = -O3 -march=native -g3 -Wall -Wextra #-Werror
+DFLAGS = -O3 -g3 -Wall -Wextra #-Werror
 RTFLAGS = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -71,10 +71,12 @@ FILES = main\
 		parsing/parsing_get_bounds\
 		ui/ui_elements\
 		ui/hud_display\
+		ui/ui_draw_floating\
 		rendering/thread_routine\
 		rendering/render\
 		rendering/viewport\
 		rendering/bvh_builder\
+		rendering/bvh_builder_utils\
 		rendering/bvh_utils\
 		rendering/bvh_sorter\
 		rendering/bvh_ray_debug\
@@ -96,7 +98,7 @@ D_DEP = $(addprefix $(OBJ_DIR), $(addsuffix _DEBUG.d, $(FILES)))
 
 DEPFLAGS = -MMD
 
-.PHONY: clean fclean all libft re debug libft-rebuild libft-debug-rebuild opencl opencl_debug
+.PHONY: clean fclean all libft re debug libft-rebuild libft-debug-rebuild
 
 all: $(NAME)
 

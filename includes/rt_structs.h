@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 14:54:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 16:48:14 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,11 +187,18 @@ typedef struct s_bvh_context_debug
 	t_bvh_node		*current;
 }					t_bvh_context_debug;
 
+typedef struct s_out_buffer
+{
+	t_v3f			hit_normal;
+	t_v3f			hit_point;
+}					t_out_buffer;
+
 typedef struct s_thread_render_context
 {
 	t_v2i			pixel;
 	t_ray			ray;
 	t_v3f			target;
+	t_out_buffer	out;
 }					t_thread_render_context;
 
 typedef struct s_get_light_context
@@ -206,7 +213,6 @@ typedef struct s_get_light_context
 	int				rand_light;
 	t_light			light;
 }					t_get_light_context;
-
 
 typedef struct s_get_emissive_light_context
 {
@@ -224,13 +230,6 @@ typedef struct s_get_emissive_light_context
 	t_v3f			max;
 	t_v3f			targeted_light;
 }					t_get_emissive_light_context;
-
-
-typedef struct s_out_buffer
-{
-	t_v3f			hit_normal;
-	t_v3f			hit_point;
-}					t_out_buffer;
 
 typedef struct s_pixel_color_context
 {

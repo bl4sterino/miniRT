@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   post_process.c                                     :+:      :+:    :+:   */
+/*   bvh_builder_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 16:01:43 by pberne           ###   ########.fr       */
+/*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
+/*   Updated: 2026/03/05 15:39:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_post_process(t_data *d)
+int	ft_bvh_new_node(t_scene *scene)
 {
-	int		i;
-	float	coef;
-	t_v3f	max;
+	int	id;
 
-	i = 0;
-	d->frame_count += 1.0f;
-	coef = 1.0f / d->frame_count;
-	max = (t_v3f){{1.0, 1.0, 1.0}};
-	while (i < SCREEN_SIZE)
-	{
-		ft_put_pxl_addr((int *)d->image.addr, i,
-			ft_v3f_to_int_color(ft_v3f_min(ft_v3f_scale(
-						d->image.current_frame[i], coef), max)));
-		i++;
-	}
+	id = scene->bvh_node_count++;
+	ft_bzero(&scene->bvh_nodes[id], sizeof(t_bvh_node));
+	return (id);
+}
+
+int	ft_update_bvh(t_scene *scene, int start, int branch_elements)
+{
+	scene->bvh_node_count = 0;
+	ft_memcpy(scene->objects, scene->raw_objects, sizeof(t_object)
+		* scene->num_objects);
+	return (ft_bvh_builder(scene, start, branch_elements));
 }

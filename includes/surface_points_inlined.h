@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:56:11 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 14:40:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 16:47:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static inline t_v3f	ft_random_point_quad(t_quad q)
 	v_rand = ft_v3f_scale(q.v_axis, (q.size.y * (0.5f - EPSILON)) * (fast_rand()
 				* 2.0f - 1.0f));
 	return ((t_v3f){{ret.x + u_rand.x + v_rand.x, ret.y + u_rand.y + v_rand.y,
-		ret.z + u_rand.z + v_rand.z}});
+			ret.z + u_rand.z + v_rand.z}});
 }
 
 static inline t_v3f	ft_random_point_triangle(t_triangle tri)

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 15:58:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 16:46:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,10 +248,12 @@ t_bounds				ft_get_cylinder_bounds(t_cylinder cyl);
 t_bounds				ft_get_quad_bounds(t_quad quad);
 t_bounds				ft_get_triangle_bounds(t_triangle tri);
 
+void					ft_setup_emissive_objects(t_scene *scene);
 void					ft_preprocess_pdfs(t_scene *scene);
 
 int						ft_update_bvh(t_scene *scene, int start,
 							int branch_elements);
+int						ft_bvh_new_node(t_scene *scene);
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
 void					ft_swap_objects(t_object *a, t_object *b);
