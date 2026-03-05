@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 15:09:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 18:37:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,7 @@ t_v3f	ft_get_viewport_target(t_data *d, t_thread_render_context c)
 void	ft_thread_render_function(t_data *d, t_render_task task)
 {
 	t_thread_render_context	context;
-	t_v3f					hit_normal;
-	t_v3f					hit_pos;
+	t_out_buffer			out_buffer;
 	t_v3f					hit_color;
 
 	context = ft_setup_thread_render_data(d, task);
@@ -69,16 +68,16 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 			if (d->render_mode != RENDER_BVH)
 			{
 				hit_color = ft_get_pixel_color(context.ray, d->scene,
-						&hit_normal, &hit_pos);
+						&out_buffer);
 				if (d->render_mode == RENDER_DEFAULT)
 					ft_add_pixel_to_accumulated_image(d, context.pixel,
 						hit_color);
 				else if (d->render_mode == RENDER_NORMALS)
 				{
-					hit_normal = ft_v3f_add(ft_v3f_scale(hit_normal, 0.5f),
+					out_buffer.hit_normal = ft_v3f_add(ft_v3f_scale(out_buffer.hit_normal, 0.5f),
 							(t_v3f){{0.5f, 0.5f, 0.5f}});
 					ft_add_pixel_to_accumulated_image(d, context.pixel,
-						hit_normal);
+						out_buffer.hit_normal);
 				}
 			}
 			else

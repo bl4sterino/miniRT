@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 16:50:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 18:06:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_create_image(t_data *d)
 	ft_bzero(image.positions, sizeof(t_v3f) * SCREEN_SIZE);
 	image.addr = mlx_get_data_addr(image.ptr, &(image.bpp), &(image.line_size),
 			&(image.endian));
-
 	d->image = image;
 }
 

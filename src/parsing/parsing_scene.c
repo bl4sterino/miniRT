@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 16:25:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 18:19:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,42 +54,6 @@ long	ft_count_matches(t_list *lst, t_object_type type)
 	return (count);
 }
 
-void	ft_preprocess_pdfs(t_scene *scene)
-{
-	int		i;
-	float	area;
-	float	pdf;
-
-	i = 0;
-	while (i < scene->emissive_objects)
-	{
-		area = ft_get_object_area(scene->raw_objects[i]);
-		pdf = 1.0f / (area * (float)scene->emissive_objects);
-		scene->raw_objects[i].pdf = pdf * PI;
-		i++;
-	}
-}
-
-void ft_setup_emissive_objects(t_scene *scene)
-{
-	int emissive_count = 0;
-	int i = 0;
-
-	while (i < scene->num_objects)
-	{
-		if (scene->raw_objects[i].material.emission > 0.0f)
-		{
-			ft_swap_objects(&scene->raw_objects[i], &scene->raw_objects[emissive_count]);
-			scene->raw_objects[i].raw_id = i;
-			scene->raw_objects[emissive_count].raw_id = emissive_count;
-			emissive_count++;
-		}
-		i++;
-	}
-	scene->emissive_objects = emissive_count;
-	ft_preprocess_pdfs(scene);
-}
-
 t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 {
 	ft_normalize_vectors(lst);
@@ -100,7 +64,8 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	ft_extract_objects(scene, lst);
 	ft_setup_emissive_objects(scene);
 	scene->bvh_node_capacity = scene->num_objects * 2;
-	scene->bvh_nodes = ft_malloc_id(sizeof(t_bvh_node) * scene->bvh_node_capacity, malloc_id_scene);
+	scene->bvh_nodes = ft_malloc_id(sizeof(t_bvh_node)
+			* scene->bvh_node_capacity, malloc_id_scene);
 	scene->bvh_node_count = 0;
 	scene->bvh_root = ft_update_bvh(scene, 0, scene->num_objects);
 	return (scene);

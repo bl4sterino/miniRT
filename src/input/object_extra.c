@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:10:22 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:20:34 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 18:15:07 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ft_extra_cylinder(t_v3f extra, t_object *object, t_data *d,
 {
 	if (fabsf(extra.x) < EPSILON && fabsf(extra.y) < EPSILON)
 		return ;
-	object->object.as_cylinder.diameter += extra.x *  0.5f;
+	object->object.as_cylinder.diameter += extra.x * 0.5f;
 	object->object.as_cylinder.height += extra.y;
 	object->bounds = ft_get_cylinder_bounds(object->object.as_cylinder);
 	d->dirty_frame = 1;

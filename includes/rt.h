@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 17:30:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 14:16:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@
 # include "mlx.h"
 # include "monitoring.h"
 # include "normals_inlined.h"
+# include "pixel_color_utils.h"
 # include "ray_utils_inlined.h"
+# include "surface_points_inlined.h"
 # include <pthread.h>
 # include <stddef.h>
 # include <sys/time.h>
@@ -157,8 +159,7 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
-t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_v3f *hit_normal,
-				t_v3f *hit_pos);
+t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out);
 
 t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces);
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces);

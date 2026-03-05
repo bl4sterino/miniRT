@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 15:18:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 18:22:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,14 @@ void	ft_push_object_to_scene(t_scene *scene, t_parsed_object *po, int i)
 	if (po->type == object_type_sphere)
 		scene->raw_objects[i].object.as_sphere = po->object.as_sphere;
 	else if (po->type == object_type_cylinder)
-		scene->raw_objects[i].object.as_cylinder = ft_get_processed_cylinder(po->object.as_cylinder);
+		scene->raw_objects[i].object.as_cylinder = ft_get_processed_cylinder(
+				po->object.as_cylinder);
 	else if (po->type == object_type_quad)
 		scene->raw_objects[i].object.as_quad = ft_get_processed_quad(
 				po->object.as_quad);
 	else if (po->type == object_type_triangle)
-			scene->raw_objects[i].object.as_triangle
-				= ft_get_processed_triangle(po->object.as_triangle);
+		scene->raw_objects[i].object.as_triangle = ft_get_processed_triangle(
+				po->object.as_triangle);
 	scene->raw_objects[i].raw_id = i;
 }
 
@@ -98,15 +99,14 @@ void	ft_process_objects_bounds(t_scene *scene)
 			scene->raw_objects[i].bounds = ft_get_sphere_bounds(
 					scene->raw_objects[i].object.as_sphere);
 		else if (scene->raw_objects[i].type == object_type_cylinder)
-			scene->raw_objects[i].bounds = ft_get_cylinder_bounds
-				(scene->raw_objects[i].object.as_cylinder);
+			scene->raw_objects[i].bounds = ft_get_cylinder_bounds(
+					scene->raw_objects[i].object.as_cylinder);
 		else if (scene->raw_objects[i].type == object_type_quad)
 			scene->raw_objects[i].bounds = ft_get_quad_bounds(
 					scene->raw_objects[i].object.as_quad);
 		else if (scene->raw_objects[i].type == object_type_triangle)
-			scene->raw_objects[i].bounds
-				= ft_get_triangle_bounds(
-				scene->raw_objects[i].object.as_triangle);
+			scene->raw_objects[i].bounds = ft_get_triangle_bounds(
+					scene->raw_objects[i].object.as_triangle);
 		i++;
 	}
 }

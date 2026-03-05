@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 13:39:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 14:54:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ typedef struct t_data
 	t_viewport		viewport;
 	t_threads_data	threads_data;
 	t_render_mode	render_mode;
-	int				denoise;
-	int				blur_radius;
 	int				selected_object;
 	int				selected_light;
 }					t_data;
@@ -205,7 +203,34 @@ typedef struct s_get_light_context
 	t_v3f			color;
 	t_v3f			new_color;
 	double			plane_dist;
+	int				rand_light;
+	t_light			light;
 }					t_get_light_context;
+
+
+typedef struct s_get_emissive_light_context
+{
+	t_ray			light_ray;
+	int				hit;
+	int				rand_emissive;
+	t_object		obj;
+	char			bypass_normal;
+	float			emission_dot;
+	float			dist;
+	int				raw_hit;
+	float			emission_surface_coef;
+	float			geom_term;
+	float			weigh;
+	t_v3f			max;
+	t_v3f			targeted_light;
+}					t_get_emissive_light_context;
+
+
+typedef struct s_out_buffer
+{
+	t_v3f			hit_normal;
+	t_v3f			hit_point;
+}					t_out_buffer;
 
 typedef struct s_pixel_color_context
 {
