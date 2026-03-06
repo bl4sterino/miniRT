@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 20:26:42 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 16:45:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/06 13:25:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_draw_double_8(t_data *d, t_draw_arg arg, char *prefix_arg, double nb)
 
 void	ft_draw_float_8(t_data *d, t_draw_arg arg, char *prefix_arg, float nb)
 {
-	return (ft_draw_double_8(d, arg, prefix_arg, (double)nb));
+	ft_draw_double_8(d, arg, prefix_arg, (double)nb);
 }
 
 void	ft_draw_double(t_data *d, t_draw_arg arg, char *prefix_arg, double nb)
@@ -61,5 +61,5 @@ void	ft_draw_double(t_data *d, t_draw_arg arg, char *prefix_arg, double nb)
 
 void	ft_draw_float(t_data *d, t_draw_arg arg, char *prefix_arg, float nb)
 {
-	return (ft_draw_double(d, arg, prefix_arg, (double)nb));
+	ft_draw_double(d, arg, prefix_arg, (double)nb);
 }

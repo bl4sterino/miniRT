@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 16:48:14 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/06 13:24:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ typedef enum e_render_mode
 
 typedef struct s_rgb
 {
-	char			r;
-	char			g;
-	char			b;
+	unsigned char			r;
+	unsigned char			g;
+	unsigned char			b;
 }					t_rgb;
 
 typedef struct s_image
