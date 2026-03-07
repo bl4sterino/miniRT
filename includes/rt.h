@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 15:53:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:20:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 
 # define DELTATIME_DISPLAY_DELAY 0.2f
 
+# define FT_INFINITY 1e30f
 // Libs and struct must be included first
 # include "keycodes.h"
 # include "libft.h"
@@ -158,7 +159,6 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 
 // rendering
 
-void		ft_build_bvh(t_scene *scene);
 t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out);
 
 t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces);
@@ -166,7 +166,9 @@ t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces);
 
 float		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
 
-t_v3f		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
+t_v3f		ft_shoot_ray_against_objects_debug(t_ray ray, float max_dist,
+				t_scene *scene);
+
 t_v3f		ft_get_light(t_v3f position, t_v3f normal, t_scene *scene);
 float		ft_shoot_ray_against_planes(t_ray ray, float max_dist,
 				t_scene *scene, int *hit);

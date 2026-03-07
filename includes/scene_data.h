@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/06 18:59:11 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:18:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ typedef struct s_bvh_best_context
 {
 	int					axis;
 	float				surface;
+	int					left_id;
+	int					iterator;
 }						t_bvh_best_context;
 
 /* Contains every scene object except Lights and camera */
@@ -182,13 +184,25 @@ typedef struct s_scene_parsing_context
 	int					line_count;
 }						t_scene_parsing_context;
 
+typedef struct s_bounds_4x
+{
+	t_v3f				b_min_x;
+	t_v3f				b_max_x;
+	t_v3f				b_min_y;
+	t_v3f				b_max_y;
+	t_v3f				b_min_z;
+	t_v3f				b_max_z;
+}						t_bounds_4x;
+
 typedef struct s_bvh_node
 {
+	t_bounds_4x			bounds_4x;
 	t_bounds			bounds;
+	int					childs[4];
 	int					split_axis;
 	int					num_childs;
-	int					childs[4];
 	int					object_index;
+	int					_padding;
 }						t_bvh_node;
 
 typedef struct s_scene
@@ -205,6 +219,7 @@ typedef struct s_scene
 	t_object			*objects;
 	t_object			*raw_objects;
 	t_bvh_node			*bvh_nodes;
+	t_bvh_node			*bvh_nodes_pruned;
 	int					bvh_node_capacity;
 	int					bvh_root;
 	int					bvh_node_count;
@@ -252,8 +267,12 @@ void					ft_preprocess_pdfs(t_scene *scene);
 int						ft_update_bvh(t_scene *scene, int start,
 							int branch_elements);
 int						ft_bvh_new_node(t_scene *scene);
+
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
+int						ft_collapse_bvh(t_scene *scene, int node_id);
+int						ft_prune_bvh(t_scene *scene, int root_id);
+
 void					ft_swap_objects(t_object *a, t_object *b);
 void					ft_quicksort_objects(t_object *objs, int low, int high,
 							int axis);
@@ -261,7 +280,8 @@ int						ft_partition(t_object *objs, int low, int high,
 							int axis);
 int						ft_get_longest_bounds_axis(t_bounds bounds);
 float					ft_get_bounds_surface(t_bounds bounds);
-int						ft_find_best_split(t_object *objs, int object_count, int object_in_split[4]);
+int						ft_find_best_split(t_object *objs, int object_count,
+							t_bounds parent_bounds, int *left_elements);
 t_bounds				ft_get_bounds_range(t_object *objects, int start,
 							int branch_elements);
 

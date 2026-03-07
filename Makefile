@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/06 19:24:17 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/07 16:30:15 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -O3 -msse2 -Wall -Wextra -Werror
-DFLAGS = -O3 -ffast-math -g3 -Wall -Wextra -Werror -Wpedantic
+CFLAGS = -O3 -Wall -Wextra -Werror
+DFLAGS = -O3 -g3 -Wall -Wextra #-Werror
 RTFLAGS = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -77,6 +77,8 @@ FILES = main\
 		rendering/viewport\
 		rendering/bvh_builder\
 		rendering/bvh_builder_utils\
+		rendering/bvh_collapser\
+		rendering/bvh_pruner\
 		rendering/bvh_utils\
 		rendering/bvh_sorter\
 		rendering/bvh_ray_debug\

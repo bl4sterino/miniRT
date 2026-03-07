@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 18:19:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 12:15:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	ft_extract_lights(scene, lst);
 	ft_extract_objects(scene, lst);
 	ft_setup_emissive_objects(scene);
-	scene->bvh_node_capacity = scene->num_objects * 2;
+	scene->bvh_node_capacity = scene->num_objects * 4;
 	scene->bvh_nodes = ft_malloc_id(sizeof(t_bvh_node)
 			* scene->bvh_node_capacity, malloc_id_scene);
+	scene->bvh_nodes_pruned = &scene->bvh_nodes[scene->num_objects * 2];
 	scene->bvh_node_count = 0;
 	scene->bvh_root = ft_update_bvh(scene, 0, scene->num_objects);
 	return (scene);

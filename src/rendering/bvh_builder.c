@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 15:38:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:16:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_find_best_surface_on_axis_split(t_object *objs, int object_count,
 			best->left_id = i;
 			best->axis = axis;
 		}
-		i++;
+		i += best->iterator;
 	}
 }
 
@@ -54,6 +54,10 @@ int	ft_find_best_split(t_object *objs, int object_count, t_bounds parent_bounds,
 		*left_elements = 1;
 		return (best.axis);
 	}
+	if (object_count > 16)
+		best.iterator = (int)sqrtf((float)object_count);
+	else
+		best.iterator = 1;
 	ft_find_best_surface_on_axis_split(objs, object_count, 0, &best);
 	ft_find_best_surface_on_axis_split(objs, object_count, 1, &best);
 	ft_find_best_surface_on_axis_split(objs, object_count, 2, &best);
@@ -86,7 +90,7 @@ t_bounds	ft_get_bounds_range(t_object *objects, int start,
 	return (bounds);
 }
 
-/* Split and sort by splitting plane, or assign the elements to the leaf */
+/* builds an SAH optimal binary BVH */
 int	ft_bvh_builder(t_scene *scene, int start, int branch_elements)
 {
 	int			node_id;
@@ -96,20 +100,22 @@ int	ft_bvh_builder(t_scene *scene, int start, int branch_elements)
 	node_id = ft_bvh_new_node(scene);
 	node = &scene->bvh_nodes[node_id];
 	node->bounds = ft_get_bounds_range(scene->objects, start, branch_elements);
-	if (branch_elements > BVH_MAX_OBJ_PER_LEAF)
+	if (branch_elements > 1)
 	{
+		node->num_childs = 2;
 		node->split_axis = ft_find_best_split(&scene->objects[start],
 				branch_elements, node->bounds, &left_elements);
-		node->left = ft_bvh_builder(scene, start, left_elements);
-		node->right = ft_bvh_builder(scene, start + left_elements,
+		node->childs[0] = ft_bvh_builder(scene, start, left_elements);
+		node->childs[1] = ft_bvh_builder(scene, start + left_elements,
 				branch_elements - left_elements);
+		node->childs[2] = -1;
+		node->childs[3] = -1;
 	}
 	else
 	{
-		node->num_obj = branch_elements;
-		node->start = start;
-		node->left = -1;
-		node->right = -1;
+		node->num_childs = 0;
+		node->object_index = start;
+		ft_memset_int(node->childs, -1, 4);
 	}
 	return (node_id);
 }

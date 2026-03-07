@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:26:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/06 17:39:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:22:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
+/// 
 static inline t_bounds_4x	ft_get_bounds_4x(const t_bounds *b1,
 		const t_bounds *b2, const t_bounds *b3, const t_bounds *b4)
 {
@@ -86,22 +87,21 @@ static inline t_bounds_4x	ft_get_bounds_4x(const t_bounds *b1,
 // 			INFINITY);
 // }
 
-static inline void	ft_intersect_aabb_x4(t_aabb_4x c, t_v3f *dist)
+static inline void	ft_intersect_aabb_x4(t_aabb_4x c, t_bounds_4x *bounds_4x,
+	t_v3f *dist)
 {
-	c.t1 = ft_v3f_mult(ft_v3f_sub(c.bounds_4x.b_min_x, c.r_org[0]), c.r_inv[0]);
-	c.t2 = ft_v3f_mult(ft_v3f_sub(c.bounds_4x.b_max_x, c.r_org[0]), c.r_inv[0]);
+	c.t1 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_min_x, c.r_org[0]), c.r_inv[0]);
+	c.t2 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_max_x, c.r_org[0]), c.r_inv[0]);
 	c.tmin = ft_v3f_min(c.t1, c.t2);
 	c.tmax = ft_v3f_max(c.t1, c.t2);
-	c.t1 = ft_v3f_mult(ft_v3f_sub(c.bounds_4x.b_min_y, c.r_org[1]), c.r_inv[1]);
-	c.t2 = ft_v3f_mult(ft_v3f_sub(c.bounds_4x.b_max_y, c.r_org[1]), c.r_inv[1]);
+	c.t1 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_min_y, c.r_org[1]), c.r_inv[1]);
+	c.t2 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_max_y, c.r_org[1]), c.r_inv[1]);
 	c.tmin = ft_v3f_max(c.tmin, ft_v3f_min(c.t1, c.t2));
 	c.tmax = ft_v3f_min(c.tmax, ft_v3f_max(c.t1, c.t2));
-	c.t1 = ft_v3f_mult(ft_v3f_sub(c.bounds_4x.b_min_z, c.r_org[2]), c.r_inv[2]);
-	c.t2 = ft_v3f_mult(ft_v3f_sub(c.bounds_4x.b_max_z, c.r_org[2]), c.r_inv[2]);
+	c.t1 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_min_z, c.r_org[2]), c.r_inv[2]);
+	c.t2 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_max_z, c.r_org[2]), c.r_inv[2]);
 	c.tmin = ft_v3f_max(c.tmin, ft_v3f_min(c.t1, c.t2));
 	c.tmax = ft_v3f_min(c.tmax, ft_v3f_max(c.t1, c.t2));
-
-	
 	dist->x = tn_f(c.tmin.x <= c.tmax.x && c.tmax.x > 0.0f, c.tmin.x, INFINITY);
 	dist->y = tn_f(c.tmin.y <= c.tmax.y && c.tmax.y > 0.0f, c.tmin.y, INFINITY);
 	dist->z = tn_f(c.tmin.z <= c.tmax.z && c.tmax.z > 0.0f, c.tmin.z, INFINITY);

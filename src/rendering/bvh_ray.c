@@ -6,55 +6,29 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/06 19:41:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:28:05 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-// static inline int	ft_push_next_node_to_stack(t_bvh_context *c)
-// {
-// 	if (c->dist[0] < c->best_dist && c->dist[1] < c->best_dist)
-// 	{
-// 		if (c->dist[0] < c->dist[1])
-// 		{
-// 			c->stack[c->stack_ptr++] = c->r_idx;
-// 			c->node_idx = c->l_idx;
-// 		}
-// 		else
-// 		{
-// 			c->stack[c->stack_ptr++] = c->l_idx;
-// 			c->node_idx = c->r_idx;
-// 		}
-// 	}
-// 	else if (c->dist[0] < c->best_dist)
-// 		c->node_idx = c->l_idx;
-// 	else if (c->dist[1] < c->best_dist)
-// 		c->node_idx = c->r_idx;
-// 	else
-// 	{
-// 		if (c->stack_ptr == 0)
-// 			return (1);
-// 		c->node_idx = c->stack[--c->stack_ptr];
-// 	}
-// 	return (0);
-// }
-
-static inline void	ft_push_next_node_to_stack(t_bvh_context *c)
+// Maybe push closest first
+void	ft_push_next_node_to_stack(t_bvh_context *c)
 {
-	// Simply push all valid children.
-	// Optimization: You could sort these by distance so the closest is popped last.
-	for (int i = 0; i < c->node->num_childs; i++)
+	int	i;
+
+	i = 0;
+	while (i < c->node->num_childs)
 	{
 		if (c->dist.v[i] < c->best_dist)
-		{
-			c->stack[c->stack_ptr++] = c->node->childs[i];
-		}
+			c->stack[c->stack_ptr++] = (t_bvh_stack_item){c->node->childs[i],
+				c->dist.v[i]};
+		i++;
 	}
 }
 
-static void	ft_shoot_ray_obj_init(t_bvh_context *c, t_ray ray, float max_dist,
-		int root)
+static inline void	ft_shoot_ray_obj_init(t_bvh_context *c, t_ray ray,
+		float max_dist, int root)
 {
 	c->aabb_c.r_org[0] = (t_v3f){{ray.origin.x, ray.origin.x, ray.origin.x,
 		ray.origin.x}};
@@ -71,57 +45,35 @@ static void	ft_shoot_ray_obj_init(t_bvh_context *c, t_ray ray, float max_dist,
 	c->best_dist = max_dist;
 	c->best_index = -1;
 	c->stack_ptr = 0;
-	c->node_idx = root;
-}
-
-void	ft_setup_bounds_4x(t_scene *scene, t_bounds_4x *bounds_4x,
-		t_bvh_node *node)
-{
-	t_bounds	bounds[4];
-	int			i;
-
-	i = 0;
-	while (i < node->num_childs)
-	{
-		bounds[i] = scene->bvh_nodes[node->childs[i]].bounds;
-		i++;
-	}
-	*bounds_4x = ft_get_bounds_4x(&bounds[0], &bounds[1], &bounds[2],
-			&bounds[3]);
+	c->node_idx.id = root;
+	c->node_idx.distance = 1000000.0f;
 }
 
 float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 		int *hit)
 {
 	t_bvh_context	c;
-	int				explored;
 
+	c = (t_bvh_context){0};
 	ft_shoot_ray_obj_init(&c, ray, max_dist, scene->bvh_root);
-	explored = 0;
-	while (c.node_idx != -1)
+	while (c.node_idx.id != -1)
 	{
-		explored++;
-		c.node = &scene->bvh_nodes[c.node_idx];
+		c.node = &scene->bvh_nodes[c.node_idx.id];
 		if (c.node->num_childs == 0)
 		{
 			ft_check_objects_collisions(ray, c.node->object_index, &c,
 				&scene->objects[c.node->object_index]);
 		}
-		else 
+		else
 		{
-			ft_setup_bounds_4x(scene, &c.aabb_c.bounds_4x, c.node);
-			ft_intersect_aabb_x4(c.aabb_c, &c.dist);
+			ft_intersect_aabb_x4(c.aabb_c, &c.node->bounds_4x, &c.dist);
 			ft_push_next_node_to_stack(&c);
 		}
-		if (c.stack_ptr > 0)
-			c.node_idx = c.stack[--c.stack_ptr];
-		else
-			c.node_idx = -1;
+		ft_get_next_node(&c);
 	}
 	if (c.best_dist < max_dist)
 		*hit = c.best_index;
-	return ((float)explored * 20.0f);
-	//return (c.best_dist);
+	return (c.best_dist);
 }
 
 float	ft_shoot_ray_against_planes(t_ray ray, float max_dist, t_scene *scene,
