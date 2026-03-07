@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 16:00:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/06 17:54:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 			c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces);
 			if (d->render_mode != RENDER_BVH)
 				ft_render_pixel_classic(d, &c);
-			else
-				ft_add_pixel_to_accumulated_image(d, c.pixel,
-					ft_shoot_ray_bvh_debug(c.ray, d->scene));
+			// else
+			// 	ft_add_pixel_to_accumulated_image(d, c.pixel,
+			// 		ft_shoot_ray_bvh_debug(c.ray, d->scene));
 		}
 	}
 }

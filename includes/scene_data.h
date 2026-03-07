@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 16:46:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/06 18:59:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ typedef struct s_bvh_best_context
 {
 	int					axis;
 	float				surface;
-	int					left_id;
 }						t_bvh_best_context;
 
 /* Contains every scene object except Lights and camera */
@@ -187,10 +186,9 @@ typedef struct s_bvh_node
 {
 	t_bounds			bounds;
 	int					split_axis;
-	int					left;
-	int					right;
-	int					num_obj;
-	int					start;
+	int					num_childs;
+	int					childs[4];
+	int					object_index;
 }						t_bvh_node;
 
 typedef struct s_scene
@@ -263,8 +261,7 @@ int						ft_partition(t_object *objs, int low, int high,
 							int axis);
 int						ft_get_longest_bounds_axis(t_bounds bounds);
 float					ft_get_bounds_surface(t_bounds bounds);
-int						ft_find_best_split(t_object *objs, int object_count,
-							t_bounds range_bounds, int *left_elements);
+int						ft_find_best_split(t_object *objs, int object_count, int object_in_split[4]);
 t_bounds				ft_get_bounds_range(t_object *objects, int start,
 							int branch_elements);
 
