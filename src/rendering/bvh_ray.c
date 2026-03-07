@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:28:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ float	ft_shoot_ray_against_planes(t_ray ray, float max_dist, t_scene *scene,
 		}
 		i++;
 	}
-	if (best_dist < INFINITY)
+	if (best_dist < FT_INFINITY)
 		*hit = -(best_index + 1);
 	return (best_dist);
 }
@@ -107,9 +107,9 @@ float	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
 	float	plane_dist;
 	float	distance;
 
-	plane_dist = ft_shoot_ray_against_planes(ray, INFINITY, scene, hit);
+	plane_dist = ft_shoot_ray_against_planes(ray, FT_INFINITY, scene, hit);
 	distance = ft_shoot_ray_against_objects(ray, plane_dist, scene, hit);
-	if (plane_dist <= distance && plane_dist != INFINITY)
+	if (plane_dist <= distance && plane_dist != FT_INFINITY)
 		return (plane_dist);
 	return (distance);
 }

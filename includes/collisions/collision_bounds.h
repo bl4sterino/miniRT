@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:26:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:22:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	min_max.x = (b.v[ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
 	min_max.y = (b.v[1 - ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
 	if (min_max.x > min_max.y)
-		return (INFINITY);
+		return (FT_INFINITY);
 	t1 = (b.v[ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
 	t2 = (b.v[1 - ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
 	if (t1 > min_max.x)
@@ -32,7 +32,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	if (t2 < min_max.y)
 		min_max.y = t2;
 	if (min_max.x > min_max.y)
-		return (INFINITY);
+		return (FT_INFINITY);
 	t1 = (b.v[ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
 	t2 = (b.v[1 - ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
 	if (t1 > min_max.x)
@@ -40,7 +40,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	if (t2 < min_max.y)
 		min_max.y = t2;
 	if (min_max.x > min_max.y || min_max.y < 0.0f)
-		return (INFINITY);
+		return (FT_INFINITY);
 	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
@@ -82,9 +82,9 @@ static inline t_bounds_4x	ft_get_bounds_4x(const t_bounds *b1,
 // 	_mm_store_ps(res_min, c.tmin);
 // 	_mm_store_ps(res_max, c.tmax);
 // 	dist[0] = tn_f(res_min[0] <= res_max[0] && res_max[0] > 0.0f, res_min[0],
-// 			INFINITY);
+// 			FT_INFINITY);
 // 	dist[1] = tn_f(res_min[1] <= res_max[1] && res_max[1] > 0.0f, res_min[1],
-// 			INFINITY);
+// 			FT_INFINITY);
 // }
 
 static inline void	ft_intersect_aabb_x4(t_aabb_4x c, t_bounds_4x *bounds_4x,
@@ -102,10 +102,10 @@ static inline void	ft_intersect_aabb_x4(t_aabb_4x c, t_bounds_4x *bounds_4x,
 	c.t2 = ft_v3f_mult(ft_v3f_sub(bounds_4x->b_max_z, c.r_org[2]), c.r_inv[2]);
 	c.tmin = ft_v3f_max(c.tmin, ft_v3f_min(c.t1, c.t2));
 	c.tmax = ft_v3f_min(c.tmax, ft_v3f_max(c.t1, c.t2));
-	dist->x = tn_f(c.tmin.x <= c.tmax.x && c.tmax.x > 0.0f, c.tmin.x, INFINITY);
-	dist->y = tn_f(c.tmin.y <= c.tmax.y && c.tmax.y > 0.0f, c.tmin.y, INFINITY);
-	dist->z = tn_f(c.tmin.z <= c.tmax.z && c.tmax.z > 0.0f, c.tmin.z, INFINITY);
-	dist->w = tn_f(c.tmin.w <= c.tmax.w && c.tmax.w > 0.0f, c.tmin.w, INFINITY);
+	dist->x = tn_f(c.tmin.x <= c.tmax.x && c.tmax.x > 0.0f, c.tmin.x, FT_INFINITY);
+	dist->y = tn_f(c.tmin.y <= c.tmax.y && c.tmax.y > 0.0f, c.tmin.y, FT_INFINITY);
+	dist->z = tn_f(c.tmin.z <= c.tmax.z && c.tmax.z > 0.0f, c.tmin.z, FT_INFINITY);
+	dist->w = tn_f(c.tmin.w <= c.tmax.w && c.tmax.w > 0.0f, c.tmin.w, FT_INFINITY);
 }
 
 #endif
