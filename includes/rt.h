@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:20:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:32:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 
 // mini-rt
 # include "areas_inlined.h"
+# include "bvh_utils_inlined.h"
 # include "collisions.h"
 # include "colors_conversions_inlined.h"
 # include "hit_side_inlined.h"
