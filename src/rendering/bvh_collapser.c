@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/07 09:36:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:25:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	ft_collapse_bvh(t_scene *scene, int node_id)
 	while (++c.i < 4)
 	{
 		c.node->childs[c.i] = -1;
-		c.child_bounds[c.i] = (t_bounds){(t_v3f){{FT_INFINITY, FT_INFINITY,
-			FT_INFINITY}}, (t_v3f){{-FT_INFINITY, -FT_INFINITY, -FT_INFINITY}}};
+		c.child_bounds[c.i] = (t_bounds){(t_v3f){{INFINITY, INFINITY,
+			INFINITY}}, (t_v3f){{-INFINITY, -INFINITY, -INFINITY}}};
 	}
 	c.node->bounds_4x = ft_get_bounds_4x(&c.child_bounds[0], &c.child_bounds[1],
 			&c.child_bounds[2], &c.child_bounds[3]);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:16:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_find_best_split(t_object *objs, int object_count, t_bounds parent_bounds,
 	t_bvh_best_context	best;
 
 	best.axis = -1;
-	best.surface = FT_INFINITY;
+	best.surface = INFINITY;
 	if (object_count < 2)
 		return (-1);
 	else if (object_count == 2)

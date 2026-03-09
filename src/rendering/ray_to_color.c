@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:04:14 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out)
 	c.distance = ft_shoot_ray(ray, scene, &c.hit);
 	if (ft_ray_fog(ray, scene, out, &c))
 		return (c.out_color);
-	if (c.distance < FT_INFINITY)
+	if (c.distance < INFINITY)
 	{
 		ft_set_hit_data(ray, scene, out, &c);
 		if (c.mat.emission > 0.0f)
