@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/06 13:24:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:15:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,18 +147,18 @@ typedef struct s_ray_result
 
 typedef struct s_aabb_x2
 {
-	__m128			r_org[3];
-	__m128			r_inv[3];
-	__m128			b_min_x;
-	__m128			b_max_x;
-	__m128			b_min_y;
-	__m128			b_max_y;
-	__m128			b_min_z;
-	__m128			b_max_z;
-	__m128			t1;
-	__m128			t2;
-	__m128			tmin;
-	__m128			tmax;
+	t_v3f			r_org[3];
+	t_v3f			r_inv[3];
+	t_v3f			b_min_x;
+	t_v3f			b_max_x;
+	t_v3f			b_min_y;
+	t_v3f			b_max_y;
+	t_v3f			b_min_z;
+	t_v3f			b_max_z;
+	t_v3f			t1;
+	t_v3f			t2;
+	t_v3f			tmin;
+	t_v3f			tmax;
 }					t_aabb_x2;
 
 typedef struct s_bvh_context
