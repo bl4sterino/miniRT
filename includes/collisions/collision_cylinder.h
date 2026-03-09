@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:35:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 17:23:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static inline float	ft_cylinder_collision(t_ray ray, t_cylinder cyl)
 
 	c.oc = ft_v3f_sub(ray.origin, cyl.position);
 	c.radius = cyl.diameter / 2.0f;
-	c.min_t = INFINITY;
+	c.min_t = FT_INFINITY;
 	c.rd_dot_n = ft_v3f_dot(ray.direction, cyl.normal);
 	c.oc_dot_n = ft_v3f_dot(c.oc, cyl.normal);
 	c.a_vec = ft_v3f_sub(ray.direction, ft_v3f_scale(cyl.normal, c.rd_dot_n));

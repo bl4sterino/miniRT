@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:34:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 13:56:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ static inline float	ft_plane_collision(t_ray ray, t_plane plane)
 
 	denom = ft_v3f_dot(plane.normal, ray.direction);
 	if (fabsf(denom) < EPSILON)
-		return (INFINITY);
+		return (FT_INFINITY);
 	oc = ft_v3f_sub(plane.position, ray.origin);
 	t = ft_v3f_dot(oc, plane.normal) / denom;
 	if (t < 0.0f)
-		return (INFINITY);
+		return (FT_INFINITY);
 	return (t);
 }
