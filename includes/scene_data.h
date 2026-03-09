@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 11:05:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 14:19:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,13 @@ typedef struct s_triangle
 	t_tri_points		points;
 }						t_triangle;
 
+typedef struct s_ellipsoid
+{
+	t_v3f				position;
+	t_v3f				radii;
+	t_v3f				inv_r2;
+}						t_ellipsoid;
+
 /// OBJECTS ENUM
 
 typedef enum e_object_type
@@ -108,7 +115,8 @@ typedef enum e_object_type
 	object_type_sphere,
 	object_type_cylinder,
 	object_type_quad,
-	object_type_triangle
+	object_type_triangle,
+	object_type_ellopsoid
 }						t_object_type;
 
 /// OBJECTS UNION
@@ -126,6 +134,7 @@ typedef struct s_parsed_object
 		t_cylinder		as_cylinder;
 		t_quad			as_quad;
 		t_triangle		as_triangle;
+		t_ellipsoid		as_ellipsoid;
 	} object;
 	t_material			material;
 }						t_parsed_object;
@@ -159,6 +168,7 @@ typedef struct s_object
 		t_plane			as_plane;
 		t_quad			as_quad;
 		t_triangle		as_triangle;
+		t_ellipsoid		as_ellipsoid;
 		t_light			as_light;
 	} object;
 	t_material			material;
@@ -235,6 +245,8 @@ t_cylinder				ft_get_processed_cylinder(t_cylinder cyl);
 t_quad					ft_get_processed_quad(t_quad quad);
 t_struct_parser_data	*ft_get_parser_triangle(int id);
 t_triangle				ft_get_processed_triangle(t_triangle tri);
+t_struct_parser_data	*ft_get_parser_ellipsoid(int id);
+t_ellipsoid				ft_get_processed_ellipsoid(t_ellipsoid el);
 
 long					ft_count_matches(t_list *lst, t_object_type type);
 
@@ -248,6 +260,7 @@ t_bounds				ft_get_sphere_bounds(t_sphere sphere);
 t_bounds				ft_get_cylinder_bounds(t_cylinder cyl);
 t_bounds				ft_get_quad_bounds(t_quad quad);
 t_bounds				ft_get_triangle_bounds(t_triangle tri);
+t_bounds				ft_get_ellipsoid_bounds(t_ellipsoid el);
 
 void					ft_setup_emissive_objects(t_scene *scene);
 void					ft_preprocess_pdfs(t_scene *scene);

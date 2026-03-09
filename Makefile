@@ -6,13 +6,13 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/09 11:09:28 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/09 14:23:45 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Ofast -Wall -Wextra -Werror
-DFLAGS = -Ofast -g3 -Wall -Wextra -Werror
+DFLAGS =  -O2 -g3 -Wall -Wextra -Werror
 RTFLAGS = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -64,11 +64,13 @@ FILES = main\
 		parsing/parsing_pl_cy\
 		parsing/parsing_q\
 		parsing/parsing_t\
+		parsing/parsing_ellipsoid\
 		parsing/parsing_scene_builder_A_C_L\
 		parsing/parsing_scene_builder_pl_objects\
 		parsing/parsing_normalization\
 		parsing/parsing_error\
 		parsing/parsing_get_bounds\
+		parsing/parsing_get_bounds_2\
 		ui/ui_elements\
 		ui/hud_display\
 		ui/ui_draw_floating\

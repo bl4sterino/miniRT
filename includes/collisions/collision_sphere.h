@@ -6,13 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:30:12 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 17:25:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 14:25:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-typedef struct s_sphete_context
+typedef struct s_sphere_context
 {
 	t_v3f			oc;
 	float			a;

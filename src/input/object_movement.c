@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:08:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 18:14:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 14:19:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ void	ft_move_object_2(t_v3f movement, t_object *object, t_data *d,
 	}
 	else if (object->type == object_type_triangle)
 		ft_move_triangle(object, movement);
+	else if (object->type == object_type_ellopsoid)
+	{
+		object->object.as_ellipsoid.position = ft_v3f_add(
+				object->object.as_ellipsoid.position, movement);
+		object->bounds = ft_get_ellipsoid_bounds(object->object.as_ellipsoid);
+	}
 	else if (d->selected_object < 0)
 		object->object.as_plane.position = ft_v3f_add(
 				object->object.as_plane.position, movement);
