@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 15:41:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:08:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_check_objects_collisions_debug(t_ray ray, t_scene *scene,
 	t_object	obj;
 	double		dist;
 
-	dist = INFINITY;
+	dist = FT_INFINITY;
 	i = context->current->start;
 	end = i + context->current->num_obj;
 	while (i < end)
@@ -57,7 +57,7 @@ t_v3f	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 {
 	t_bvh_context_debug	context;
 
-	context.best_dist = INFINITY;
+	context.best_dist = FT_INFINITY;
 	context.best_index = -1;
 	context.stack_ptr = 0;
 	context.nodes_traversed = 0;

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 13:26:14 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:13:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ float	ft_shoot_ray_against_planes(t_ray ray, float max_dist, t_scene *scene,
 		}
 		i++;
 	}
-	if (best_dist < INFINITY)
+	if (best_dist < FT_INFINITY)
 		*hit = -(best_index + 1);
 	return (best_dist);
 }
@@ -116,49 +116,9 @@ float	ft_shoot_ray(t_ray ray, t_scene *scene, int *hit)
 	float	plane_dist;
 	float	distance;
 
-	plane_dist = ft_shoot_ray_against_planes(ray, INFINITY, scene, hit);
+	plane_dist = ft_shoot_ray_against_planes(ray, FT_INFINITY, scene, hit);
 	distance = ft_shoot_ray_against_objects(ray, plane_dist, scene, hit);
-	if (plane_dist <= distance && plane_dist != INFINITY)
+	if (plane_dist <= distance && plane_dist != FT_INFINITY)
 		return (plane_dist);
 	return (distance);
 }
-
-/*static inline void	ft_add_branches_to_stack(t_ray *ray,
-		t_bvh_context *context)
-{
-	if (ray->direction.v[context->current->split_axis] < 0)
-	{
-		context->stack[context->stack_ptr++] = context->current->left;
-		context->stack[context->stack_ptr++] = context->current->right;
-	}
-	else
-	{
-		context->stack[context->stack_ptr++] = context->current->right;
-		context->stack[context->stack_ptr++] = context->current->left;
-	}
-}
-
-float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
-		int *hit)
-{
-	t_bvh_context	context;
-
-	context.best_dist = max_dist;
-	context.best_index = -1;
-	context.stack_ptr = 0;
-	context.stack[context.stack_ptr++] = scene->bvh_root;
-	while (context.stack_ptr > 0)
-	{
-		context.current = &scene->bvh_nodes[context.stack[--context.stack_ptr]];
-		context.t = ft_bounds_collision(ray, context.current->bounds);
-		if (context.t >= context.best_dist)
-			continue ;
-		if (context.current->num_obj == 0)
-			ft_add_branches_to_stack(&ray, &context);
-		else
-			ft_check_objects_collisions(ray, scene, &context);
-	}
-	if (context.best_dist < max_dist)
-		*hit = context.best_index;
-	return (context.best_dist);
-}*/

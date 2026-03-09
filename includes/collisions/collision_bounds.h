@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   collisions_bounds.h                                :+:      :+:    :+:   */
+/*   collision_bounds.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:26:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 17:11:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:08:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	min_max.x = (b.v[ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
 	min_max.y = (b.v[1 - ray.inv_sign[0]].x - ray.origin.x) * ray.inv_dir.x;
 	if (min_max.x > min_max.y)
-		return (INFINITY);
+		return (FT_INFINITY);
 	t1 = (b.v[ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
 	t2 = (b.v[1 - ray.inv_sign[1]].y - ray.origin.y) * ray.inv_dir.y;
 	if (t1 > min_max.x)
@@ -32,7 +32,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	if (t2 < min_max.y)
 		min_max.y = t2;
 	if (min_max.x > min_max.y)
-		return (INFINITY);
+		return (FT_INFINITY);
 	t1 = (b.v[ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
 	t2 = (b.v[1 - ray.inv_sign[2]].z - ray.origin.z) * ray.inv_dir.z;
 	if (t1 > min_max.x)
@@ -40,7 +40,7 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	if (t2 < min_max.y)
 		min_max.y = t2;
 	if (min_max.x > min_max.y || min_max.y < 0.0f)
-		return (INFINITY);
+		return (FT_INFINITY);
 	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
@@ -77,9 +77,9 @@ static inline void	ft_intersect_aabb_x2_fast(t_aabb_x2 c, const t_bounds *b1,
 	_mm_store_ps(res_min, c.tmin);
 	_mm_store_ps(res_max, c.tmax);
 	dist[0] = tn_f(res_min[0] <= res_max[0] && res_max[0] > 0.0f, res_min[0],
-			INFINITY);
+			FT_INFINITY);
 	dist[1] = tn_f(res_min[1] <= res_max[1] && res_max[1] > 0.0f, res_min[1],
-			INFINITY);
+			FT_INFINITY);
 }
 
 #endif

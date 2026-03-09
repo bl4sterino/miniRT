@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 20:18:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 17:13:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:08:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static inline void	ft_check_objects_collisions(t_ray ray, int object_index,
 {
 	float	dist;
 
-	dist = INFINITY;
+	dist = FT_INFINITY;
 	if (obj->type == object_type_quad)
 		dist = ft_quad_collision(ray, obj->object.as_quad);
 	else if (obj->type == object_type_sphere)

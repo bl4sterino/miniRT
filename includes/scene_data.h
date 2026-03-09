@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 16:46:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:05:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ typedef struct s_bvh_best_context
 	int					axis;
 	float				surface;
 	int					left_id;
+	int					iterator;
 }						t_bvh_best_context;
 
 /* Contains every scene object except Lights and camera */

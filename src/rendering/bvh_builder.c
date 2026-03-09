@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 15:38:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/09 11:08:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_find_best_surface_on_axis_split(t_object *objs, int object_count,
 			best->left_id = i;
 			best->axis = axis;
 		}
-		i++;
+		i += best->iterator;
 	}
 }
 
@@ -44,7 +44,7 @@ int	ft_find_best_split(t_object *objs, int object_count, t_bounds parent_bounds,
 	t_bvh_best_context	best;
 
 	best.axis = -1;
-	best.surface = INFINITY;
+	best.surface = FT_INFINITY;
 	if (object_count < 2)
 		return (-1);
 	else if (object_count == 2)
@@ -54,6 +54,10 @@ int	ft_find_best_split(t_object *objs, int object_count, t_bounds parent_bounds,
 		*left_elements = 1;
 		return (best.axis);
 	}
+	if (object_count > 16)
+		best.iterator = (int)sqrtf((float)object_count);
+	else
+		best.iterator = 1;
 	ft_find_best_surface_on_axis_split(objs, object_count, 0, &best);
 	ft_find_best_surface_on_axis_split(objs, object_count, 1, &best);
 	ft_find_best_surface_on_axis_split(objs, object_count, 2, &best);
