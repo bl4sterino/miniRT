@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:30:12 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/04 17:25:01 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ static inline float	ft_sphere_collision(t_ray ray, t_sphere sphere)
 	c.discriminant = (c.b * c.b) - (4.0f * c.a * (ft_v3f_dot(c.oc, c.oc)
 				- (sphere.radius * sphere.radius)));
 	if (c.discriminant < 0.0f)
-		return (FT_INFINITY);
+		return (INFINITY);
 	c.sqrt_d = sqrtf(c.discriminant);
 	c.t = (-c.b - c.sqrt_d) / (2.0f * c.a);
 	if (c.t < EPSILON)
 		c.t = (-c.b + c.sqrt_d) / (2.0f * c.a);
 	if (c.t < EPSILON)
-		return (FT_INFINITY);
+		return (INFINITY);
 	return (c.t);
 }

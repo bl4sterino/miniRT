@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:52:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/05 15:57:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_v3f	ft_get_emissive_light_color(t_v3f position, t_v3f normal,
 	if (c.emission_dot < 0.0f)
 		return ((t_v3f){{0.0f, 0.0f, 0.0f}});
 	c.dist = ft_shoot_ray(c.light_ray, scene, &c.hit);
-	if (c.dist < FT_INFINITY && c.hit >= 0)
+	if (c.dist < INFINITY && c.hit >= 0)
 	{
 		c.raw_hit = scene->objects[c.hit].raw_id;
 		if (c.raw_hit == c.rand_emissive)

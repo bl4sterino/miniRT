@@ -5,76 +5,76 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/07 16:53:43 by pberne           ###   ########.fr       */
+/*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
+/*   Updated: 2026/03/05 15:41:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-// Maybe push closest first
-static inline void	ft_push_next_node_to_stack(t_bvh_context *c)
+void	ft_check_objects_collisions_debug(t_ray ray, t_scene *scene,
+		t_bvh_context_debug *context)
 {
-	int	i;
+	int			i;
+	int			end;
+	t_object	obj;
+	double		dist;
 
-	i = 0;
-	while (i < c->node->num_childs)
+	dist = INFINITY;
+	i = context->current->start;
+	end = i + context->current->num_obj;
+	while (i < end)
 	{
-		if (c->dist.v[i] < c->best_dist)
-			c->stack[c->stack_ptr++] = (t_bvh_stack_item){c->node->childs[i],
-				c->dist.v[i]};
+		obj = scene->objects[i];
+		if (obj.type == object_type_sphere)
+			dist = ft_sphere_collision(ray, obj.object.as_sphere);
+		else if (obj.type == object_type_cylinder)
+			dist = ft_cylinder_collision(ray, obj.object.as_cylinder);
+		if (dist < context->best_dist)
+		{
+			context->best_dist = dist;
+			context->best_index = i;
+		}
 		i++;
 	}
 }
 
-static inline void	ft_shoot_ray_obj_init(t_bvh_context *c, t_ray ray,
-		float max_dist, int root)
+void	ft_add_branches_to_stack(t_ray *ray, t_bvh_context_debug *context)
 {
-	c->aabb_c.r_org[0] = (t_v3f){{ray.origin.x, ray.origin.x, ray.origin.x,
-		ray.origin.x}};
-	c->aabb_c.r_org[1] = (t_v3f){{ray.origin.y, ray.origin.y, ray.origin.y,
-		ray.origin.y}};
-	c->aabb_c.r_org[2] = (t_v3f){{ray.origin.z, ray.origin.z, ray.origin.z,
-		ray.origin.z}};
-	c->aabb_c.r_inv[0] = (t_v3f){{ray.inv_dir.x, ray.inv_dir.x, ray.inv_dir.x,
-		ray.inv_dir.x}};
-	c->aabb_c.r_inv[1] = (t_v3f){{ray.inv_dir.y, ray.inv_dir.y, ray.inv_dir.y,
-		ray.inv_dir.y}};
-	c->aabb_c.r_inv[2] = (t_v3f){{ray.inv_dir.z, ray.inv_dir.z, ray.inv_dir.z,
-		ray.inv_dir.z}};
-	c->best_dist = max_dist;
-	c->best_index = -1;
-	c->stack_ptr = 0;
-	c->node_idx.id = root;
-	c->node_idx.distance = 1000000.0f;
+	if (ray->direction.v[context->current->split_axis] < 0)
+	{
+		context->stack[context->stack_ptr++] = context->current->left;
+		context->stack[context->stack_ptr++] = context->current->right;
+	}
+	else
+	{
+		context->stack[context->stack_ptr++] = context->current->right;
+		context->stack[context->stack_ptr++] = context->current->left;
+	}
 }
 
-t_v3f	ft_shoot_ray_against_objects_debug(t_ray ray, float max_dist,
-		t_scene *scene)
+t_v3f	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 {
-	t_bvh_context	c;
-	int				explored;
+	t_bvh_context_debug	context;
 
-	c = (t_bvh_context){0};
-	ft_shoot_ray_obj_init(&c, ray, max_dist, scene->bvh_root);
-	explored = 0;
-	while (c.node_idx.id != -1)
+	context.best_dist = INFINITY;
+	context.best_index = -1;
+	context.stack_ptr = 0;
+	context.nodes_traversed = 0;
+	context.stack[context.stack_ptr++] = scene->bvh_root;
+	while (context.stack_ptr > 0)
 	{
-		c.node = &scene->bvh_nodes[c.node_idx.id];
-		if (c.node->num_childs == 0)
-		{
-			explored++;
-			ft_check_objects_collisions(ray, c.node->object_index, &c,
-				&scene->objects[c.node->object_index]);
-		}
+		context.current = &scene->bvh_nodes[context.stack[--context.stack_ptr]];
+		context.t = ft_bounds_collision(ray, context.current->bounds);
+		if (context.t >= context.best_dist)
+			continue ;
+		context.nodes_traversed++;
+		if (context.current->num_obj == 0)
+			ft_add_branches_to_stack(&ray, &context);
 		else
-		{
-			explored++;
-			ft_intersect_aabb_x4(c.aabb_c, &c.node->bounds_4x, &c.dist);
-			ft_push_next_node_to_stack(&c);
-		}
-		ft_get_next_node(&c);
+			ft_check_objects_collisions_debug(ray, scene, &context);
 	}
-	return ((t_v3f){{(float)explored * 10.0f / 255.0f, (float)explored * 10.0f
-			/ 255.0f, (float)explored * 10.0f / 255.0f}});
+	(void)context.best_index;
+	context.t = fmin((float)context.nodes_traversed / 64, 1.0);
+	return ((t_v3f){{(float)context.t, (float)context.t, (float)context.t}});
 }
