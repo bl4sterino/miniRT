@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:36:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 17:26:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 13:40:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ static inline float	ft_triangle_collision(t_ray ray, t_triangle tri)
 	c.h = ft_v3f_cross(ray.direction, c.edge2);
 	c.det = ft_v3f_dot(c.edge1, c.h);
 	if (c.det > -EPSILON && c.det < EPSILON)
-		return (INFINITY);
+		return (FT_INFINITY);
 	c.inv_det = 1.0f / c.det;
 	c.s = ft_v3f_sub(ray.origin, tri.points.a);
 	c.u = c.inv_det * ft_v3f_dot(c.s, c.h);
 	if (c.u < 0.0f || c.u > 1.0f)
-		return (INFINITY);
+		return (FT_INFINITY);
 	c.q = ft_v3f_cross(c.s, c.edge1);
 	c.v = c.inv_det * ft_v3f_dot(ray.direction, c.q);
 	if (c.v < 0.0f || c.u + c.v > 1.0f)
-		return (INFINITY);
+		return (FT_INFINITY);
 	c.t = c.inv_det * ft_v3f_dot(c.edge2, c.q);
 	if (c.t >= EPSILON)
 		return (c.t);
-	return (INFINITY);
+	return (FT_INFINITY);
 }

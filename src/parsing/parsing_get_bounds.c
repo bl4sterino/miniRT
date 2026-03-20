@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:09:03 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 14:18:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 14:37:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,17 @@ t_bounds	ft_get_sphere_bounds(t_sphere sphere)
 t_bounds	ft_get_cylinder_bounds(t_cylinder cyl)
 {
 	t_bounds	bounds;
-	t_v3f		p1;
-	t_v3f		p2;
 	t_v3f		extents;
-	float		r;
 
-	r = cyl.diameter / 2.0f;
-	p1 = cyl.position;
-	p2 = ft_v3f_add(cyl.position, ft_v3f_scale(cyl.normal, cyl.height));
-	extents.x = r * sqrtf(1.0f - cyl.normal.x * cyl.normal.x);
-	extents.y = r * sqrtf(1.0f - cyl.normal.y * cyl.normal.y);
-	extents.z = r * sqrtf(1.0f - cyl.normal.z * cyl.normal.z);
-	bounds.min.x = fminf(p1.x, p2.x) - extents.x;
-	bounds.min.y = fminf(p1.y, p2.y) - extents.y;
-	bounds.min.z = fminf(p1.z, p2.z) - extents.z;
-	bounds.max.x = fmaxf(p1.x, p2.x) + extents.x;
-	bounds.max.y = fmaxf(p1.y, p2.y) + extents.y;
-	bounds.max.z = fmaxf(p1.z, p2.z) + extents.z;
+	extents.x = cyl.radius * sqrtf(1.0f - cyl.normal.x * cyl.normal.x) + 0.01f;
+	extents.y = cyl.radius * sqrtf(1.0f - cyl.normal.y * cyl.normal.y) + 0.01f;
+	extents.z = cyl.radius * sqrtf(1.0f - cyl.normal.z * cyl.normal.z) + 0.01f;
+	bounds.min.x = fminf(cyl.position.x, cyl.top_center.x) - extents.x;
+	bounds.min.y = fminf(cyl.position.y, cyl.top_center.y) - extents.y;
+	bounds.min.z = fminf(cyl.position.z, cyl.top_center.z) - extents.z;
+	bounds.max.x = fmaxf(cyl.position.x, cyl.top_center.x) + extents.x;
+	bounds.max.y = fmaxf(cyl.position.y, cyl.top_center.y) + extents.y;
+	bounds.max.z = fmaxf(cyl.position.z, cyl.top_center.z) + extents.z;
 	return (bounds);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:31:48 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 14:19:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 15:00:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,23 @@ static inline char	ft_side_sphere(t_v3f hitpoint, t_sphere sphere)
 	if (dist > sphere.radius * sphere.radius)
 		return (1);
 	return (-1);
+}
+
+static inline char ft_side_cylinder(t_v3f hitpoint, t_cylinder cyl)
+{
+    t_v3f   cp = ft_v3f_sub(hitpoint, cyl.position);
+
+    float   dist_along_axis = ft_v3f_dot(cp, cyl.normal);
+
+    if (dist_along_axis < -EPSILON || dist_along_axis > cyl.height + EPSILON)
+        return (1);
+    t_v3f   projection = ft_v3f_scale(cyl.normal, dist_along_axis);
+    t_v3f   radial_vec = ft_v3f_sub(cp, projection);
+    float   dist_sq = ft_v3f_dot(radial_vec, radial_vec);
+
+    if (dist_sq > (cyl.radius * cyl.radius) + EPSILON)
+        return (1);
+    return (-1);
 }
 
 static inline char	ft_side_ellipsoid(t_v3f hitpoint, t_ellipsoid el)
@@ -49,6 +66,8 @@ static inline char	ft_get_hit_side(t_scene *scene, t_v3f hitpoint,
 		obj = scene->objects[object_id];
 	if (obj.type == object_type_sphere)
 		return (ft_side_sphere(hitpoint, obj.object.as_sphere));
+	else if (obj.type == object_type_cylinder)
+		return (ft_side_cylinder(hitpoint, obj.object.as_cylinder));
 	else if (obj.type == object_type_ellopsoid)
 		return (ft_side_ellipsoid(hitpoint, obj.object.as_ellipsoid));
 	return (0);

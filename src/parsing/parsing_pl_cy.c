@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 15:59:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 13:52:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ t_struct_parser_data	*ft_get_parser_cylinder(int id)
 
 t_cylinder	ft_get_processed_cylinder(t_cylinder cyl)
 {
-	t_v3f	offset;
-
-	offset = ft_v3f_scale(cyl.normal, cyl.height * -0.5f);
-	cyl.position = ft_v3f_add(cyl.position, offset);
+	cyl.top_center.v = cyl.position.v + cyl.normal.v * cyl.height;
+	cyl.radius = cyl.diameter * 0.5f;
 	return (cyl);
 }

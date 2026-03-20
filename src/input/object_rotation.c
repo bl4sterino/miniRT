@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:15:27 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 18:14:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 13:49:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_rotate_cylinder(t_v3f rotation, t_object *object)
 {
 	object->object.as_cylinder.normal = ft_v3f_rotate_worldspace(
 			object->object.as_cylinder.normal, rotation);
+	object->object.as_cylinder =
+		ft_get_processed_cylinder(object->object.as_cylinder);
 	object->bounds = ft_get_cylinder_bounds(object->object.as_cylinder);
 }
 

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 14:19:56 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 15:49:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_cylinder
 	t_v3f				normal;
 	t_v3f				top_center;
 	float				diameter;
+	float				radius;
 	float				height;
 }						t_cylinder;
 
