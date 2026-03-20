@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 13:58:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 16:18:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ static inline void	ft_set_hit_data(t_ray ray, t_scene *scene,
 			ft_v3f_scale(c->hit_normal, EPSILON));
 	if (out)
 		*out = (t_out_buffer){c->hit_normal, c->hit_point};
+	c->hit_uv = ft_get_hit_uv(c->hit_point, c->hit, scene);
 }
 
 /*
@@ -133,6 +134,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out)
 		if (c.mat.emission > 0.0f)
 			return (c.mat.color);
 		c.out_color = c.mat.color;
+		//c.out_color = ft_checkerboard(c.out_color, c.hit_uv);
 		if (c.mat.refraction > 0.0f && ft_ray_refraction(ray, scene, out, &c))
 			return (c.out_color);
 		if (ray.remaining_bounces > 0)

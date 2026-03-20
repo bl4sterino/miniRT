@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/05 15:53:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 15:58:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@
 # include "pixel_color_utils.h"
 # include "ray_utils_inlined.h"
 # include "surface_points_inlined.h"
+# include "uvs.h"
 # include <pthread.h>
 # include <stddef.h>
 # include <sys/time.h>

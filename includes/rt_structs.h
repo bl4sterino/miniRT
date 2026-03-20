@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 14:25:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/20 16:03:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,6 +238,7 @@ typedef struct s_pixel_color_context
 	t_v3f			out_color;
 	t_v3f			hit_normal;
 	t_v3f			hit_point;
+	t_v2f			hit_uv;
 	t_v3f			light_color;
 	t_material		mat;
 	double			do_reflect;

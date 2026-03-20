@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/20 15:50:09 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/20 15:58:22 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR =	-Iincludes\
 				-Iincludes/collisions\
+				-Iincludes/uvs\
 				-I$(LIBFT_DIR)/includes\
 				-I$(LIBFT_DIR)/includes/vectors\
 				-I$(LIBFT_DIR)/includes/inlines\
