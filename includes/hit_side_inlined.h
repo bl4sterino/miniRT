@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:31:48 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 15:00:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/21 16:41:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static inline char	ft_get_hit_side(t_scene *scene, t_v3f hitpoint,
 		return (ft_side_sphere(hitpoint, obj.object.as_sphere));
 	else if (obj.type == object_type_cylinder)
 		return (ft_side_cylinder(hitpoint, obj.object.as_cylinder));
-	else if (obj.type == object_type_ellopsoid)
+	else if (obj.type == object_type_ellipsoid)
 		return (ft_side_ellipsoid(hitpoint, obj.object.as_ellipsoid));
 	return (0);
 }

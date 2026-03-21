@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 12:16:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/21 16:18:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_count_objects(t_list *lst)
 	size += ft_count_matches(lst, object_type_cylinder);
 	size += ft_count_matches(lst, object_type_quad);
 	size += ft_count_matches(lst, object_type_triangle);
-	size += ft_count_matches(lst, object_type_ellopsoid);
+	size += ft_count_matches(lst, object_type_ellipsoid);
 	return (size);
 }
 
@@ -60,7 +60,7 @@ void	ft_push_object_to_scene(t_scene *scene, t_parsed_object *po, int i)
 	else if (po->type == object_type_triangle)
 		scene->raw_objects[i].object.as_triangle = ft_get_processed_triangle(
 				po->object.as_triangle);
-	else if (po->type == object_type_ellopsoid)
+	else if (po->type == object_type_ellipsoid)
 		scene->raw_objects[i].object.as_ellipsoid = ft_get_processed_ellipsoid(
 				po->object.as_ellipsoid);
 	scene->raw_objects[i].raw_id = i;
@@ -111,7 +111,7 @@ void	ft_process_objects_bounds(t_scene *scene)
 		else if (scene->raw_objects[i].type == object_type_triangle)
 			scene->raw_objects[i].bounds = ft_get_triangle_bounds(
 					scene->raw_objects[i].object.as_triangle);
-		else if (scene->raw_objects[i].type == object_type_ellopsoid)
+		else if (scene->raw_objects[i].type == object_type_ellipsoid)
 			scene->raw_objects[i].bounds = ft_get_ellipsoid_bounds(
 					scene->raw_objects[i].object.as_ellipsoid);
 		i++;
