@@ -6,13 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 15:56:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:41:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/22 13:04:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef UVS_H
 # define UVS_H
 
+# include "uv_cyl.h"
 # include "uv_sp_pl_q_el.h"
 
 static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
@@ -24,6 +25,8 @@ static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
 	object = scene->objects[hit];
 	if (object.type == object_type_sphere)
 		return (ft_sphere_uv(pos, object.object.as_sphere));
+	else if (object.type == object_type_cylinder)
+		return (ft_cylinder_uv(pos, object.object.as_cylinder));
 	else if (object.type == object_type_quad)
 		return (ft_quad_uv(pos, object.object.as_quad));
 	else if (object.type == object_type_ellipsoid)

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:35:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/22 11:29:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/22 13:06:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ typedef struct s_cyl_collision_data
 	float			c;
 	float			delta;
 	float			sqrt_delta;
-	float			ts[2];
+	float			ts0;
+	float			ts1;
 	float			h;
 	float			t_bot;
 	float			t_top;
@@ -61,16 +62,19 @@ static inline void	ft_cyl_side_colision(t_cylinder cyl,
 		t_cyl_collision_data *c)
 {
 	c->sqrt_delta = sqrtf(c->delta);
-	c->ts[0] = (-c->b - c->sqrt_delta) / (2.0f * c->a);
-	c->ts[1] = (-c->b + c->sqrt_delta) / (2.0f * c->a);
-	for (int i = 0; i < 2; i++)
+	c->ts0 = (-c->b - c->sqrt_delta) / (2.0f * c->a);
+	c->ts1 = (-c->b + c->sqrt_delta) / (2.0f * c->a);
+	if (c->ts0 > EPSILON && c->ts0 < c->t_min)
 	{
-		if (c->ts[i] > EPSILON && c->ts[i] < c->t_min)
-		{
-			c->h = c->rd_dot_n * c->ts[i] + c->oc_dot_n;
-			if (c->h >= 0 && c->h <= cyl.height)
-				c->t_min = c->ts[i];
-		}
+		c->h = c->rd_dot_n * c->ts0 + c->oc_dot_n;
+		if (c->h >= 0 && c->h <= cyl.height)
+			c->t_min = c->ts0;
+	}
+	if (c->ts1 > EPSILON && c->ts1 < c->t_min)
+	{
+		c->h = c->rd_dot_n * c->ts1 + c->oc_dot_n;
+		if (c->h >= 0 && c->h <= cyl.height)
+			c->t_min = c->ts1;
 	}
 }
 

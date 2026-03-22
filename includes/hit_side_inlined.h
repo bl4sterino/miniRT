@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 14:31:48 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:41:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/22 13:04:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,24 @@ static inline char	ft_side_sphere(t_v3f hitpoint, t_sphere sphere)
 	return (-1);
 }
 
-static inline char ft_side_cylinder(t_v3f hitpoint, t_cylinder cyl)
+static inline char	ft_side_cylinder(t_v3f hitpoint, t_cylinder cyl)
 {
-    t_v3f   cp = ft_v3f_sub(hitpoint, cyl.position);
+	t_v3f	cp;
+	float	dist_along_axis;
+	t_v3f	projection;
+	t_v3f	radial_vec;
+	float	dist_sq;
 
-    float   dist_along_axis = ft_v3f_dot(cp, cyl.normal);
-
-    if (dist_along_axis < -EPSILON || dist_along_axis > cyl.height + EPSILON)
-        return (1);
-    t_v3f   projection = ft_v3f_scale(cyl.normal, dist_along_axis);
-    t_v3f   radial_vec = ft_v3f_sub(cp, projection);
-    float   dist_sq = ft_v3f_dot(radial_vec, radial_vec);
-
-    if (dist_sq > (cyl.radius * cyl.radius) + EPSILON)
-        return (1);
-    return (-1);
+	cp = ft_v3f_sub(hitpoint, cyl.position);
+	dist_along_axis = ft_v3f_dot(cp, cyl.normal);
+	if (dist_along_axis < -EPSILON || dist_along_axis > cyl.height + EPSILON)
+		return (1);
+	projection = ft_v3f_scale(cyl.normal, dist_along_axis);
+	radial_vec = ft_v3f_sub(cp, projection);
+	dist_sq = ft_v3f_dot(radial_vec, radial_vec);
+	if (dist_sq > (cyl.radius * cyl.radius) + EPSILON)
+		return (1);
+	return (-1);
 }
 
 static inline char	ft_side_ellipsoid(t_v3f hitpoint, t_ellipsoid el)

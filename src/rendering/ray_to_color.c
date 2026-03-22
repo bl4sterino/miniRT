@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:45:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/22 13:26:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,7 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out)
 		ft_set_hit_data(ray, scene, out, &c);
 		if (c.mat.emission > 0.0f)
 			return (c.mat.color);
-		c.out_color = c.mat.color;
-		//c.out_color = ft_checkerboard(c.out_color, c.hit_uv);
+		c.out_color = ft_get_hit_color(c.mat, c.hit_uv);
 		if (c.mat.refraction > 0.0f && ft_ray_refraction(ray, scene, out, &c))
 			return (c.out_color);
 		if (ray.remaining_bounces > 0)

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:41:13 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:17:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/22 13:25:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static inline t_v3f	ft_get_hit_normal(t_v3f hit_point, t_scene *scene, int hit,
 		return (ft_get_sided_normal(ft_sphere_normal(hit_point,
 					object.object.as_sphere), ray_dir));
 	else if (object.type == object_type_cylinder)
-		return (ft_cylinder_normal(hit_point, object.object.as_cylinder, ray_dir));
+		return (ft_cylinder_normal(hit_point, object.object.as_cylinder,
+				ray_dir));
 	else if (object.type == object_type_quad)
 		return (ft_get_sided_normal(object.object.as_quad.normal, ray_dir));
 	else if (object.type == object_type_triangle)
