@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:16:47 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 14:14:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ typedef struct s_material
 	float				reflectiveness_rand;
 	float				emission;
 	float				refraction;
+	int					color_tex;
+	int					normal_tex;
 }						t_material;
 
 typedef struct s_ambient_light

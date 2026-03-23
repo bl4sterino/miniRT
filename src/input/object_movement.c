@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:08:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:17:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 14:08:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	ft_move_object(t_v3f movement, t_object *object, t_data *d,
 	{
 		object->object.as_cylinder.position = ft_v3f_add(
 				object->object.as_cylinder.position, movement);
-		object->object.as_cylinder =
-			ft_get_processed_cylinder(object->object.as_cylinder);
+		object->object.as_cylinder
+			= ft_get_processed_cylinder(object->object.as_cylinder);
 		object->bounds = ft_get_cylinder_bounds(object->object.as_cylinder);
 	}
 	else

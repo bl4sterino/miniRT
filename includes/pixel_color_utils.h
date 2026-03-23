@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:44:44 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 10:08:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 14:11:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static inline t_v3f	ft_get_sky_color(t_ray ray)
 
 static inline t_v3f	ft_checkerboard(t_v3f in_color, t_v2f uv);
 
-// apply texture and checkerboard here
 static inline t_v3f	ft_get_hit_color(t_material mat, t_v2f uv)
 {
 	t_v3f color = ft_checkerboard(mat.color, uv);
