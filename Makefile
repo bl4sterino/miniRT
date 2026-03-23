@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/23 11:34:14 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/23 17:11:58 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ FILES = main\
 		parsing/parsing_pl_cy\
 		parsing/parsing_q\
 		parsing/parsing_t\
+		parsing/parsing_texture\
 		parsing/parsing_ellipsoid\
 		parsing/parsing_scene_builder_A_C_L\
 		parsing/parsing_scene_builder_pl_objects\
@@ -88,7 +89,8 @@ FILES = main\
 		rendering/task_builder\
 		rendering/ray_to_color\
 		rendering/post_processing/post_process\
-		utils/camera_vectors_utils
+		utils/camera_vectors_utils\
+		utils/data_utils
 
 
 SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))

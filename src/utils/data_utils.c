@@ -1,40 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   data_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 11:06:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 17:14:41 by pberne           ###   ########.fr       */
+/*   Created: 2026/03/23 17:07:55 by pberne            #+#    #+#             */
+/*   Updated: 2026/03/23 17:12:14 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int	ft_exit_hook(void *param)
+t_data	*ft_data(t_data *data, int set)
 {
-	(void)param;
-	ft_exit(EXIT_SUCCESS);
+	static t_data	*d = 0;
+
+	if (set)
+		d = data;
+	else
+		return (d);
 	return (0);
 }
 
-void	ft_exit_destroy_image(void *image_ptr)
+t_data	*ft_get_data(void)
 {
-	mlx_destroy_image(ft_get_data()->mlx, image_ptr);
+	return (ft_data(0, 0));
 }
 
-void	ft_exit_destroy_window(void *d)
+void	ft_set_data(t_data *d)
 {
-	mlx_destroy_window(((t_data *)d)->mlx, ((t_data *)d)->window);
-}
-
-void	ft_exit_destroy_display(void *d)
-{
-	mlx_destroy_display(d);
-}
-
-void	ft_exit_autorepeaton(void *d)
-{
-	mlx_do_key_autorepeaton(d);
+	ft_data(d, 1);
 }

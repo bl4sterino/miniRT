@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 15:58:26 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 17:11:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,8 @@ void		ft_task_builder(t_data *d);
 void		ft_post_process(t_data *d);
 
 // utils
-
+t_data		*ft_get_data(void);
+void		ft_set_data(t_data *d);
 t_v3f		ft_cam_v3f_to_euler(t_v3f cam_direction);
 t_v3f		ft_cam_euler_to_v3f(t_v3f euler);
 float		ft_get_triangle_area(t_v3f A, t_v3f B, t_v3f C);

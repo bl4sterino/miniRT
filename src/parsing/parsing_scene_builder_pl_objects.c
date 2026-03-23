@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:18:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:07:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	while (lst)
 	{
 		po = lst->content;
-		if (po->type >= object_type_sphere)
+		if (po->type >= object_type_sphere && po->type < object_type_texture_path)
 		{
 			ft_push_object_to_scene(scene, po, i);
 			i++;

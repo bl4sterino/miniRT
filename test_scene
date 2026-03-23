@@ -18,5 +18,4 @@ sp 0 50 220 	50		255 255 255		0  0 0 -1.23 0 0
 
 L 0 200 0  1 255 255 255
 
-tex test1
-tex test2
+tex Textures/uv_grid.xpm

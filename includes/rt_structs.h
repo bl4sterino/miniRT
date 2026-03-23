@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/21 16:31:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:34:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ typedef enum e_render_mode
 
 typedef struct s_rgb
 {
-	unsigned char			r;
-	unsigned char			g;
-	unsigned char			b;
+	unsigned char	r;
+	unsigned char	g;
+	unsigned char	b;
 }					t_rgb;
 
 typedef struct s_image
@@ -59,6 +59,13 @@ typedef struct s_image
 	int				line_size;
 	int				endian;
 }					t_image;
+
+typedef struct s_texture
+{
+	void			*ptr;
+	int				width;
+	int				height;
+}					t_texture;
 
 typedef struct s_rotation_data
 {
@@ -107,7 +114,7 @@ typedef struct s_viewport
 
 }					t_viewport;
 
-typedef struct t_data
+typedef struct s_data
 {
 	void			*mlx;
 	void			*window;

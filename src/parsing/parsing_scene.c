@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 18:19:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 16:35:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 
 	parser = ft_dict_get(dict, strs[0]);
 	if (!parser)
-		return (0);
+		return (ft_try_parse_texture(strs, malloc_id, object_lst));
 	new_object = ft_malloc_id(sizeof(t_parsed_object), malloc_id);
 	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = parser->type;
@@ -54,8 +54,10 @@ long	ft_count_matches(t_list *lst, t_object_type type)
 	return (count);
 }
 
-t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
+t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst)
 {
+	(void)d;
+	ft_load_textures(d, scene, lst);
 	ft_normalize_vectors(lst);
 	ft_extract_camera(scene, lst);
 	ft_extract_ambient_light(scene, lst);
@@ -71,7 +73,7 @@ t_scene	*ft_fill_scene(t_scene *scene, t_list *lst)
 	return (scene);
 }
 
-t_scene	*ft_build_scene_from_elements(t_list *lst)
+t_scene	*ft_build_scene_from_elements(t_data *d, t_list *lst)
 {
 	t_scene	*scene;
 
@@ -85,10 +87,10 @@ t_scene	*ft_build_scene_from_elements(t_list *lst)
 				object_type_plane), malloc_id_scene);
 	scene->lights = ft_malloc_id(sizeof(t_light) * ft_count_matches(lst,
 				object_type_light), malloc_id_scene);
-	return (ft_fill_scene(scene, lst));
+	return (ft_fill_scene(d, scene, lst));
 }
 
-t_scene	*ft_parse_map(char *filename)
+t_scene	*ft_parse_map(t_data *d, char *filename)
 {
 	t_scene_parsing_context	context;
 
@@ -114,5 +116,5 @@ t_scene	*ft_parse_map(char *filename)
 		ft_free(context.line);
 		context.line = get_next_line_gc(context.fd);
 	}
-	return (ft_build_scene_from_elements(context.object_lst));
+	return (ft_build_scene_from_elements(d, context.object_lst));
 }

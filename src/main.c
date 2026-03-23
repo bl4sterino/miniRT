@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 10:35:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 17:14:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_init_data(t_data *d)
 	d->dirty_frame = 1;
 	d->target_ray_bounces = 1;
 	gettimeofday(&(d->last_tv), 0);
+	ft_set_data(d);
 }
 
 int	main(int ac, char **av)
@@ -80,15 +81,15 @@ int	main(int ac, char **av)
 	ft_init_data(&d);
 	if (ac != 2)
 		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
-	d.scene = ft_parse_map(av[1]);
-	ft_clear_gc_id(malloc_id_parsing);
-	ft_input_init(&d);
-	ft_init_thread_pool(&d);
 	d.mlx = mlx_init();
 	if (!d.mlx)
 		ft_exit(MALLOC_FAILED);
 	ft_add_exit(d.mlx, free);
 	ft_add_exit(d.mlx, ft_exit_destroy_display);
+	d.scene = ft_parse_map(&d, av[1]);
+	ft_clear_gc_id(malloc_id_parsing);
+	ft_input_init(&d);
+	ft_init_thread_pool(&d);
 	d.window = mlx_new_window(d.mlx, WIDTH_WIN, HEIGHT_WIN, "mini-rt");
 	if (!d.window)
 		ft_exit(MALLOC_FAILED);
