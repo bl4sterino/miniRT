@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/22 14:29:15 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/23 11:34:14 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
 MLX_DIR = .minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a
-NAME = raytracer
-D_NAME = raytracer_debug
+NAME = mini-rt
+D_NAME = mini-rt_debug
 
 SRC_DIR = src/
 OBJ_DIR = obj/

@@ -2,7 +2,7 @@
 
 # miniRT
 
-A minimal Path Tracer developed in C
+A minimal CPU Path Tracer developed in C
 
 ## Description
 
@@ -15,12 +15,18 @@ Unlike rasterization (used in most real-time games), this engine casts rays from
 
 * **Shadows:** Checking for obstructions between the hit point and light sources.
 
-## Prerequistes
+## Prerequisites
 
 MiniLibX for Linux requires xorg, x11 and zlib, therefore you will need to install the following dependencies: xorg, libxext-dev and zlib1g-dev. Installing these dependencies on Ubuntu can be done as follows:
 
 	sudo apt-get update && sudo apt-get install xorg libxext-dev zlib1g-dev libbsd-dev
 
+### Compilation
+
+Build the project using the provided Makefile:
+
+	make
+*Other commands: ```make clean```, ```make fclean```, ```make re```.*
 
 ## Features
 
@@ -31,6 +37,7 @@ MiniLibX for Linux requires xorg, x11 and zlib, therefore you will need to insta
 * **Emissive Surfaces:** Spheres and quads can be turned into light sources by assigning them a , allowing for realistic area lighting.
 * **Point Lights:** Support for traditional point light sources.
 * **Refraction & Reflection:** Accurate simulation of Fresnel effects, allowing for realistic glass (dielectrics) and polished metals (conductors).
+* **Volumetric Fog/Lighting:** A fog density can be defined to allow rays to bounce in the atmosphere before hitting objects. This allow the air to be lit and shadowed creating god rays and volumetric shadows.
 
 ### ⚡ Performance & Optimization
 * **Bounding Volume Hierarchy (BVH):** Implemented a tree-based spatial partition to reduce ray-object intersection complexity. It uses Axis-Alligned Bounding Boxes to maximize the intersection speed, enabling the rendering of scenes with **tens of thousands** of primitives.
@@ -53,4 +60,46 @@ MiniLibX for Linux requires xorg, x11 and zlib, therefore you will need to insta
 * It assisted us for the structure of this README.
 
 # Usage
+
+
+	./mini-rt scene.rt
+
+## Scene format
+
+A scene can contain any number of elements declared in any order but should follow those specifications:
+
+* It must contain one and only one Camera (C).
+* It must contain one and only one Ambient Light (A);
+
+Each elements contains a prefix and each line must respect the attributes order that are required for this prefix.
+
+### Elements
+
+**Camera:**
+		
+		position		direction		fov
+
+	C	1.0 2.0 3.0		0.0 0.0 1.0		80
+
+**Ambient Light:**
+
+		intensity		color[0-255]		fog density
+
+	A	1.0				32 32 32			0.001
+
+**Spot Light:**
+
+		position		intensity	color[0-255]
+
+	L	1.0 2.0 3.0		1.0			255 42 24
+
+
+### Objects
+
+Object are defined by their respective properties but they must all end with the material definition.
+
+**Material:**
+
+	color[0-255]		diffusion	reflectiveness		emission		refraction
+	255 255 255 		0.2			0.4 				2.0 			1.3
 
