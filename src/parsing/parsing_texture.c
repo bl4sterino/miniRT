@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:37:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 17:19:09 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/23 19:15:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ void	ft_load_textures(t_data *d, t_scene *scene, t_list *lst)
 {
 	int				i;
 	t_parsed_object	*po;
+	int				useless;
 
 	scene->num_textures = ft_count_matches(lst, object_type_texture_path);
 	if (scene->num_textures == 0)
 		return ;
 	scene->num_textures += 2;
 	scene->textures = ft_malloc(sizeof(t_texture) * scene->num_textures);
+	ft_bzero(scene->textures, sizeof(t_texture) * scene->num_textures);
 	i = 2;
 	while (lst)
 	{
@@ -57,6 +59,8 @@ void	ft_load_textures(t_data *d, t_scene *scene, t_list *lst)
 				ft_putstr_fd(po->object.as_texture_path, 2);
 				ft_exit_str_fd(1, "\n", 2);
 			}
+			scene->textures[i].pixels = mlx_get_data_addr(scene->textures[i].ptr,
+					&useless, &useless, &useless);
 			ft_add_exit(scene->textures[i].ptr, ft_exit_destroy_image);
 			i++;
 		}
