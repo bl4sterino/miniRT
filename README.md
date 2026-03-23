@@ -83,15 +83,15 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 **Ambient Light:**
 
-		intensity		color[0-255]		fog density
+		intensity		color RGB[0-255]		fog density
 
-	A	1.0				32 32 32			0.001
+	A	1.0				32 32 32				0.001
 
 **Spot Light:**
 
-		position		intensity	color[0-255]
+		position		intensity		color RGB[0-255]
 
-	L	1.0 2.0 3.0		1.0			255 42 24
+	L	1.0 2.0 3.0		1.0				255 42 24
 
 
 ### Objects
@@ -100,6 +100,61 @@ Object are defined by their respective properties but they must all end with the
 
 **Material:**
 
-	color[0-255]		diffusion	reflectiveness		emission		refraction
-	255 255 255 		0.2			0.4 				2.0 			1.3
+	color RGB[0-255]		diffusion		specularity			emission		refraction
+	255 255 255 			0.2				0.4 				2.0 			1.3
 
+**Notes on material limitations:**
+
+* A material with an emission greater than 0 will ignore diffusion, specularity and refraction.
+* A material with a refraction index greater than 0 will be transparfent, and will ignore specularity.
+ 
+
+**Sphere:**
+
+		position		radius		material
+	sp	1.0 2.0 3.0		42.0		* * *	* * * *
+
+**Plane**
+
+		position		normal			material
+	pl	1.0 2.0 3.0		0.0 1.0 0.0		* * *	* * * *
+
+**Cylinder**
+
+		position		axis			diameter	height		material
+	cy	1.0 2.0 3.0		1.0 0.0 0.0		24.5		42.2		* * *	* * * *
+
+**Quad**
+
+		position		normal			width		height		material
+	q	1.0 2.0 3.0		0.0 1.0 0.0		42.0		24.8		* * *	* * * *
+
+**Triangle**
+
+		vertex 0		vertex 1		vertex 2			material
+	t	0.0 0.0 0.0		0.0 10.0 0.0	10.0 10.0 0.0		* * *	* * * *
+
+**Ellipsoid**
+
+		position		radii XYZ			material
+	el	1.0 2.0 3.0		25.0 50.0 75.0		* * *	* * * *
+
+## Controls
+
+
+| Action      		| Key(s) |	Notes|
+| :---        		|    :----:   | ---:|
+| Camera Movement	| WASD CTRL SPACE|
+| Camera Rotation	| Mouse Mouvement| Toggle mouse control with ALT|
+| Camera FOV		| Mouse Wheel
+| Object selection	| Left Click |
+| Move Selected		| Arrows NUM_+ NUM_- |
+| Rotate Selected (X)	| NUM_0 NUM_. |
+| Rotate Selected (Y)	| NUM_2 NUM_3 |
+| Rotate Selected (Z)	| NUM_ NUM_9 |
+| Selected Control 2	| NUM_/ NUM_* |
+| Select Point Lights	| PGDN PGUP |	Selects or cycle through Point Lights
+| Ray Bounce --/++		| F G
+| Display Normals		| N
+| Display BVH			| E
+| Exit					| ESC
