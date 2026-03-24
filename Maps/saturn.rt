@@ -4,6 +4,7 @@ C	0 60 -425	0 0 1		85
 A	1.0		0 0 0 0
 
 tex Textures/saturn_color.xpm
+tex Textures/warping.xpm
 
 sp 1000 300 0	 100  255 255 255 0 0 20 0 0 0
 
