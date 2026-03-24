@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 15:56:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 17:40:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/24 17:08:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,6 @@
 
 # include "uv_cyl.h"
 # include "uv_sp_pl_q_el.h"
-
-static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
-{
-	t_object	object;
-
-	if (hit < 0)
-		return (ft_plane_uv(pos, scene->planes[-(hit + 1)].object.as_plane));
-	object = scene->objects[hit];
-	if (object.type == object_type_sphere)
-		return (ft_sphere_uv(pos, object.object.as_sphere));
-	else if (object.type == object_type_cylinder)
-		return (ft_cylinder_uv(pos, object.object.as_cylinder));
-	else if (object.type == object_type_quad)
-		return (ft_quad_uv(pos, object.object.as_quad));
-	else if (object.type == object_type_ellipsoid)
-		return (ft_ellipsoid_uv(pos, object.object.as_ellipsoid));
-	return ((t_v2f){0.0f, 0.0f});
-}
 
 static inline t_v2f	ft_normalize_uv(t_v2f uv)
 {
@@ -44,7 +26,28 @@ static inline t_v2f	ft_normalize_uv(t_v2f uv)
 		normalized.x += 1.0f;
 	if (normalized.y < 0)
 		normalized.y += 1.0f;
+	normalized.x = fmaxf(0.0f, fminf(normalized.x, 0.9999f));
+	normalized.y = fmaxf(0.0f, fminf(normalized.y, 0.9999f));
 	return (normalized);
+}
+
+static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
+{
+	t_object	object;
+	t_v2f		uv;
+
+	if (hit < 0)
+		uv = ft_plane_uv(pos, scene->planes[-(hit + 1)].object.as_plane);
+	object = scene->objects[hit];
+	if (object.type == object_type_sphere)
+		uv = ft_sphere_uv(pos, object.object.as_sphere);
+	else if (object.type == object_type_cylinder)
+		uv = ft_cylinder_uv(pos, object.object.as_cylinder);
+	else if (object.type == object_type_quad)
+		uv = ft_quad_uv(pos, object.object.as_quad);
+	else if (object.type == object_type_ellipsoid)
+		uv = ft_ellipsoid_uv(pos, object.object.as_ellipsoid);
+	return (ft_normalize_uv(uv));
 }
 
 static inline t_v3f	ft_checkerboard(t_v3f in_color, t_v2f uv)

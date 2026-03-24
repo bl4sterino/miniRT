@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 19:07:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/24 16:54:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_extract_planes(t_scene *scene, t_list *lst)
 	while (lst)
 	{
 		element = lst->content;
-		if(ft_abs(element->material.color_tex) > scene->num_textures
+		if (ft_abs(element->material.color_tex) > scene->num_textures
 			|| ft_abs(element->material.normal_tex) > scene->num_textures)
 			ft_exit_str_fd(1, "Ivalid texture index\n", 2);
 		if (element->type == object_type_plane)
@@ -51,8 +51,8 @@ int	ft_count_objects(t_list *lst)
 void	ft_push_object_to_scene(t_scene *scene, t_parsed_object *po, int i)
 {
 	scene->raw_objects[i].type = po->type;
-	if(ft_abs(po->material.color_tex) > scene->num_textures
-			|| ft_abs(po->material.normal_tex) > scene->num_textures)
+	if (ft_abs(po->material.color_tex) > scene->num_textures
+		|| ft_abs(po->material.normal_tex) > scene->num_textures)
 		ft_exit_str_fd(1, "Ivalid texture index\n", 2);
 	scene->raw_objects[i].material = po->material;
 	if (po->type == object_type_sphere)
@@ -87,7 +87,8 @@ void	ft_extract_objects(t_scene *scene, t_list *lst)
 	while (lst)
 	{
 		po = lst->content;
-		if (po->type >= object_type_sphere && po->type < object_type_texture_path)
+		if (po->type >= object_type_sphere
+			&& po->type < object_type_texture_path)
 		{
 			ft_push_object_to_scene(scene, po, i);
 			i++;

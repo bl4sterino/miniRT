@@ -93,6 +93,16 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 	L	1.0 2.0 3.0		1.0				255 42 24
 
+**Texture:**
+
+		relative path
+
+	tex	Textures/texture_name.xpm
+
+*Texture have an id assigned in the order they are declared **starting from 2**, the second texture will have its id to 3 etc ...*
+
+*Only .xpm texture are supported*
+
 
 ### Objects
 
@@ -100,44 +110,50 @@ Object are defined by their respective properties but they must all end with the
 
 **Material:**
 
-	color RGB[0-255]		diffusion		specularity			emission		refraction
-	255 255 255 			0.2				0.4 				2.0 			1.3
+	color RGB[0-255]		diffusion	specularity		emission	refraction	colorID		normalID
+	255 255 255 			0.2			0.4 			2.0 		1.3			0			0
 
 **Notes on material limitations:**
 
 * A material with an emission greater than 0 will ignore diffusion, specularity and refraction.
 * A material with a refraction index greater than 0 will be transparfent, and will ignore specularity.
+* colorId and normal ID refers to ID of declared textures
+	
+	* **id 0:** used for untextured material, the raw color will be used.
+	* **id 1, -1:** Used for untextured checkered, colors will be inverted in a chekerboard pattern./
+	* **id >= 2:** refers to the index of the texture to use.
+	* **id <= -2:** the negative sign is used to inverse the texture color in a checkered pattern.
  
 
 **Sphere:**
 
 		position		radius		material
-	sp	1.0 2.0 3.0		42.0		* * *	* * * *
+	sp	1.0 2.0 3.0		42.0		* * *   * * * *   * *
 
 **Plane**
 
 		position		normal			material
-	pl	1.0 2.0 3.0		0.0 1.0 0.0		* * *	* * * *
+	pl	1.0 2.0 3.0		0.0 1.0 0.0		* * *   * * * *   * *
 
 **Cylinder**
 
 		position		axis			diameter	height		material
-	cy	1.0 2.0 3.0		1.0 0.0 0.0		24.5		42.2		* * *	* * * *
+	cy	1.0 2.0 3.0		1.0 0.0 0.0		24.5		42.2		* * *   * * * *   * *
 
 **Quad**
 
 		position		normal			width		height		material
-	q	1.0 2.0 3.0		0.0 1.0 0.0		42.0		24.8		* * *	* * * *
+	q	1.0 2.0 3.0		0.0 1.0 0.0		42.0		24.8		* * *   * * * *   * *
 
 **Triangle**
 
 		vertex 0		vertex 1		vertex 2			material
-	t	0.0 0.0 0.0		0.0 10.0 0.0	10.0 10.0 0.0		* * *	* * * *
+	t	0.0 0.0 0.0		0.0 10.0 0.0	10.0 10.0 0.0		* * *   * * * *   * *
 
 **Ellipsoid**
 
 		position		radii XYZ			material
-	el	1.0 2.0 3.0		25.0 50.0 75.0		* * *	* * * *
+	el	1.0 2.0 3.0		25.0 50.0 75.0		* * *	* * * *   * *
 
 ## Controls
 

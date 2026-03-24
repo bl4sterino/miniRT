@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 17:28:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 19:03:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/24 17:01:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,15 @@ static inline t_rgb	ft_int_to_rgb(int color)
 
 static inline t_v3f	ft_int_to_v3f(int color)
 {
-	return ((t_v3f){{(float)((color >> 16) & 0xFF) * 0.003921569f,
-		(float)((color >> 8) & 0xFF) * 0.003921569f, (float)(color & 0xFF)
-		* 0.003921569f}});
-}
-
-static inline int	ft_v3d_to_int_color(t_v3d color)
-{
-	return ((int)(color.x * 255) << 16 | (int)(color.y
-			* 255) << 8 | (int)(color.z * 255));
+	return ((t_v3f){{(float)((color >> 16) & 0xFF) *0.003921569f,
+		(float)((color >> 8) & 0xFF) *0.003921569f, (float)(color & 0xFF)
+		*0.003921569f}});
 }
 
 static inline int	ft_v3f_to_int_color(t_v3f color)
 {
 	return ((int)(color.x * 255) << 16 | (int)(color.y
 			* 255) << 8 | (int)(color.z * 255));
-}
-
-static inline int	ft_doubles_to_int_color(double r, double g, double b)
-{
-	return ((int)(r * 255) << 16 | (int)(g * 255) << 8 | (int)(b * 255));
 }
 
 #endif

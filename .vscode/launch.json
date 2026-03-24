@@ -8,7 +8,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/mini-rt_debug",
-            "args": ["test_scene"],
+            "args": ["Maps/test_scene"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

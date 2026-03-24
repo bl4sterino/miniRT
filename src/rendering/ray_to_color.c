@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 17:27:38 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/24 16:56:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,11 @@ static inline void	ft_set_hit_data(t_ray ray, t_scene *scene,
 	if (out)
 		*out = (t_out_buffer){c->hit_normal, c->hit_point};
 	c->hit_uv = ft_get_hit_uv(c->hit_point, c->hit, scene);
+	if (c->mat.normal_tex > 1 || c->mat.normal_tex < -1)
+	{
+		c->hit_normal = ft_apply_texture_normal(scene, c->hit_normal,
+				c->mat.normal_tex, c->hit_uv);
+	}
 }
 
 /*
@@ -146,5 +151,5 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out)
 	if (out)
 		*out = (t_out_buffer){ray.direction, (t_v3f){{15000.0f, 15000.0f,
 			15000.0f}}};
-	return (ft_get_sky_color(ray));
+	return ((t_v3f){{0.0f, 0.0f, 0.0f}});
 }
