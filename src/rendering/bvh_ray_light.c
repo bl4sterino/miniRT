@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 11:08:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/25 10:39:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,24 @@ static inline float	ft_get_emission_coef(t_object obj, t_ray light_ray)
 		return (1.0f);
 }
 
-static inline t_v3f	ft_get_emissive_light(t_get_emissive_light_context *c)
+static inline t_v3f	ft_get_emissive_light(t_get_emissive_light_context *c, t_scene *scene)
 {
+	t_v3f color;
+	t_v2f uv;
+	t_v3f hit_pos;
 	c->dist = fmaxf(c->dist * c->dist, 1.0f);
 	c->emission_surface_coef = ft_get_emission_coef(c->obj, c->light_ray);
 	c->geom_term = (c->emission_dot * c->emission_surface_coef) / c->dist;
 	c->weigh = c->geom_term / c->obj.pdf;
-	c->targeted_light = ft_v3f_scale(c->obj.material.color, c->weigh);
+	if (c->obj.material.color_tex >= 2)
+	{
+		hit_pos = ft_ray_at(c->light_ray, c->dist);
+		uv = ft_get_hit_uv(hit_pos, c->hit, scene);
+		color = ft_sample_texture(scene, c->obj.material.color_tex, uv);
+	}
+	else
+		color = c->obj.material.color;
+	c->targeted_light = ft_v3f_scale(color, c->weigh);
 	c->targeted_light = ft_v3f_min(c->targeted_light, c->obj.material.color);
 	return (c->targeted_light);
 }
@@ -92,7 +103,7 @@ t_v3f	ft_get_emissive_light_color(t_v3f position, t_v3f normal,
 	{
 		c.raw_hit = scene->objects[c.hit].raw_id;
 		if (c.raw_hit == c.rand_emissive)
-			return (ft_get_emissive_light(&c));
+			return (ft_get_emissive_light(&c, scene));
 	}
 	return ((t_v3f){{0.0f, 0.0f, 0.0f}});
 }
