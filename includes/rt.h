@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 17:11:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/25 17:03:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1f
+# define CAM_ROTATION_SPEED_KEY 128.0f
 
 # define DELTATIME_DISPLAY_DELAY 0.2f
 

@@ -28,6 +28,9 @@ Build the project using the provided Makefile:
 	make
 *Other commands: ```make clean```, ```make fclean```, ```make re```.*
 
+### Run
+	./mini-rt scene.rt
+
 ## Features
 
 ### 🕯️ Rendering & Illumination
@@ -59,12 +62,7 @@ Build the project using the provided Makefile:
 * AI was used to generate scripts that procedurally create complex scenes with thousands of object to test the BVH.
 * It assisted us for the structure of this README.
 
-# Usage
-
-
-	./mini-rt scene.rt
-
-## Scene format
+# Scene format
 
 A scene can contain any number of elements declared in any order but should follow those specifications:
 

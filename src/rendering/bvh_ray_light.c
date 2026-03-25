@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/25 10:39:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/25 15:51:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,13 @@ static inline float	ft_get_emission_coef(t_object obj, t_ray light_ray)
 		return (1.0f);
 }
 
-static inline t_v3f	ft_get_emissive_light(t_get_emissive_light_context *c, t_scene *scene)
+static inline t_v3f	ft_get_emissive_light(t_get_emissive_light_context *c,
+		t_scene *scene)
 {
-	t_v3f color;
-	t_v2f uv;
-	t_v3f hit_pos;
+	t_v3f	color;
+	t_v2f	uv;
+	t_v3f	hit_pos;
+
 	c->dist = fmaxf(c->dist * c->dist, 1.0f);
 	c->emission_surface_coef = ft_get_emission_coef(c->obj, c->light_ray);
 	c->geom_term = (c->emission_dot * c->emission_surface_coef) / c->dist;

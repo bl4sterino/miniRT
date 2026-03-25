@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 15:15:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/25 16:30:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define KEY_E 101
 # define KEY_F 102
 # define KEY_G 103
+# define KEY_J 106
+# define KEY_K 107
 # define KEY_R 114
 # define KEY_B 98
 # define KEY_N 110

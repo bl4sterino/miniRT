@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 11:10:20 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 18:10:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/25 17:01:26 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	ft_input_init_2(t_data *d)
 	ft_add_input(KEY_R, d);
 	ft_add_input(KEY_B, d);
 	ft_add_input(KEY_N, d);
+	ft_add_input(KEY_J, d);
+	ft_add_input(KEY_K, d);
 }
 
 void	ft_input_init(t_data *d)
