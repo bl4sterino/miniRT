@@ -158,10 +158,10 @@ Object are defined by their respective properties but they must all end with the
 
 | Action      		| Key(s) |	Notes|
 | :---        		|    :----:   | ---:|
-| Camera Movement	| WASD CTRL SPACE|
-| Camera Rotation	| Mouse Mouvement| Toggle mouse control with ALT|
-| Camera FOV		| Mouse Wheel
-| Object selection	| Left Click |
+| Camera Movement	| <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> <kbd>ctrl</kbd> <kbd>space</kbd>|
+| Camera Rotation	| <kbd>Mouse</kbd> <kbd>I</kbd><kbd>J</kbd><kbd>K</kbd><kbd>L</kbd>| Toggle mouse control with ALT|
+| Camera FOV		| <kbd>Scroll Wheel</kbd>
+| Object selection	| <kbd>Left CLick</kbd> |
 | Move Selected		| Arrows NUM_+ NUM_- |
 | Rotate Selected (X)	| NUM_0 NUM_. |
 | Rotate Selected (Y)	| NUM_2 NUM_3 |

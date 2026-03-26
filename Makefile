@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/23 19:10:15 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/26 16:22:09 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,72 +24,72 @@ D_NAME = mini-rt_debug
 
 SRC_DIR = src/
 OBJ_DIR = obj/
-INCLUDES_DIR =	-Iincludes\
-				-Iincludes/collisions\
-				-Iincludes/uvs\
-				-I$(LIBFT_DIR)/includes\
-				-I$(LIBFT_DIR)/includes/vectors\
-				-I$(LIBFT_DIR)/includes/inlines\
+INCLUDES_DIR =	-Iincludes \
+				-Iincludes/collisions \
+				-Iincludes/uvs \
+				-I$(LIBFT_DIR)/includes \
+				-I$(LIBFT_DIR)/includes/vectors \
+				-I$(LIBFT_DIR)/includes/inlines \
 				-I$(MLX_DIR)
 
-FILES = main\
-		update\
-		time\
-		image\
-		image2\
-		exit\
-		exit_2\
-		debug/debug_gc\
-		input/camera\
-		input/focus_and_cursor\
-		input/input\
-		input/input_listeners\
-		input/input_get\
-		input/key_controls\
-		input/key_hook\
-		input/object_controls\
-		input/object_extra\
-		input/object_input\
-		input/object_movement\
-		input/object_rotation\
-		input/object_selection\
-		input/render_settings\
-		monitoring/clock\
-		monitoring/clock_2\
-		parsing/parsing_data_dict\
-		parsing/parsing_scene\
-		parsing/parsing_scene_processing\
-		parsing/parsing_material\
-		parsing/parsing_A_C_L\
-		parsing/parsing_sp\
-		parsing/parsing_pl_cy\
-		parsing/parsing_q\
-		parsing/parsing_t\
-		parsing/parsing_texture\
-		parsing/parsing_ellipsoid\
-		parsing/parsing_scene_builder_A_C_L\
-		parsing/parsing_scene_builder_pl_objects\
-		parsing/parsing_normalization\
-		parsing/parsing_error\
-		parsing/parsing_get_bounds\
-		parsing/parsing_get_bounds_2\
-		ui/ui_elements\
-		ui/hud_display\
-		ui/ui_draw_floating\
-		rendering/thread_routine\
-		rendering/render\
-		rendering/viewport\
-		rendering/bvh_builder\
-		rendering/bvh_builder_utils\
-		rendering/bvh_utils\
-		rendering/bvh_sorter\
-		rendering/bvh_ray_debug\
-		rendering/bvh_ray\
-		rendering/bvh_ray_light\
-		rendering/task_builder\
-		rendering/ray_to_color\
-		rendering/post_processing/post_process\
-		utils/camera_vectors_utils\
+FILES = main \
+		update \
+		time \
+		image \
+		image2 \
+		exit \
+		exit_2 \
+		debug/debug_gc \
+		input/camera \
+		input/focus_and_cursor \
+		input/input \
+		input/input_listeners \
+		input/input_get \
+		input/key_controls \
+		input/key_hook \
+		input/object_controls \
+		input/object_extra \
+		input/object_input \
+		input/object_movement \
+		input/object_rotation \
+		input/object_selection \
+		input/render_settings \
+		monitoring/clock \
+		monitoring/clock_2 \
+		parsing/parsing_data_dict \
+		parsing/parsing_scene \
+		parsing/parsing_scene_processing \
+		parsing/parsing_material \
+		parsing/parsing_A_C_L \
+		parsing/parsing_sp \
+		parsing/parsing_pl_cy \
+		parsing/parsing_q \
+		parsing/parsing_t \
+		parsing/parsing_texture \
+		parsing/parsing_ellipsoid \
+		parsing/parsing_scene_builder_A_C_L \
+		parsing/parsing_scene_builder_pl_objects \
+		parsing/parsing_normalization \
+		parsing/parsing_error \
+		parsing/parsing_get_bounds \
+		parsing/parsing_get_bounds_2 \
+		ui/ui_elements \
+		ui/hud_display \
+		ui/ui_draw_floating \
+		rendering/thread_routine \
+		rendering/render \
+		rendering/viewport \
+		rendering/bvh_builder \
+		rendering/bvh_builder_utils \
+		rendering/bvh_utils \
+		rendering/bvh_sorter \
+		rendering/bvh_ray_debug \
+		rendering/bvh_ray \
+		rendering/bvh_ray_light \
+		rendering/task_builder \
+		rendering/ray_to_color \
+		rendering/post_processing/post_process \
+		utils/camera_vectors_utils \
 		utils/data_utils
 
 
@@ -155,6 +155,8 @@ fclean: clean
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
 
-re: fclean all
+re:
+	$(MAKE) fclean
+	$(MAKE) all
 
 -include $(DEP) $(D_DEP)
