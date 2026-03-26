@@ -7,3 +7,5 @@ raytracer_debug
 gmon.out
 .tests/benchmark
 .tests/bounds_test.c
+mini-rt_debug
+mini-rt

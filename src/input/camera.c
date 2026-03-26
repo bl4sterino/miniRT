@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/25 17:03:14 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/26 10:46:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ void	ft_camera_rotate(t_data *d)
 	t_v3f	cam_rot;
 	float	rotx;
 	float	roty;
-	float	key_roty;
+	float	key_rot;
 
 	cam_rot = ft_cam_v3f_to_euler(d->scene->camera.direction);
 	rotx = d->input.mouse_delta.y * CAM_ROTATION_SPEED * (d->scene->camera.fov
 			/ 85.0f);
+	key_rot = (float)-ft_get_key(KEY_I, d) + (float)ft_get_key(KEY_K, d);
+	rotx += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
 	roty = d->input.mouse_delta.x * CAM_ROTATION_SPEED * (d->scene->camera.fov
 			/ 85.0);
-	key_roty = (float)-ft_get_key(KEY_J, d) + (float)ft_get_key(KEY_K, d);
-	roty += key_roty * d->deltatime * CAM_ROTATION_SPEED_KEY;
+	key_rot = (float)-ft_get_key(KEY_J, d) + (float)ft_get_key(KEY_L, d);
+	roty += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
 	cam_rot.x = ft_clampd(cam_rot.x + rotx, -85.0, 85.0);
 	cam_rot.y = cam_rot.y + roty;
 	while (cam_rot.y < -180.0)
