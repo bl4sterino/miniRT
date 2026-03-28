@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/24 17:44:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/28 15:31:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,27 @@
 void	ft_check_objects_collisions_debug(t_ray ray, t_scene *scene,
 		t_bvh_context_debug *context)
 {
-	int			i;
-	int			end;
-	t_object	obj;
-	double		dist;
+	float	dist;
+
+	 t_object *obj;
+
+	obj = &scene->objects[context->current->start];
 
 	dist = FT_INFINITY;
-	i = context->current->start;
-	end = i + context->current->num_obj;
-	while (i < end)
+	if (obj->type == object_type_quad)
+		dist = ft_quad_collision(ray, obj->object.as_quad);
+	else if (obj->type == object_type_sphere)
+		dist = ft_sphere_collision(ray, obj->object.as_sphere);
+	else if (obj->type == object_type_cylinder)
+		dist = ft_cylinder_collision(ray, obj->object.as_cylinder);
+	else if (obj->type == object_type_triangle)
+		dist = ft_triangle_collision(ray, obj->object.as_triangle);
+	else if (obj->type == object_type_ellipsoid)
+		dist = ft_ellipsoid_collision(ray, obj->object.as_ellipsoid);
+	if (dist < context->best_dist)
 	{
-		obj = scene->objects[i];
-		if (obj.type == object_type_sphere)
-			dist = ft_sphere_collision(ray, obj.object.as_sphere);
-		else if (obj.type == object_type_cylinder)
-			dist = ft_cylinder_collision(ray, obj.object.as_cylinder);
-		if (dist < context->best_dist)
-		{
-			context->best_dist = dist;
-			context->best_index = i;
-		}
-		i++;
+		context->best_dist = dist;
+		context->best_index = context->current->start;
 	}
 }
 
@@ -75,6 +75,6 @@ t_v3f	ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene)
 			ft_check_objects_collisions_debug(ray, scene, &context);
 	}
 	(void)context.best_index;
-	context.t = fmin((float)context.nodes_traversed / 64, 1.0);
+	context.t = fmin((float)context.nodes_traversed / 128, 1.0);
 	return ((t_v3f){{(float)context.t, (float)context.t, (float)context.t}});
 }

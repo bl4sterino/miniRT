@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/25 11:48:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/28 15:34:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	ft_ray_fog(t_ray ray, t_scene *scene, t_out_buffer *out,
 					ray.remaining_bounces - 1);
 			c->out_color = ft_v3f_add(c->out_color, ft_get_pixel_color(ray,
 						scene, out));
+			c->out_color.v += ft_get_light(ray.origin, (t_v3f){{0.0f, 0.0f, 0.0f}}, scene).v;
 			return (1);
 		}
 	}
