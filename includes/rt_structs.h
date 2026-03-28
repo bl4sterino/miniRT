@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/26 10:37:19 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/28 19:06:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,10 +251,10 @@ typedef struct s_pixel_color_context
 typedef struct s_viewport_context
 {
 	t_camera		cam;
-	double			aspect_ratio;
-	double			theta;
-	double			half_width;
-	double			half_height;
+	float			aspect_ratio;
+	float			theta;
+	float			half_width;
+	float			half_height;
 	t_v3f			cam_right;
 	t_v3f			cam_up;
 	t_v3f			pixel_center_offset;

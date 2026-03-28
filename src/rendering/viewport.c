@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/06 14:37:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/28 19:14:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,20 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 
 	cam.direction = ft_v3f_normalize(cam.direction);
 	ft_setup_context(&context, cam);
-	vp.u = ft_v3f_scale(context.cam_right, 2.0f * context.half_width);
-	vp.v = ft_v3f_scale(context.cam_up, -2.0 * context.half_height);
-	vp.x_delta = ft_v3f_div(vp.u, (float)WIDTH_WIN);
-	vp.y_delta = ft_v3f_div(vp.v, (float)HEIGHT_WIN);
-	vp.top_left = ft_v3f_add(cam.position, cam.direction);
-	vp.top_left = ft_v3f_sub(vp.top_left, ft_v3f_scale(vp.u, 0.5f));
-	vp.top_left = ft_v3f_sub(vp.top_left, ft_v3f_scale(vp.v, 0.5f));
+	vp.u.v = context.cam_right.v * 2.0f * context.half_width;
+	vp.v.v = context.cam_up.v * -2.0 * context.half_height;
+	vp.x_delta.v = vp.u.v / (float)WIDTH_WIN;
+	vp.y_delta.v = vp.v.v / (float)HEIGHT_WIN;
+	vp.top_left.v = cam.position.v + cam.direction.v;
+	vp.top_left.v -= vp.u.v * 0.5f;
+	vp.top_left.v -= vp.v.v * 0.5f;
 	rx = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);
 	ry = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);
-	context.pixel_center_offset = ft_v3f_add(ft_v3f_scale(vp.x_delta, rx),
-			ft_v3f_scale(vp.y_delta, ry));
-	vp.top_left = ft_v3f_add(vp.top_left, context.pixel_center_offset);
-	vp.bottom_right = ft_v3f_add(vp.top_left, vp.u);
-	vp.bottom_right = ft_v3f_add(vp.bottom_right, vp.v);
-	vp.top_right = ft_v3f_add(vp.top_left, vp.u);
-	vp.bottom_left = ft_v3f_add(vp.top_left, vp.v);
+	context.pixel_center_offset.v = (vp.x_delta.v * rx) + (vp.y_delta.v * ry);
+	vp.top_left.v = vp.top_left.v + context.pixel_center_offset.v;
+	vp.bottom_right.v = vp.top_left.v + vp.u.v;
+	vp.bottom_right.v = vp.bottom_right.v + vp.v.v;
+	vp.top_right.v = vp.top_left.v + vp.u.v;
+	vp.bottom_left.v = vp.top_left.v + vp.v.v;
 	return (vp);
 }
