@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/28 15:07:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 16:52:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 		}
 		c.l_idx = c.node->left;
 		c.r_idx = c.node->right;
-		ft_intersect_aabb_x2_fast(c.aabb_c, &scene->bvh_nodes[c.l_idx].bounds,
-			&scene->bvh_nodes[c.r_idx].bounds, c.dist);
+		ft_intersect_aabb_x2_fast(c.aabb_c, &c.node->bounds2x, c.dist);
 		if (ft_push_next_node_to_stack(&c))
 			break ;
 	}

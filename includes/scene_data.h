@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:04:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 16:56:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,9 +199,20 @@ typedef struct s_scene_parsing_context
 	int					line_count;
 }						t_scene_parsing_context;
 
+typedef struct s_bounds2x
+{
+	t_v3f				min_x;
+	t_v3f				max_x;
+	t_v3f				min_y;
+	t_v3f				max_y;
+	t_v3f				min_z;
+	t_v3f				max_z;
+}						t_bounds2x;
+
 typedef struct s_bvh_node
 {
 	t_bounds			bounds;
+	t_bounds2x			bounds2x;
 	int					split_axis;
 	int					left;
 	int					right;

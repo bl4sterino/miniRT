@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 14:40:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 16:26:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,12 +149,6 @@ typedef struct s_aabb_x2
 {
 	t_v3f			r_org[3];
 	t_v3f			r_inv[3];
-	t_v3f			b_min_x;
-	t_v3f			b_max_x;
-	t_v3f			b_min_y;
-	t_v3f			b_max_y;
-	t_v3f			b_min_z;
-	t_v3f			b_max_z;
 	t_v3f			t1;
 	t_v3f			t2;
 	t_v3f			tmin;
