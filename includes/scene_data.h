@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 16:56:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 18:02:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_ambient_light
 	t_v3f				color;
 	int					rgb_int_color;
 	float				fog_density;
+	int					ray_bounce;
 }						t_ambient_light;
 
 typedef struct s_camera

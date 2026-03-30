@@ -1,7 +1,7 @@
 C	0 150 -185	0 0 1		85
 
 
-A	1.0		32 32 32     0
+A	1.0		32 32 32     0		1
 
 tex Textures/uv_grid.xpm
 tex Textures/ball_normal.xpm

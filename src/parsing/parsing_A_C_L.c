@@ -6,11 +6,21 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 15:51:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 18:06:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+t_struct_parser_data	*ft_get_parser_ambient_light_2(t_parsing_data d,
+		t_list *lst, t_struct_parser_data *struct_parser, int id)
+{
+	d = (t_parsing_data){p_int, offsetof(t_ambient_light, ray_bounce), 0};
+	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
+	struct_parser->element_lst = lst;
+	struct_parser->material_lst = NULL;
+	return (struct_parser);
+}
 
 t_struct_parser_data	*ft_get_parser_ambient_light(int id)
 {
@@ -32,12 +42,9 @@ t_struct_parser_data	*ft_get_parser_ambient_light(int id)
 	d = (t_parsing_data){p_float_0_255_to_0_1, offsetof(t_ambient_light,
 			color.z), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	d = (t_parsing_data){p_float, offsetof(t_ambient_light,
-			fog_density), 0};
+	d = (t_parsing_data){p_float, offsetof(t_ambient_light, fog_density), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
-	struct_parser->element_lst = lst;
-	struct_parser->material_lst = NULL;
-	return (struct_parser);
+	return (ft_get_parser_ambient_light_2(d, lst, struct_parser, id));
 }
 
 t_struct_parser_data	*ft_get_parser_camera(int id)
