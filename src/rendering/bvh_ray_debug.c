@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 16:33:14 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/28 15:31:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 11:15:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,10 @@
 void	ft_check_objects_collisions_debug(t_ray ray, t_scene *scene,
 		t_bvh_context_debug *context)
 {
-	float	dist;
-
-	 t_object *obj;
+	float		dist;
+	t_object	*obj;
 
 	obj = &scene->objects[context->current->start];
-
 	dist = FT_INFINITY;
 	if (obj->type == object_type_quad)
 		dist = ft_quad_collision(ray, obj->object.as_quad);

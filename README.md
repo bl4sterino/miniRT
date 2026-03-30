@@ -3,7 +3,7 @@
 # miniRT
 
 
-![42.rt scene](media/42scene.png)!
+![42.rt scene](media/42scene.png)
 
 A minimal CPU Path Tracer developed in C
 

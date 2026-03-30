@@ -6,11 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:34:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 13:40:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 11:11:28 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef COLLISION_PLANE_H
+# define COLLISION_PLANE_H
+
+# include "rt.h"
 
 static inline float	ft_plane_collision(t_ray ray, t_plane plane)
 {
@@ -27,3 +30,5 @@ static inline float	ft_plane_collision(t_ray ray, t_plane plane)
 		return (FT_INFINITY);
 	return (t);
 }
+
+#endif

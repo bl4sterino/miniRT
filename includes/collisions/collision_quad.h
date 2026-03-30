@@ -6,11 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 13:40:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 11:11:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef COLLISION_QUAD_H
+# define COLLISION_QUAD_H
+
+# include "rt.h"
 
 typedef struct s_quad_collision_context
 {
@@ -42,3 +45,5 @@ static inline float	ft_quad_collision(t_ray ray, t_quad quad)
 		return (FT_INFINITY);
 	return (c.t);
 }
+
+#endif

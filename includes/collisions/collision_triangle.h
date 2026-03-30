@@ -6,11 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:36:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 13:40:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 11:13:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef COLLISION_TRIANGLE_H
+# define COLLISION_TRIANGLE_H
+
+# include "rt.h"
 
 typedef struct s_triangle_context
 {
@@ -50,3 +53,5 @@ static inline float	ft_triangle_collision(t_ray ray, t_triangle tri)
 		return (c.t);
 	return (FT_INFINITY);
 }
+
+#endif

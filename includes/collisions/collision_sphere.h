@@ -6,11 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:30:12 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 13:40:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/30 11:13:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef COLLISION_SPHERE_H
+# define COLLISION_SPHERE_H
+
+# include "rt.h"
 
 typedef struct s_sphere_context
 {
@@ -41,3 +44,5 @@ static inline float	ft_sphere_collision(t_ray ray, t_sphere sphere)
 		return (FT_INFINITY);
 	return (c.t);
 }
+
+#endif
