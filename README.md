@@ -70,9 +70,9 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 **Ambient Light:**
 
-		intensity		color RGB[0-255]		fog density
+		intensity		color RGB[0-255]		fog density		ray_bounces[0-127]
 
-	A	1.0				32 32 32				0.001
+	A	1.0				32 32 32				0.001			1
 
 **Spot Light:**
 
