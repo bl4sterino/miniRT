@@ -6,14 +6,14 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/31 10:04:07 by pberne           ###   ########.fr        #
+#    Updated: 2026/03/31 14:22:14 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Ofast -Wall -Wextra -Werror
-DFLAGS = -Ofast -Wall -Wextra -Werror 
-#DFLAGS = -g3 -Wall -Wextra -Werror 
+CFLAGS = -g3 -Ofast -Wall -Wextra -Werror
+ #DFLAGS = -Ofast -Wall -Wextra -Werror 
+DFLAGS = -g3 -Ofast -Wall -Wextra -Werror 
 RTFLAGS = -lXext -lX11 -lm
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -22,7 +22,7 @@ MLX_DIR = .minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a
 NAME = mini-rt
 D_NAME = mini-rt_debug
-
+BENCH_NAME = bench_minirt
 SRC_DIR = src/
 OBJ_DIR = obj/
 INCLUDES_DIR =	-Iincludes \
@@ -33,7 +33,9 @@ INCLUDES_DIR =	-Iincludes \
 				-I$(LIBFT_DIR)/includes/inlines \
 				-I$(MLX_DIR)
 
-FILES = main \
+MAIN = main
+
+FILES = main_utils \
 		update \
 		time \
 		image \
@@ -93,23 +95,34 @@ FILES = main \
 		utils/camera_vectors_utils \
 		utils/data_utils
 
+ALL_FILES = $(MAIN) $(FILES)
 
-SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(FILES)))
+SRCS = $(addprefix $(SRC_DIR),  $(addsuffix .c, $(ALL_FILES)))
 
-OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
-DEP = $(addprefix $(OBJ_DIR), $(addsuffix .d, $(FILES)))
+OBJ = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(ALL_FILES)))
+DEP = $(addprefix $(OBJ_DIR), $(addsuffix .d, $(ALL_FILES)))
 
-D_OBJ = $(addprefix $(OBJ_DIR), $(addsuffix _DEBUG.o, $(FILES)))
-D_DEP = $(addprefix $(OBJ_DIR), $(addsuffix _DEBUG.d, $(FILES)))
+D_OBJ = $(addprefix $(OBJ_DIR), $(addsuffix _DEBUG.o, $(ALL_FILES)))
+D_DEP = $(addprefix $(OBJ_DIR), $(addsuffix _DEBUG.d, $(ALL_FILES)))
 
 DEPFLAGS = -MMD
 
-.PHONY: clean fclean all libft re debug libft-rebuild libft-debug-rebuild
+.PHONY: clean fclean all libft re debug libft-rebuild libft-debug-rebuild bench
 
 all: $(NAME)
 
 debug: $(D_NAME)
 
+ifneq (,$(filter bench,$(MAKECMDGOALS)))
+    MAIN = benchmark/main_bvh
+    NAME = $(BENCH_NAME)
+else
+    MAIN = main
+endif
+
+bench: $(NAME)
+
+ALL_FILES = $(MAIN) $(FILES)
 
 $(NAME): $(LIBFT) $(MLX) $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(RTFLAGS)
@@ -152,7 +165,7 @@ clean:
 	$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
-	rm -f $(NAME) $(D_NAME)
+	rm -f $(NAME) $(D_NAME) $(BENCH_NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
 

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bvh.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/31 14:18:44 by pberne           ###   ########.fr       */
+/*   Created: 2026/03/31 13:52:07 by pberne            #+#    #+#             */
+/*   Updated: 2026/03/31 14:19:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,6 @@ int	main(int ac, char **av)
 	d.mlx = mlx_init();
 	if (!d.mlx)
 		ft_exit(MALLOC_FAILED);
-	ft_add_exit(d.mlx, free);
-	ft_add_exit(d.mlx, ft_exit_destroy_display);
 	d.scene = ft_parse_map(&d, av[1]);
-	ft_clear_gc_id(malloc_id_parsing);
-	ft_input_init(&d);
-	ft_init_thread_pool(&d);
-	d.window = mlx_new_window(d.mlx, WIDTH_WIN, HEIGHT_WIN, "mini-rt");
-	if (!d.window)
-		ft_exit(MALLOC_FAILED);
-	ft_add_exit((void *)&d, ft_exit_destroy_window);
-	ft_create_image(&d);
-	ft_setup_hooks(&d);
-	mlx_loop(d.mlx);
-	return (0);
+	ft_exit(0);
 }

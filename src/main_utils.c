@@ -1,0 +1,75 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/31 13:29:50 by pberne            #+#    #+#             */
+/*   Updated: 2026/03/31 14:19:45 by pberne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
+
+void	ft_setup_hooks(t_data *d)
+{
+	ft_add_exit(d->mlx, ft_exit_autorepeaton);
+	mlx_do_key_autorepeatoff(d->mlx);
+	mlx_hook(d->window, 2, (1L << 0), &ft_key_down, d);
+	mlx_hook(d->window, 3, (1L << 1), &ft_key_up, d);
+	mlx_hook(d->window, 4, (1L << 2), &ft_mouse_down, d);
+	mlx_hook(d->window, 5, (1L << 3), &ft_mouse_up, d);
+	mlx_hook(d->window, 17, 0L, &ft_exit_hook, d);
+	mlx_loop_hook(d->mlx, &ft_exec_updates, d);
+}
+
+void	ft_init_therad_pool_mutex_and_cond(t_data *d)
+{
+	if (pthread_mutex_init(&(d->threads_data.task_mutex), NULL) != 0)
+		ft_exit(1);
+	ft_add_exit(d, ft_exit_destroy_task_mutex);
+	if (pthread_cond_init(&(d->threads_data.task_cond), NULL) != 0)
+		ft_exit(1);
+	ft_add_exit(d, ft_exit_destroy_task_cond);
+	if (pthread_cond_init(&(d->threads_data.done_cond), NULL) != 0)
+		ft_exit(1);
+	ft_add_exit(d, ft_exit_destroy_done_cond);
+}
+
+// TODO dynamic thread count
+void	ft_init_thread_pool(t_data *d)
+{
+	int	i;
+	int	count;
+
+	ft_init_therad_pool_mutex_and_cond(d);
+	count = sysconf(_SC_NPROCESSORS_ONLN);
+	ft_task_builder(d);
+	d->threads_data.threads = ft_malloc(sizeof(pthread_t) * count);
+	i = 0;
+	while (i < count)
+	{
+		if (pthread_create(&(d->threads_data.threads[i]), NULL, ft_thread_loop,
+				d) != 0)
+		{
+			ft_add_exit(d, ft_exit_thread_cancel);
+			ft_exit(1);
+		}
+		else
+			d->threads_data.count += 1;
+		i++;
+	}
+	ft_add_exit(d, ft_exit_thread_cancel);
+}
+
+void	ft_init_data(t_data *d)
+{
+	ft_bzero(d, sizeof(t_data));
+	d->selected_object = SELECTED_NONE;
+	srand(42);
+	d->dirty_frame = 1;
+	d->target_ray_bounces = 1;
+	gettimeofday(&(d->last_tv), 0);
+	ft_set_data(d);
+}

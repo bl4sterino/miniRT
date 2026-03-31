@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:04:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/03/31 14:18:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ typedef enum e_malloc_id
 	malloc_id_scene,
 	malloc_id_frame
 }			t_malloc_id;
+// main
+
+void		ft_setup_hooks(t_data *d);
+void		ft_init_thread_pool(t_data *d);
+void		ft_init_data(t_data *d);
 
 // hooks
 

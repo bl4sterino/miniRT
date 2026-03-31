@@ -9,3 +9,4 @@ gmon.out
 .tests/bounds_test.c
 mini-rt_debug
 mini-rt
+bench_minirt
