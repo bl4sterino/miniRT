@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/01 15:34:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/01 18:36:39 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define RT_STRUCTS_H
 
 # include "rt.h"
-# include <immintrin.h>
 
 enum				e_dimensions
 {
