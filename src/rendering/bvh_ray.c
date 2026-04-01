@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 16:52:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/01 15:37:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,9 @@ static inline int	ft_push_next_node_to_stack(t_bvh_context *c)
 	return (0);
 }
 
-static void	ft_shoot_ray_obj_init(t_bvh_context *c, t_ray ray, float max_dist,
+static void	ft_shoot_ray_obj_init(t_bvh_context *c, float max_dist,
 		int root)
 {
-	c->aabb_c.r_org[0] = (t_v3f){{ray.origin.x, ray.origin.x, ray.origin.x}};
-	c->aabb_c.r_org[1] = (t_v3f){{ray.origin.y, ray.origin.y, ray.origin.y}};
-	c->aabb_c.r_org[2] = (t_v3f){{ray.origin.z, ray.origin.z, ray.origin.z}};
-	c->aabb_c.r_inv[0] = (t_v3f){{ray.inv_dir.x, ray.inv_dir.x, ray.inv_dir.x}};
-	c->aabb_c.r_inv[1] = (t_v3f){{ray.inv_dir.y, ray.inv_dir.y, ray.inv_dir.y}};
-	c->aabb_c.r_inv[2] = (t_v3f){{ray.inv_dir.z, ray.inv_dir.z, ray.inv_dir.z}};
 	c->best_dist = max_dist;
 	c->best_index = -1;
 	c->stack_ptr = 0;
@@ -60,7 +54,7 @@ float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 {
 	t_bvh_context	c;
 
-	ft_shoot_ray_obj_init(&c, ray, max_dist, scene->bvh_root);
+	ft_shoot_ray_obj_init(&c, max_dist, scene->bvh_root);
 	while (1)
 	{
 		c.node = &scene->bvh_nodes[c.node_idx];
@@ -75,7 +69,7 @@ float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 		}
 		c.l_idx = c.node->left;
 		c.r_idx = c.node->right;
-		ft_intersect_aabb_x2_fast(c.aabb_c, &c.node->bounds2x, c.dist);
+		ft_intersect_aabb_x2_fast(ray, &c.node->bounds2x, c.dist);
 		if (ft_push_next_node_to_stack(&c))
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:26:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 17:13:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/01 15:46:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,25 +44,30 @@ static inline float	ft_bounds_collision(t_ray ray, t_bounds b)
 	return (tn_f(min_max.x > 0.0f, min_max.x, 0.0f));
 }
 
-static inline void	ft_intersect_aabb_x2_fast(t_aabb_x2 c, const t_bounds2x *b,
+static inline void	ft_intersect_aabb_x2_fast(t_ray ray, const t_bounds2x *b,
 		float dist[2])
 {
-	c.t1 = ft_v3f_mult(ft_v3f_sub(b->min_x, c.r_org[0]), c.r_inv[0]);
-	c.t2 = ft_v3f_mult(ft_v3f_sub(b->max_x, c.r_org[0]), c.r_inv[0]);
-	c.tmin = ft_v3f_min(c.t1, c.t2);
-	c.tmax = ft_v3f_max(c.t1, c.t2);
-	c.t1 = ft_v3f_mult(ft_v3f_sub(b->min_y, c.r_org[1]), c.r_inv[1]);
-	c.t2 = ft_v3f_mult(ft_v3f_sub(b->max_y, c.r_org[1]), c.r_inv[1]);
-	c.tmin = ft_v3f_max(c.tmin, ft_v3f_min(c.t1, c.t2));
-	c.tmax = ft_v3f_min(c.tmax, ft_v3f_max(c.t1, c.t2));
-	c.t1 = ft_v3f_mult(ft_v3f_sub(b->min_z, c.r_org[2]), c.r_inv[2]);
-	c.t2 = ft_v3f_mult(ft_v3f_sub(b->max_z, c.r_org[2]), c.r_inv[2]);
-	c.tmin = ft_v3f_max(c.tmin, ft_v3f_min(c.t1, c.t2));
-	c.tmax = ft_v3f_min(c.tmax, ft_v3f_max(c.t1, c.t2));
-	dist[0] = tn_f(c.tmin.v[0] <= c.tmax.v[0] && c.tmax.v[0] > 0.0f,
-			c.tmin.v[0], FT_INFINITY);
-	dist[1] = tn_f(c.tmin.v[1] <= c.tmax.v[1] && c.tmax.v[1] > 0.0f,
-			c.tmin.v[1], FT_INFINITY);
+	t_v3f t1;
+	t_v3f t2;
+	t_v3f tmin;
+	t_v3f tmax;
+
+	t1.v = (b->min_x.v - ray.origin.x) * ray.inv_dir.x;
+	t2.v = (b->max_x.v - ray.origin.x) * ray.inv_dir.x;
+	tmin = ft_v3f_min(t1, t2);
+	tmax = ft_v3f_max(t1, t2);
+	t1.v = (b->min_y.v - ray.origin.y) * ray.inv_dir.y;
+	t2.v = (b->max_y.v - ray.origin.y) * ray.inv_dir.y;
+	tmin = ft_v3f_max(tmin, ft_v3f_min(t1, t2));
+	tmax = ft_v3f_min(tmax, ft_v3f_max(t1, t2));
+	t1.v = (b->min_z.v - ray.origin.z) * ray.inv_dir.z;
+	t2.v = (b->max_z.v - ray.origin.z) * ray.inv_dir.z;
+	tmin = ft_v3f_max(tmin, ft_v3f_min(t1, t2));
+	tmax = ft_v3f_min(tmax, ft_v3f_max(t1, t2));
+	dist[0] = tn_f(tmin.v[0] <= tmax.v[0] && tmax.v[0] > 0.0f,
+			tmin.v[0], FT_INFINITY);
+	dist[1] = tn_f(tmin.v[1] <= tmax.v[1] && tmax.v[1] > 0.0f,
+			tmin.v[1], FT_INFINITY);
 }
 
 #endif

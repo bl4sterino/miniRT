@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/31 16:45:52 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/01 15:34:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ typedef struct s_bvh_context
 	int				l_idx;
 	int				r_idx;
 	float			dist[2];
-	t_aabb_x2		aabb_c;
 }					t_bvh_context;
 
 typedef struct s_bvh_context_debug

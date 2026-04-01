@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/31 16:45:47 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/01 15:24:15 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,8 @@ typedef struct s_bounds2x
 
 typedef struct s_bvh_node
 {
-	t_bounds			bounds;
 	t_bounds2x			bounds2x;
+	t_bounds			bounds;
 	int					split_axis;
 	int					left;
 	int					right;
