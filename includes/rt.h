@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/31 14:18:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 17:35:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # define TASK_TILE_SIZE 16
 # define TASK_LINE_SIZE 128
 # define SELECTED_NONE 2147483647
+# define SELECTED_SKYBOX 2147483646
 # define OBJ_MOVEMENT_SPEED 20.0f
 # define OBJ_ROTATION_SPEED 100.0f
 # define OBJ_EXTRA_SPEED 5.0f
@@ -166,12 +167,16 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 // rendering
 
 void		ft_build_bvh(t_scene *scene);
-t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out);
+t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out,
+				int ray_target);
 
 t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces);
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces);
+int			ft_cache_ray_target(t_data *d, t_thread_render_context *c);
 
 float		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
+float		ft_shoot_ray_smart(t_ray ray, t_scene *scene,
+				t_pixel_color_context *c, int ray_target);
 
 t_v3f		ft_shoot_ray_bvh_debug(t_ray ray, t_scene *scene);
 t_v3f		ft_get_light(t_v3f position, t_v3f normal, t_scene *scene);

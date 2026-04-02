@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 17:03:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 17:01:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_update_bvh(t_scene *scene, int start, int branch_elements)
 	ft_memcpy(scene->objects, scene->raw_objects, sizeof(t_object)
 		* scene->num_objects);
 	rootid = ft_bvh_builder(scene, start, branch_elements);
-	ft_bvh_bounds_2x(scene, &scene->bvh_nodes[rootid]);
+	if (rootid >= 0)
+		ft_bvh_bounds_2x(scene, &scene->bvh_nodes[rootid]);
 	return (rootid);
 }

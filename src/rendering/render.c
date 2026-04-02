@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/04 10:36:46 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 17:37:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,26 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 		pthread_cond_wait(&d->threads_data.done_cond,
 			&d->threads_data.task_mutex);
 	pthread_mutex_unlock(&d->threads_data.task_mutex);
+}
+
+void	ft_render_preprocess_2(t_data *d)
+{
+	if (d->dirty_frame)
+	{
+		d->dirty_frame = 0;
+		d->cache_frame = 1;
+		d->frame_count = 0.0f;
+		ft_memset_int(d->image.current_frame, 0, SCREEN_SIZE * 4);
+		ft_memset_int(d->image.ray_targets, SELECTED_NONE, SCREEN_SIZE);
+	}
+	if (d->frame_count == 1.0f && d->cache_frame == 1)
+	{
+		d->frame_count = 0.0f;
+		d->cache_frame = 2;
+		ft_memset_int(d->image.current_frame, 0, SCREEN_SIZE * 4);
+	}
+	else if (d->cache_frame == 2)
+		d->cache_frame = 0;
 }
 
 void	ft_render_preprocess(t_data *d)
@@ -40,12 +60,7 @@ void	ft_render_preprocess(t_data *d)
 		d->scene->planes[i].material.reflectiveness_rand = fast_rand();
 		i++;
 	}
-	if (d->dirty_frame)
-	{
-		d->dirty_frame = 0;
-		d->frame_count = 0.0f;
-		ft_memset_int(d->image.current_frame, 0, SCREEN_SIZE * 4);
-	}
+	ft_render_preprocess_2(d);
 }
 
 void	ft_render(t_data *d)

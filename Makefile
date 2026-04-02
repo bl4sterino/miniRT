@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/03/31 14:22:14 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/02 17:36:00 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ FILES = main_utils \
 		ui/hud_display \
 		ui/ui_draw_floating \
 		rendering/thread_routine \
+		rendering/thread_routine_target_caching \
 		rendering/render \
 		rendering/viewport \
 		rendering/bvh_builder \
@@ -91,6 +92,7 @@ FILES = main_utils \
 		rendering/bvh_ray_light \
 		rendering/task_builder \
 		rendering/ray_to_color \
+		rendering/shoot_ray_smart \
 		rendering/post_processing/post_process \
 		utils/camera_vectors_utils \
 		utils/data_utils

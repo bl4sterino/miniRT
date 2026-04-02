@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/27 17:43:04 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/01 15:37:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 17:40:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ float	ft_shoot_ray_against_objects(t_ray ray, float max_dist, t_scene *scene,
 	t_bvh_context	c;
 
 	ft_shoot_ray_obj_init(&c, max_dist, scene->bvh_root);
-	while (1)
+	while (1 && scene->bvh_root >= 0)
 	{
 		c.node = &scene->bvh_nodes[c.node_idx];
 		if (c.node->left == -1)

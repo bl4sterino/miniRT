@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 17:14:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 11:58:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void	ft_create_image(t_data *d)
 	ft_add_exit(image.ptr, ft_exit_destroy_image);
 	image.current_frame = ft_malloc(sizeof(t_v3f) * SCREEN_SIZE);
 	image.normals = ft_malloc(sizeof(t_v3f) * SCREEN_SIZE);
+	image.ray_targets = ft_malloc(sizeof(int) * SCREEN_SIZE);
+	ft_memset_int(image.ray_targets, SELECTED_NONE, SCREEN_SIZE);
 	ft_bzero(image.normals, sizeof(t_v3f) * SCREEN_SIZE);
-	image.positions = ft_malloc(sizeof(t_v3f) * SCREEN_SIZE);
-	ft_bzero(image.positions, sizeof(t_v3f) * SCREEN_SIZE);
 	image.addr = mlx_get_data_addr(image.ptr, &(image.bpp), &(image.line_size),
 			&(image.endian));
 	d->image = image;

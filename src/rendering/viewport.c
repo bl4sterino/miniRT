@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/28 19:18:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 11:52:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 	vp.v.v = context.cam_up.v * -2.0f * context.half_height;
 	vp.x_delta.v = vp.u.v / (float)WIDTH_WIN;
 	vp.y_delta.v = vp.v.v / (float)HEIGHT_WIN;
-	vp.top_left.v = cam.position.v + cam.direction.v;
-	vp.top_left.v -= vp.u.v * 0.5f;
-	vp.top_left.v -= vp.v.v * 0.5f;
+	vp.raw_top_left.v = cam.position.v + cam.direction.v;
+	vp.raw_top_left.v -= vp.u.v * 0.5f;
+	vp.raw_top_left.v -= vp.v.v * 0.5f;
 	rx = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);
 	ry = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);
 	context.pixel_center_offset.v = (vp.x_delta.v * rx) + (vp.y_delta.v * ry);
-	vp.top_left.v = vp.top_left.v + context.pixel_center_offset.v;
+	vp.top_left.v = vp.raw_top_left.v + context.pixel_center_offset.v;
 	vp.bottom_right.v = vp.top_left.v + vp.u.v;
 	vp.bottom_right.v = vp.bottom_right.v + vp.v.v;
 	vp.top_right.v = vp.top_left.v + vp.u.v;

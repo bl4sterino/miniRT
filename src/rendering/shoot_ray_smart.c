@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   image_accumulated_inlined.h                        :+:      :+:    :+:   */
+/*   shoot_ray_smart.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 13:49:44 by pberne           ###   ########.fr       */
+/*   Created: 2026/04/02 17:27:45 by pberne            #+#    #+#             */
+/*   Updated: 2026/04/02 17:28:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef IMAGE_ACCUMULATED_INLINED_H
-# define IMAGE_ACCUMULATED_INLINED_H
+#include "rt.h"
 
-# include "rt.h"
-
-static inline void	ft_add_pixel_to_accumulated_image(t_data *d, int index,
-		t_v3f color)
+float	ft_shoot_ray_smart(t_ray ray, t_scene *scene, t_pixel_color_context *c,
+		int ray_target)
 {
-	d->image.current_frame[index] = ft_v3f_add(d->image.current_frame[index],
-			color);
+	if (ray_target == SELECTED_NONE)
+		c->distance = ft_shoot_ray(ray, scene, &c->hit);
+	else if (ray_target == SELECTED_SKYBOX)
+		c->distance = FT_INFINITY;
+	else
+		c->distance = ft_get_object_distance(ray, scene, ray_target, &c->hit);
+	return (c->distance != FT_INFINITY);
 }
-
-#endif

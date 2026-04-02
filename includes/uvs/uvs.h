@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 15:56:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/31 14:20:01 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 15:37:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,20 @@ static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
 
 	if (hit < 0)
 		uv = ft_plane_uv(pos, scene->planes[-(hit + 1)].object.as_plane);
-	object = scene->objects[hit];
-	if (object.type == object_type_sphere)
-		uv = ft_sphere_uv(pos, object.object.as_sphere);
-	else if (object.type == object_type_cylinder)
-		uv = ft_cylinder_uv(pos, object.object.as_cylinder);
-	else if (object.type == object_type_quad)
-		uv = ft_quad_uv(pos, object.object.as_quad);
-	else if (object.type == object_type_ellipsoid)
-		uv = ft_ellipsoid_uv(pos, object.object.as_ellipsoid);
 	else
-		uv = (t_v2f){0.0f, 1.0f};
+	{
+		object = scene->objects[hit];
+		if (object.type == object_type_sphere)
+			uv = ft_sphere_uv(pos, object.object.as_sphere);
+		else if (object.type == object_type_cylinder)
+			uv = ft_cylinder_uv(pos, object.object.as_cylinder);
+		else if (object.type == object_type_quad)
+			uv = ft_quad_uv(pos, object.object.as_quad);
+		else if (object.type == object_type_ellipsoid)
+			uv = ft_ellipsoid_uv(pos, object.object.as_ellipsoid);
+		else
+			uv = (t_v2f){0.0f, 1.0f};
+	}
 	return (ft_normalize_uv(uv));
 }
 

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/01 14:55:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/02 17:32:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	ft_ray_fog(t_ray ray, t_scene *scene, t_out_buffer *out,
 			ray = ft_setup_ray_direction(ray, ft_v3f_random(),
 					ray.remaining_bounces - 1);
 			c->out_color = ft_v3f_add(c->out_color, ft_get_pixel_color(ray,
-						scene, out));
-			c->out_color.v += ft_get_light(ray.origin,
-					(t_v3f){{0.0f, 0.0f, 0.0f}}, scene).v;
+						scene, out, SELECTED_NONE));
+			c->out_color.v += ft_get_light(ray.origin, (t_v3f){{0.0f, 0.0f,
+					0.0f}}, scene).v;
 			return (1);
 		}
 	}
@@ -48,7 +48,7 @@ int	ft_ray_refraction(t_ray ray, t_scene *scene, t_out_buffer *out,
 	ref_to = tn_f(side > 0, c->mat.refraction, 1.0f);
 	if (c->mat.diffusion > 0.0f)
 		c->reflected = ft_v3f_normalize(ft_v3f_lerp(c->hit_normal,
-					ft_v3f_random_hemisphere(c->hit_normal), c->mat.diffusion));
+					ft_v3f_random_hem(c->hit_normal), c->mat.diffusion));
 	else
 		c->reflected = c->hit_normal;
 	c->new_dir = ft_v3f_refract(ray.direction, c->reflected, ref_from, ref_to);
@@ -58,7 +58,7 @@ int	ft_ray_refraction(t_ray ray, t_scene *scene, t_out_buffer *out,
 				ft_v3f_scale(c->new_dir, EPSILON));
 		ray = ft_setup_ray_direction(ray, c->new_dir, ray.remaining_bounces);
 		c->out_color = ft_v3f_mult(c->mat.color, ft_get_pixel_color(ray, scene,
-					out));
+					out, SELECTED_NONE));
 		return (1);
 	}
 	c->mat.reflectiveness_rand = -1.0f;
@@ -78,18 +78,18 @@ t_v3f	ft_ray_bounce(t_ray ray, t_scene *scene, t_out_buffer *out,
 	if (c->mat.reflectiveness_rand < c->mat.reflectiveness)
 	{
 		c->reflected = ft_v3f_reflect(ray.direction, c->hit_normal);
-		c->new_dir = ft_v3f_lerp(c->reflected,
-				ft_v3f_random_hemisphere(c->hit_normal), c->mat.diffusion);
+		c->new_dir = ft_v3f_lerp(c->reflected, ft_v3f_random_hem(c->hit_normal),
+				c->mat.diffusion);
 		ray = ft_setup_ray_direction(ray, c->new_dir, ray.remaining_bounces
 				- 1);
-		return (ft_get_pixel_color(ray, scene, out));
+		return (ft_get_pixel_color(ray, scene, out, SELECTED_NONE));
 	}
 	else
 	{
 		direct_light = ft_get_light(c->hit_point, c->hit_normal, scene);
-		ray = ft_setup_ray_direction(ray, ft_v3f_random_hemisphere(
-					c->hit_normal), ray.remaining_bounces - 1);
-		indirect_light = ft_get_pixel_color(ray, scene, 0);
+		ray = ft_setup_ray_direction(ray, ft_v3f_random_hem(c->hit_normal),
+				ray.remaining_bounces - 1);
+		indirect_light = ft_get_pixel_color(ray, scene, 0, SELECTED_NONE);
 		bounce_weight = ft_v3f_dot(c->hit_normal, ray.direction);
 		indirect_light = ft_v3f_scale(indirect_light, bounce_weight);
 		c->light_color = ft_v3f_add(direct_light, indirect_light);
@@ -111,7 +111,7 @@ static inline void	ft_set_hit_data(t_ray ray, t_scene *scene,
 	c->hit_point = ft_v3f_add(ft_ray_at(ray, c->distance),
 			ft_v3f_scale(c->hit_normal, EPSILON));
 	if (out)
-		*out = (t_out_buffer){c->hit_normal, c->hit_point};
+		*out = (t_out_buffer){c->hit_normal};
 	c->hit_uv = ft_get_hit_uv(c->hit_point, c->hit, scene);
 	if (c->mat.normal_tex > 1 || c->mat.normal_tex < -1)
 	{
@@ -127,12 +127,14 @@ static inline void	ft_set_hit_data(t_ray ray, t_scene *scene,
 	from the bvh, so we check them first and use a negative hit index
 	offset by one to avoid zero to represent them
 */
-t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out)
+t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out,
+		int ray_target)
 {
 	t_pixel_color_context	c;
 
 	c.out_color = (t_v3f){{0.0f, 0.0f, 0.0f}};
-	c.distance = ft_shoot_ray(ray, scene, &c.hit);
+	if (!ft_shoot_ray_smart(ray, scene, &c, ray_target))
+		return (c.out_color);
 	if (ft_ray_fog(ray, scene, out, &c))
 		return (c.out_color);
 	if (c.distance < FT_INFINITY)
@@ -151,7 +153,6 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out)
 		return (c.out_color);
 	}
 	if (out)
-		*out = (t_out_buffer){ray.direction, (t_v3f){{15000.0f, 15000.0f,
-			15000.0f}}};
+		*out = (t_out_buffer){ray.direction};
 	return ((t_v3f){{0.0f, 0.0f, 0.0f}});
 }

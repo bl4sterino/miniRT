@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/01 18:36:39 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/02 17:22:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_image
 	t_v3f			*current_frame;
 	t_v3f			*averaged_colors;
 	t_v3f			*normals;
-	t_v3f			*positions;
+	int				*ray_targets;
 	int				bpp;
 	int				line_size;
 	int				endian;
@@ -99,6 +99,7 @@ typedef struct s_viewport
 	t_v3f			v;
 	t_v3f			x_delta;
 	t_v3f			y_delta;
+	t_v3f			raw_top_left;
 	t_v3f			top_left;
 	t_v3f			top_right;
 	t_v3f			bottom_left;
@@ -119,6 +120,7 @@ typedef struct s_data
 	char			*fpsstr;
 	float			frame_count;
 	char			dirty_frame;
+	char			cache_frame;
 	char			ray_bounces;
 	int				target_ray_bounces;
 	t_scene			*scene;
@@ -182,12 +184,12 @@ typedef struct s_bvh_context_debug
 typedef struct s_out_buffer
 {
 	t_v3f			hit_normal;
-	t_v3f			hit_point;
 }					t_out_buffer;
 
 typedef struct s_thread_render_context
 {
 	t_v2i			pixel;
+	int				index;
 	t_ray			ray;
 	t_v3f			target;
 	t_out_buffer	out;
@@ -237,7 +239,6 @@ typedef struct s_pixel_color_context
 	t_v3f			reflected;
 	t_v3f			new_dir;
 	char			hit_side;
-
 }					t_pixel_color_context;
 
 typedef struct s_viewport_context
