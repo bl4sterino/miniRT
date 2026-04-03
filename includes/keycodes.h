@@ -6,12 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:04:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 11:50:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEYCODES_H
 # define KEYCODES_H
+
+# include <X11/keysym.h>
 
 # define KEY_ESCAPE 65307
 # define KEY_W 119
@@ -29,6 +31,7 @@
 # define KEY_R 114
 # define KEY_B 98
 # define KEY_N 110
+# define KEY_M 109
 # define KEY_SPACE 32
 # define KEY_CTRL_L 65507
 # define KEY_ALT 65513
@@ -79,23 +82,21 @@
 
 # include "libft.h"
 
-typedef struct s_key_list
+typedef struct s_key
 {
-	struct s_key_list	*next;
-	int					keycode;
-	int					isdown;
-	int					just_down;
-	int					just_up;
-}						t_key_list;
+	int				isdown;
+	int				just_down;
+	int				just_up;
+}					t_key;
 
 typedef struct s_input
 {
-	t_v2i				mouse_pos;
-	t_v2i				mouse_pos_previous;
-	t_v2i				mouse_delta;
-	unsigned long		mouse_reset;
-	int					focus;
-	t_key_list			*keys;
-}						t_input;
+	t_v2i			mouse_pos;
+	t_v2i			mouse_pos_previous;
+	t_v2i			mouse_delta;
+	unsigned long	mouse_reset;
+	int				focus;
+	t_key			keys[0xFFFF];
+}					t_input;
 
 #endif

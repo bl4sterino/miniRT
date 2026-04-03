@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/02 17:36:00 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/03 12:03:49 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,6 @@ FILES = main_utils \
 		input/camera \
 		input/focus_and_cursor \
 		input/input \
-		input/input_listeners \
 		input/input_get \
 		input/key_controls \
 		input/key_hook \

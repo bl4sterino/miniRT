@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 17:35:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 12:04:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,6 @@ void		ft_exit_thread_cancel(void *d);
 
 void		ft_add_input(int keycode, t_data *d);
 void		ft_add_key_range(int keycode_start, int keycode_end, t_data *d);
-void		ft_input_init(t_data *d);
 void		ft_update_key_state(int keycode, int newstate, t_data *d);
 void		ft_input_clear_just_pressed(t_data *d);
 int			ft_get_key(int keycode, t_data *d);
