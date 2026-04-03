@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:30:46 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/03 16:41:40 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 14:27:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	ft_try_select_light(t_data *d)
 {
 	int	direction;
 
-	direction = ft_get_key_down(KEY_PGUP, d) - ft_get_key_down(KEY_PGDN, d);
+	direction = ft_get_key_down(XK_Page_Up, d) - ft_get_key_down(XK_Page_Down,
+			d);
 	if (direction && d->scene->num_lights > 0)
 	{
 		d->selected_object = SELECTED_NONE;

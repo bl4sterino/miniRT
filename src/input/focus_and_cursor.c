@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_focus_and_cursor.c                              :+:      :+:    :+:   */
+/*   focus_and_cursor.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 16:31:27 by pberne            #+#    #+#             */
-/*   Updated: 2026/01/16 11:15:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 14:11:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_mouse_update(t_data *d)
 {
 	mlx_mouse_get_pos(d->mlx, d->window, &(d->input.mouse_pos.x),
 		&(d->input.mouse_pos.y));
-	if (ft_get_key_down(KEY_ALT, d))
+	if (ft_get_key_down(XK_Alt_L, d))
 		ft_toggle_focus(d);
 	if (d->input.focus)
 	{

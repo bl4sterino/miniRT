@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/26 16:53:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 14:37:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_update(t_data *d)
 void	ft_early_update(t_data *d)
 {
 	ft_update_time(d);
-	if (ft_get_key_down(KEY_ESCAPE, d))
+	if (ft_get_key_down(XK_Escape, d))
 		ft_exit(EXIT_SUCCESS);
 	ft_mouse_update(d);
 }

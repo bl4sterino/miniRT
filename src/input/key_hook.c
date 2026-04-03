@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:26:37 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/20 11:09:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 14:38:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	ft_key_down(int keycode, t_data *d)
 {
-	ft_printf("%d\n", keycode);
 	ft_update_key_state(keycode, 1, d);
 	return (0);
 }

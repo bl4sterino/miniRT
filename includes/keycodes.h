@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 11:36:28 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 11:50:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/03 14:36:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,6 @@
 # define KEYCODES_H
 
 # include <X11/keysym.h>
-
-# define KEY_ESCAPE 65307
-# define KEY_W 119
-# define KEY_A 97
-# define KEY_S 115
-# define KEY_D 100
-# define KEY_Q 113
-# define KEY_E 101
-# define KEY_F 102
-# define KEY_G 103
-# define KEY_I 105
-# define KEY_J 106
-# define KEY_K 107
-# define KEY_L 108
-# define KEY_R 114
-# define KEY_B 98
-# define KEY_N 110
-# define KEY_M 109
-# define KEY_SPACE 32
-# define KEY_CTRL_L 65507
-# define KEY_ALT 65513
-# define KEY_KP_PLUS 65451
-# define KEY_KP_MINUS 65453
-# define KEY_KP_DIV 65455
-# define KEY_KP_MULT 65450
 
 # define KEY_KP_7 65429
 # define KEY_KP_4 65430
@@ -50,29 +25,6 @@
 # define KEY_KP_1 65436
 # define KEY_KP_5 65437
 # define KEY_KP_0 65438
-
-# define KEY_KP_DOT 65439
-
-# define KEY_UP 65362
-# define KEY_DOWN 65364
-# define KEY_LEFT 65361
-# define KEY_RIGHT 65363
-
-# define KEY_F1 65470
-# define KEY_F2 65471
-# define KEY_F3 65472
-# define KEY_F4 65473
-# define KEY_F5 65474
-# define KEY_F6 65475
-# define KEY_F7 65476
-# define KEY_F8 65477
-# define KEY_F9 65478
-# define KEY_F10 65479
-# define KEY_F11 65480
-# define KEY_F12 65481
-
-# define KEY_PGUP 65365
-# define KEY_PGDN 65366
 
 # define MOUSE_LEFT 1
 # define MOUSE_MIDDLE 2
