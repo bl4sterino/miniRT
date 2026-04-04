@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/01 15:24:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 15:39:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ typedef struct s_camera
 	t_v3f				direction;
 	float				fov;
 }						t_camera;
+
+typedef struct s_skybox
+{
+	int					color;
+	int					luminance;
+}						t_skybox;
 
 typedef struct s_light
 {
@@ -121,7 +127,8 @@ typedef enum e_object_type
 	object_type_quad,
 	object_type_triangle,
 	object_type_ellipsoid,
-	object_type_texture_path
+	object_type_texture_path,
+	object_type_skybox
 }						t_object_type;
 
 /// OBJECTS UNION
@@ -140,6 +147,7 @@ typedef struct s_parsed_object
 		t_quad			as_quad;
 		t_triangle		as_triangle;
 		t_ellipsoid		as_ellipsoid;
+		t_skybox		as_skybox;
 		char			*as_texture_path;
 	} object;
 	t_material			material;
@@ -225,6 +233,7 @@ typedef struct s_texture
 {
 	void				*ptr;
 	int					*pixels;
+	t_v3f				*hdr_pixels;
 	int					width;
 	int					height;
 }						t_texture;
@@ -233,6 +242,8 @@ typedef struct s_scene
 {
 	t_ambient_light		ambient_light;
 	t_camera			camera;
+	t_texture			skybox_tex;
+	t_sphere			skybox_sphere;
 	int					num_planes;
 	t_object			*planes;
 	int					num_lights;
@@ -274,17 +285,24 @@ int						ft_try_parse_texture(char **strs, int malloc_id,
 							t_list **object_lst);
 void					ft_load_textures(t_data *d, t_scene *scene,
 							t_list *lst);
+void					ft_try_extract_texture(t_data *d, t_texture *out,
+							char *filepath);
+void					ft_create_hdr_tex(t_texture *out,
+							t_texture *color, t_texture *lum);
+
 t_cylinder				ft_get_processed_cylinder(t_cylinder cyl);
 t_quad					ft_get_processed_quad(t_quad quad);
 t_struct_parser_data	*ft_get_parser_triangle(int id);
 t_triangle				ft_get_processed_triangle(t_triangle tri);
 t_struct_parser_data	*ft_get_parser_ellipsoid(int id);
 t_ellipsoid				ft_get_processed_ellipsoid(t_ellipsoid el);
+t_struct_parser_data	*ft_get_parser_skybox(int id);
 
 long					ft_count_matches(t_list *lst, t_object_type type);
 
 void					ft_extract_camera(t_scene *scene, t_list *lst);
 void					ft_extract_ambient_light(t_scene *scene, t_list *lst);
+void					ft_extract_skybox(t_scene *scene, t_list *lst);
 void					ft_extract_lights(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
 void					ft_extract_objects(t_scene *scene, t_list *lst);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:41:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/25 15:51:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 21:35:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_v3f	ft_get_spot_light_color(t_v3f position, t_v3f normal, t_scene *scene)
 		% scene->num_lights;
 	c.light = scene->lights[c.rand_light];
 	c.light_ray.origin = position;
-	c.light_ray = ft_setup_ray_target(c.light_ray, c.light.position, 0);
+	c.light_ray = ft_setup_ray_target(c.light_ray, c.light.position, 0, 0);
 	if (ft_v3f_dot(normal, c.light_ray.direction) < 0.0f)
 		return ((t_v3f){{0.0f, 0.0f, 0.0f}});
 	c.light_dist = ft_v3f_length(ft_v3f_sub(c.light.position,
@@ -73,7 +73,8 @@ static inline t_v3f	ft_get_emissive_light(t_get_emissive_light_context *c,
 	{
 		hit_pos = ft_ray_at(c->light_ray, c->dist);
 		uv = ft_get_hit_uv(hit_pos, c->hit, scene);
-		color = ft_sample_texture(scene, c->obj.material.color_tex, uv);
+		color = ft_sample_texture(&scene->textures[c->obj.material.color_tex],
+				uv);
 	}
 	else
 		color = c->obj.material.color;
@@ -95,7 +96,7 @@ t_v3f	ft_get_emissive_light_color(t_v3f position, t_v3f normal,
 			&& normal.z == 0.0f);
 	c.light_ray.origin = position;
 	c.light_ray = ft_setup_ray_target(c.light_ray,
-			ft_get_random_point_on_object(c.obj), 5);
+			ft_get_random_point_on_object(c.obj), 5, 0);
 	c.emission_dot = tn_f(c.bypass_normal, 1.0f,
 			ft_v3f_dot(c.light_ray.direction, normal));
 	if (c.emission_dot < 0.0f)

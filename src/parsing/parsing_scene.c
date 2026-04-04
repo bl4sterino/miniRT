@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 18:06:00 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 15:39:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst)
 	ft_normalize_vectors(lst);
 	ft_extract_camera(scene, lst);
 	ft_extract_ambient_light(scene, lst);
+	ft_extract_skybox(scene, lst);
 	ft_extract_planes(scene, lst);
 	ft_extract_lights(scene, lst);
 	ft_extract_objects(scene, lst);
@@ -82,6 +83,8 @@ t_scene	*ft_build_scene_from_elements(t_data *d, t_list *lst)
 		ft_exit_str_fd(1, "Wrong number of Ambient Light\n", 2);
 	if (ft_count_matches(lst, object_type_camera) != 1)
 		ft_exit_str_fd(1, "Wrong number of Cameras\n", 2);
+	if (ft_count_matches(lst, object_type_skybox) > 1)
+		ft_exit_str_fd(1, "Too many skyboxes\n", 2);
 	scene = ft_malloc_id(sizeof(t_scene), malloc_id_scene);
 	ft_bzero(scene, sizeof(t_scene));
 	scene->planes = ft_malloc_id(sizeof(t_object) * ft_count_matches(lst,

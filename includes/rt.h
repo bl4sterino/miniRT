@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 12:04:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 21:30:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define CAM_ROTATION_SPEED_KEY 128.0f
 
 # define DELTATIME_DISPLAY_DELAY 0.2f
+
+# define MAX_HDR_COEF 20.0f
 
 // Libs and struct must be included first
 # include "keycodes.h"
@@ -168,9 +170,12 @@ void		ft_draw_str(t_data *d, t_draw_arg arg, char *str);
 void		ft_build_bvh(t_scene *scene);
 t_v3f		ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out,
 				int ray_target);
+t_v3f		ft_get_sky_color(t_scene *scene, t_ray ray, t_out_buffer *out);
 
-t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces);
-t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces);
+t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces,
+				char diffused);
+t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces,
+				char diffused);
 int			ft_cache_ray_target(t_data *d, t_thread_render_context *c);
 
 float		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);

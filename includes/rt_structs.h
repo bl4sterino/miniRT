@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 17:22:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 20:51:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ typedef struct s_ray
 	t_v3f			inv_dir;
 	int				inv_sign[3];
 	char			remaining_bounces;
+	char			diffused;
 }					t_ray;
 
 typedef struct s_ray_result

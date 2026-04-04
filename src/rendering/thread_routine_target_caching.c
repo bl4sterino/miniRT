@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 17:08:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 17:36:15 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 20:59:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static inline int	ft_cache_ray_target_2(t_data *d, t_thread_render_context *c,
 	target.v = d->viewport.raw_top_left.v + (d->viewport.x_delta.v
 			* (float)c->pixel.x + d->viewport.y_delta.v * (float)(c->pixel.y
 				+ 1));
-	c->ray = ft_setup_ray_target(c->ray, target, 0);
+	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	if (hit != hit_comp)
 		return (SELECTED_NONE);
@@ -30,7 +30,7 @@ static inline int	ft_cache_ray_target_2(t_data *d, t_thread_render_context *c,
 	target.v = d->viewport.raw_top_left.v + (d->viewport.x_delta.v
 			* (float)(c->pixel.x + 1) + d->viewport.y_delta.v
 			* (float)(c->pixel.y + 1));
-	c->ray = ft_setup_ray_target(c->ray, target, 0);
+	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	if (hit != hit_comp)
 		return (SELECTED_NONE);
@@ -54,14 +54,14 @@ int	ft_cache_ray_target(t_data *d, t_thread_render_context *c)
 	hit = SELECTED_NONE;
 	target.v = d->viewport.raw_top_left.v + (d->viewport.x_delta.v
 			* (float)c->pixel.x + d->viewport.y_delta.v * (float)c->pixel.y);
-	c->ray = ft_setup_ray_target(c->ray, target, 0);
+	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	hit_comp = hit;
 	hit = SELECTED_NONE;
 	target.v = d->viewport.raw_top_left.v + (d->viewport.x_delta.v
 			* (float)(c->pixel.x + 1) + d->viewport.y_delta.v
 			* (float)c->pixel.y);
-	c->ray = ft_setup_ray_target(c->ray, target, 0);
+	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	if (hit != hit_comp)
 		return (SELECTED_NONE);

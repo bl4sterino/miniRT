@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/03 12:03:49 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/04 21:30:36 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,8 +68,10 @@ FILES = main_utils \
 		parsing/parsing_q \
 		parsing/parsing_t \
 		parsing/parsing_texture \
+		parsing/create_hdr_tex \
 		parsing/parsing_ellipsoid \
-		parsing/parsing_scene_builder_A_C_L \
+		parsing/parsing_skybox \
+		parsing/parsing_scene_builder_A_C_L_sky \
 		parsing/parsing_scene_builder_pl_objects \
 		parsing/parsing_normalization \
 		parsing/parsing_error \
@@ -91,6 +93,7 @@ FILES = main_utils \
 		rendering/bvh_ray_light \
 		rendering/task_builder \
 		rendering/ray_to_color \
+		rendering/ray_to_color_utils \
 		rendering/shoot_ray_smart \
 		rendering/post_processing/post_process \
 		utils/camera_vectors_utils \

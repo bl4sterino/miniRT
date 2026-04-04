@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 13:51:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 21:30:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_ray_fog(t_ray ray, t_scene *scene, t_out_buffer *out,
 		{
 			ray.origin = ft_ray_at(ray, scatter_dist);
 			ray = ft_setup_ray_direction(ray, ft_v3f_random(),
-					ray.remaining_bounces - 1);
+					ray.remaining_bounces - 1, 1);
 			c->out_color = ft_v3f_add(c->out_color, ft_get_pixel_color(ray,
 						scene, out, SELECTED_NONE));
 			c->out_color.v += ft_get_light(ray.origin, (t_v3f){{0.0f, 0.0f,
@@ -54,9 +54,9 @@ int	ft_ray_refraction(t_ray ray, t_scene *scene, t_out_buffer *out,
 	c->new_dir = ft_v3f_refract(ray.direction, c->reflected, ref_from, ref_to);
 	if (c->new_dir.x != 0.0f || c->new_dir.y != 0.0f || c->new_dir.z != 0.0f)
 	{
-		ray.origin = ft_v3f_add(ft_ray_at(ray, c->distance),
-				ft_v3f_scale(c->new_dir, EPSILON));
-		ray = ft_setup_ray_direction(ray, c->new_dir, ray.remaining_bounces);
+		ray.origin.v = ft_ray_at(ray, c->distance).v + c->new_dir.v * EPSILON;
+		ray = ft_setup_ray_direction(ray, c->new_dir, ray.remaining_bounces,
+				ray.diffused);
 		c->out_color = ft_v3f_mult(c->mat.color, ft_get_pixel_color(ray, scene,
 					out, SELECTED_NONE));
 		return (1);
@@ -80,15 +80,15 @@ t_v3f	ft_ray_bounce(t_ray ray, t_scene *scene, t_out_buffer *out,
 		c->reflected = ft_v3f_reflect(ray.direction, c->hit_normal);
 		c->new_dir = ft_v3f_lerp(c->reflected, ft_v3f_random_hem(c->hit_normal),
 				c->mat.diffusion);
-		ray = ft_setup_ray_direction(ray, c->new_dir, ray.remaining_bounces
-				- 1);
+		ray = ft_setup_ray_direction(ray, c->new_dir, ray.remaining_bounces - 1,
+				ray.diffused);
 		return (ft_get_pixel_color(ray, scene, out, SELECTED_NONE));
 	}
 	else
 	{
 		direct_light = ft_get_light(c->hit_point, c->hit_normal, scene);
 		ray = ft_setup_ray_direction(ray, ft_v3f_random_hem(c->hit_normal),
-				ray.remaining_bounces - 1);
+				ray.remaining_bounces - 1, 1);
 		indirect_light = ft_get_pixel_color(ray, scene, 0, SELECTED_NONE);
 		bounce_weight = ft_v3f_dot(c->hit_normal, ray.direction);
 		indirect_light = ft_v3f_scale(indirect_light, bounce_weight);
@@ -151,7 +151,5 @@ t_v3f	ft_get_pixel_color(t_ray ray, t_scene *scene, t_out_buffer *out,
 						c.hit_normal, scene));
 		return (c.out_color);
 	}
-	if (out)
-		*out = (t_out_buffer){ray.direction};
-	return ((t_v3f){{0.0f, 0.0f, 0.0f}});
+	return (ft_get_sky_color(scene, ray, out));
 }

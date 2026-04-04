@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:33:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:05:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 21:35:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ static inline t_v3f	ft_ray_at(t_ray ray, float d)
 	return (ft_v3f_add(ray.origin, ft_v3f_scale(ray.direction, d)));
 }
 
-static inline t_ray	ft_setup_ray_target(t_ray ray, t_v3f target, char bounces)
+static inline t_ray	ft_setup_ray_target(t_ray ray, t_v3f target, char bounces,
+		char diffused)
 {
 	ray.direction = ft_v3f_normalize(ft_v3f_sub(target, ray.origin));
 	ray.inv_dir = ft_v3f_div_safe((t_v3f){{1.0f, 1.0f, 1.0f}}, ray.direction);
@@ -28,10 +29,12 @@ static inline t_ray	ft_setup_ray_target(t_ray ray, t_v3f target, char bounces)
 	ray.inv_sign[1] = ray.inv_dir.y < 0.0f;
 	ray.inv_sign[2] = ray.inv_dir.z < 0.0f;
 	ray.remaining_bounces = bounces;
+	ray.diffused = diffused;
 	return (ray);
 }
 
-static inline t_ray	ft_setup_ray_direction(t_ray ray, t_v3f dir, char bounces)
+static inline t_ray	ft_setup_ray_direction(t_ray ray, t_v3f dir, char bounces,
+		char diffused)
 {
 	ray.direction = ft_v3f_normalize(dir);
 	ray.inv_dir = ft_v3f_div_safe((t_v3f){{1.0f, 1.0f, 1.0f}}, ray.direction);
@@ -39,6 +42,7 @@ static inline t_ray	ft_setup_ray_direction(t_ray ray, t_v3f dir, char bounces)
 	ray.inv_sign[1] = ray.inv_dir.y < 0.0f;
 	ray.inv_sign[2] = ray.inv_dir.z < 0.0f;
 	ray.remaining_bounces = bounces;
+	ray.diffused = diffused;
 	return (ray);
 }
 

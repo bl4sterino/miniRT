@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 17:07:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 20:52:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 			if (d->cache_frame == 2)
 				d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c);
 			c.target = ft_get_viewport_target(d, c);
-			c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces);
+			c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces, 0);
 			if (d->render_mode != RENDER_BVH)
 				ft_render_pixel_classic(d, &c);
 			else

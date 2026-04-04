@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:37:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/24 17:02:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 11:37:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,25 @@ int	ft_try_parse_texture(char **strs, int malloc_id, t_list **object_lst)
 		return (0);
 }
 
-void	ft_try_add_textures(t_data *d, t_scene *scene, int *i,
-		t_parsed_object *po)
+// Extracts a texture to teh destination pointer,
+// Exits if the extraction fails
+void	ft_try_extract_texture(t_data *d, t_texture *out, char *filepath)
 {
-	int	useless;
+	t_texture	tex;
+	int			useless;
 
 	useless = 0;
-	scene->textures[*i].ptr = mlx_xpm_file_to_image(d->mlx,
-			po->object.as_texture_path, &scene->textures[*i].width,
-			&scene->textures[*i].height);
-	if (scene->textures[*i].ptr == 0)
+	tex.ptr = mlx_xpm_file_to_image(d->mlx, filepath, &tex.width, &tex.height);
+	if (tex.ptr == 0)
 	{
 		ft_putstr_fd("Cannot load texture: ", 2);
-		ft_putstr_fd(po->object.as_texture_path, 2);
+		ft_putstr_fd(filepath, 2);
 		ft_exit_str_fd(1, "\n", 2);
 	}
-	scene->textures[*i].pixels
-		= (int *)mlx_get_data_addr(scene->textures[*i].ptr,
-			&useless, &useless, &useless);
-	ft_add_exit(scene->textures[*i].ptr, ft_exit_destroy_image);
-	*i += 1;
+	tex.pixels = (int *)mlx_get_data_addr(tex.ptr, &useless, &useless,
+			&useless);
+	ft_add_exit(tex.ptr, ft_exit_destroy_image);
+	*out = tex;
 }
 
 void	ft_load_textures(t_data *d, t_scene *scene, t_list *lst)
@@ -70,7 +69,8 @@ void	ft_load_textures(t_data *d, t_scene *scene, t_list *lst)
 	{
 		po = lst->content;
 		if (po->type == object_type_texture_path)
-			ft_try_add_textures(d, scene, &i, po);
+			ft_try_extract_texture(d, &scene->textures[i++],
+				po->object.as_texture_path);
 		lst = lst->next;
 	}
 }

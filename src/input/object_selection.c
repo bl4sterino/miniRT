@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:30:46 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 14:27:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 20:57:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	ft_get_object_at(t_data *d, t_v2i screenpos)
 	y_offset = ft_v3f_scale(d->viewport.y_delta, (double)screenpos.y);
 	target = ft_v3f_add(target, x_offset);
 	target = ft_v3f_add(target, y_offset);
-	ray = ft_setup_ray_direction(ray, ft_v3f_sub(target, ray.origin), 0);
+	ray = ft_setup_ray_direction(ray, ft_v3f_sub(target, ray.origin), 0, 0);
 	hit = SELECTED_NONE;
 	ft_shoot_ray(ray, d->scene, &hit);
 	if (hit >= 0 && hit != SELECTED_NONE)

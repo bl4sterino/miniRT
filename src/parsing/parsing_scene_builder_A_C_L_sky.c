@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_scene_builder_A_C_L.c                      :+:      :+:    :+:   */
+/*   parsing_scene_builder_A_C_L_sky.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/25 14:19:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 20:47:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,32 @@ void	ft_extract_lights(t_scene *scene, t_list *lst)
 		lst = lst->next;
 	}
 	scene->num_lights = i;
+}
+
+void	ft_extract_skybox(t_scene *scene, t_list *lst)
+{
+	t_parsed_object	*element;
+	int				color_id;
+	int				lum_id;
+
+	scene->skybox_tex.pixels = 0;
+	scene->skybox_tex.ptr = 0;
+	scene->skybox_tex.hdr_pixels = 0;
+	scene->skybox_sphere = (t_sphere){(t_v3f){{0.0f, 0.0f, 0.0f, 0.0f}}, 1.0f};
+	while (lst)
+	{
+		element = lst->content;
+		if (element->type == object_type_skybox)
+		{
+			color_id = element->object.as_skybox.color;
+			lum_id = element->object.as_skybox.luminance;
+			if (color_id < 2 || lum_id < 2 || color_id > scene->num_textures
+				|| lum_id > scene->num_textures)
+				ft_exit_str_fd(1, "Skybox texture is out of range\n", 2);
+			ft_create_hdr_tex(&scene->skybox_tex, &scene->textures[color_id],
+				&scene->textures[lum_id]);
+			return ;
+		}
+		lst = lst->next;
+	}
 }

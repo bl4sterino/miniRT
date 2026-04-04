@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 10:26:09 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 15:49:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/04 11:09:34 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ t_dict	*ft_setup_parsing_dict(t_dict *dict, int malloc_id)
 	ft_dict_set(&dict, "q", ft_get_parser_quad(malloc_id));
 	ft_dict_set(&dict, "t", ft_get_parser_triangle(malloc_id));
 	ft_dict_set(&dict, "el", ft_get_parser_ellipsoid(malloc_id));
+	ft_dict_set(&dict, "sky", ft_get_parser_skybox(malloc_id));
 	return (dict);
 }
