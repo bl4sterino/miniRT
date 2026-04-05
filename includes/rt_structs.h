@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 20:51:37 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/05 22:20:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,5 +253,13 @@ typedef struct s_viewport_context
 	t_v3f			cam_up;
 	t_v3f			pixel_center_offset;
 }					t_viewport_context;
+
+typedef struct s_camera_move_context
+{
+	t_v3f			movement;
+	t_v3f			campos;
+	t_v3f			camdir;
+	float			yaw;
+}					t_camera_move_context;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 21:30:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/05 22:14:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define OBJ_ROTATION_SPEED 100.0f
 # define OBJ_EXTRA_SPEED 5.0f
 # define IMAGE_BPP 4
+# define COL_EPSILON 0.02f
 
 # define HIDE_CURSOR 0
 
@@ -31,6 +32,7 @@
 
 /// Units / second
 # define CAM_MOVEMENT_SPEED 100
+# define CAM_BOOST 5.0f
 
 /// pixels per degree
 # define CAM_ROTATION_SPEED 0.1f
