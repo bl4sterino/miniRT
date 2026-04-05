@@ -6,11 +6,32 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/05 20:03:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/05 20:19:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void	ft_cam_collide_or_move(t_data *d, t_v3f movement)
+{
+	t_ray	ray;
+	int		out;
+	float	ray_len;
+
+	if (d->scene->camera.noclip)
+	{
+		d->dirty_frame = 1;
+		d->scene->camera.position.v += movement.v;
+		return ;
+	}
+	ray.origin = d->scene->camera.position;
+	ray = ft_setup_ray_direction(ray, ft_v3f_normalize(movement), 0, 0);
+	ray_len = ft_shoot_ray(ray, d->scene, &out);
+	if (ray_len - 0.05f < ft_v3f_length(movement))
+		return ;
+	d->dirty_frame = 1;
+	d->scene->camera.position.v += movement.v;
+}
 
 void	ft_camera_move(t_data *d)
 {
@@ -19,6 +40,8 @@ void	ft_camera_move(t_data *d)
 	t_v3f	camdir;
 	float	yaw;
 
+	if (ft_get_key_down(XK_b, d))
+		d->scene->camera.noclip = !d->scene->camera.noclip;
 	campos = d->scene->camera.position;
 	camdir = d->scene->camera.direction;
 	movement.x = ft_get_key(XK_d, d) - ft_get_key(XK_a, d);
@@ -33,8 +56,8 @@ void	ft_camera_move(t_data *d)
 	campos.z += -sinf(yaw) * movement.x;
 	campos.y += movement.y;
 	if (ft_v3f_length(movement) > EPSILON)
-		d->dirty_frame = 1;
-	d->scene->camera.position = campos;
+		ft_cam_collide_or_move(d, (t_v3f){.v = campos.v
+			- d->scene->camera.position.v});
 }
 
 void	ft_camera_rotate(t_data *d)
