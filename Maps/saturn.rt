@@ -5,12 +5,12 @@ A	1.0		0 0 0	0	0
 
 tex Textures/saturn_color.xpm
 tex Textures/warping.xpm
+tex Textures/space_sky.xpm
+tex Textures/space_sky_lum.xpm
 
 sp 1000 300 0	 100  255 255 255 0 0 20 0 0 0
 
 sp 0 0 0  100   255 255 255 0 0 0 0 2 0
-
-
 
 sp 181.522 0.745 99.758 0.776 97 87 82 0 0 0 0 0 0
 sp 122.230 -3.062 117.200 0.779 132 112 102 0 0 0 0 0 0

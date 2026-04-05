@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 13:58:57 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/05 20:03:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	ft_camera_move(t_data *d)
 	movement.x = ft_get_key(XK_d, d) - ft_get_key(XK_a, d);
 	movement.z = ft_get_key(XK_w, d) - ft_get_key(XK_s, d);
 	movement.y = ft_get_key(XK_space, d) - ft_get_key(XK_Control_L, d);
-	movement = ft_v3f_scale(movement, d->deltatime * CAM_MOVEMENT_SPEED);
+	movement.v *= (float)d->deltatime * CAM_MOVEMENT_SPEED * (1.0f + 5.0f
+			* (float)ft_get_key(XK_Shift_L, d));
 	yaw = atan2f(camdir.x, camdir.z);
 	campos.x += sinf(yaw) * movement.z;
 	campos.z += cosf(yaw) * movement.z;
