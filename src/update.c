@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:43:31 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 14:37:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/06 19:42:36 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	ft_update(t_data *d)
 {
 	ft_controls(d);
-	d->viewport = ft_get_viewport(d->scene->camera, d);
 }
 
 void	ft_early_update(t_data *d)

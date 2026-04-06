@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 18:55:38 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/06 20:31:48 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_rotation_data
 
 typedef struct s_render_task
 {
+	int				cam_idx;
 	int				y;
 }					t_render_task;
 
@@ -71,6 +72,7 @@ typedef struct s_threads_data
 {
 	int				count;
 	pthread_t		*threads;
+	int				current_cam;
 	int				current_line;
 	int				finished_lines;
 	pthread_mutex_t	task_mutex;
@@ -90,7 +92,6 @@ typedef struct s_viewport
 	t_v3f			top_right;
 	t_v3f			bottom_left;
 	t_v3f			bottom_right;
-
 }					t_viewport;
 
 typedef struct s_data
@@ -110,7 +111,7 @@ typedef struct s_data
 	char			ray_bounces;
 	int				target_ray_bounces;
 	t_scene			*scene;
-	t_viewport		viewport;
+	t_viewport		*viewports;
 	t_threads_data	threads_data;
 	t_render_mode	render_mode;
 	int				selected_object;
@@ -180,6 +181,8 @@ typedef struct s_thread_render_context
 	t_ray			ray;
 	t_v3f			target;
 	t_out_buffer	out;
+	t_camera		cam;
+	t_viewport		vp;
 }					t_thread_render_context;
 
 typedef struct s_get_light_context

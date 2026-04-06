@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 18:38:09 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/06 20:20:37 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,8 @@ t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces,
 				char diffused);
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces,
 				char diffused);
-int			ft_cache_ray_target(t_data *d, t_thread_render_context *c);
+int			ft_cache_ray_target(t_data *d, t_viewport *vp,
+				t_thread_render_context *c);
 
 float		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);
 float		ft_shoot_ray_smart(t_ray ray, t_scene *scene,
@@ -194,7 +195,7 @@ float		ft_shoot_ray_against_objects(t_ray ray, float max_dist,
 t_viewport	ft_get_viewport(t_camera cam, t_data *d);
 void		ft_render(t_data *d);
 void		*ft_thread_loop(void *arg);
-t_v3f		ft_get_viewport_target(t_data *d, t_thread_render_context c);
+t_v3f		ft_get_viewport_target(t_viewport *vp, t_thread_render_context c);
 
 void		ft_post_process(t_data *d);
 
@@ -204,6 +205,10 @@ void		ft_set_data(t_data *d);
 t_v3f		ft_cam_v3f_to_euler(t_v3f cam_direction);
 t_v3f		ft_cam_euler_to_v3f(t_v3f euler);
 float		ft_get_triangle_area(t_v3f A, t_v3f B, t_v3f C);
+int			rect_contains(t_rect rect, t_v2i pos);
+
+t_camera	*get_active_camera(t_scene *s);
+void		recompute_grid(t_scene *scene, t_rect rect);
 
 // debug
 

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 11:41:36 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 14:24:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/06 19:37:36 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,13 @@
 
 t_v3f	ft_get_object_movement(t_data *d)
 {
-	t_v3f	movement;
-	float	boost;
-	t_v3f	transformed_movement;
-	float	yaw;
+	t_v3f		movement;
+	float		boost;
+	t_v3f		transformed_movement;
+	float		yaw;
+	t_camera	*cam;
 
+	cam = get_active_camera(d->scene);
 	boost = tn_f(ft_get_key(MOUSE_RIGHT, d), 5.0f, 1.0f);
 	movement.x = ft_get_key(XK_Right, d) - ft_get_key(XK_Left, d);
 	movement.y = ft_get_key(XK_KP_Add, d) - ft_get_key(XK_KP_Subtract, d);
@@ -29,7 +31,7 @@ t_v3f	ft_get_object_movement(t_data *d)
 		movement = ft_v3f_scale(movement, OBJ_MOVEMENT_SPEED * boost
 				* d->deltatime);
 	}
-	yaw = atan2f(d->scene->camera.direction.x, d->scene->camera.direction.z);
+	yaw = atan2f(cam->direction.x, cam->direction.z);
 	transformed_movement = v3f(0.0f, 0.0f, 0.0f);
 	transformed_movement.x += sinf(yaw) * movement.z;
 	transformed_movement.z += cosf(yaw) * movement.z;
