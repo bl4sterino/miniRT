@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/05 22:04:12 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/06 18:37:50 by tpotier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -91,7 +91,6 @@ FILES = main_utils \
 		rendering/bvh_ray_debug \
 		rendering/bvh_ray \
 		rendering/bvh_ray_light \
-		rendering/task_builder \
 		rendering/ray_to_color \
 		rendering/ray_to_color_utils \
 		rendering/shoot_ray_smart \

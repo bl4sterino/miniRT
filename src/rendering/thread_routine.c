@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 20:52:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/06 18:52:38 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 {
 	pthread_mutex_lock(&d->threads_data.task_mutex);
-	while (d->threads_data.tasks_count == 0)
+	while (d->threads_data.current_line == HEIGHT_WIN)
 	{
 		pthread_cond_wait(&d->threads_data.task_cond,
 			&d->threads_data.task_mutex);
@@ -25,8 +25,7 @@ int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 			return (0);
 		}
 	}
-	*task = d->threads_data.tasks[d->threads_data.tasks_count - 1];
-	d->threads_data.tasks_count -= 1;
+	task->y = d->threads_data.current_line++;
 	pthread_mutex_unlock(&d->threads_data.task_mutex);
 	return (1);
 }
@@ -38,8 +37,8 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 
 	ft_bzero(&context, sizeof(t_thread_render_context));
 	context.ray.origin = d->scene->camera.position;
-	context.pixel.y = task.y_start - 1;
-	context.pixel.x = task.x_start - 1;
+	context.pixel.y = task.y;
+	context.pixel.x = 0;
 	return (context);
 }
 
@@ -65,22 +64,20 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 	t_thread_render_context	c;
 
 	c = ft_setup_thread_render_data(d, task);
-	while (++c.pixel.y < task.y_end)
+	c.pixel.x = 0;
+	while (c.pixel.x < WIDTH_WIN)
 	{
-		c.pixel.x = task.x_start - 1;
-		while (++c.pixel.x < task.x_end)
-		{
-			c.index = c.pixel.y * WIDTH_WIN + c.pixel.x;
-			if (d->cache_frame == 2)
-				d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c);
-			c.target = ft_get_viewport_target(d, c);
-			c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces, 0);
-			if (d->render_mode != RENDER_BVH)
-				ft_render_pixel_classic(d, &c);
-			else
-				ft_add_pixel_to_accumulated_image(d, c.index,
-					ft_shoot_ray_bvh_debug(c.ray, d->scene));
-		}
+		c.index = c.pixel.y * WIDTH_WIN + c.pixel.x;
+		if (d->cache_frame == 2)
+			d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c);
+		c.target = ft_get_viewport_target(d, c);
+		c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces, 0);
+		if (d->render_mode != RENDER_BVH)
+			ft_render_pixel_classic(d, &c);
+		else
+			ft_add_pixel_to_accumulated_image(d, c.index,
+				ft_shoot_ray_bvh_debug(c.ray, d->scene));
+		c.pixel.x++;
 	}
 }
 
@@ -96,8 +93,8 @@ void	*ft_thread_loop(void *arg)
 			return (0);
 		ft_thread_render_function(d, task);
 		pthread_mutex_lock(&d->threads_data.task_mutex);
-		d->threads_data.finished_tasks += 1;
-		if (d->threads_data.finished_tasks == d->threads_data.tasks_total_count)
+		d->threads_data.finished_lines++;
+		if (d->threads_data.finished_lines == HEIGHT_WIN)
 			pthread_cond_signal(&d->threads_data.done_cond);
 		if (d->threads_data.run_threads == -1)
 		{

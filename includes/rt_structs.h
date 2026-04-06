@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/05 22:20:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/06 18:55:38 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@ enum				e_dimensions
 	LINE_SIZE = WIDTH_WIN * 4,
 	SCREEN_SIZE = WIDTH_WIN * HEIGHT_WIN,
 	WINDOW_SIZE = SCREEN_SIZE
-};
-
-enum				e_task_mode
-{
-	TASK_MODE_UNSET,
-	TASK_MODE_TILE,
-	TASK_MODE_LINE
 };
 
 typedef enum e_render_mode
@@ -71,22 +64,15 @@ typedef struct s_rotation_data
 
 typedef struct s_render_task
 {
-	int				y_start;
-	int				y_end;
-	int				x_start;
-	int				x_end;
-	int				line_end;
+	int				y;
 }					t_render_task;
 
 typedef struct s_threads_data
 {
 	int				count;
-	int				task_mode;
 	pthread_t		*threads;
-	int				tasks_count;
-	int				tasks_total_count;
-	int				finished_tasks;
-	t_render_task	*tasks;
+	int				current_line;
+	int				finished_lines;
 	pthread_mutex_t	task_mutex;
 	pthread_cond_t	task_cond;
 	pthread_cond_t	done_cond;

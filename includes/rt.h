@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/05 22:14:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/06 18:38:09 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,7 +195,6 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d);
 void		ft_render(t_data *d);
 void		*ft_thread_loop(void *arg);
 t_v3f		ft_get_viewport_target(t_data *d, t_thread_render_context c);
-void		ft_task_builder(t_data *d);
 
 void		ft_post_process(t_data *d);
 
