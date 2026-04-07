@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 21:00:36 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:24:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 		while (d->threads_data.finished_lines < d->scene->cameras[d->threads_data.current_cam].rect.h)
 			pthread_cond_wait(&d->threads_data.done_cond,
 				&d->threads_data.task_mutex);
-		pthread_mutex_unlock(&d->threads_data.task_mutex);
 		d->threads_data.current_cam++;
 	}
+	pthread_mutex_unlock(&d->threads_data.task_mutex);
 }
 
 void	ft_render_preprocess_2(t_data *d)
