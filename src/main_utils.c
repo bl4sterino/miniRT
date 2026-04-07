@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:29:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 18:51:05 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 13:35:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	ft_init_data(t_data *d)
 {
 	ft_bzero(d, sizeof(t_data));
 	d->selected_object = SELECTED_NONE;
+	d->selected_light = -1;
 	srand(42);
 	d->dirty_frame = 1;
 	d->target_ray_bounces = 1;
