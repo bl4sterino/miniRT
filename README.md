@@ -55,7 +55,7 @@ Build the project using the provided Makefile:
 
 A scene can contain any number of elements declared in any order but should follow those specifications:
 
-* It must contain one and only one Camera (C).
+* It must contain at least one Camera (C).
 * It must contain one and only one Ambient Light (A);
 
 Each elements contains a prefix and each line must respect the attributes order that are required for this prefix.
@@ -150,6 +150,7 @@ Object are defined by their respective properties but they must all end with the
 | Camera Movement	| <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>  <kbd>ctrl</kbd> <kbd>space</kbd>|
 | Camera Rotation	| <kbd>Mouse</kbd> <kbd>I</kbd> <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> | Toggle mouse control with ALT|
 | Camera FOV		| <kbd>Scroll Wheel</kbd>
+| Add/Remove Camera	| <kbd>=</kbd> <kbd>-</kbd> | Copies the selected camera |
 | Object selection	| <kbd>Left CLick</kbd> |
 | Move Selected		| <kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> <kbd>num +</kbd> <kbd>num -</kbd>| Hold <kbd>Right Click</kbd> to move objects faster
 | Rotate Selected (X)	| <kbd>num 0</kbd> <kbd>num 1</kbd>	|

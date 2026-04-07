@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/05 20:05:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/06 19:37:16 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,21 @@ typedef struct s_ambient_light
 	int					ray_bounce;
 }						t_ambient_light;
 
+typedef struct s_rect
+{
+	int					x;
+	int					y;
+	int					w;
+	int					h;
+}						t_rect;
+
 typedef struct s_camera
 {
 	t_v3f				position;
 	t_v3f				direction;
 	float				fov;
 	char				noclip;
+	t_rect				rect;
 }						t_camera;
 
 typedef struct s_skybox
@@ -242,9 +251,11 @@ typedef struct s_texture
 typedef struct s_scene
 {
 	t_ambient_light		ambient_light;
-	t_camera			camera;
 	t_texture			skybox_tex;
 	t_sphere			skybox_sphere;
+	t_camera			*cameras;
+	int					active_camera;
+	int					num_cameras;
 	int					num_planes;
 	t_object			*planes;
 	int					num_lights;

@@ -6,56 +6,49 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/05 22:17:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 16:26:51 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int		ft_try_move(t_data *d, t_v3f *movement);
-
-int	ft_subtract_illegal_direction(t_data *d, t_v3f *movement, int hit,
-		t_v3f hit_point)
-{
-	t_v3f	hit_normal;
-
-	hit_normal = ft_get_hit_normal(hit_point, d->scene, hit,
-			ft_v3f_normalize(*movement));
-	movement->v = movement->v - ft_v3f_dot(*movement, hit_normal)
-		* hit_normal.v;
-	return (ft_try_move(d, movement));
-}
-
 // Handles camera collision
-int	ft_try_move(t_data *d, t_v3f *movement)
+int	ft_try_move(t_data *d, t_camera *cam, t_v3f *movement)
 {
 	t_ray	ray;
-	int		out;
+	int		hit;
 	float	ray_len;
+	t_v3f	hit_normal;
 
 	if (ft_v3f_length(*movement) < COL_EPSILON)
 		return (0);
-	if (d->scene->camera.noclip)
+	if (cam->noclip)
 		return (1);
-	ray.origin = d->scene->camera.position;
+	ray.origin = cam->position;
 	ray = ft_setup_ray_direction(ray, ft_v3f_normalize(*movement), 0, 0);
-	ray_len = ft_shoot_ray(ray, d->scene, &out);
+	ray_len = ft_shoot_ray(ray, d->scene, &hit);
 	if (ray_len < COL_EPSILON)
 		return (0);
 	if (ray_len - COL_EPSILON < ft_v3f_length(*movement))
-		return (ft_subtract_illegal_direction(d, movement, out, ft_ray_at(ray,
-					ray_len - COL_EPSILON)));
+	{
+		hit_normal = ft_get_hit_normal(ft_ray_at(ray, ray_len - COL_EPSILON),
+				d->scene, hit, ft_v3f_normalize(*movement));
+		movement->v -= ft_v3f_dot(*movement, hit_normal) * hit_normal.v;
+		return (ft_try_move(d, cam, movement));
+	}
 	return (1);
 }
 
 void	ft_camera_move(t_data *d)
 {
 	t_camera_move_context	c;
+	t_camera				*cam;
 
+	cam = get_active_camera(d->scene);
 	if (ft_get_key_down(XK_b, d))
-		d->scene->camera.noclip = !d->scene->camera.noclip;
-	c.campos = d->scene->camera.position;
-	c.camdir = d->scene->camera.direction;
+		cam->noclip = !cam->noclip;
+	c.campos = cam->position;
+	c.camdir = cam->direction;
 	c.movement.x = ft_get_key(XK_d, d) - ft_get_key(XK_a, d);
 	c.movement.z = ft_get_key(XK_w, d) - ft_get_key(XK_s, d);
 	c.movement.y = ft_get_key(XK_space, d) - ft_get_key(XK_Control_L, d);
@@ -67,28 +60,28 @@ void	ft_camera_move(t_data *d)
 	c.campos.x += cosf(c.yaw) * c.movement.x;
 	c.campos.z += -sinf(c.yaw) * c.movement.x;
 	c.campos.y += c.movement.y;
-	c.movement.v = c.campos.v - d->scene->camera.position.v;
-	if (ft_try_move(d, &c.movement))
+	c.movement.v = c.campos.v - cam->position.v;
+	if (ft_try_move(d, cam, &c.movement))
 	{
 		d->dirty_frame = 1;
-		d->scene->camera.position.v += c.movement.v;
+		cam->position.v += c.movement.v;
 	}
 }
 
 void	ft_camera_rotate(t_data *d)
 {
-	t_v3f	cam_rot;
-	float	rotx;
-	float	roty;
-	float	key_rot;
+	t_v3f		cam_rot;
+	float		rotx;
+	float		roty;
+	float		key_rot;
+	t_camera	*cam;
 
-	cam_rot = ft_cam_v3f_to_euler(d->scene->camera.direction);
-	rotx = d->input.mouse_delta.y * CAM_ROTATION_SPEED * (d->scene->camera.fov
-			/ 85.0f);
+	cam = get_active_camera(d->scene);
+	cam_rot = ft_cam_v3f_to_euler(cam->direction);
+	rotx = d->input.mouse_delta.y * CAM_ROTATION_SPEED * (cam->fov / 85.0f);
 	key_rot = (float)-ft_get_key(XK_i, d) + (float)ft_get_key(XK_k, d);
 	rotx += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
-	roty = d->input.mouse_delta.x * CAM_ROTATION_SPEED * (d->scene->camera.fov
-			/ 85.0);
+	roty = d->input.mouse_delta.x * CAM_ROTATION_SPEED * (cam->fov / 85.0);
 	key_rot = (float)-ft_get_key(XK_j, d) + (float)ft_get_key(XK_l, d);
 	roty += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
 	cam_rot.x = ft_clampd(cam_rot.x + rotx, -85.0, 85.0);
@@ -97,21 +90,24 @@ void	ft_camera_rotate(t_data *d)
 		cam_rot.y += 360.0;
 	while (cam_rot.y > 180.0)
 		cam_rot.y -= 360.0;
-	d->scene->camera.direction = ft_cam_euler_to_v3f(cam_rot);
+	cam->direction = ft_cam_euler_to_v3f(cam_rot);
 	if (fabs(rotx) > EPSILON || fabs(roty) > EPSILON)
 		d->dirty_frame = 1;
 }
 
 void	ft_camera_zoom(t_data *d)
 {
+	t_camera	*cam;
+
+	cam = get_active_camera(d->scene);
 	if (ft_get_key_down(MOUSE_SCROLL_DOWN, d))
 	{
-		d->scene->camera.fov *= 1.05f;
+		cam->fov *= 1.05f;
 		d->dirty_frame = 1;
 	}
 	if (ft_get_key_down(MOUSE_SCROLL_UP, d))
 	{
-		d->scene->camera.fov *= 0.95f;
+		cam->fov *= 0.95f;
 		d->dirty_frame = 1;
 	}
 }

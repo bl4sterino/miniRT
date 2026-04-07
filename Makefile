@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/06 18:37:50 by tpotier          ###   ########.fr        #
+#    Updated: 2026/04/07 16:16:38 by tpotier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,8 +42,10 @@ FILES = main_utils \
 		image2 \
 		exit \
 		exit_2 \
+		scene \
 		debug/debug_gc \
 		input/camera \
+		input/camera_count \
 		input/focus_and_cursor \
 		input/input \
 		input/input_get \
@@ -95,8 +97,10 @@ FILES = main_utils \
 		rendering/ray_to_color_utils \
 		rendering/shoot_ray_smart \
 		rendering/post_processing/post_process \
+		rendering/camera/grid \
 		utils/camera_vectors_utils \
-		utils/data_utils
+		utils/data_utils \
+		utils/rect
 
 ALL_FILES = $(MAIN) $(FILES)
 

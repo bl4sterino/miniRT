@@ -6,30 +6,35 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:30:46 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 20:57:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 16:27:09 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
+static t_ray	make_ray(t_camera cam, t_viewport vp, t_v2i screenpos)
+{
+	t_ray		ray;
+	t_v3f		target;
+	t_v3f		x_offset;
+	t_v3f		y_offset;
+
+	ray.origin = cam.position;
+	target = vp.top_left;
+	x_offset = ft_v3f_scale(vp.x_delta, (double)(screenpos.x - cam.rect.x));
+	y_offset = ft_v3f_scale(vp.y_delta, (double)(screenpos.y - cam.rect.y));
+	target = ft_v3f_add(target, x_offset);
+	target = ft_v3f_add(target, y_offset);
+	return (ft_setup_ray_direction(ray, ft_v3f_sub(target, ray.origin), 0, 0));
+}
+
 void	ft_get_object_at(t_data *d, t_v2i screenpos)
 {
 	t_ray	ray;
-	t_v3f	target;
-	t_v3f	x_offset;
-	t_v3f	y_offset;
 	int		hit;
 
-	if (screenpos.x < 0 || screenpos.x >= WIDTH_WIN || screenpos.y < 0
-		|| screenpos.y > HEIGHT_WIN)
-		return ;
-	ray.origin = d->scene->camera.position;
-	target = d->viewport.top_left;
-	x_offset = ft_v3f_scale(d->viewport.x_delta, (double)screenpos.x);
-	y_offset = ft_v3f_scale(d->viewport.y_delta, (double)screenpos.y);
-	target = ft_v3f_add(target, x_offset);
-	target = ft_v3f_add(target, y_offset);
-	ray = ft_setup_ray_direction(ray, ft_v3f_sub(target, ray.origin), 0, 0);
+	ray = make_ray(d->scene->cameras[d->scene->active_camera],
+			d->viewports[d->scene->active_camera], screenpos);
 	hit = SELECTED_NONE;
 	ft_shoot_ray(ray, d->scene, &hit);
 	if (hit >= 0 && hit != SELECTED_NONE)
@@ -63,7 +68,20 @@ void	ft_try_select_light(t_data *d)
 
 void	ft_select_objects(t_data *d)
 {
+	int	i;
+
 	if (ft_get_key_down(MOUSE_LEFT, d))
-		ft_get_object_at(d, d->input.mouse_pos);
+	{
+		i = 0;
+		while (i < d->scene->num_cameras)
+		{
+			if (rect_contains(d->scene->cameras[i].rect, d->input.mouse_pos))
+			{
+				d->scene->active_camera = i;
+				ft_get_object_at(d, d->input.mouse_pos);
+			}
+			i++;
+		}
+	}
 	ft_try_select_light(d);
 }

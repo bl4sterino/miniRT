@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 12:05:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 16:09:54 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int ac, char **av)
 	ft_add_exit(d.mlx, free);
 	ft_add_exit(d.mlx, ft_exit_destroy_display);
 	d.scene = ft_parse_map(&d, av[1]);
+	refresh_grid(&d);
 	ft_clear_gc_id(malloc_id_parsing);
 	ft_init_thread_pool(&d);
 	d.window = mlx_new_window(d.mlx, WIDTH_WIN, HEIGHT_WIN, "mini-rt");

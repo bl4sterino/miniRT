@@ -6,9 +6,11 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:29:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 13:35:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 13:37:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <limits.h>
 
 #include "rt.h"
 
@@ -45,7 +47,8 @@ void	ft_init_thread_pool(t_data *d)
 
 	ft_init_therad_pool_mutex_and_cond(d);
 	count = sysconf(_SC_NPROCESSORS_ONLN);
-	d->threads_data.current_line = HEIGHT_WIN;
+	d->threads_data.current_line = INT_MAX;
+	d->threads_data.current_cam = 0;
 	d->threads_data.threads = ft_malloc(sizeof(pthread_t) * count);
 	i = 0;
 	while (i < count)

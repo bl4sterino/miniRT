@@ -6,22 +6,22 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 11:52:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 11:37:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_v3f	ft_get_viewport_target(t_data *d, t_thread_render_context c)
+t_v3f	ft_get_viewport_target(t_viewport *vp, t_thread_render_context c)
 {
-	return (ft_v3f_add(d->viewport.top_left,
-			ft_v3f_add(ft_v3f_scale(d->viewport.x_delta, (float)c.pixel.x),
-				ft_v3f_scale(d->viewport.y_delta, (float)c.pixel.y))));
+	return (ft_v3f_add(vp->top_left,
+			ft_v3f_add(ft_v3f_scale(vp->x_delta, (float)c.pixel.x),
+				ft_v3f_scale(vp->y_delta, (float)c.pixel.y))));
 }
 
 static void	ft_setup_context(t_viewport_context *context, t_camera cam)
 {
-	context->aspect_ratio = (float)HEIGHT_WIN / (float)WIDTH_WIN;
+	context->aspect_ratio = (float)cam.rect.h / (float)cam.rect.w;
 	context->theta = cam.fov * DEG2RAD;
 	context->half_width = tanf(context->theta / 2.0f);
 	context->half_height = context->half_width * context->aspect_ratio;
@@ -42,8 +42,8 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 	ft_setup_context(&context, cam);
 	vp.u.v = context.cam_right.v * 2.0f * context.half_width;
 	vp.v.v = context.cam_up.v * -2.0f * context.half_height;
-	vp.x_delta.v = vp.u.v / (float)WIDTH_WIN;
-	vp.y_delta.v = vp.v.v / (float)HEIGHT_WIN;
+	vp.x_delta.v = vp.u.v / (float)cam.rect.w;
+	vp.y_delta.v = vp.v.v / (float)cam.rect.h;
 	vp.raw_top_left.v = cam.position.v + cam.direction.v;
 	vp.raw_top_left.v -= vp.u.v * 0.5f;
 	vp.raw_top_left.v -= vp.v.v * 0.5f;
