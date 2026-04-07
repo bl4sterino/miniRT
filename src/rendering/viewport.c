@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 21:09:41 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:37:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 	vp.u.v = context.cam_right.v * 2.0f * context.half_width;
 	vp.v.v = context.cam_up.v * -2.0f * context.half_height;
 	vp.x_delta.v = vp.u.v / (float)cam.rect.w;
-	vp.y_delta.v = vp.v.v / (float)cam.rect.x;
+	vp.y_delta.v = vp.v.v / (float)cam.rect.h;
 	vp.raw_top_left.v = cam.position.v + cam.direction.v;
 	vp.raw_top_left.v -= vp.u.v * 0.5f;
 	vp.raw_top_left.v -= vp.v.v * 0.5f;
