@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:17:07 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 17:14:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void		ft_camera_move(t_data *d);
 void		ft_camera_rotate(t_data *d);
 void		ft_camera_zoom(t_data *d);
 void		ft_render_settings(t_data *d);
+void		ft_set_all_cameras_dirty(t_data *d);
 
 // time
 

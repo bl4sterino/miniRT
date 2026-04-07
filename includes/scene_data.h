@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 19:37:16 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:59:25 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,10 @@ typedef struct s_camera
 	float				fov;
 	char				noclip;
 	t_rect				rect;
+	int					render_mode;
+	int					dirty;
+	int					cache_frame;
+	float				frame_count;
 }						t_camera;
 
 typedef struct s_skybox
@@ -299,8 +303,8 @@ void					ft_load_textures(t_data *d, t_scene *scene,
 							t_list *lst);
 void					ft_try_extract_texture(t_data *d, t_texture *out,
 							char *filepath);
-void					ft_create_hdr_tex(t_texture *out,
-							t_texture *color, t_texture *lum);
+void					ft_create_hdr_tex(t_texture *out, t_texture *color,
+							t_texture *lum);
 
 t_cylinder				ft_get_processed_cylinder(t_cylinder cyl);
 t_quad					ft_get_processed_quad(t_quad quad);

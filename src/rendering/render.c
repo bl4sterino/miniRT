@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:28:56 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 17:15:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,8 @@ void	ft_create_tasks_and_wait_for_completion(t_data *d)
 void	ft_render_preprocess_2(t_data *d)
 {
 	if (d->dirty_frame)
-	{
-		d->dirty_frame = 0;
-		d->cache_frame = 1;
-		d->frame_count = 0.0f;
-		ft_memset_int(d->image.current_frame, 0, SCREEN_SIZE * 4);
-		ft_memset_int(d->image.ray_targets, SELECTED_NONE, SCREEN_SIZE);
-	}
+		ft_set_all_cameras_dirty(d);
+	ft_clear_dirty_cameras(d);
 	if (d->frame_count == 1.0f && d->cache_frame == 1)
 	{
 		d->frame_count = 0.0f;

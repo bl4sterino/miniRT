@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 20:31:48 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:41:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef enum e_render_mode
 	RENDER_DEFAULT,
 	RENDER_BVH,
 	RENDER_NORMALS,
-	RENDER_DEPTH
+	RENDER_STEREO
 }					t_render_mode;
 
 typedef struct s_rgb
@@ -105,7 +105,7 @@ typedef struct s_data
 	double			total_frames;
 	struct timeval	last_tv;
 	char			*fpsstr;
-	float			frame_count;
+	//float			frame_count;
 	char			dirty_frame;
 	char			cache_frame;
 	char			ray_bounces;
@@ -113,7 +113,6 @@ typedef struct s_data
 	t_scene			*scene;
 	t_viewport		*viewports;
 	t_threads_data	threads_data;
-	t_render_mode	render_mode;
 	int				selected_object;
 	int				selected_light;
 }					t_data;

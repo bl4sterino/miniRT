@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/07 16:16:38 by tpotier          ###   ########.fr        #
+#    Updated: 2026/04/07 17:13:00 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,6 +98,7 @@ FILES = main_utils \
 		rendering/shoot_ray_smart \
 		rendering/post_processing/post_process \
 		rendering/camera/grid \
+		rendering/camera/frame_cleaner \
 		utils/camera_vectors_utils \
 		utils/data_utils \
 		utils/rect

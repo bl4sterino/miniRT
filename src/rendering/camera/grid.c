@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grid.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tpotier <tpotier@student.42.fr>            +#+  +:+       +#+        */
+/*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 15:34:00 by tpotier           #+#    #+#             */
-/*   Updated: 2026/04/07 16:35:24 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 17:14:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ void	add_camera(t_scene *scene, t_camera *cam)
 	old = scene->cameras;
 	scene->cameras = new;
 	cam->noclip = 0;
+	cam->dirty = 0;
+	cam->frame_count = 0;
+	if (cam->render_mode < 0 || cam->render_mode > RENDER_STEREO)
+		ft_exit_str_fd(1, "Camera render mode is out of range\n", 2);
 	scene->cameras[scene->num_cameras++] = *cam;
 	ft_free(old);
 }
@@ -69,8 +73,8 @@ void	recompute_grid(t_scene *scene, t_rect rect)
 				.h = rect.h / grid_h};
 		else
 			scene->cameras[i].rect = (t_rect){.x = (i % s) * (rect.w / s),
-				.y = (i / s) * (rect.h / grid_h), .w = rect.w / s,
-				.h = rect.h / grid_h};
+				.y = (i / s) * (rect.h / grid_h), .w = rect.w / s, .h = rect.h
+				/ grid_h};
 		i++;
 	}
 }

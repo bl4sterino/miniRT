@@ -6,7 +6,11 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
+<<<<<<< Updated upstream
 /*   Updated: 2026/04/07 16:29:46 by tpotier          ###   ########.fr       */
+=======
+/*   Updated: 2026/04/07 16:17:42 by pberne           ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +52,15 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 }
 
 static inline void	ft_render_pixel_classic(t_data *d,
-		t_thread_render_context *c)
+		t_thread_render_context *c, int render_mode)
 {
 	t_v3f	hit_color;
 
 	hit_color = ft_get_pixel_color(c->ray, d->scene, &c->out,
 			d->image.ray_targets[c->index]);
-	if (d->render_mode == RENDER_DEFAULT)
+	if (render_mode == RENDER_DEFAULT)
 		ft_add_pixel_to_accumulated_image(d, c->index, hit_color);
-	else if (d->render_mode == RENDER_NORMALS)
+	else if (render_mode == RENDER_NORMALS)
 	{
 		c->out.hit_normal = ft_v3f_add(ft_v3f_scale(c->out.hit_normal, 0.5f),
 				(t_v3f){{0.5f, 0.5f, 0.5f}});
@@ -71,14 +75,15 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 	c = ft_setup_thread_render_data(d, task);
 	while (c.pixel.x < c.cam.rect.w)
 	{
-		c.index = (c.pixel.y + c.cam.rect.y) * WIDTH_WIN
-			+ (c.pixel.x + c.cam.rect.x);
+		c.index = (c.pixel.y + c.cam.rect.y) * WIDTH_WIN + (c.pixel.x
+				+ c.cam.rect.x);
 		if (d->cache_frame == 2)
 			d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c.vp, &c);
 		c.target = ft_get_viewport_target(&c.vp, c);
 		c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces, 0);
-		if (d->render_mode != RENDER_BVH)
-			ft_render_pixel_classic(d, &c);
+		if (d->scene->cameras[task.cam_idx].render_mode != RENDER_BVH)
+			ft_render_pixel_classic(d, &c,
+				d->scene->cameras[task.cam_idx].render_mode);
 		else
 			ft_add_pixel_to_accumulated_image(d, c.index,
 				ft_shoot_ray_bvh_debug(c.ray, d->scene));

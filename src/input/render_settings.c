@@ -6,33 +6,36 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/03 14:37:10 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 16:36:05 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_render_settings_2(t_data *d)
+void	ft_render_settings_2(t_data *d, t_camera *cam)
 {
 	if (ft_get_key_down(XK_n, d))
 	{
-		if (d->render_mode == RENDER_NORMALS)
-			d->render_mode = RENDER_DEFAULT;
+		if (cam->render_mode == RENDER_NORMALS)
+			cam->render_mode = RENDER_DEFAULT;
 		else
-			d->render_mode = RENDER_NORMALS;
-		d->dirty_frame = 1;
+			cam->render_mode = RENDER_NORMALS;
+		cam->dirty = 1;
 	}
 }
 
 void	ft_render_settings(t_data *d)
 {
+	t_camera	*cam;
+
+	cam = get_active_camera(d->scene);
 	if (ft_get_key_down(XK_e, d))
 	{
-		if (d->render_mode == RENDER_BVH)
-			d->render_mode = RENDER_DEFAULT;
+		if (cam->render_mode == RENDER_BVH)
+			cam->render_mode = RENDER_DEFAULT;
 		else
-			d->render_mode = RENDER_BVH;
-		d->dirty_frame = 1;
+			cam->render_mode = RENDER_BVH;
+		cam->dirty = 1;
 	}
 	if (ft_get_key_down(XK_f, d))
 	{
@@ -45,5 +48,5 @@ void	ft_render_settings(t_data *d)
 		d->target_ray_bounces += tn_i(ft_get_key(MOUSE_RIGHT, d), 10, 1);
 		d->dirty_frame = 1;
 	}
-	ft_render_settings_2(d);
+	ft_render_settings_2(d, cam);
 }
