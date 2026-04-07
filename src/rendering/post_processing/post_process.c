@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/22 19:00:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 21:08:15 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:59:11 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_post_process(t_data *d)
 		i++;
 	}
 	i = 0;
-	while (i < d->scene->num_cameras)
+	while (d->scene->num_cameras > 1 && i < d->scene->num_cameras)
 	{
 		camera_outline(&d->image, d->scene->cameras[i],
 			i == d->scene->active_camera);
