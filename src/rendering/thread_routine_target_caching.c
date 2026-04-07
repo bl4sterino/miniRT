@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 17:08:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 20:21:05 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:27:36 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static inline int	ft_cache_ray_target_2(t_data *d, t_viewport *vp,
 
 	hit = SELECTED_NONE;
 	target.v = vp->raw_top_left.v + (vp->x_delta.v * (float)c->pixel.x
-		+ vp->y_delta.v * (float)(c->pixel.y + 1));
+			+ vp->y_delta.v * (float)(c->pixel.y + 1));
 	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	if (hit != hit_comp)
 		return (SELECTED_NONE);
 	hit = SELECTED_NONE;
 	target.v = vp->raw_top_left.v + (vp->x_delta.v * (float)(c->pixel.x + 1)
-		+ vp->y_delta.v * (float)(c->pixel.y + 1));
+			+ vp->y_delta.v * (float)(c->pixel.y + 1));
 	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	if (hit != hit_comp)
@@ -51,13 +51,13 @@ int	ft_cache_ray_target(t_data *d, t_viewport *vp, t_thread_render_context *c)
 
 	hit = SELECTED_NONE;
 	target.v = vp->raw_top_left.v + (vp->x_delta.v * (float)c->pixel.x
-		+ vp->y_delta.v * (float)c->pixel.y);
+			+ vp->y_delta.v * (float)c->pixel.y);
 	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	hit_comp = hit;
 	hit = SELECTED_NONE;
 	target.v = vp->raw_top_left.v + (vp->x_delta.v * (float)(c->pixel.x + 1)
-		+ vp->y_delta.v * (float)c->pixel.y);
+			+ vp->y_delta.v * (float)c->pixel.y);
 	c->ray = ft_setup_ray_target(c->ray, target, 0, 0);
 	ft_shoot_ray(c->ray, d->scene, &hit);
 	if (hit != hit_comp)

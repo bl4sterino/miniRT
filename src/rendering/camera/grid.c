@@ -6,11 +6,45 @@
 /*   By: tpotier <tpotier@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 15:34:00 by tpotier           #+#    #+#             */
-/*   Updated: 2026/04/06 19:57:42 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:35:24 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void	refresh_grid(t_data *d)
+{
+	recompute_grid(d->scene, (t_rect){0, 0, WIDTH_WIN, HEIGHT_WIN});
+	ft_free(d->viewports);
+	d->viewports = ft_malloc(sizeof(*d->viewports) * d->scene->num_cameras);
+	d->dirty_frame = 1;
+}
+
+// FIXME: store/double capacity
+void	add_camera(t_scene *scene, t_camera *cam)
+{
+	t_camera	*new;
+	t_camera	*old;
+
+	if (scene->num_cameras >= 65025)
+		return ;
+	new = ft_malloc(sizeof(*new) * (scene->num_cameras + 1));
+	ft_memcpy(new, scene->cameras, sizeof(*new) * scene->num_cameras);
+	old = scene->cameras;
+	scene->cameras = new;
+	cam->noclip = 0;
+	scene->cameras[scene->num_cameras++] = *cam;
+	ft_free(old);
+}
+
+void	remove_camera(t_scene *scene)
+{
+	if (scene->num_cameras == 1)
+		return ;
+	scene->num_cameras--;
+	if (scene->active_camera >= scene->num_cameras)
+		scene->active_camera = scene->num_cameras - 1;
+}
 
 void	recompute_grid(t_scene *scene, t_rect rect)
 {

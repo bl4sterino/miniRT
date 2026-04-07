@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 11:57:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/07 16:29:46 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 {
 	pthread_mutex_lock(&d->threads_data.task_mutex);
-	while (d->threads_data.current_cam >= d->scene->num_cameras || d->threads_data.current_line
+	while (d->threads_data.current_cam >= d->scene->num_cameras
+		|| d->threads_data.current_line
 		>= d->scene->cameras[d->threads_data.current_cam].rect.h)
 	{
 		pthread_cond_wait(&d->threads_data.task_cond,
@@ -98,7 +99,8 @@ void	*ft_thread_loop(void *arg)
 		ft_thread_render_function(d, task);
 		pthread_mutex_lock(&d->threads_data.task_mutex);
 		d->threads_data.finished_lines++;
-		if (d->threads_data.finished_lines == d->scene->cameras[d->threads_data.current_cam].rect.h)
+		if (d->threads_data.finished_lines
+			== d->scene->cameras[d->threads_data.current_cam].rect.h)
 			pthread_cond_signal(&d->threads_data.done_cond);
 		if (d->threads_data.run_threads == -1)
 		{

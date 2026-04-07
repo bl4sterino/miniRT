@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/06 20:35:56 by tpotier          ###   ########.fr        #
+#    Updated: 2026/04/07 16:16:38 by tpotier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ FILES = main_utils \
 		scene \
 		debug/debug_gc \
 		input/camera \
+		input/camera_count \
 		input/focus_and_cursor \
 		input/input \
 		input/input_get \

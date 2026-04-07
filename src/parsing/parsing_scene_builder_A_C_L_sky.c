@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 19:40:49 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:11:08 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,12 @@
 void	ft_extract_camera(t_scene *scene, t_list *lst)
 {
 	t_parsed_object	*element;
-	t_camera		*new;
 
 	while (lst)
 	{
 		element = lst->content;
 		if (element->type == object_type_camera)
-		{
-			new = ft_malloc(sizeof(*new) * (scene->num_cameras + 1));
-			ft_memcpy(new, scene->cameras, sizeof(*new) * scene->num_cameras);
-			ft_free(scene->cameras);
-			scene->cameras = new;
-			element->object.as_camera.noclip = 0;
-			scene->cameras[scene->num_cameras++] = element->object.as_camera;
-		}
+			add_camera(scene, &element->object.as_camera);
 		lst = lst->next;
 	}
 }

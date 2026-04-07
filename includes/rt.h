@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 20:20:37 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:17:07 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void		ft_extra_controls(t_v3f extra, t_object *object, t_data *d,
 
 // camera
 
+void		ft_camera_count(t_data *d);
 void		ft_camera_move(t_data *d);
 void		ft_camera_rotate(t_data *d);
 void		ft_camera_zoom(t_data *d);
@@ -208,6 +209,9 @@ float		ft_get_triangle_area(t_v3f A, t_v3f B, t_v3f C);
 int			rect_contains(t_rect rect, t_v2i pos);
 
 t_camera	*get_active_camera(t_scene *s);
+void		add_camera(t_scene *scene, t_camera *cam);
+void		remove_camera(t_scene *scene);
+void		refresh_grid(t_data *d);
 void		recompute_grid(t_scene *scene, t_rect rect);
 
 // debug

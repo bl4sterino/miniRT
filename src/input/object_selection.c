@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:30:46 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 19:38:47 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:27:09 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_get_object_at(t_data *d, t_v2i screenpos)
 	int		hit;
 
 	ray = make_ray(d->scene->cameras[d->scene->active_camera],
-		d->viewports[d->scene->active_camera], screenpos);
+			d->viewports[d->scene->active_camera], screenpos);
 	hit = SELECTED_NONE;
 	ft_shoot_ray(ray, d->scene, &hit);
 	if (hit >= 0 && hit != SELECTED_NONE)
