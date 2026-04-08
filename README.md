@@ -73,6 +73,10 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 	C	1.0 2.0 3.0		0.0 0.0 1.0		80		1					0
 
+* ***Render modes:** **0** Default, **1** BVH, **2** Normals
+
+
+
 **Ambient Light:**
 
 		intensity		color RGB[0-255]		fog density		ray_bounces[0-127]

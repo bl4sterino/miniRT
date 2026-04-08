@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 15:39:09 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 17:07:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 
 # define MAX_HDR_COEF 20.0f
 
-# define DEFAULT_STEREO_HALF_SPACE 1.0f
+# define DEFAULT_STEREO_HALF_SPACE 0.5f
 
 // Libs and struct must be included first
 # include "keycodes.h"

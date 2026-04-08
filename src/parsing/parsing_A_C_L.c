@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 14:48:42 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 16:33:18 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ t_struct_parser_data	*ft_get_parser_ambient_light(int id)
 t_struct_parser_data	*ft_get_parser_camera_2(t_parsing_data d, t_list *lst,
 		t_struct_parser_data *struct_parser, int id)
 {
+	d = (t_parsing_data){p_int, offsetof(t_camera, render_mode), 0};
+	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	d = (t_parsing_data){p_int, offsetof(t_camera, stereo), 0};
 	ft_lstadd_back(&lst, ft_lstnew_gc_id(ft_get_pdata(id, d), id));
 	struct_parser->element_lst = lst;
