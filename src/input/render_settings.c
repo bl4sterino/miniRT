@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 16:58:38 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 17:09:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	ft_render_settings_2(t_data *d, t_camera *cam)
 	if (ft_get_key(XK_bracketleft, d))
 	{
 		cam->stereo_space *= 1.0f - 0.5f * d->deltatime;
-		ft_printf("%f\n", cam->stereo_space);
 		cam->dirty = 1;
 	}
 	if (ft_get_key(XK_bracketright, d))
