@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 15:34:00 by tpotier           #+#    #+#             */
-/*   Updated: 2026/04/08 12:44:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 14:40:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,7 @@ void	add_camera(t_scene *scene, t_camera *cam)
 	ft_memcpy(new, scene->cameras, sizeof(*new) * scene->num_cameras);
 	old = scene->cameras;
 	scene->cameras = new;
-	cam->noclip = 0;
-	cam->dirty = 0;
-	cam->frame_count = 0;
-	cam->cache_frame = 0;
-	if (cam->render_mode < 0 || cam->render_mode > RENDER_STEREO)
+	if (cam->render_mode < 0 || cam->render_mode > RENDER_NORMALS)
 		ft_exit_str_fd(1, "Camera render mode is out of range\n", 2);
 	scene->cameras[scene->num_cameras++] = *cam;
 	ft_free(old);

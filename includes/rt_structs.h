@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 12:20:22 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 14:38:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@ typedef enum e_render_mode
 	RENDER_NORMALS,
 	RENDER_STEREO
 }					t_render_mode;
+
+typedef enum e_eye_id
+{
+	EYE_LEFT = 1,
+	EYE_RIGHT = 2
+}	t_eye_id;
 
 typedef struct s_rgb
 {

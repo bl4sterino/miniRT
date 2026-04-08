@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 12:21:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 15:39:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@
 # define DELTATIME_DISPLAY_DELAY 0.2f
 
 # define MAX_HDR_COEF 20.0f
+
+# define DEFAULT_STEREO_HALF_SPACE 1.0f
 
 // Libs and struct must be included first
 # include "keycodes.h"
@@ -200,7 +202,10 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d);
 void		ft_render(t_data *d);
 void		*ft_thread_loop(void *arg);
 t_v3f		ft_get_viewport_target(t_viewport *vp, t_thread_render_context c);
-
+void		ft_render_mode_basic(t_data *d, t_thread_render_context *c,
+				int cam_idx);
+void		ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
+				int cam_idx, t_ray ray);
 void		ft_post_process(t_data *d);
 
 // utils

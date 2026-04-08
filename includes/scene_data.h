@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:59:25 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 14:39:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,16 @@ typedef struct s_camera
 {
 	t_v3f				position;
 	t_v3f				direction;
+	t_v3f				right;
 	float				fov;
 	char				noclip;
 	t_rect				rect;
 	int					render_mode;
+	int					stereo;
 	int					dirty;
 	int					cache_frame;
 	float				frame_count;
+	float				stereo_space;
 }						t_camera;
 
 typedef struct s_skybox

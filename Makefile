@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/07 17:13:00 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/08 15:39:22 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,6 +85,7 @@ FILES = main_utils \
 		rendering/thread_routine \
 		rendering/thread_routine_target_caching \
 		rendering/render \
+		rendering/render_mode \
 		rendering/viewport \
 		rendering/bvh_builder \
 		rendering/bvh_builder_utils \

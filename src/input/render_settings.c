@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:36:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 15:03:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	ft_render_settings_2(t_data *d, t_camera *cam)
 			cam->render_mode = RENDER_DEFAULT;
 		else
 			cam->render_mode = RENDER_NORMALS;
+		cam->dirty = 1;
+	}
+	if (ft_get_key_down(XK_m, d))
+	{
+		cam->stereo = !cam->stereo;
 		cam->dirty = 1;
 	}
 }

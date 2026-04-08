@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 12:32:59 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 15:42:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 }
 
 t_thread_render_context	ft_setup_thread_render_data(t_data *d,
-		t_render_task task)
+		t_render_task task, t_ray *ray)
 {
 	t_thread_render_context	context;
 
@@ -42,47 +42,28 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 	context.pixel.y = task.y;
 	context.pixel.x = 0;
 	context.cam = d->scene->cameras[task.cam_idx];
+	ray->origin = context.cam.position;
 	context.ray.origin = context.cam.position;
 	context.vp = d->viewports[task.cam_idx];
 	return (context);
 }
 
-static inline void	ft_render_pixel_classic(t_data *d,
-		t_thread_render_context *c, int render_mode)
-{
-	t_v3f	hit_color;
-
-	hit_color = ft_get_pixel_color(c->ray, d->scene, &c->out,
-			d->image.ray_targets[c->index]);
-	if (render_mode == RENDER_DEFAULT)
-		ft_add_pixel_to_accumulated_image(d, c->index, hit_color);
-	else if (render_mode == RENDER_NORMALS)
-	{
-		c->out.hit_normal = ft_v3f_add(ft_v3f_scale(c->out.hit_normal, 0.5f),
-				(t_v3f){{0.5f, 0.5f, 0.5f}});
-		ft_add_pixel_to_accumulated_image(d, c->index, c->out.hit_normal);
-	}
-}
-
 void	ft_thread_render_function(t_data *d, t_render_task task)
 {
 	t_thread_render_context	c;
+	t_ray					ray;
 
-	c = ft_setup_thread_render_data(d, task);
+	c = ft_setup_thread_render_data(d, task, &ray);
 	while (c.pixel.x < c.cam.rect.w)
 	{
 		c.index = (c.pixel.y + c.cam.rect.y) * WIDTH_WIN + (c.pixel.x
 				+ c.cam.rect.x);
-		if (d->scene->cameras[task.cam_idx].cache_frame == 2)
+		if (c.cam.cache_frame == 2 && c.cam.stereo == 0)
 			d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c.vp, &c);
-		c.target = ft_get_viewport_target(&c.vp, c);
-		c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces, 0);
-		if (d->scene->cameras[task.cam_idx].render_mode != RENDER_BVH)
-			ft_render_pixel_classic(d, &c,
-				d->scene->cameras[task.cam_idx].render_mode);
+		if (!c.cam.stereo)
+			ft_render_mode_basic(d, &c, task.cam_idx);
 		else
-			ft_add_pixel_to_accumulated_image(d, c.index,
-				ft_shoot_ray_bvh_debug(c.ray, d->scene));
+			ft_render_mode_stereo(d, &c, task.cam_idx, ray);
 		c.pixel.x++;
 	}
 }

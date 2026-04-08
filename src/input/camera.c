@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 12:51:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 14:25:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void	ft_camera_rotate(t_data *d)
 	cam->direction = ft_cam_euler_to_v3f(cam_rot);
 	if (fabs(rotx) > EPSILON || fabs(roty) > EPSILON)
 		cam->dirty = 1;
+	cam->right = ft_v3f_normalize(ft_v3f_cross(cam->direction, v3f(0.0f, 1.0f,
+					0.0f)));
 }
 
 void	ft_camera_zoom(t_data *d)
