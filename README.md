@@ -39,16 +39,21 @@ Build the project using the provided Makefile:
 ### 🕯️ Rendering & Illumination
 
 * **Path Traced Global Illumination:** Full support for indirect lighting, allowing light to bounce off surfaces and illuminate dark areas.
-* **Multiple Importance Sampling (MIS):** A robust sampling strategy that combines BRDF sampling and Direct Light sampling to significantly reduce variance (noise) in scenes with both large area lights and small, bright points.
-* **Emissive Surfaces:** Spheres and quads can be turned into light sources by assigning them a , allowing for realistic area lighting.
+* **Emissive Surfaces:** Spheres and quads can be turned into light sources by assigning an emission value to their materials, allowing for realistic area lighting.
 * **Point Lights:** Support for traditional point light sources.
-* **Refraction & Reflection:** Accurate simulation of Fresnel effects, allowing for realistic glass (dielectrics) and polished metals (conductors).
-* **Volumetric Fog/Lighting:** A fog density can be defined to allow rays to bounce in the atmosphere before hitting objects. This allow the air to be lit and shadowed creating god rays and volumetric shadows.
+* **Refraction & Reflection:** Allowing the render of realistic glass, polished materials and mirrors.
+* **Volumetric Fog/Lighting:** A fog density can be defined to allow rays to bounce in the atmosphere before hitting objects. This allows the air to be lit and shadowed creating god rays and volumetric shadows.
+* **Temporal Anti-Aliasing:** Progressively blends samples over multiple frames to eliminate Monte Carlo noise and jagged edges.
+* **Skyboxes:** A pair of color/luminance textures can be used to define an emissive skybox. <sup><sup>*we have HDR at home*</sup></sup>
+* **Multiple Cameras:** The window can be dynamically split into multiple sub-windows with different cameras and settings.
 
 ### ⚡ Performance & Optimization
 * **Bounding Volume Hierarchy (BVH):** Implemented a tree-based spatial partition to reduce ray-object intersection complexity. It uses Axis-Alligned Bounding Boxes to maximize the intersection speed, enabling the rendering of scenes with **tens of thousands** of primitives.
 * **SIMD Vectorization:** Leveraged **SIMD (Single Instruction, Multiple Data)** instructions to process multiple floating-point calculations in parallel, specifically for ray-box intersection and vector math.
+* **Multiple Importance Sampling (MIS):** A robust sampling strategy that combines BRDF sampling and Direct Light sampling to significantly reduce variance (noise) in scenes with both large area lights and small, bright points. Also reducing the number of required light samples.
+* **Ray target caching:** Caches intersection's target when a pixel's corners hit the same primitive. By detecting this coherence, the engine skips expensive BVH traversals for primary rays, boosting throughput in less complex regions of the frame.
 * **Multi-threading:** Implemented using `pthread` to distribute the rendering workload across all available CPU cores. By dividing the image into lines, the engine achieves near-linear scaling in performance.
+
 
 
 # Scene format
@@ -64,9 +69,9 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 **Camera:**
 		
-		position		direction		fov
+		position		direction		fov		render mode[0-2]	stereoscopic[0-1]
 
-	C	1.0 2.0 3.0		0.0 0.0 1.0		80
+	C	1.0 2.0 3.0		0.0 0.0 1.0		80		1					0
 
 **Ambient Light:**
 
@@ -159,8 +164,10 @@ Object are defined by their respective properties but they must all end with the
 | Selected Control 2	| <kbd>num /</kbd> <kbd>num *</kbd>	|
 | Select Point Lights	| <kbd>PgUp</kbd> <kbd>PgDn</kbd> |	Selects or cycle through Point Lights
 | Ray Bounce --/++		| <kbd>F</kbd> <kbd>G</kbd> | Hold <kbd>Right Click</kbd> to increment/decrement 10x faster
-| Display Normals		| <kbd>N</kbd>
-| Display BVH			| <kbd>E</kbd>
+| Toggle camera collisions	| <kbd>B</kbd>
+| Toggle Normals view		| <kbd>N</kbd>
+| Toggle BVH view			| <kbd>E</kbd>
+| Toggle stereoscopic view		| <kbd>M</kbd>
 | Exit					| <kbd>Esc</kbd>
 
 ## Use of AI
