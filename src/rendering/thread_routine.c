@@ -6,11 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2026/04/07 16:29:46 by tpotier          ###   ########.fr       */
-=======
-/*   Updated: 2026/04/07 16:17:42 by pberne           ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2026/04/08 12:32:59 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +73,7 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 	{
 		c.index = (c.pixel.y + c.cam.rect.y) * WIDTH_WIN + (c.pixel.x
 				+ c.cam.rect.x);
-		if (d->cache_frame == 2)
+		if (d->scene->cameras[task.cam_idx].cache_frame == 2)
 			d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c.vp, &c);
 		c.target = ft_get_viewport_target(&c.vp, c);
 		c.ray = ft_setup_ray_target(c.ray, c.target, d->ray_bounces, 0);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:41:33 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 12:20:22 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,7 @@ typedef struct s_data
 	double			total_frames;
 	struct timeval	last_tv;
 	char			*fpsstr;
-	//float			frame_count;
 	char			dirty_frame;
-	char			cache_frame;
 	char			ray_bounces;
 	int				target_ray_bounces;
 	t_scene			*scene;

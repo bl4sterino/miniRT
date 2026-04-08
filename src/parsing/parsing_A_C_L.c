@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/21 14:49:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:05:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 12:57:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_struct_parser_data	*ft_get_parser_camera_2(t_parsing_data d, t_list *lst,
 	struct_parser->material_lst = NULL;
 	return (struct_parser);
 }
+
 t_struct_parser_data	*ft_get_parser_camera(int id)
 {
 	t_list					*lst;

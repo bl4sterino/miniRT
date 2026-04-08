@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:52:25 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 17:15:16 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/08 12:34:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,7 @@ void	ft_render_preprocess_2(t_data *d)
 	if (d->dirty_frame)
 		ft_set_all_cameras_dirty(d);
 	ft_clear_dirty_cameras(d);
-	if (d->frame_count == 1.0f && d->cache_frame == 1)
-	{
-		d->frame_count = 0.0f;
-		d->cache_frame = 2;
-		ft_memset_int(d->image.current_frame, 0, SCREEN_SIZE * 4);
-	}
-	else if (d->cache_frame == 2)
-		d->cache_frame = 0;
+	ft_prepare_cache_frame(d);
 }
 
 void	ft_render_preprocess(t_data *d)

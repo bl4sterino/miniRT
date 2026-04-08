@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:26:51 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/08 12:51:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	ft_camera_move(t_data *d)
 	c.movement.v = c.campos.v - cam->position.v;
 	if (ft_try_move(d, cam, &c.movement))
 	{
-		d->dirty_frame = 1;
+		cam->dirty = 1;
 		cam->position.v += c.movement.v;
 	}
 }
@@ -92,7 +92,7 @@ void	ft_camera_rotate(t_data *d)
 		cam_rot.y -= 360.0;
 	cam->direction = ft_cam_euler_to_v3f(cam_rot);
 	if (fabs(rotx) > EPSILON || fabs(roty) > EPSILON)
-		d->dirty_frame = 1;
+		cam->dirty = 1;
 }
 
 void	ft_camera_zoom(t_data *d)
@@ -103,11 +103,11 @@ void	ft_camera_zoom(t_data *d)
 	if (ft_get_key_down(MOUSE_SCROLL_DOWN, d))
 	{
 		cam->fov *= 1.05f;
-		d->dirty_frame = 1;
+		cam->dirty = 1;
 	}
 	if (ft_get_key_down(MOUSE_SCROLL_UP, d))
 	{
 		cam->fov *= 0.95f;
-		d->dirty_frame = 1;
+		cam->dirty = 1;
 	}
 }
