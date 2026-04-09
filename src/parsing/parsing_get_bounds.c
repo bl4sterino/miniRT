@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:09:03 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/20 14:37:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:29:02 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ t_bounds	ft_get_triangle_bounds(t_triangle tri)
 	t_bounds	bounds;
 	int			i;
 
-	bounds.min = tri.points.a;
-	bounds.max = tri.points.a;
+	bounds.min = tri.points[0];
+	bounds.max = tri.points[0];
 	i = 1;
 	while (i < 3)
 	{
-		bounds.min = ft_v3f_min(bounds.min, tri.points.p[i]);
-		bounds.max = ft_v3f_max(bounds.max, tri.points.p[i]);
+		bounds.min = ft_v3f_min(bounds.min, tri.points[i]);
+		bounds.max = ft_v3f_max(bounds.max, tri.points[i]);
 		i++;
 	}
 	return (ft_get_minimum_bounds(bounds));

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/05 13:56:11 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:05:49 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:18:17 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ static inline t_v3f	ft_random_point_triangle(t_triangle tri)
 {
 	t_v3f	p;
 
-	p = ft_v3f_lerp(tri.points.a, tri.points.b, fast_rand());
-	return (ft_v3f_lerp(p, tri.points.c, fast_rand()));
+	p = ft_v3f_lerp(tri.points[0], tri.points[1], fast_rand());
+	return (ft_v3f_lerp(p, tri.points[2], fast_rand()));
 }
 
 static inline t_v3f	ft_get_random_point_on_object(t_object object)

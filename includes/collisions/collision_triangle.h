@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 13:36:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:13:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:17:48 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,14 @@ static inline float	ft_triangle_collision(t_ray ray, t_triangle tri)
 {
 	t_triangle_contex	c;
 
-	c.edge1 = ft_v3f_sub(tri.points.b, tri.points.a);
-	c.edge2 = ft_v3f_sub(tri.points.c, tri.points.a);
+	c.edge1 = ft_v3f_sub(tri.points[1], tri.points[0]);
+	c.edge2 = ft_v3f_sub(tri.points[2], tri.points[0]);
 	c.h = ft_v3f_cross(ray.direction, c.edge2);
 	c.det = ft_v3f_dot(c.edge1, c.h);
 	if (c.det > -EPSILON && c.det < EPSILON)
 		return (FT_INFINITY);
 	c.inv_det = 1.0f / c.det;
-	c.s = ft_v3f_sub(ray.origin, tri.points.a);
+	c.s = ft_v3f_sub(ray.origin, tri.points[0]);
 	c.u = c.inv_det * ft_v3f_dot(c.s, c.h);
 	if (c.u < 0.0f || c.u > 1.0f)
 		return (FT_INFINITY);

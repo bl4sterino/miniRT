@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:15:27 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/23 14:08:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:28:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,21 @@ void	ft_rotate_triangle(t_v3f rotation, t_object *object)
 	t_v3f	b;
 	t_v3f	c;
 
-	a = ft_v3f_sub(object->object.as_triangle.points.a,
-			object->object.as_triangle.position);
-	b = ft_v3f_sub(object->object.as_triangle.points.b,
-			object->object.as_triangle.position);
-	c = ft_v3f_sub(object->object.as_triangle.points.c,
-			object->object.as_triangle.position);
+	a.v = object->object.as_triangle.points[0].v
+		- object->object.as_triangle.position.v;
+	b.v = object->object.as_triangle.points[1].v
+		- object->object.as_triangle.position.v;
+	c.v = object->object.as_triangle.points[2].v
+		- object->object.as_triangle.position.v;
 	a = ft_v3f_rotate_worldspace(a, rotation);
 	b = ft_v3f_rotate_worldspace(b, rotation);
 	c = ft_v3f_rotate_worldspace(c, rotation);
-	object->object.as_triangle.points.a = ft_v3f_add(a,
-			object->object.as_triangle.position);
-	object->object.as_triangle.points.b = ft_v3f_add(b,
-			object->object.as_triangle.position);
-	object->object.as_triangle.points.c = ft_v3f_add(c,
-			object->object.as_triangle.position);
+	object->object.as_triangle.points[0].v = a.v
+		+ object->object.as_triangle.position.v;
+	object->object.as_triangle.points[1].v = b.v
+		+ object->object.as_triangle.position.v;
+	object->object.as_triangle.points[2].v = c.v
+		+ object->object.as_triangle.position.v;
 	object->object.as_triangle = ft_get_processed_triangle(
 			object->object.as_triangle);
 	object->bounds = ft_get_triangle_bounds(object->object.as_triangle);

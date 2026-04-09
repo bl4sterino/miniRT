@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 12:08:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:41:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:19:45 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ void	ft_move_light(t_light *light, t_v3f movement)
 
 void	ft_move_triangle(t_object *object, t_v3f movement)
 {
-	object->object.as_triangle.points.a = ft_v3f_add(
-			object->object.as_triangle.points.a, movement);
-	object->object.as_triangle.points.b = ft_v3f_add(
-			object->object.as_triangle.points.b, movement);
-	object->object.as_triangle.points.c = ft_v3f_add(
-			object->object.as_triangle.points.c, movement);
+	object->object.as_triangle.points[0].v += movement.v;
+	object->object.as_triangle.points[1].v += movement.v;
+	object->object.as_triangle.points[2].v += movement.v;
 	object->object.as_triangle = ft_get_processed_triangle(
 			object->object.as_triangle);
 	object->bounds = ft_get_triangle_bounds(object->object.as_triangle);

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 22:54:45 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/30 11:04:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 19:17:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ static inline float	ft_triangle_area(t_triangle tri)
 	t_v3f	cross;
 	float	mag_sq;
 
-	ab = ft_v3f_sub(tri.points.b, tri.points.a);
-	ac = ft_v3f_sub(tri.points.c, tri.points.a);
+	ab = ft_v3f_sub(tri.points[1], tri.points[0]);
+	ac = ft_v3f_sub(tri.points[2], tri.points[0]);
 	cross.x = ab.y * ac.z - ab.z * ac.y;
 	cross.y = ab.z * ac.x - ab.x * ac.z;
 	cross.z = ab.x * ac.y - ab.y * ac.x;
