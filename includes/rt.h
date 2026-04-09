@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 16:31:29 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 17:04:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,7 +203,7 @@ float		ft_shoot_ray_against_objects(t_ray ray, float max_dist,
 t_viewport	ft_get_viewport(t_camera cam, t_data *d);
 void		ft_render(t_data *d);
 void		*ft_thread_loop(void *arg);
-t_v3f		ft_get_viewport_target(t_viewport *vp, t_thread_render_context c);
+t_v3f		ft_get_viewport_target(t_viewport *vp, t_v2i pixel);
 void		ft_render_mode_basic(t_data *d, t_thread_render_context *c,
 				int cam_idx);
 void		ft_render_mode_stereo(t_data *d, t_thread_render_context *c,

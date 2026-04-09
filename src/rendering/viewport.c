@@ -6,17 +6,17 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 14:21:17 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 17:02:31 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-t_v3f	ft_get_viewport_target(t_viewport *vp, t_thread_render_context c)
+t_v3f	ft_get_viewport_target(t_viewport *vp, t_v2i pixel)
 {
 	return (ft_v3f_add(vp->top_left,
-			ft_v3f_add(ft_v3f_scale(vp->x_delta, (float)c.pixel.x),
-				ft_v3f_scale(vp->y_delta, (float)c.pixel.y))));
+			ft_v3f_add(ft_v3f_scale(vp->x_delta, pixel.x),
+				ft_v3f_scale(vp->y_delta, pixel.y))));
 }
 
 static void	ft_setup_context(t_viewport_context *context, t_camera cam)

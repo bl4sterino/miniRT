@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 16:05:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 17:41:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static inline void	ft_render_pixel_classic(t_data *d,
 
 void	ft_render_mode_basic(t_data *d, t_thread_render_context *c, int cam_idx)
 {
-	c->target = ft_get_viewport_target(&c->vp, *c);
+	c->target = ft_get_viewport_target(&c->vp, c->pixel);
 	c->ray = ft_setup_ray_target(c->ray, c->target, d->ray_bounces, 0);
 	if (d->scene->cameras[cam_idx].render_mode != RENDER_BVH)
 		ft_render_pixel_classic(d, c, d->scene->cameras[cam_idx].render_mode,
@@ -44,7 +44,11 @@ void	ft_render_mode_basic(t_data *d, t_thread_render_context *c, int cam_idx)
 void	ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
 		int cam_idx)
 {
-	c->target = ft_get_viewport_target(&c->vp, *c);
+	t_v2i	pixel;
+
+	pixel.y = c->pixel.y;
+	pixel.x = c->pixel.x + (int)c->cam.stereo_offset;
+	c->target = ft_get_viewport_target(&c->vp, pixel);
 	c->ray.origin = c->cam.position;
 	c->ray = ft_setup_ray_target(c->ray, c->target, d->ray_bounces, 0);
 	c->ray.origin.v = c->cam.position.v - c->cam.right.v * c->cam.stereo_space;
@@ -54,6 +58,10 @@ void	ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
 	else
 		ft_add_pixel_to_accumulated_image(d, c, ft_shoot_ray_bvh_debug(c->ray,
 				d->scene), EYE_LEFT);
+	pixel.x = c->pixel.x - (int)c->cam.stereo_offset;
+	c->target = ft_get_viewport_target(&c->vp, pixel);
+	c->ray.origin = c->cam.position;
+	c->ray = ft_setup_ray_target(c->ray, c->target, d->ray_bounces, 0);
 	c->ray.origin.v = c->cam.position.v + c->cam.right.v * c->cam.stereo_space;
 	if (d->scene->cameras[cam_idx].render_mode != RENDER_BVH)
 		ft_render_pixel_classic(d, c, d->scene->cameras[cam_idx].render_mode,

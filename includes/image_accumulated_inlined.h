@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 16:20:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 17:45:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,13 @@ static inline void	ft_add_pixel_to_accumulated_image(t_data *d,
 
 	pos = c->pixel;
 	if (eye_id == 0)
-	{
 		d->image.current_frame[c->index].v += color.v;
-		return ;
-	}
 	else if (eye_id == EYE_LEFT)
-	{
-		pos.x -= (int)c->cam.stereo_offset;
-		if (pos.x < 0)
-			return ;
 		d->image.current_frame[(pos.y + c->cam.rect.y) * WIDTH_WIN + pos.x
 			+ c->cam.rect.x].v += color.v * v3f(0.0f, 1.0f, 1.0f).v;
-	}
 	else
-	{
-		pos.x += (int)c->cam.stereo_offset;
-		if (pos.x >= c->cam.rect.w)
-			return ;
 		d->image.current_frame[(pos.y + c->cam.rect.y) * WIDTH_WIN + pos.x
 			+ c->cam.rect.x].v += color.v * v3f(1.0f, 0.0f, 0.0f).v;
-	}
 }
 
 #endif
