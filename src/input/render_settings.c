@@ -6,11 +6,21 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 17:09:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 16:19:57 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+void	ft_render_settings_3(t_data *d, t_camera *cam)
+{
+	if (ft_get_key(XK_0, d) - ft_get_key(XK_9, d))
+	{
+		cam->stereo_offset += 5.0f * d->deltatime * (float)(ft_get_key(XK_0, d)
+				- ft_get_key(XK_9, d));
+		cam->dirty = 1;
+	}
+}
 
 void	ft_render_settings_2(t_data *d, t_camera *cam)
 {
@@ -37,6 +47,7 @@ void	ft_render_settings_2(t_data *d, t_camera *cam)
 		cam->stereo_space *= 1.0f + 0.5f * d->deltatime;
 		cam->dirty = 1;
 	}
+	ft_render_settings_3(d, cam);
 }
 
 void	ft_render_settings(t_data *d)

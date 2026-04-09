@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 15:42:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 15:12:36 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_wait_for_task_or_die_trying(t_data *d, t_render_task *task)
 }
 
 t_thread_render_context	ft_setup_thread_render_data(t_data *d,
-		t_render_task task, t_ray *ray)
+		t_render_task task)
 {
 	t_thread_render_context	context;
 
@@ -42,7 +42,6 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 	context.pixel.y = task.y;
 	context.pixel.x = 0;
 	context.cam = d->scene->cameras[task.cam_idx];
-	ray->origin = context.cam.position;
 	context.ray.origin = context.cam.position;
 	context.vp = d->viewports[task.cam_idx];
 	return (context);
@@ -51,9 +50,8 @@ t_thread_render_context	ft_setup_thread_render_data(t_data *d,
 void	ft_thread_render_function(t_data *d, t_render_task task)
 {
 	t_thread_render_context	c;
-	t_ray					ray;
 
-	c = ft_setup_thread_render_data(d, task, &ray);
+	c = ft_setup_thread_render_data(d, task);
 	while (c.pixel.x < c.cam.rect.w)
 	{
 		c.index = (c.pixel.y + c.cam.rect.y) * WIDTH_WIN + (c.pixel.x
@@ -63,7 +61,7 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 		if (!c.cam.stereo)
 			ft_render_mode_basic(d, &c, task.cam_idx);
 		else
-			ft_render_mode_stereo(d, &c, task.cam_idx, ray);
+			ft_render_mode_stereo(d, &c, task.cam_idx);
 		c.pixel.x++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 16:52:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 16:55:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 16:20:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,33 @@
 
 # include "rt.h"
 
-static inline void	ft_add_pixel_to_accumulated_image(t_data *d, int index,
-		t_v3f color, int eye_id)
+static inline void	ft_add_pixel_to_accumulated_image(t_data *d,
+		t_thread_render_context *c, t_v3f color, int eye_id)
 {
+	t_v2i	pos;
+
+	pos = c->pixel;
 	if (eye_id == 0)
-		d->image.current_frame[index].v += color.v;
+	{
+		d->image.current_frame[c->index].v += color.v;
+		return ;
+	}
 	else if (eye_id == EYE_LEFT)
-		d->image.current_frame[index].v += color.v * v3f(0.0f, 1.0f, 1.0f).v;
+	{
+		pos.x -= (int)c->cam.stereo_offset;
+		if (pos.x < 0)
+			return ;
+		d->image.current_frame[(pos.y + c->cam.rect.y) * WIDTH_WIN + pos.x
+			+ c->cam.rect.x].v += color.v * v3f(0.0f, 1.0f, 1.0f).v;
+	}
 	else
-		d->image.current_frame[index].v += color.v * v3f(1.0f, 0.0f, 0.0f).v;
+	{
+		pos.x += (int)c->cam.stereo_offset;
+		if (pos.x >= c->cam.rect.w)
+			return ;
+		d->image.current_frame[(pos.y + c->cam.rect.y) * WIDTH_WIN + pos.x
+			+ c->cam.rect.x].v += color.v * v3f(1.0f, 0.0f, 0.0f).v;
+	}
 }
 
 #endif

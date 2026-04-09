@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 10:03:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 17:11:48 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 16:32:32 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,12 @@ void	ft_draw_clocks(t_data *d)
 	ft_draw_int(d, (t_draw_arg){(t_v2i){170, HEIGHT_WIN - 15}, (t_v2i){80,
 		15}, (t_rgb){50, 50, 50}}, "Bounces: ",
 		d->ray_bounces);
+	ft_draw_double_8(d, (t_draw_arg){(t_v2i){250, HEIGHT_WIN - 15}, (t_v2i){170,
+		15}, (t_rgb){50, 50, 50}}, "stereo offset: ",
+		d->scene->cameras[d->scene->active_camera].stereo_offset);
+	ft_draw_double_8(d, (t_draw_arg){(t_v2i){420, HEIGHT_WIN - 15}, (t_v2i){170,
+		15}, (t_rgb){50, 50, 50}}, "eye dist: ",
+		d->scene->cameras[d->scene->active_camera].stereo_space);
 }
 
 void	ft_hud_display(t_data *d)

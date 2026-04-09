@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 14:39:45 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 15:15:12 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_camera
 	int					cache_frame;
 	float				frame_count;
 	float				stereo_space;
+	float				stereo_offset;
 }						t_camera;
 
 typedef struct s_skybox

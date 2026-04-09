@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 17:07:11 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/09 16:31:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 # define MAX_HDR_COEF 20.0f
 
 # define DEFAULT_STEREO_HALF_SPACE 0.5f
+# define STEREO_OFFSET_SPEED 10.0f
 
 // Libs and struct must be included first
 # include "keycodes.h"
@@ -147,6 +148,7 @@ void		ft_render_settings(t_data *d);
 void		ft_set_all_cameras_dirty(t_data *d);
 void		ft_clear_dirty_cameras(t_data *d);
 void		ft_prepare_cache_frame(t_data *d);
+t_ray		ft_screenpos_to_ray(t_camera cam, t_viewport vp, t_v2i screenpos);
 
 // time
 
@@ -205,7 +207,7 @@ t_v3f		ft_get_viewport_target(t_viewport *vp, t_thread_render_context c);
 void		ft_render_mode_basic(t_data *d, t_thread_render_context *c,
 				int cam_idx);
 void		ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
-				int cam_idx, t_ray ray);
+				int cam_idx);
 void		ft_post_process(t_data *d);
 
 // utils

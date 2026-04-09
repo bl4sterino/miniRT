@@ -6,13 +6,13 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:30:46 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:27:09 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/09 11:44:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-static t_ray	make_ray(t_camera cam, t_viewport vp, t_v2i screenpos)
+t_ray	ft_screenpos_to_ray(t_camera cam, t_viewport vp, t_v2i screenpos)
 {
 	t_ray		ray;
 	t_v3f		target;
@@ -33,7 +33,7 @@ void	ft_get_object_at(t_data *d, t_v2i screenpos)
 	t_ray	ray;
 	int		hit;
 
-	ray = make_ray(d->scene->cameras[d->scene->active_camera],
+	ray = ft_screenpos_to_ray(d->scene->cameras[d->scene->active_camera],
 			d->viewports[d->scene->active_camera], screenpos);
 	hit = SELECTED_NONE;
 	ft_shoot_ray(ray, d->scene, &hit);
