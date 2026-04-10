@@ -69,11 +69,11 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 **Camera:**
 		
-		position		direction		fov		render mode[0-2]	stereoscopic[0-1]
+		position		direction		fov		render mode[0-3]	stereoscopic[0-1]
 
 	C	1.0 2.0 3.0		0.0 0.0 1.0		80		1					0
 
-* ***Render modes:** **0** Default, **1** BVH, **2** Normals
+* ***Render modes:** **0** Default, **1** BVH, **2** Normals, **3** Ray targets
 
 
 
@@ -180,6 +180,7 @@ Object are defined by their respective properties but they must all end with the
 | Ray Bounce --/++		| <kbd>F</kbd> <kbd>G</kbd> | Hold <kbd>Right Click</kbd> to increment/decrement 10x faster
 | Toggle camera collisions	| <kbd>B</kbd>
 | Toggle Normals view		| <kbd>N</kbd>
+| Toggle Ray target view		| <kbd>V</kbd>
 | Toggle BVH view			| <kbd>E</kbd>
 | Toggle stereoscopic view		| <kbd>M</kbd>
 | Exit					| <kbd>Esc</kbd>

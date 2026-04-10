@@ -6,11 +6,39 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 17:41:11 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 17:22:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+t_v3f	ft_get_color_from_ray_targets(t_data *d, t_thread_render_context *c)
+{
+	int		target;
+	float	color;
+
+	target = d->image.ray_targets[c->index];
+	if (target == SELECTED_NONE)
+		return (v3f(0.3f, 0.0f, 0.0f));
+	else if (target == SELECTED_SKYBOX)
+		return (v3f(0.3f, 1.0f, 1.0f));
+	if (target < 0)
+		color = fabs((float)target) / (float)d->scene->num_planes;
+	else
+		color = (float)(target) / (float)d->scene->num_objects;
+	return (v3f(color, color, color));
+}
+
+void	ft_render_special_mode(t_data *d, int render_mode,
+		t_thread_render_context *c, int eye)
+{
+	if (render_mode == RENDER_BVH)
+		ft_add_pixel_to_accumulated_image(d, c, ft_shoot_ray_bvh_debug(c->ray,
+				d->scene), eye);
+	else if (render_mode == RENDER_RAY_TARGETS)
+		ft_add_pixel_to_accumulated_image(d, c, ft_get_color_from_ray_targets(d,
+				c), eye);
+}
 
 static inline void	ft_render_pixel_classic(t_data *d,
 		t_thread_render_context *c, int render_mode, int eye)
@@ -33,12 +61,11 @@ void	ft_render_mode_basic(t_data *d, t_thread_render_context *c, int cam_idx)
 {
 	c->target = ft_get_viewport_target(&c->vp, c->pixel);
 	c->ray = ft_setup_ray_target(c->ray, c->target, d->ray_bounces, 0);
-	if (d->scene->cameras[cam_idx].render_mode != RENDER_BVH)
+	if (d->scene->cameras[cam_idx].render_mode < RENDER_BVH)
 		ft_render_pixel_classic(d, c, d->scene->cameras[cam_idx].render_mode,
 			0);
 	else
-		ft_add_pixel_to_accumulated_image(d, c, ft_shoot_ray_bvh_debug(c->ray,
-				d->scene), 0);
+		ft_render_special_mode(d, d->scene->cameras[cam_idx].render_mode, c, 0);
 }
 
 void	ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
@@ -56,8 +83,8 @@ void	ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
 		ft_render_pixel_classic(d, c, d->scene->cameras[cam_idx].render_mode,
 			EYE_LEFT);
 	else
-		ft_add_pixel_to_accumulated_image(d, c, ft_shoot_ray_bvh_debug(c->ray,
-				d->scene), EYE_LEFT);
+		ft_render_special_mode(d, d->scene->cameras[cam_idx].render_mode, c,
+			EYE_LEFT);
 	pixel.x = c->pixel.x - (int)c->cam.stereo_offset;
 	c->target = ft_get_viewport_target(&c->vp, pixel);
 	c->ray.origin = c->cam.position;
@@ -67,6 +94,6 @@ void	ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
 		ft_render_pixel_classic(d, c, d->scene->cameras[cam_idx].render_mode,
 			EYE_RIGHT);
 	else
-		ft_add_pixel_to_accumulated_image(d, c, ft_shoot_ray_bvh_debug(c->ray,
-				d->scene), EYE_RIGHT);
+		ft_render_special_mode(d, d->scene->cameras[cam_idx].render_mode, c,
+			EYE_RIGHT);
 }

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 10:35:52 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 15:12:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 17:42:16 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	ft_thread_render_function(t_data *d, t_render_task task)
 	{
 		c.index = (c.pixel.y + c.cam.rect.y) * WIDTH_WIN + (c.pixel.x
 				+ c.cam.rect.x);
-		if (c.cam.cache_frame == 2 && c.cam.stereo == 0)
+		if ((c.cam.cache_frame == 2 || c.cam.render_mode == RENDER_RAY_TARGETS)
+			&& c.cam.stereo == 0)
 			d->image.ray_targets[c.index] = ft_cache_ray_target(d, &c.vp, &c);
 		if (!c.cam.stereo)
 			ft_render_mode_basic(d, &c, task.cam_idx);

@@ -10,3 +10,5 @@ gmon.out
 mini-rt_debug
 mini-rt
 bench_minirt
+miniRT
+miniRT_debug

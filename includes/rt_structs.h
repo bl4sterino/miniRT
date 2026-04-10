@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 08:42:24 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 16:54:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ enum				e_dimensions
 typedef enum e_render_mode
 {
 	RENDER_DEFAULT,
-	RENDER_BVH,
 	RENDER_NORMALS,
-	RENDER_STEREO
+	RENDER_BVH,
+	RENDER_RAY_TARGETS
 }					t_render_mode;
 
 typedef enum e_eye_id
