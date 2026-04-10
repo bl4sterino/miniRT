@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:37:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 19:47:54 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/10 23:00:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,47 @@ int	ft_parse_texture(char *filepath, int malloc_id, t_list **object_lst)
 	return (1);
 }
 
+int	ft_try_parse_mat(t_material *mat, char **strs)
+{
+	if (!ft_atof_safe_0_255_to_0_1(strs[0], &mat->color.x))
+		return (0);
+	if (!ft_atof_safe_0_255_to_0_1(strs[1], &mat->color.y))
+		return (0);
+	if (!ft_atof_safe_0_255_to_0_1(strs[2], &mat->color.z))
+		return (0);
+	if (!ft_atof_safe_0_1(strs[3], &mat->diffusion))
+		return (0);
+	if (!ft_atof_safe_0_1(strs[4], &mat->reflectiveness))
+		return (0);
+	if (!ft_atof_safe(strs[5], &mat->emission))
+		return (0);
+	if (!ft_atof_safe(strs[6], &mat->refraction))
+		return (0);
+	if (!ft_atoi_safe(strs[7], &mat->color_tex))
+		return (0);
+	if (!ft_atoi_safe(strs[8], &mat->normal_tex))
+		return (0);
+	return (1);
+}
+
 int	ft_try_parse_texture(char **strs, int malloc_id, t_list **object_lst)
 {
+	t_material	mat;
+
 	if (ft_strcmp(strs[0], "tex") == 0 && strs[1] && !strs[2])
 		return (ft_parse_texture(strs[1], malloc_id, object_lst));
-	if (ft_strcmp(strs[0], "obj") == 0 && strs[1] && !strs[2])
-		return (ft_parse_obj(strs[1], malloc_id, object_lst), 1);
+	if (ft_strcmp(strs[0], "obj") == 0 && strs[1])
+	{
+		if (!strs[2])
+			ft_bzero(&mat, sizeof(t_material));
+		else if (strs[3] && strs[4] && strs[5] && strs[6] && strs[7]
+			&& strs[8] && strs[9] && strs[10] && !strs[11])
+		{
+			if (!ft_try_parse_mat(&mat, &strs[2]))
+				return (0);
+		}
+		return (ft_parse_obj(strs[1], malloc_id, object_lst, mat), 1);
+	}
 	else
 		return (0);
 }

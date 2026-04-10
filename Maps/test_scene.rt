@@ -2,8 +2,8 @@ C	0 0 -300	0 0 1		75 0 0
 
 A	1.0		64 64 64	0 0
 
-tex Textures/marex.xpm
+sp 0 400 0 50  255 255 255 0 0 2 0 0 0
 
-L 0.0 1.0 0.0  1 255 255 255
+tex Textures/scrat.xpm
 
-t 0.0 0.0 0.0  200.0 0.0 0.0 			200.0 0.0 -200.0 255 255 255 0 0 0 0 2 0
+obj Wavefront/scrat_collapsed.obj 255 255 255 0 0 0 0 2 0
