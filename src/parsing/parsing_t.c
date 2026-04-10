@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:33:23 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 15:16:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 20:48:11 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,16 @@ t_triangle	ft_get_processed_triangle(t_triangle tri)
 	ab = ft_v3f_sub(tri.points[1], tri.points[0]);
 	ac = ft_v3f_sub(tri.points[2], tri.points[0]);
 	tri.normal = ft_v3f_normalize(ft_v3f_cross(ac, ab));
-
-	//TODO Get rid of this, as it should be parsed
-	tri.normals[0] = tri.normal;
-	tri.normals[1] = tri.normal;
-	tri.normals[2] = tri.normal;
-	// tri.normals[0] = ft_v3f_normalize(v3f(0.0, 1.0, 0));
-	// tri.normals[1] = ft_v3f_normalize(v3f(1.0, 1.0, 0));
-	// tri.normals[2] = ft_v3f_normalize(v3f(1.0, 1.0, -1.0));
-	tri.uvs[0] = v3f(0.25f, 0.25f, 0.0f);
-	tri.uvs[1] = v3f(0.5f, 0.25f, 0.0f);
-	tri.uvs[2] = v3f(0.25, 0.5f, 0.0f);
+	if (tri.normals[0].x == 0.0 && tri.normals[0].y == 0.0
+		&& tri.normals[0].z == 0.0 && tri.normals[1].x == 0.0
+		&& tri.normals[1].y == 0.0 && tri.normals[1].z == 0.0
+		&& tri.normals[2].x == 0.0 && tri.normals[2].y == 0.0
+		&& tri.normals[2].z == 0.0)
+	{
+		tri.normals[0] = tri.normal;
+		tri.normals[1] = tri.normal;
+		tri.normals[2] = tri.normal;
+	}
 	return (tri);
 }
 

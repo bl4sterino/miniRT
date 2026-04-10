@@ -1,3 +1,6 @@
 [submodule "_libft"]
 	path = _libft
 	url = git@github.com:bl4sterino/libft.git
+[submodule "libobj"]
+	path = libobj
+	url = git@git.sr.ht:~d34db4b3/libobj

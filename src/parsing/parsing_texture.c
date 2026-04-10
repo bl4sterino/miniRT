@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:37:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 11:37:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 19:47:54 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_try_parse_texture(char **strs, int malloc_id, t_list **object_lst)
 {
 	if (ft_strcmp(strs[0], "tex") == 0 && strs[1] && !strs[2])
 		return (ft_parse_texture(strs[1], malloc_id, object_lst));
+	if (ft_strcmp(strs[0], "obj") == 0 && strs[1] && !strs[2])
+		return (ft_parse_obj(strs[1], malloc_id, object_lst), 1);
 	else
 		return (0);
 }

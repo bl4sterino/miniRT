@@ -6,15 +6,20 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/10 15:28:59 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/10 18:59:51 by tpotier          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+LIBOBJ_PREFIX = libobj
+LIBMEM_PREFIX = libobj/libmem
+LIBIO_PREFIX = libobj/libio
 
 CC = cc
 CFLAGS = -g3 -Ofast -Wall -Wextra -Werror
  #DFLAGS = -Ofast -Wall -Wextra -Werror 
 DFLAGS = -g3 -Ofast -Wall -Wextra -Werror 
-RTFLAGS = -lXext -lX11 -lm
+RTFLAGS = -lXext -lX11 -lm -L$(LIBOBJ_PREFIX) -lobj -L$(LIBIO_PREFIX) -lio -L$(LIBMEM_PREFIX) -lmem
+
 LIBFT_DIR = _libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
@@ -31,7 +36,10 @@ INCLUDES_DIR =	-Iincludes \
 				-I$(LIBFT_DIR)/includes \
 				-I$(LIBFT_DIR)/includes/vectors \
 				-I$(LIBFT_DIR)/includes/inlines \
-				-I$(MLX_DIR)
+				-I$(MLX_DIR) \
+				-I$(LIBOBJ_PREFIX) \
+				-I$(LIBIO_PREFIX) \
+				-I$(LIBMEM_PREFIX)
 
 MAIN = main
 
@@ -79,6 +87,7 @@ FILES = main_utils \
 		parsing/parsing_error \
 		parsing/parsing_get_bounds \
 		parsing/parsing_get_bounds_2 \
+		parsing/obj \
 		ui/ui_elements \
 		ui/hud_display \
 		ui/ui_draw_floating \
@@ -121,6 +130,12 @@ DEPFLAGS = -MMD
 
 all: $(NAME)
 
+-include $(LIBIO_PREFIX)/module.mk
+
+-include $(LIBMEM_PREFIX)/module.mk
+
+-include $(LIBOBJ_PREFIX)/module.mk
+
 debug: $(D_NAME)
 
 ifneq (,$(filter bench,$(MAKECMDGOALS)))
@@ -134,10 +149,10 @@ bench: $(NAME)
 
 ALL_FILES = $(MAIN) $(FILES)
 
-$(NAME): $(LIBFT) $(MLX) $(OBJ)
+$(NAME): $(LIBFT) $(MLX) $(OBJ) $(LIBOBJ_DEST) $(LIBIO_DEST) $(LIBMEM_DEST)
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(MLX) -o $(NAME) $(RTFLAGS)
 
-$(D_NAME): $(LIBFT_DEBUG) $(MLX) $(D_OBJ)
+$(D_NAME): $(LIBFT_DEBUG) $(MLX) $(D_OBJ) $(LIBOBJ_DEST) $(LIBIO_DEST) $(LIBMEM_DEST)
 	$(CC) $(DFLAGS) $(D_OBJ) $(LIBFT_DEBUG) $(MLX) -o $(D_NAME) $(RTFLAGS)
 	
 
@@ -169,13 +184,13 @@ libft-debug-rebuild:
 obj:
 	mkdir -p $@
 
-clean:
+clean: libobj_clean libio_clean libmem_clean
 	rm -f $(OBJ) $(D_OBJ) $(DEP) $(D_DEP)
 	$(MAKE) -C $(LIBFT_DIR) clean
 	$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
-	rm -f $(NAME) $(D_NAME) $(BENCH_NAME)
+	rm -f $(NAME) $(D_NAME) $(BENCH_NAME) $(LIBOBJ_DEST) $(LIBIO_DEST) $(LIBMEM_DEST)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(MLX_DIR) clean
 

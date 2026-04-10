@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 09:23:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 20:48:30 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,8 @@ void					ft_try_extract_texture(t_data *d, t_texture *out,
 							char *filepath);
 void					ft_create_hdr_tex(t_texture *out, t_texture *color,
 							t_texture *lum);
+void					ft_parse_obj(char *filepath, int malloc_id,
+							t_list **object_lst);
 
 t_cylinder				ft_get_processed_cylinder(t_cylinder cyl);
 t_quad					ft_get_processed_quad(t_quad quad);

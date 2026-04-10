@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 08:37:40 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 15:02:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 20:40:14 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_set_triangle_object_uv(t_v3f hit_p, t_triangle tri, t_v2f *tri_uv)
 	c.d20 = ft_v3f_dot(c.v0p, c.v0v1);
 	c.d21 = ft_v3f_dot(c.v0p, c.v0v2);
 	c.denom = c.d00 * c.d11 - c.d01 * c.d01;
-	if (fabsf(c.denom) < 1e-6f)
+	if (fabsf(c.denom) < EPSILON)
 	{
 		tri_uv->x = 0.0f;
 		tri_uv->y = 0.0f;

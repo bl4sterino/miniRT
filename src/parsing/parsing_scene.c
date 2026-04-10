@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/06 19:39:42 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/10 19:45:27 by tpotier          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ long	ft_count_matches(t_list *lst, t_object_type type)
 
 t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst)
 {
-	(void)d;
 	ft_load_textures(d, scene, lst);
 	ft_normalize_vectors(lst);
 	ft_extract_camera(scene, lst);
