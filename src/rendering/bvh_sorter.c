@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/25 19:51:58 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 19:16:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 19:16:47 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	ft_partition(t_object *objs, int low, int high, int axis)
 			i++;
 			if (i != j)
 				ft_swap_objects(&objs[i], &objs[j]);
-			;
 		}
 		j++;
 	}

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/08 15:38:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 17:22:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 20:02:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ t_v3f	ft_get_color_from_ray_targets(t_data *d, t_thread_render_context *c)
 
 	target = d->image.ray_targets[c->index];
 	if (target == SELECTED_NONE)
-		return (v3f(0.3f, 0.0f, 0.0f));
+		return (v3f(240.0f / 255.0f, 129.0f / 255.0f, 224.0f / 255.0f));
 	else if (target == SELECTED_SKYBOX)
-		return (v3f(0.3f, 1.0f, 1.0f));
+		return (v3f(129.0f / 255.0f, 179.0f / 255.0f, 240.0f / 255.0f));
 	if (target < 0)
 		color = fabs((float)target) / (float)d->scene->num_planes;
 	else
