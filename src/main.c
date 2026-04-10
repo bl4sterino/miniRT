@@ -6,11 +6,19 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 12:43:22 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 16:42:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
+
+int	ft_check_map_format(char *str)
+{
+	size_t	len;
+
+	len = ft_strlen(str);
+	return (len < 3 || ft_strcmp(&str[len - 3], ".rt"));
+}
 
 int	main(int ac, char **av)
 {
@@ -18,7 +26,9 @@ int	main(int ac, char **av)
 
 	ft_init_data(&d);
 	if (ac != 2)
-		return (ft_putstr_fd("Wrong number of arguments\n", 2), 0);
+		return (ft_putstr_fd("Wrong number of arguments\n", 2), 1);
+	if (ft_check_map_format(av[1]))
+		return (ft_putstr_fd("only .rt file sare supported\n", 1), 1);
 	d.mlx = mlx_init();
 	if (!d.mlx)
 		ft_exit(MALLOC_FAILED);

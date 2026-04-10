@@ -99,6 +99,16 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 *Only .xpm texture are supported*
 
+**Skybox:**
+
+		colorID		luminanceID
+
+	sky	2			3
+
+
+
+
+
 
 ### Objects
 

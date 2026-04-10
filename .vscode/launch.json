@@ -16,7 +16,7 @@
             // "args": ["Maps/saturn.rt"],
             // "args": ["Maps/triangles.rt"],
             // "args": ["Maps/box.rt"],
-            "args": ["Maps/test_scene"],
+            "args": ["Maps/test_scene.rt"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
