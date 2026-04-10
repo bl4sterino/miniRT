@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:33:23 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 14:58:18 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 15:16:41 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ t_triangle	ft_get_processed_triangle(t_triangle tri)
 	tri.normals[0] = tri.normal;
 	tri.normals[1] = tri.normal;
 	tri.normals[2] = tri.normal;
+	// tri.normals[0] = ft_v3f_normalize(v3f(0.0, 1.0, 0));
+	// tri.normals[1] = ft_v3f_normalize(v3f(1.0, 1.0, 0));
+	// tri.normals[2] = ft_v3f_normalize(v3f(1.0, 1.0, -1.0));
 	tri.uvs[0] = v3f(0.25f, 0.25f, 0.0f);
 	tri.uvs[1] = v3f(0.5f, 0.25f, 0.0f);
 	tri.uvs[2] = v3f(0.25, 0.5f, 0.0f);

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/10 09:19:52 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/10 15:20:46 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_DEBUG = $(LIBFT_DIR)/libft_DEBUG.a
 MLX_DIR = .minilibx-linux
 MLX = $(MLX_DIR)/libmlx_Linux.a
-NAME = mini-rt
-D_NAME = mini-rt_debug
+NAME = miniRT
+D_NAME = miniRT_debug
 BENCH_NAME = bench_minirt
 SRC_DIR = src/
 OBJ_DIR = obj/
