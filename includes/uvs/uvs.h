@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 15:56:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 09:18:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 15:03:00 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "uv_cyl.h"
 # include "uv_sp_pl_q_el.h"
 
-t_v2f				ft_triangle_uv(t_v3f pos, t_triangle tri);
+t_v2f				ft_triangle_uv(t_v3f pos, t_triangle tri, t_v2f tri_uv);
 
 static inline t_v2f	ft_normalize_uv(t_v2f uv)
 {
@@ -33,7 +33,8 @@ static inline t_v2f	ft_normalize_uv(t_v2f uv)
 	return (normalized);
 }
 
-static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
+static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene,
+		t_v2f tri_uv)
 {
 	t_object	object;
 	t_v2f		uv;
@@ -50,7 +51,7 @@ static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
 		else if (object.type == object_type_quad)
 			uv = ft_quad_uv(pos, object.object.as_quad);
 		else if (object.type == object_type_triangle)
-			uv = ft_triangle_uv(pos, object.object.as_triangle);
+			uv = ft_triangle_uv(pos, object.object.as_triangle, tri_uv);
 		else if (object.type == object_type_ellipsoid)
 			uv = ft_ellipsoid_uv(pos, object.object.as_ellipsoid);
 		else

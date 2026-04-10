@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 08:58:50 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 13:16:01 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static inline void	ft_set_hit_data(t_ray ray, t_scene *scene,
 			ft_v3f_scale(c->hit_normal, EPSILON));
 	if (out)
 		*out = (t_out_buffer){c->hit_normal};
-	c->hit_uv = ft_get_hit_uv(c->hit_point, c->hit, scene);
+	c->hit_uv = ft_get_hit_uv(c->hit_point, c->hit, scene, c->tri_uv);
 	if (c->mat.normal_tex > 1 || c->mat.normal_tex < -1)
 	{
 		c->hit_normal = ft_apply_texture_normal(scene, c->hit_normal,
