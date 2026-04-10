@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 17:04:26 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 14:38:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 08:42:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef enum e_eye_id
 {
 	EYE_LEFT = 1,
 	EYE_RIGHT = 2
-}	t_eye_id;
+}					t_eye_id;
 
 typedef struct s_rgb
 {
@@ -226,6 +226,7 @@ typedef struct s_pixel_color_context
 	t_v3f			hit_normal;
 	t_v3f			hit_point;
 	t_v2f			hit_uv;
+	t_v2f			tri_uv;
 	t_v3f			light_color;
 	t_material		mat;
 	double			do_reflect;
@@ -253,5 +254,18 @@ typedef struct s_camera_move_context
 	t_v3f			camdir;
 	float			yaw;
 }					t_camera_move_context;
+
+typedef struct s_set_triangle_object_uv_context
+{
+	t_v3f			v0v1;
+	t_v3f			v0v2;
+	t_v3f			v0p;
+	float			d00;
+	float			d01;
+	float			d11;
+	float			d20;
+	float			d21;
+	float			denom;
+}					t_set_triangle_object_uv_context;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 17:04:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 09:22:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,7 @@ void		ft_render_mode_stereo(t_data *d, t_thread_render_context *c,
 void		ft_post_process(t_data *d);
 
 // utils
+
 t_data		*ft_get_data(void);
 void		ft_set_data(t_data *d);
 t_v3f		ft_cam_v3f_to_euler(t_v3f cam_direction);

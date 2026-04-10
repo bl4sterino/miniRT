@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 19:16:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 09:23:43 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,8 @@ typedef struct s_triangle
 	t_v3f				position;
 	t_v3f				points[3];
 	t_v3f				normals[3];
-
-	// This will be removed eventually
 	t_v3f				normal;
-
-	t_v2f				uvs[3];
+	t_v3f				uvs[3];
 }						t_triangle;
 
 typedef struct s_ellipsoid

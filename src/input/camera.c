@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 14:25:41 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 09:22:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	ft_try_move(t_data *d, t_camera *cam, t_v3f *movement)
 		return (0);
 	if (ray_len - COL_EPSILON < ft_v3f_length(*movement))
 	{
-		hit_normal = ft_get_hit_normal(ft_ray_at(ray, ray_len - COL_EPSILON),
-				d->scene, hit, ft_v3f_normalize(*movement));
+		hit_normal = ft_get_hit_normal_raw(ft_ray_at(ray, ray_len
+					- COL_EPSILON), d->scene, hit, ft_v3f_normalize(*movement));
 		movement->v -= ft_v3f_dot(*movement, hit_normal) * hit_normal.v;
 		return (ft_try_move(d, cam, movement));
 	}

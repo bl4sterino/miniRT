@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/20 15:56:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 15:37:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 09:18:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "uv_cyl.h"
 # include "uv_sp_pl_q_el.h"
+
+t_v2f				ft_triangle_uv(t_v3f pos, t_triangle tri);
 
 static inline t_v2f	ft_normalize_uv(t_v2f uv)
 {
@@ -47,6 +49,8 @@ static inline t_v2f	ft_get_hit_uv(t_v3f pos, int hit, t_scene *scene)
 			uv = ft_cylinder_uv(pos, object.object.as_cylinder);
 		else if (object.type == object_type_quad)
 			uv = ft_quad_uv(pos, object.object.as_quad);
+		else if (object.type == object_type_triangle)
+			uv = ft_triangle_uv(pos, object.object.as_triangle);
 		else if (object.type == object_type_ellipsoid)
 			uv = ft_ellipsoid_uv(pos, object.object.as_ellipsoid);
 		else

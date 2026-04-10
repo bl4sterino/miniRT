@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 16:57:51 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 21:30:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 08:58:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,7 @@ static inline void	ft_set_hit_data(t_ray ray, t_scene *scene,
 	else
 		c->mat = scene->objects[c->hit].material;
 	c->hit_point = ft_ray_at(ray, c->distance - EPSILON);
-	c->hit_normal = ft_get_hit_normal(c->hit_point, scene, c->hit,
-			ray.direction);
+	c->hit_normal = ft_get_hit_normal(c, scene, ray.direction);
 	c->hit_point = ft_v3f_add(ft_ray_at(ray, c->distance),
 			ft_v3f_scale(c->hit_normal, EPSILON));
 	if (out)

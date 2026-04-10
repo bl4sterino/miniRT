@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 17:33:23 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 19:25:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 09:21:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ t_triangle	ft_get_processed_triangle(t_triangle tri)
 	ab = ft_v3f_sub(tri.points[1], tri.points[0]);
 	ac = ft_v3f_sub(tri.points[2], tri.points[0]);
 	tri.normal = ft_v3f_normalize(ft_v3f_cross(ac, ab));
+	tri.normals[0] = tri.normal;
+	tri.normals[1] = tri.normal;
+	tri.normals[2] = tri.normal;
 	return (tri);
 }
 

@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/08 15:39:22 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/10 09:19:52 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,6 +97,7 @@ FILES = main_utils \
 		rendering/ray_to_color \
 		rendering/ray_to_color_utils \
 		rendering/shoot_ray_smart \
+		rendering/object_utils/triangle_utils \
 		rendering/post_processing/post_process \
 		rendering/camera/grid \
 		rendering/camera/frame_cleaner \

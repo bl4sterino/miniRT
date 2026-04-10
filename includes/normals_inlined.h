@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:41:13 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/22 13:25:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/10 09:22:49 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define NORMALS_INLINED_H
 
 # include "rt.h"
+
+void				ft_set_triangle_object_uv(t_v3f hit_p, t_triangle tri,
+						t_v2f *tri_uv);
+t_v3f				ft_triangle_normal(t_v3f pos, t_triangle tri);
 
 static inline t_v3f	ft_sphere_normal(t_v3f hit_point, t_sphere sphere)
 {
@@ -42,8 +46,40 @@ static inline t_v3f	ft_ellipsoid_normal(t_v3f hit_point, t_ellipsoid el)
 	return (ft_v3f_normalize(n));
 }
 
-static inline t_v3f	ft_get_hit_normal(t_v3f hit_point, t_scene *scene, int hit,
+static inline t_v3f	ft_get_hit_normal(t_pixel_color_context *c, t_scene *scene,
 		t_v3f ray_dir)
+{
+	t_object	object;
+
+	if (c->hit < 0)
+		return (ft_get_sided_normal(scene->planes[-c->hit
+					- 1].object.as_plane.normal, ray_dir));
+	object = scene->objects[c->hit];
+	if (object.type == object_type_sphere)
+		return (ft_get_sided_normal(ft_sphere_normal(c->hit_point,
+					object.object.as_sphere), ray_dir));
+	else if (object.type == object_type_cylinder)
+		return (ft_cylinder_normal(c->hit_point, object.object.as_cylinder,
+				ray_dir));
+	else if (object.type == object_type_quad)
+		return (ft_get_sided_normal(object.object.as_quad.normal, ray_dir));
+	else if (object.type == object_type_triangle)
+	{
+		ft_set_triangle_object_uv(c->hit_point, object.object.as_triangle,
+			&c->tri_uv);
+		return (ft_get_sided_normal(ft_triangle_normal(c->hit_point,
+					object.object.as_triangle), ray_dir));
+	}
+	else if (object.type == object_type_ellipsoid)
+		return (ft_get_sided_normal(ft_ellipsoid_normal(c->hit_point,
+					object.object.as_ellipsoid), ray_dir));
+	return ((t_v3f){{0.0f, 1.0f, 0.0f}});
+}
+
+// Returns non-interpolated normals for triangles
+// for collisions purposes
+static inline t_v3f	ft_get_hit_normal_raw(t_v3f hit_point, t_scene *scene,
+		int hit, t_v3f ray_dir)
 {
 	t_object	object;
 
