@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:33:24 by tpotier           #+#    #+#             */
-/*   Updated: 2026/04/10 22:57:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/11 13:27:04 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static void	add_to_list(t_list **object_lst, int malloc_id, t_obj_f *f,
 	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = object_type_triangle;
 	new_object->object.as_triangle = (t_triangle){
-		.points = {{{f->verts[0].v.x, f->verts[0].v.y, f->verts[0].v.z}},
-	{{f->verts[1].v.x, f->verts[1].v.y, f->verts[1].v.z}},
-	{{f->verts[2].v.x, f->verts[2].v.y, f->verts[2].v.z}}},
-		.normals = {{{f->verts[0].vn.i, f->verts[0].vn.j, f->verts[0].vn.k}},
-	{{f->verts[1].vn.i, f->verts[1].vn.j, f->verts[1].vn.k}},
-	{{f->verts[2].vn.i, f->verts[2].vn.j, f->verts[2].vn.k}}},
+		.points = {{{f->verts[0].v.x, f->verts[0].v.y, -f->verts[0].v.z}},
+	{{f->verts[1].v.x, f->verts[1].v.y, -f->verts[1].v.z}},
+	{{f->verts[2].v.x, f->verts[2].v.y, -f->verts[2].v.z}}},
+		.normals = {{{f->verts[0].vn.i, f->verts[0].vn.j, -f->verts[0].vn.k}},
+	{{f->verts[1].vn.i, f->verts[1].vn.j, -f->verts[1].vn.k}},
+	{{f->verts[2].vn.i, f->verts[2].vn.j, -f->verts[2].vn.k}}},
 		.uvs = {{{f->verts[0].vt.u, 1.0f - f->verts[0].vt.v}},
 	{{f->verts[1].vt.u, 1.0f - f->verts[1].vt.v}},
 	{{f->verts[2].vt.u, 1.0f - f->verts[2].vt.v}}}};

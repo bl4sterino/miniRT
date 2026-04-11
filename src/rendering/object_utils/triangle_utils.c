@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 08:37:40 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/11 12:51:55 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/11 13:28:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_v3f	ft_triangle_normal(t_triangle tri, t_v2f tri_uv, t_v3f ray)
 		+ (tri_uv.y * tri.normals[2].y);
 	interp_n.z = (w * tri.normals[0].z) + (tri_uv.x * tri.normals[1].z)
 		+ (tri_uv.y * tri.normals[2].z);
-	if (ft_v3f_dot(tri.normal, ray) < 0)
+	if (ft_v3f_dot(tri.normal, ray) > 0)
 		interp_n.v *= -1;
 	return (interp_n);
 }

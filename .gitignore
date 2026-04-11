@@ -12,3 +12,7 @@ mini-rt
 bench_minirt
 miniRT
 miniRT_debug
+Maps/NikonBag/nikon_bag.rt
+Maps/NikonBag/bag.obj
+Maps/NikonBag/bag_tex.xpm
+Maps/NikonBag/bag_normal.xpm
