@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 19:45:27 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/11 13:59:52 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst)
 	scene->bvh_nodes = ft_malloc_id(sizeof(t_bvh_node)
 			* scene->bvh_node_capacity, malloc_id_scene);
 	scene->bvh_node_count = 0;
+	ft_printf("Parsing: %f\n", ft_clock_set_and_get(clock_loading));
+	ft_clock_start(clock_loading);
 	scene->bvh_root = ft_update_bvh(scene, 0, scene->num_objects);
+	ft_printf("BVH: %f\n", ft_clock_set_and_get(clock_loading));
 	d->target_ray_bounces = scene->ambient_light.ray_bounce;
 	return (scene);
 }

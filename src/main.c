@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:19:00 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 19:13:26 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/11 14:00:03 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int ac, char **av)
 		ft_exit(MALLOC_FAILED);
 	ft_add_exit(d.mlx, free);
 	ft_add_exit(d.mlx, ft_exit_destroy_display);
+	ft_clock_start(clock_loading);
 	d.scene = ft_parse_map(&d, av[1]);
 	refresh_grid(&d);
 	ft_clear_gc_id(malloc_id_parsing);

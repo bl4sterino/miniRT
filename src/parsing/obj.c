@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 18:33:24 by tpotier           #+#    #+#             */
-/*   Updated: 2026/04/11 13:27:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/11 13:44:19 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	add_to_list(t_list **object_lst, int malloc_id, t_obj_f *f,
 	new_object->object.as_triangle = ft_get_processed_triangle(
 			new_object->object.as_triangle);
 	new_object->material = mat;
-	ft_lstadd_back(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
+	ft_lstadd_front(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
 }
 
 void	ft_parse_obj(char *filepath, int malloc_id, t_list **object_lst,
