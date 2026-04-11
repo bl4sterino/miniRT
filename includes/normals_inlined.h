@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 21:41:13 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 15:00:28 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/11 12:58:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 
 void				ft_set_triangle_object_uv(t_v3f hit_p, t_triangle tri,
 						t_v2f *tri_uv);
-t_v3f				ft_triangle_normal(t_triangle tri, t_v2f tri_uv);
+t_v3f				ft_triangle_normal(t_triangle tri, t_v2f tri_uv,
+						t_v3f ray_dir);
 
 static inline t_v3f	ft_sphere_normal(t_v3f hit_point, t_sphere sphere)
 {
@@ -67,8 +68,8 @@ static inline t_v3f	ft_get_hit_normal(t_pixel_color_context *c, t_scene *scene,
 	{
 		ft_set_triangle_object_uv(c->hit_point, object.object.as_triangle,
 			&(c->tri_uv));
-		return (ft_get_sided_normal(ft_triangle_normal(
-					object.object.as_triangle, c->tri_uv), ray_dir));
+		return (ft_triangle_normal(object.object.as_triangle, c->tri_uv,
+				ray_dir));
 	}
 	else if (object.type == object_type_ellipsoid)
 		return (ft_get_sided_normal(ft_ellipsoid_normal(c->hit_point,

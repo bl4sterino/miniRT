@@ -5,5 +5,9 @@ A	1.0		64 64 64	0 0
 sp 0 400 0 50  255 255 255 0 0 2 0 0 0
 
 tex Textures/scrat.xpm
+tex Textures/swamp.xpm
+tex Textures/swamp_lum.xpm
+
+sky 3 4
 
 obj Wavefront/scrat_collapsed.obj 255 255 255 0 0 0 0 2 0

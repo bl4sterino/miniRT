@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 08:37:40 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 20:40:14 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/11 12:51:55 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,22 @@ void	ft_set_triangle_object_uv(t_v3f hit_p, t_triangle tri, t_v2f *tri_uv)
 	tri_uv->y = (c.d00 * c.d21 - c.d01 * c.d20) / c.denom;
 }
 
-t_v3f	ft_triangle_normal(t_triangle tri, t_v2f tri_uv)
+t_v3f	ft_triangle_normal(t_triangle tri, t_v2f tri_uv, t_v3f ray)
 {
 	t_v3f	interp_n;
 	float	w;
 
-	w = fmaxf(1.0f - tri_uv.x - tri_uv.y, 0.0f);
+	(void) ray;
+	w = 1.0f - tri_uv.x - tri_uv.y;
 	interp_n.x = (w * tri.normals[0].x) + (tri_uv.x * tri.normals[1].x)
 		+ (tri_uv.y * tri.normals[2].x);
 	interp_n.y = (w * tri.normals[0].y) + (tri_uv.x * tri.normals[1].y)
 		+ (tri_uv.y * tri.normals[2].y);
 	interp_n.z = (w * tri.normals[0].z) + (tri_uv.x * tri.normals[1].z)
 		+ (tri_uv.y * tri.normals[2].z);
-	return (ft_v3f_normalize(interp_n));
+	if (ft_v3f_dot(tri.normal, ray) < 0)
+		interp_n.v *= -1;
+	return (interp_n);
 }
 
 t_v2f	ft_triangle_uv(t_v3f pos, t_triangle tri, t_v2f tri_uv)
