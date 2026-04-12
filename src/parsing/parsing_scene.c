@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 11:56:36 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 23:46:13 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,50 +25,42 @@ int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 	new_object = ft_malloc_id(sizeof(t_parsed_object), malloc_id);
 	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = parser->type;
-	ft_lstadd_back(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
+	ft_lstadd_front(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
 	element_parsed = ft_parse_data(strs + 1, &new_object->object,
 			parser->element_lst, malloc_id);
 	if (element_parsed > 0 && parser->material_lst)
 	{
 		result = ft_parse_data(strs + element_parsed + 1, &new_object->material,
 				parser->material_lst, malloc_id);
-		return (result);
+		return (ft_free_split_gc(strs), result);
 	}
 	else
-		return (element_parsed);
+		return (ft_free_split_gc(strs), element_parsed);
 }
 
-long	ft_count_matches(t_list *lst, t_object_type type)
+void	ft_print_scene_slements_count(int *counts)
 {
-	t_parsed_object	*elem;
-	long			count;
-
-	count = 0;
-	while (lst)
-	{
-		elem = lst->content;
-		if (elem->type == type)
-			count++;
-		lst = lst->next;
-	}
-	return (count);
+	if (counts[object_type_sphere] > 0)
+		ft_printf("spheres: %d\n", counts[object_type_sphere]);
+	if (counts[object_type_cylinder] > 0)
+		ft_printf("cylinders: %d\n", counts[object_type_cylinder]);
+	if (counts[object_type_quad] > 0)
+		ft_printf("quads: %d\n", counts[object_type_quad]);
+	if (counts[object_type_ellipsoid] > 0)
+		ft_printf("ellipsoids: %d\n", counts[object_type_ellipsoid]);
+	if (counts[object_type_triangle] > 0)
+		ft_printf("triangles: %d\n", counts[object_type_triangle]);
+	if (counts[object_type_texture_path] > 0)
+		ft_printf("textures: %d\n", counts[object_type_texture_path]);
 }
 
-t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst)
+t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst, int *counts)
 {
-	ft_load_textures(d, scene, lst);
-	ft_normalize_vectors(lst);
-	ft_extract_camera(scene, lst);
-	ft_extract_ambient_light(scene, lst);
-	ft_extract_skybox(scene, lst);
-	ft_extract_planes(scene, lst);
-	ft_extract_lights(scene, lst);
-	ft_extract_objects(scene, lst);
+	ft_allocate_scene_data(scene, counts);
+	ft_extract_scene_data(d, scene, lst, counts[object_type_texture_path]);
 	ft_setup_emissive_objects(scene);
-	scene->bvh_node_capacity = scene->num_objects * 2;
-	scene->bvh_nodes = ft_malloc_id(sizeof(t_bvh_node)
-			* scene->bvh_node_capacity, malloc_id_scene);
-	scene->bvh_node_count = 0;
+	ft_process_objects_bounds(scene);
+	ft_print_scene_slements_count(counts);
 	ft_printf("Parsing: %f\n", ft_clock_set_and_get(clock_loading));
 	ft_clock_start(clock_loading);
 	scene->bvh_root = ft_update_bvh(scene, 0, scene->num_objects);
@@ -80,20 +72,19 @@ t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst)
 t_scene	*ft_build_scene_from_elements(t_data *d, t_list *lst)
 {
 	t_scene	*scene;
+	int		counts[11];
 
-	if (ft_count_matches(lst, object_type_ambient_light) != 1)
+	ft_memset_int(counts, 0, object_type_count);
+	ft_count_matches(lst, counts);
+	if (counts[object_type_ambient_light] != 1)
 		ft_exit_str_fd(1, "Wrong number of Ambient Light\n", 2);
-	if (ft_count_matches(lst, object_type_skybox) > 1)
+	if (counts[object_type_skybox] > 1)
 		ft_exit_str_fd(1, "Too many skyboxes\n", 2);
-	if (ft_count_matches(lst, object_type_camera) == 0)
+	if (counts[object_type_camera] == 0)
 		ft_exit_str_fd(1, "No cameras\n", 2);
 	scene = ft_malloc_id(sizeof(t_scene), malloc_id_scene);
 	ft_bzero(scene, sizeof(t_scene));
-	scene->planes = ft_malloc_id(sizeof(t_object) * ft_count_matches(lst,
-				object_type_plane), malloc_id_scene);
-	scene->lights = ft_malloc_id(sizeof(t_light) * ft_count_matches(lst,
-				object_type_light), malloc_id_scene);
-	return (ft_fill_scene(d, scene, lst));
+	return (ft_fill_scene(d, scene, lst, counts));
 }
 
 t_scene	*ft_parse_map(t_data *d, char *filename)

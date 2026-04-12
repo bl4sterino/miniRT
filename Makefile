@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/12 19:02:12 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/12 23:36:31 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,8 @@ FILES = main_utils \
 		monitoring/clock_2 \
 		parsing/parsing_data_dict \
 		parsing/parsing_scene \
+		parsing/parsing_scene_allocator \
+		parsing/parsing_scene_extractor \
 		parsing/parsing_scene_processing \
 		parsing/parsing_material \
 		parsing/parsing_A_C_L \
@@ -82,8 +84,8 @@ FILES = main_utils \
 		parsing/create_hdr_tex \
 		parsing/parsing_ellipsoid \
 		parsing/parsing_skybox \
-		parsing/parsing_scene_builder_A_C_L_sky \
-		parsing/parsing_scene_builder_pl_objects \
+		parsing/parsing_scene_push_A_C_L_shapes \
+		parsing/parsing_scene_push_planes_tex_sky \
 		parsing/parsing_normalization \
 		parsing/parsing_error \
 		parsing/parsing_get_bounds \

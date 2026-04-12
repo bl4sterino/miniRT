@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:37:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 23:00:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 23:45:27 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ int	ft_parse_texture(char *filepath, int malloc_id, t_list **object_lst)
 	new_object = ft_malloc_id(sizeof(t_parsed_object), malloc_id);
 	ft_bzero(new_object, sizeof(t_parsed_object));
 	new_object->type = object_type_texture_path;
-	new_object->object.as_texture_path = filepath;
-	ft_lstadd_back(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
+	new_object->object.as_texture_path = ft_strdup_gc(filepath);
+	ft_lstadd_front(object_lst, ft_lstnew_gc_id(new_object, malloc_id));
 	return (1);
 }
 
@@ -88,26 +88,4 @@ void	ft_try_extract_texture(t_data *d, t_texture *out, char *filepath)
 			&useless);
 	ft_add_exit(tex.ptr, ft_exit_destroy_image);
 	*out = tex;
-}
-
-void	ft_load_textures(t_data *d, t_scene *scene, t_list *lst)
-{
-	int				i;
-	t_parsed_object	*po;
-
-	scene->num_textures = ft_count_matches(lst, object_type_texture_path);
-	if (scene->num_textures == 0)
-		return ;
-	scene->num_textures += 2;
-	scene->textures = ft_malloc(sizeof(t_texture) * scene->num_textures);
-	ft_bzero(scene->textures, sizeof(t_texture) * scene->num_textures);
-	i = 2;
-	while (lst)
-	{
-		po = lst->content;
-		if (po->type == object_type_texture_path)
-			ft_try_extract_texture(d, &scene->textures[i++],
-				po->object.as_texture_path);
-		lst = lst->next;
-	}
 }

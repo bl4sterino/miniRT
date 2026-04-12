@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 19:35:04 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 23:49:54 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,8 @@ typedef enum e_object_type
 	object_type_triangle,
 	object_type_ellipsoid,
 	object_type_texture_path,
-	object_type_skybox
+	object_type_skybox,
+	object_type_count
 }						t_object_type;
 
 /// OBJECTS UNION
@@ -339,8 +340,8 @@ t_struct_parser_data	*ft_get_parser_cylinder(int id);
 t_struct_parser_data	*ft_get_parser_quad(int id);
 int						ft_try_parse_texture(char **strs, int malloc_id,
 							t_list **object_lst);
-void					ft_load_textures(t_data *d, t_scene *scene,
-							t_list *lst);
+void					ft_load_textures(t_data *d, t_scene *scene, t_list *lst,
+							int *counts);
 void					ft_try_extract_texture(t_data *d, t_texture *out,
 							char *filepath);
 void					ft_create_hdr_tex(t_texture *out, t_texture *color,
@@ -356,14 +357,35 @@ t_struct_parser_data	*ft_get_parser_ellipsoid(int id);
 t_ellipsoid				ft_get_processed_ellipsoid(t_ellipsoid el);
 t_struct_parser_data	*ft_get_parser_skybox(int id);
 
-long					ft_count_matches(t_list *lst, t_object_type type);
+void					ft_count_matches(t_list *lst, int *counts);
+void					ft_allocate_scene_data(t_scene *scene, int *counts);
+void					ft_extract_scene_data(t_data *d, t_scene *scene,
+							t_list *lst, int texture_count);
+void					ft_normalize_vector(t_v3f *v);
 
-void					ft_extract_camera(t_scene *scene, t_list *lst);
-void					ft_extract_ambient_light(t_scene *scene, t_list *lst);
-void					ft_extract_skybox(t_scene *scene, t_list *lst);
-void					ft_extract_lights(t_scene *scene, t_list *lst);
-void					ft_extract_planes(t_scene *scene, t_list *lst);
-void					ft_extract_objects(t_scene *scene, t_list *lst);
+typedef struct s_extraction_counts
+{
+	int					object;
+	int					planes;
+	int					textures;
+	int					lights;
+	int					sky_color;
+	int					sky_lum;
+}						t_extraction_counts;
+
+void					ft_push_a(t_scene *scene, t_parsed_object *po);
+void					ft_push_c(t_scene *scene, t_parsed_object *po);
+void					ft_push_l(t_scene *scene, t_extraction_counts *c,
+							t_parsed_object *po);
+void					ft_prepare_sky(t_scene *scene, t_extraction_counts *c,
+							t_parsed_object *po);
+void					ft_push_sky(t_scene *scene, t_extraction_counts *c);
+void					ft_push_shapes(t_scene *scene,
+							t_extraction_counts *counts, t_parsed_object *po);
+void					ft_push_plane(t_scene *scene,
+							t_extraction_counts *counts, t_parsed_object *po);
+void					ft_push_tex(t_data *d, t_scene *scene,
+							t_extraction_counts *c, t_parsed_object *po);
 
 t_bounds				ft_get_sphere_bounds(t_sphere sphere);
 t_bounds				ft_get_cylinder_bounds(t_cylinder cyl);
