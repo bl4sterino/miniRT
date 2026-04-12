@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/10 18:59:51 by tpotier          ###   ########.fr        #
+#    Updated: 2026/04/12 11:08:51 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,9 +97,8 @@ FILES = main_utils \
 		rendering/render_mode \
 		rendering/viewport \
 		rendering/bvh_builder \
+		rendering/bvh_builder_split_utils \
 		rendering/bvh_builder_utils \
-		rendering/bvh_utils \
-		rendering/bvh_sorter \
 		rendering/bvh_ray_debug \
 		rendering/bvh_ray \
 		rendering/bvh_ray_light \

@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 19:00:04 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/12 10:27:20 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define RT_H
 
 # define BVH_MAX_OBJ_PER_LEAF 1
+# define BIN_COUNT 16
 # define TASK_TILE_SIZE 16
 # define TASK_LINE_SIZE 128
 # define SELECTED_NONE 2147483647
@@ -50,12 +51,19 @@
 # include "libft.h"
 # include "scene_data.h"
 //
+
 # include "rt_structs.h"
 # include <math.h>
 # include <stdlib.h>
 
 // mini-rt
+
+# include "bounds_utils.h"
+
+//
+
 # include "areas_inlined.h"
+# include "bvh_utils.h"
 # include "collisions.h"
 # include "colors_conversions_inlined.h"
 # include "hit_side_inlined.h"

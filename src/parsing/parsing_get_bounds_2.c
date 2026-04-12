@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 14:17:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/03/09 14:17:43 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/11 16:22:38 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,5 +18,5 @@ t_bounds	ft_get_ellipsoid_bounds(t_ellipsoid el)
 
 	bounds.min = ft_v3f_sub(el.position, el.radii);
 	bounds.max = ft_v3f_add(el.position, el.radii);
-	return (bounds);
+	return (ft_processed_bounds(bounds));
 }

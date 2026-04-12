@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 22:19:05 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 11:08:44 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,17 +179,10 @@ typedef union u_bounds
 	{
 		t_v3f			min;
 		t_v3f			max;
+		t_v3f			center;
 	};
 	t_v3f				v[2];
 }						t_bounds;
-
-typedef struct s_bvh_best_context
-{
-	int					axis;
-	float				surface;
-	int					left_id;
-	int					iterator;
-}						t_bvh_best_context;
 
 /* Contains every scene object except Lights and camera */
 typedef struct s_object
@@ -248,6 +241,43 @@ typedef struct s_bvh_node
 	int					num_obj;
 	int					start;
 }						t_bvh_node;
+
+typedef struct s_bin
+{
+	t_bounds			bounds;
+	int					count;
+}						t_bin;
+
+typedef struct s_find_best_split_context
+{
+	t_bin				bins[BIN_COUNT];
+	float				min_p;
+	float				max_p;
+	float				range;
+	t_bounds			right_bounds[BIN_COUNT];
+	int					right_counts[BIN_COUNT];
+	t_bounds			current_bounds;
+	int					current_count;
+	t_bounds			left_bounds;
+	int					left_counts;
+}						t_find_best_split_context;
+
+typedef struct s_bvh_best_context
+{
+	double				surface;
+	int					axis;
+	float				split_val;
+	int					left_id;
+}						t_bvh_best_context;
+
+typedef struct s_split_bvh_context
+{
+	float				mid;
+	t_bvh_best_context	best;
+	int					left_count;
+	int					i;
+	t_bvh_node			*node;
+}						t_split_bvh_context;
 
 typedef struct s_texture
 {
@@ -340,20 +370,19 @@ t_bounds				ft_get_ellipsoid_bounds(t_ellipsoid el);
 void					ft_setup_emissive_objects(t_scene *scene);
 void					ft_preprocess_pdfs(t_scene *scene);
 
+// BVH
+
 int						ft_update_bvh(t_scene *scene, int start,
 							int branch_elements);
-int						ft_bvh_new_node(t_scene *scene);
 int						ft_bvh_builder(t_scene *scene, int start,
 							int branch_elements);
-void					ft_swap_objects(t_object *a, t_object *b);
-void					ft_quicksort_objects(t_object *objs, int low, int high,
-							int axis);
-int						ft_partition(t_object *objs, int low, int high,
-							int axis);
-int						ft_get_longest_bounds_axis(t_bounds bounds);
-float					ft_get_bounds_surface(t_bounds bounds);
-int						ft_find_best_split(t_object *objs, int object_count,
-							t_bounds range_bounds, int *left_elements);
+void					ft_fill_bins(t_find_best_split_context *c,
+							t_object *objs, int axis, int count);
+void					ft_get_right_merged_bins(t_find_best_split_context *c);
+void					ft_compare_merged_bins(t_find_best_split_context *c,
+							t_bvh_best_context *best, int axis);
+int						ft_partition_by_val(t_object *objs, int count, int axis,
+							float split_val);
 t_bounds				ft_get_bounds_range(t_object *objects, int start,
 							int branch_elements);
 

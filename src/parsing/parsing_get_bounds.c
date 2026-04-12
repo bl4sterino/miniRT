@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:09:03 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 19:29:02 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 09:46:21 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_bounds	ft_get_sphere_bounds(t_sphere sphere)
 	v_radius = (t_v3f){{sphere.radius, sphere.radius, sphere.radius}};
 	bounds.min = ft_v3f_sub(sphere.position, v_radius);
 	bounds.max = ft_v3f_add(sphere.position, v_radius);
-	return (bounds);
+	return (ft_processed_bounds(bounds));
 }
 
 t_bounds	ft_get_cylinder_bounds(t_cylinder cyl)
@@ -57,7 +57,7 @@ t_bounds	ft_get_cylinder_bounds(t_cylinder cyl)
 	bounds.max.x = fmaxf(cyl.position.x, cyl.top_center.x) + extents.x;
 	bounds.max.y = fmaxf(cyl.position.y, cyl.top_center.y) + extents.y;
 	bounds.max.z = fmaxf(cyl.position.z, cyl.top_center.z) + extents.z;
-	return (bounds);
+	return (ft_processed_bounds(bounds));
 }
 
 t_bounds	ft_get_quad_bounds(t_quad quad)
@@ -86,7 +86,7 @@ t_bounds	ft_get_quad_bounds(t_quad quad)
 		bounds.max.y = fmax(bounds.max.y, corners[i].y);
 		bounds.max.z = fmax(bounds.max.z, corners[i].z);
 	}
-	return (ft_get_minimum_bounds(bounds));
+	return (ft_processed_bounds(ft_get_minimum_bounds(bounds)));
 }
 
 t_bounds	ft_get_triangle_bounds(t_triangle tri)
@@ -103,5 +103,5 @@ t_bounds	ft_get_triangle_bounds(t_triangle tri)
 		bounds.max = ft_v3f_max(bounds.max, tri.points[i]);
 		i++;
 	}
-	return (ft_get_minimum_bounds(bounds));
+	return (ft_processed_bounds(ft_get_minimum_bounds(bounds)));
 }

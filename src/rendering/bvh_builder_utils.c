@@ -6,20 +6,11 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/24 17:16:18 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/02 17:01:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 10:01:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
-int	ft_bvh_new_node(t_scene *scene)
-{
-	int	id;
-
-	id = scene->bvh_node_count++;
-	ft_bzero(&scene->bvh_nodes[id], sizeof(t_bvh_node));
-	return (id);
-}
 
 void	ft_build_bounds_2x(t_bvh_node *node, t_bvh_node *left,
 		t_bvh_node *right)

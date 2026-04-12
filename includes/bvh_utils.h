@@ -1,18 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bvh_utils.c                                        :+:      :+:    :+:   */
+/*   bvh_utils.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/25 18:50:48 by pberne            #+#    #+#             */
-/*   Updated: 2026/02/26 15:05:35 by pberne           ###   ########.fr       */
+/*   Created: 2026/04/12 09:56:33 by pberne            #+#    #+#             */
+/*   Updated: 2026/04/12 11:08:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#ifndef BVH_UTILS_H
+# define BVH_UTILS_H
 
-int	ft_get_longest_bounds_axis(t_bounds bounds)
+# include "rt.h"
+
+static inline void	ft_swap_objects(t_object *a, t_object *b)
+{
+	t_object	temp;
+
+	if (a != b)
+	{
+		temp = *a;
+		*a = *b;
+		*b = temp;
+	}
+}
+
+static inline int	ft_bvh_new_node(t_scene *scene)
+{
+	int	id;
+
+	id = scene->bvh_node_count++;
+	ft_bzero(&scene->bvh_nodes[id], sizeof(t_bvh_node));
+	scene->bvh_nodes[id].bounds = ft_empty_bounds();
+	return (id);
+}
+
+static inline int	ft_get_longest_bounds_axis(t_bounds bounds)
 {
 	t_v3d	length;
 	int		axis;
@@ -29,20 +54,12 @@ int	ft_get_longest_bounds_axis(t_bounds bounds)
 	return (axis);
 }
 
-float	ft_get_bounds_surface(t_bounds bounds)
+static inline float	ft_get_bounds_surface(t_bounds bounds)
 {
-	t_v3f	side_length;
-	t_v3f	axis_area;
-	int		i;
+	t_v3f	size;
 
-	i = 0;
-	while (i < 3)
-	{
-		side_length.v[i] = bounds.max.v[i] - bounds.min.v[i];
-		i++;
-	}
-	axis_area.x = side_length.y * side_length.z;
-	axis_area.y = side_length.x * side_length.z;
-	axis_area.z = side_length.x * side_length.y;
-	return ((axis_area.x + axis_area.y + axis_area.z) * 2.0f);
+	size.v = bounds.max.v - bounds.min.v;
+	return (2.0f * (size.x * size.y + size.x * size.z + size.y * size.z));
 }
+
+#endif
