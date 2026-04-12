@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/30 11:21:53 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 10:27:20 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 19:02:30 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ void		ft_camera_move(t_data *d);
 void		ft_camera_rotate(t_data *d);
 void		ft_camera_zoom(t_data *d);
 void		ft_render_settings(t_data *d);
+void		ft_dof_settings(t_data *d, t_camera *cam);
+void		ft_get_object_at(t_data *d, t_v2i screenpos);
 void		ft_set_all_cameras_dirty(t_data *d);
 void		ft_clear_dirty_cameras(t_data *d);
 void		ft_prepare_cache_frame(t_data *d);
@@ -195,6 +197,8 @@ t_ray		ft_setup_ray_target(t_ray ray, t_v3f target, char bounces,
 t_ray		ft_setup_ray_direction(t_ray ray, t_v3f direction, char bounces,
 				char diffused);
 int			ft_cache_ray_target(t_data *d, t_viewport *vp,
+				t_thread_render_context *c);
+int			ft_cache_ray_target_dof(t_data *d, t_viewport *vp,
 				t_thread_render_context *c);
 
 float		ft_shoot_ray(t_ray ray, t_scene *scene, int *hit);

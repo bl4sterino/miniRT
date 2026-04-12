@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 17:02:31 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 18:14:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 t_v3f	ft_get_viewport_target(t_viewport *vp, t_v2i pixel)
 {
-	return (ft_v3f_add(vp->top_left,
-			ft_v3f_add(ft_v3f_scale(vp->x_delta, pixel.x),
-				ft_v3f_scale(vp->y_delta, pixel.y))));
+	return (ft_v3f_add(vp->top_left, ft_v3f_add(ft_v3f_scale(vp->x_delta,
+					pixel.x), ft_v3f_scale(vp->y_delta, pixel.y))));
 }
 
 static void	ft_setup_context(t_viewport_context *context, t_camera cam)
@@ -40,11 +39,13 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 
 	cam.direction = ft_v3f_normalize(cam.direction);
 	ft_setup_context(&context, cam);
-	vp.u.v = context.cam_right.v * 2.0f * context.half_width;
-	vp.v.v = context.cam_up.v * -2.0f * context.half_height;
+	vp.u.v = context.cam_right.v * 2.0f * context.half_width
+		* cam.focus_distance;
+	vp.v.v = context.cam_up.v * -2.0f * context.half_height
+		* cam.focus_distance;
 	vp.x_delta.v = vp.u.v / (float)cam.rect.w;
 	vp.y_delta.v = vp.v.v / (float)cam.rect.h;
-	vp.raw_top_left.v = cam.position.v + cam.direction.v;
+	vp.raw_top_left.v = cam.position.v + cam.direction.v * cam.focus_distance;
 	vp.raw_top_left.v -= vp.u.v * 0.5f;
 	vp.raw_top_left.v -= vp.v.v * 0.5f;
 	rx = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);

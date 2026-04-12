@@ -6,19 +6,19 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/01 16:33:35 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 12:04:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 15:44:24 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void	ft_setup_target_color_image(t_data *d, int count)
+void	ft_setup_target_color_image(t_data *d)
 {
 	int	i;
 
-	d->image.targets_colors = ft_malloc(sizeof(t_v3f) * count);
+	d->image.targets_colors = ft_malloc(sizeof(t_v3f) * 1024);
 	i = 0;
-	while (i < count)
+	while (i < 1024)
 	{
 		d->image.targets_colors[i] = v3f(0.3f + 0.7f * fast_rand(), 0.3f + 0.7f
 				* fast_rand(), 0.3f + 0.7f * fast_rand());
@@ -42,8 +42,7 @@ void	ft_create_image(t_data *d)
 	image.addr = mlx_get_data_addr(image.ptr, &(image.bpp), &(image.line_size),
 			&(image.endian));
 	d->image = image;
-	ft_setup_target_color_image(d, ft_max(d->scene->num_objects,
-			d->scene->num_planes));
+	ft_setup_target_color_image(d);
 }
 
 void	ft_draw_rectangle(t_image image, t_v2i pos, t_v2i size, t_rgb color)

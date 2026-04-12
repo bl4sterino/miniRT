@@ -43,6 +43,7 @@ Build the project using the provided Makefile:
 * **Point Lights:** Support for traditional point light sources.
 * **Refraction & Reflection:** Allowing the render of realistic glass, polished materials and mirrors.
 * **Volumetric Fog/Lighting:** A fog density can be defined to allow rays to bounce in the atmosphere before hitting objects. This allows the air to be lit and shadowed creating god rays and volumetric shadows.
+* **Depth of Field:** Simulates a physical camera lens by jittering ray origins across a virtual aperture. By adjusting the focal length and aperture size, the engine produces a natural "bokeh" effect, blurring objects outside the focal plane.
 * **Temporal Anti-Aliasing:** Progressively blends samples over multiple frames to eliminate Monte Carlo noise and jagged edges.
 * **Skyboxes:** A pair of color/luminance textures can be used to define an emissive skybox. <sup><sup>*we have HDR at home*</sup></sup>
 * **Multiple Cameras:** The window can be dynamically split into multiple sub-windows with different cameras and settings.
@@ -69,13 +70,9 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 **Camera:**
 		
-		position		direction		fov		render mode[0-3]	stereoscopic[0-1]
+		position		direction		fov		Depth of Field[0-1]		Aperture	Focus Distance
 
-	C	1.0 2.0 3.0		0.0 0.0 1.0		80		1					0
-
-* ***Render modes:** **0** Default, **1** BVH, **2** Normals, **3** Ray targets
-
-
+	C	1.0 2.0 3.0		0.0 0.0 1.0		80		1						5.5			200
 
 **Ambient Light:**
 
@@ -91,9 +88,9 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 **Texture:**
 
-		relative path
+			relative path
 
-	tex	Textures/texture_name.xpm
+	tex		Textures/texture_name.xpm
 
 *Texture have an id assigned in the order they are declared **starting from 2**, the second texture will have its id to 3 etc ...*
 
@@ -112,24 +109,29 @@ Each elements contains a prefix and each line must respect the attributes order 
 
 ### Objects
 
-Object are defined by their respective properties but they must all end with the material definition.
+Object are defined by their respective properties but they **must** all end with the material definition.
 
 **Material:**
 
-	color RGB[0-255]		diffusion	specularity		emission	refraction	colorID		normalID
+	color RGB[0-255]		diffusion	specularity		emission	refraction	diffuseID		normalID
 	255 255 255 			0.2			0.4 			2.0 		1.3			0			0
 
 **Notes on material limitations:**
 
 * A material with an emission greater than 0 will ignore diffusion, specularity and refraction.
 * A material with a refraction index greater than 0 will be transparfent, and will ignore specularity.
-* colorId and normal ID refers to ID of declared textures
+* diffuseID and normalID refers to ID of declared textures
 	
 	* **id 0:** used for untextured material, the raw color will be used.
 	* **id 1, -1:** Used for untextured checkered, colors will be inverted in a chekerboard pattern./
 	* **id >= 2:** refers to the index of the texture to use.
 	* **id <= -2:** the negative sign is used to inverse the texture color in a checkered pattern.
  
+**Wavefront (.obj):**
+
+			relative_path			material
+	obj		Wavefront/Model.obj		* * *   * * * *   * *
+*Wavefront models are limited to a single diffuse texture and a single normal texture*
 
 **Sphere:**
 
@@ -161,28 +163,33 @@ Object are defined by their respective properties but they must all end with the
 		position		radii XYZ			material
 	el	1.0 2.0 3.0		25.0 50.0 75.0		* * *	* * * *   * *
 
+
 ## Controls
 
 
 | Action      		| Key(s) |	Notes|
 | :---        		|    :----:   | ---:|
-| Camera Movement	| <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>  <kbd>ctrl</kbd> <kbd>space</kbd>|
+| Camera Movement	| <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd>  <kbd>ctrl</kbd> <kbd>space</kbd>| Hold <kbd>Left Shift</kbd> to move faster
 | Camera Rotation	| <kbd>Mouse</kbd> <kbd>I</kbd> <kbd>J</kbd> <kbd>K</kbd> <kbd>L</kbd> | Toggle mouse control with ALT|
 | Camera FOV		| <kbd>Scroll Wheel</kbd>
 | Add/Remove Camera	| <kbd>=</kbd> <kbd>-</kbd> | Copies the selected camera |
-| Object selection	| <kbd>Left CLick</kbd> |
-| Move Selected		| <kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> <kbd>num +</kbd> <kbd>num -</kbd>| Hold <kbd>Right Click</kbd> to move objects faster
+| Object selection	| <kbd>Left Click</kbd> |
+| Move Selected		| <kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> <kbd>num +</kbd> <kbd>num -</kbd>| Hold <kbd>Left Shift</kbd> to move objects faster
 | Rotate Selected (X)	| <kbd>num 0</kbd> <kbd>num 1</kbd>	|
 | Rotate Selected (Y)	| <kbd>num 2</kbd> <kbd>num 3</kbd>	|
 | Rotate Selected (Z)	| <kbd>num 5</kbd> <kbd>num 6</kbd>	|
 | Selected Control 2	| <kbd>num /</kbd> <kbd>num *</kbd>	|
 | Select Point Lights	| <kbd>PgUp</kbd> <kbd>PgDn</kbd> |	Selects or cycle through Point Lights
-| Ray Bounce --/++		| <kbd>F</kbd> <kbd>G</kbd> | Hold <kbd>Right Click</kbd> to increment/decrement 10x faster
+| Ray Bounce -- / ++		| <kbd>F</kbd> / <kbd>G</kbd> | Hold <kbd>Left Shift</kbd> to increment/decrement 10x faster
 | Toggle camera collisions	| <kbd>B</kbd>
 | Toggle Normals view		| <kbd>N</kbd>
 | Toggle Ray target view		| <kbd>V</kbd>
 | Toggle BVH view			| <kbd>E</kbd>
-| Toggle stereoscopic view		| <kbd>M</kbd>
+| Toggle stereoscopic view		| <kbd>M</kbd> | Requires Red/Cyan glasses
+| Toggle Depth of Field			| <kbd>R</kbd>
+| DoF Aperture side -- / ++		| <kbd>1</kbd> / <kbd>2</kbd>
+| DoF Focus Distance --/++/		| <kbd>3</kbd> / <kbd>4</kbd>
+| DoF target					|<kbd>Left Shift</kbd> + <kbd>Left Click</kbd> | Set the focus distance to the targeted point
 | Exit					| <kbd>Esc</kbd>
 
 ## Use of AI

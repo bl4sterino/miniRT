@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/12 12:02:04 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/12 19:02:12 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ FILES = main_utils \
 		input/object_rotation \
 		input/object_selection \
 		input/render_settings \
+		input/render_dof_settings \
 		monitoring/clock \
 		monitoring/clock_2 \
 		parsing/parsing_data_dict \
@@ -93,6 +94,7 @@ FILES = main_utils \
 		ui/ui_draw_floating \
 		rendering/thread_routine \
 		rendering/thread_routine_target_caching \
+		rendering/thread_routine_target_caching_dof \
 		rendering/render \
 		rendering/render_mode \
 		rendering/viewport \

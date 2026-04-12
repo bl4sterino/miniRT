@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 07:43:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 17:32:21 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 19:41:37 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void	ft_extract_camera(t_scene *scene, t_list *lst)
 		element = lst->content;
 		if (element->type == object_type_camera)
 		{
-			element->object.as_camera.stereo_offset = 5.0f;
+			element->object.as_camera.stereo_offset = -5.0f;
+			element->object.as_camera.render_mode = RENDER_DEFAULT;
+			element->object.as_camera.stereo = 0;
 			if (element->object.as_camera.render_mode < 0
 				|| element->object.as_camera.render_mode > RENDER_RAY_TARGETS)
 				ft_exit_str_fd(1, "Camera render mode is out of range\n", 2);

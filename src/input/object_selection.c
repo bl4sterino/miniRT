@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 10:30:46 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/09 11:44:03 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 19:16:50 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 t_ray	ft_screenpos_to_ray(t_camera cam, t_viewport vp, t_v2i screenpos)
 {
-	t_ray		ray;
-	t_v3f		target;
-	t_v3f		x_offset;
-	t_v3f		y_offset;
+	t_ray	ray;
+	t_v3f	target;
+	t_v3f	x_offset;
+	t_v3f	y_offset;
 
 	ray.origin = cam.position;
 	target = vp.top_left;
@@ -32,15 +32,21 @@ void	ft_get_object_at(t_data *d, t_v2i screenpos)
 {
 	t_ray	ray;
 	int		hit;
+	float	dist;
 
 	ray = ft_screenpos_to_ray(d->scene->cameras[d->scene->active_camera],
 			d->viewports[d->scene->active_camera], screenpos);
 	hit = SELECTED_NONE;
-	ft_shoot_ray(ray, d->scene, &hit);
+	dist = ft_shoot_ray(ray, d->scene, &hit);
 	if (hit >= 0 && hit != SELECTED_NONE)
 		hit = d->scene->objects[hit].raw_id;
 	d->selected_object = hit;
 	d->selected_light = -1;
+	if (dist < FT_INFINITY && ft_get_key(XK_Shift_L, d))
+	{
+		d->scene->cameras[d->scene->active_camera].focus_distance = dist;
+		d->scene->cameras[d->scene->active_camera].dirty = 1;
+	}
 }
 
 void	ft_try_select_light(t_data *d)
@@ -79,6 +85,7 @@ void	ft_select_objects(t_data *d)
 			{
 				d->scene->active_camera = i;
 				ft_get_object_at(d, d->input.mouse_pos);
+				break ;
 			}
 			i++;
 		}

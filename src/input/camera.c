@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:37:39 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 09:22:06 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 15:37:42 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,30 +71,30 @@ void	ft_camera_move(t_data *d)
 void	ft_camera_rotate(t_data *d)
 {
 	t_v3f		cam_rot;
-	float		rotx;
-	float		roty;
+	t_v2f		rot;
 	float		key_rot;
 	t_camera	*cam;
 
 	cam = get_active_camera(d->scene);
 	cam_rot = ft_cam_v3f_to_euler(cam->direction);
-	rotx = d->input.mouse_delta.y * CAM_ROTATION_SPEED * (cam->fov / 85.0f);
+	rot.x = d->input.mouse_delta.y * CAM_ROTATION_SPEED * (cam->fov / 85.0f);
 	key_rot = (float)-ft_get_key(XK_i, d) + (float)ft_get_key(XK_k, d);
-	rotx += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
-	roty = d->input.mouse_delta.x * CAM_ROTATION_SPEED * (cam->fov / 85.0);
+	rot.x += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
+	rot.y = d->input.mouse_delta.x * CAM_ROTATION_SPEED * (cam->fov / 85.0);
 	key_rot = (float)-ft_get_key(XK_j, d) + (float)ft_get_key(XK_l, d);
-	roty += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
-	cam_rot.x = ft_clampd(cam_rot.x + rotx, -85.0, 85.0);
-	cam_rot.y = cam_rot.y + roty;
+	rot.y += key_rot * d->deltatime * CAM_ROTATION_SPEED_KEY;
+	cam_rot.x = ft_clampd(cam_rot.x + rot.x, -85.0, 85.0);
+	cam_rot.y = cam_rot.y + rot.y;
 	while (cam_rot.y < -180.0)
 		cam_rot.y += 360.0;
 	while (cam_rot.y > 180.0)
 		cam_rot.y -= 360.0;
 	cam->direction = ft_cam_euler_to_v3f(cam_rot);
-	if (fabs(rotx) > EPSILON || fabs(roty) > EPSILON)
+	if (fabs(rot.x) > EPSILON || fabs(rot.y) > EPSILON)
 		cam->dirty = 1;
 	cam->right = ft_v3f_normalize(ft_v3f_cross(cam->direction, v3f(0.0f, 1.0f,
 					0.0f)));
+	cam->up = ft_v3f_normalize(ft_v3f_cross(cam->right, cam->direction));
 }
 
 void	ft_camera_zoom(t_data *d)

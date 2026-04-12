@@ -6,14 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 17:08:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/07 16:27:36 by tpotier          ###   ########.fr       */
+/*   Updated: 2026/04/12 18:12:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
 static inline int	ft_cache_ray_target_2(t_data *d, t_viewport *vp,
-	t_thread_render_context *c, int hit_comp)
+		t_thread_render_context *c, int hit_comp)
 {
 	t_v3f	target;
 	int		hit;
@@ -37,12 +37,6 @@ static inline int	ft_cache_ray_target_2(t_data *d, t_viewport *vp,
 	return (hit);
 }
 
-// Check all corners and cache an id if the ray can only hit one object
-// Returns the object or SELECTED_SKYBOX if teh ray always end up hitting the
-// same thing
-// Returns SELECTED_NONE if the ray can intersect multiple objects.
-// TODO maybe try to cache the multiple objects, as iterating through those may
-// be faster
 int	ft_cache_ray_target(t_data *d, t_viewport *vp, t_thread_render_context *c)
 {
 	t_v3f	target;

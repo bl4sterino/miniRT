@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 15:34:00 by tpotier           #+#    #+#             */
-/*   Updated: 2026/04/08 16:49:51 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 15:36:29 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	add_camera(t_scene *scene, t_camera *cam)
 	scene->cameras = new;
 	cam->right = ft_v3f_normalize(ft_v3f_cross(cam->direction, v3f(0.0f, 1.0f,
 					0.0f)));
+	cam->up = ft_v3f_normalize(ft_v3f_cross(cam->right, cam->direction));
 	if (cam->render_mode < 0 || cam->render_mode > RENDER_NORMALS)
 		ft_exit_str_fd(1, "Camera render mode is out of range\n", 2);
 	scene->cameras[scene->num_cameras++] = *cam;

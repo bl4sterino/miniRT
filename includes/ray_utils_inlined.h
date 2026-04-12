@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/22 13:33:34 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/04 21:35:12 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 18:14:40 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,35 @@ static inline t_ray	ft_setup_ray_direction(t_ray ray, t_v3f dir, char bounces,
 	ray.remaining_bounces = bounces;
 	ray.diffused = diffused;
 	return (ray);
+}
+
+static inline t_v3f	ft_get_camera_origin_dof(t_camera *cam)
+{
+	t_v3f	rand_disk;
+	t_v3f	offset;
+
+	if (cam->dof && cam->aperture > EPSILON)
+	{
+		rand_disk = ft_random_disk();
+		offset.v = (rand_disk.x * cam->right.v * cam->aperture) + (rand_disk.y
+				* cam->up.v * cam->aperture);
+		return ((t_v3f){.v = cam->position.v + offset.v});
+	}
+	return (cam->position);
+}
+
+static inline t_v3f	ft_get_camera_origin_dof_cache_limit(t_camera *cam,
+		t_v3f limits)
+{
+	t_v3f	offset;
+
+	if (cam->dof)
+	{
+		offset.v = (cam->right.v * cam->aperture * limits.x) + (cam->up.v
+				* cam->aperture * limits.y);
+		return ((t_v3f){.v = cam->position.v + offset.v});
+	}
+	return (cam->position);
 }
 
 #endif

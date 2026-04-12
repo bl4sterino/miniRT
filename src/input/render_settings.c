@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/10 16:51:30 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 19:17:35 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_render_settings_3(t_data *d, t_camera *cam)
 			cam->render_mode = RENDER_RAY_TARGETS;
 		cam->dirty = 1;
 	}
+	ft_dof_settings(d, cam);
 }
 
 void	ft_render_settings_2(t_data *d, t_camera *cam)
@@ -47,7 +48,7 @@ void	ft_render_settings_2(t_data *d, t_camera *cam)
 	}
 	if (ft_get_key(XK_bracketleft, d))
 	{
-		cam->stereo_space *= 1.0f - 0.5f * d->deltatime;
+		cam->stereo_space *= 1.0f - ft_clampf(0.5f * d->deltatime, 0.0f, 0.5f);
 		cam->dirty = 1;
 	}
 	if (ft_get_key(XK_bracketright, d))
