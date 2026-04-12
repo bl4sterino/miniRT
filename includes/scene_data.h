@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 11:08:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/12 11:39:51 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,6 +360,7 @@ void					ft_extract_skybox(t_scene *scene, t_list *lst);
 void					ft_extract_lights(t_scene *scene, t_list *lst);
 void					ft_extract_planes(t_scene *scene, t_list *lst);
 void					ft_extract_objects(t_scene *scene, t_list *lst);
+void					ft_setup_target_color_image(t_data *d, int count);
 
 t_bounds				ft_get_sphere_bounds(t_sphere sphere);
 t_bounds				ft_get_cylinder_bounds(t_cylinder cyl);
