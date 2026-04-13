@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:37:21 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 23:45:27 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/13 15:21:11 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,8 @@ int	ft_try_parse_texture(char **strs, int malloc_id, t_list **object_lst)
 		return (ft_parse_texture(strs[1], malloc_id, object_lst));
 	if (ft_strcmp(strs[0], "obj") == 0 && strs[1])
 	{
-		if (!strs[2])
-			ft_bzero(&mat, sizeof(t_material));
-		else if (strs[3] && strs[4] && strs[5] && strs[6] && strs[7]
+		ft_bzero(&mat, sizeof(t_material));
+		if (strs[2] && strs[3] && strs[4] && strs[5] && strs[6] && strs[7]
 			&& strs[8] && strs[9] && strs[10] && !strs[11])
 		{
 			if (!ft_try_parse_mat(&mat, &strs[2]))

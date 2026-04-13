@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 20:22:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/13 09:51:58 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/13 15:24:56 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	ft_allocate_scene_data(t_scene *scene, int *counts)
 	ft_allocate_textures(scene, counts);
 	scene->planes = ft_malloc_id(sizeof(t_object) * counts[object_type_plane],
 			malloc_id_scene);
+	scene->num_planes = counts[object_type_plane];
 	scene->lights = ft_malloc_id(sizeof(t_light) * counts[object_type_light],
 			malloc_id_scene);
 	scene->num_lights = counts[object_type_light];

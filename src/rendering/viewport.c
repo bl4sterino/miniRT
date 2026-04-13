@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/23 09:24:56 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 18:14:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/13 15:53:39 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_viewport	ft_get_viewport(t_camera cam, t_data *d)
 	vp.raw_top_left.v = cam.position.v + cam.direction.v * cam.focus_distance;
 	vp.raw_top_left.v -= vp.u.v * 0.5f;
 	vp.raw_top_left.v -= vp.v.v * 0.5f;
-	rx = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);
-	ry = tn_f(d->dirty_frame == 0, (float)(rand() % 1000) / 1000.0f, 0.5f);
+	rx = tn_f(d->dirty_frame == 0, fast_rand(), 0.5f);
+	ry = tn_f(d->dirty_frame == 0, fast_rand(), 0.5f);
 	context.pixel_center_offset.v = (vp.x_delta.v * rx) + (vp.y_delta.v * ry);
 	vp.top_left.v = vp.raw_top_left.v + context.pixel_center_offset.v;
 	vp.bottom_right.v = vp.top_left.v + vp.u.v;
