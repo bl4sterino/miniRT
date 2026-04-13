@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/12 20:22:05 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 22:56:39 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/13 09:51:58 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	ft_allocate_scene_data(t_scene *scene, int *counts)
 			malloc_id_scene);
 	scene->lights = ft_malloc_id(sizeof(t_light) * counts[object_type_light],
 			malloc_id_scene);
+	scene->num_lights = counts[object_type_light];
 	scene->num_objects = counts[4] + counts[5] + counts[6] + counts[7]
 		+ counts[8];
 	scene->objects = ft_malloc_id(sizeof(t_object) * scene->num_objects,

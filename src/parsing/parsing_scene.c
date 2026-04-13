@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 23:46:13 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/13 09:49:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ft_parse_line(char **strs, t_dict *dict, int malloc_id, t_list **object_lst)
 
 void	ft_print_scene_slements_count(int *counts)
 {
+	if (counts[object_type_light] > 0)
+		ft_printf("lights: %d\n", counts[object_type_light]);
 	if (counts[object_type_sphere] > 0)
 		ft_printf("spheres: %d\n", counts[object_type_sphere]);
 	if (counts[object_type_cylinder] > 0)

@@ -7,7 +7,7 @@
             "command": "make",
             "args": [
                 "debug",
-                "-j16"
+                "-j"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
