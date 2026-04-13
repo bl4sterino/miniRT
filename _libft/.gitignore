@@ -1,0 +1,5 @@
+*.o
+*.a
+*.d
+.vscode/launch.json
+.vscode/tasks.json
