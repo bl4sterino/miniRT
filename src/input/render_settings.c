@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 10:58:33 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 19:17:35 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/14 00:02:33 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_render_settings_3(t_data *d, t_camera *cam)
 			cam->render_mode = RENDER_RAY_TARGETS;
 		cam->dirty = 1;
 	}
+	if (ft_get_key_down(XK_u, d))
+		d->scene->render_ui = !d->scene->render_ui;
 	ft_dof_settings(d, cam);
 }
 

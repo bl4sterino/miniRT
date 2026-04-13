@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/13 09:49:08 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/14 00:01:23 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ t_scene	*ft_fill_scene(t_data *d, t_scene *scene, t_list *lst, int *counts)
 	scene->bvh_root = ft_update_bvh(scene, 0, scene->num_objects);
 	ft_printf("BVH: %f\n", ft_clock_set_and_get(clock_loading));
 	d->target_ray_bounces = scene->ambient_light.ray_bounce;
+	scene->render_ui = 1;
 	return (scene);
 }
 

@@ -55,7 +55,13 @@ Build the project using the provided Makefile:
 * **Ray target caching:** Caches intersection's target when a pixel's corners hit the same primitive. By detecting this coherence, the engine skips expensive BVH traversals for primary rays, boosting throughput in less complex regions of the frame.
 * **Multi-threading:** Implemented using `pthread` to distribute the rendering workload across all available CPU cores. By dividing the image into lines, the engine achieves near-linear scaling in performance.
 
+# Gallery
 
+### Saturn, 10.000.000 spheres
+![42.rt scene](media/saturn_10m.png)
+
+### Ice Age's Scrat & Acorn
+![42.rt scene](media/ice_scrat.png)
 
 # Scene format
 

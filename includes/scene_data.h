@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/12 23:49:54 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/14 00:00:08 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,6 +316,7 @@ typedef struct s_scene
 	int					bvh_node_count;
 	int					num_textures;
 	t_texture			*textures;
+	int					render_ui;
 }						t_scene;
 
 typedef struct s_data	t_data;
