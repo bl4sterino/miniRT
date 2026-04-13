@@ -1,0 +1,6 @@
+/build
+/libobj.a
+/tags
+/.vscode
+/.cache
+/compile_commands.json
