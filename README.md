@@ -196,6 +196,7 @@ Object are defined by their respective properties but they **must** all end with
 | DoF Aperture side -- / ++		| <kbd>1</kbd> / <kbd>2</kbd>
 | DoF Focus Distance --/++/		| <kbd>3</kbd> / <kbd>4</kbd>
 | DoF target					|<kbd>Left Shift</kbd> + <kbd>Left Click</kbd> | Set the focus distance to the targeted point
+| Toggle UI					| <kbd>u</kbd>
 | Exit					| <kbd>Esc</kbd>
 
 ## Use of AI
