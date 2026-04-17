@@ -6,24 +6,23 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/31 13:29:50 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/08 12:54:32 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/17 19:00:09 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
-
 #include "rt.h"
+#include <limits.h>
 
 void	ft_setup_hooks(t_data *d)
 {
 	ft_add_exit(d->mlx, ft_exit_autorepeaton);
 	mlx_do_key_autorepeatoff(d->mlx);
-	mlx_hook(d->window, 2, (1L << 0), &ft_key_down, d);
-	mlx_hook(d->window, 3, (1L << 1), &ft_key_up, d);
-	mlx_hook(d->window, 4, (1L << 2), &ft_mouse_down, d);
-	mlx_hook(d->window, 5, (1L << 3), &ft_mouse_up, d);
-	mlx_hook(d->window, 17, 0L, &ft_exit_hook, d);
-	mlx_loop_hook(d->mlx, &ft_exec_updates, d);
+	mlx_hook(d->window, 2, (1L << 0), (int (*)())(void *)ft_key_down, d);
+	mlx_hook(d->window, 3, (1L << 1), (int (*)())(void *)ft_key_up, d);
+	mlx_hook(d->window, 4, (1L << 2), (int (*)())(void *)ft_mouse_down, d);
+	mlx_hook(d->window, 5, (1L << 3), (int (*)())(void *)ft_mouse_up, d);
+	mlx_hook(d->window, 17, 0L, (int (*)())(void *)ft_exit_hook, d);
+	mlx_loop_hook(d->mlx, (int (*)())(void *)ft_exec_updates, d);
 }
 
 void	ft_init_therad_pool_mutex_and_cond(t_data *d)
