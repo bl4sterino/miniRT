@@ -6,7 +6,7 @@
 #    By: pberne <pberne@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/30 11:15:39 by pberne            #+#    #+#              #
-#    Updated: 2026/04/12 23:36:31 by pberne           ###   ########.fr        #
+#    Updated: 2026/04/19 18:03:15 by pberne           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,6 +69,7 @@ FILES = main_utils \
 		input/render_dof_settings \
 		monitoring/clock \
 		monitoring/clock_2 \
+		parsing/array/array_parser \
 		parsing/parsing_data_dict \
 		parsing/parsing_scene \
 		parsing/parsing_scene_allocator \

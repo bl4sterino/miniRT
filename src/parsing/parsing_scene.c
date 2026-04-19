@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:36:43 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/14 00:01:23 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/19 18:05:06 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ t_scene	*ft_build_scene_from_elements(t_data *d, t_list *lst)
 t_scene	*ft_parse_map(t_data *d, char *filename)
 {
 	t_scene_parsing_context	context;
+
+	ft_array_parser(d, filename);
 
 	ft_bzero(&context, sizeof(context));
 	context.line_count = 1;
