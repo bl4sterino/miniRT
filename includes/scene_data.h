@@ -6,13 +6,14 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/19 18:40:44 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/19 23:02:53 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SCENE_DATA_H
 # define SCENE_DATA_H
 
+# include "io.h"
 # include "rt.h"
 
 /// OBJECTS STRUCTS
@@ -321,23 +322,22 @@ typedef struct s_scene
 
 typedef struct s_data	t_data;
 
-typedef struct s_rt_parser_data
+typedef struct s_rt_parser_iter
 {
-	size_t				buffer_size;
-	char				*buffer;
-	size_t				line_len;
-	size_t				line_cap;
-	char				**lines;
 	size_t				objects_len;
 	size_t				objects_cap;
 	t_parsed_object		*objects;
-
-}						t_rt_parser_data;
+	t_rbuf				rbuf;
+}						t_rt_parser_iter;
 
 /// METHODS
-t_parsed_object			*ft_array_parser(t_data *d, char *filepath);
-void					ft_add_object(t_rt_parser_data *data,
+
+void					ft_array_parser(t_data *d, char *filepath);
+void					ft_add_object(t_rt_parser_iter *data,
 							t_parsed_object object);
+t_io_res				ft_rt_iter_next(t_rt_parser_iter *self,
+							t_parsed_object *o);
+
 t_scene					*ft_parse_map(t_data *d, char *filename);
 t_dict					*ft_setup_parsing_dict(t_dict *dict, int malloc_id);
 t_parsing_data			*ft_get_pdata(int malloc_id, t_parsing_data d);
