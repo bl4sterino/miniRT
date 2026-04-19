@@ -6,7 +6,7 @@
 /*   By: pberne <pberne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/20 15:31:29 by pberne            #+#    #+#             */
-/*   Updated: 2026/04/19 23:02:53 by pberne           ###   ########.fr       */
+/*   Updated: 2026/04/19 23:25:10 by pberne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ typedef enum e_object_type
 	object_type_ellipsoid,
 	object_type_texture_path,
 	object_type_skybox,
+	object_type_wavefront,
 	object_type_count
 }						t_object_type;
 
